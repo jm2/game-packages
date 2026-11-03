@@ -1,0 +1,6 @@
+ut2004-data-gog (3369-3) unstable; urgency=medium
+
+  * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
+  * Drop the files ut2004-bin ships in any letter case, and the old Windows ini files
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

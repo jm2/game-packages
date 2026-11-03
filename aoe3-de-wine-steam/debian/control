@@ -1,0 +1,59 @@
+Source: aoe3-de-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, gbe-fork-bin
+Standards-Version: 4.7.0
+Homepage: https://steamdb.info/app/933110/
+Rules-Requires-Root: no
+
+Package: aoe3-de-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, gbe-fork-bin, agelanserver-bin, agelanserver-companion-bin, ${pt:Depends}, aoe3-de-wine-steam-data1 (= ${binary:Version}), aoe3-de-wine-steam-data2 (= ${binary:Version}), aoe3-de-wine-steam-data3 (= ${binary:Version}), aoe3-de-wine-steam-data4 (= ${binary:Version}), aoe3-de-wine-steam-data5 (= ${binary:Version}), aoe3-de-wine-steam-data6 (= ${binary:Version}), ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN
+ Age of Empires III: Definitive Edition, run through gamelaunch
+ (umu/Proton or system wine) with the game data downloaded from Steam and the
+ Goldberg Steam emulator (gbe-fork-bin). ageLANServer and its launcher
+ companion DLLs restore LAN multiplayer lobbies without the official servers.
+
+Package: aoe3-de-wine-steam-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN (data part 1)
+ Part 1 of the game data for aoe3-de-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: aoe3-de-wine-steam-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN (data part 2)
+ Part 2 of the game data for aoe3-de-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: aoe3-de-wine-steam-data3
+Architecture: all
+Depends: ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN (data part 3)
+ Part 3 of the game data for aoe3-de-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: aoe3-de-wine-steam-data4
+Architecture: all
+Depends: ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN (data part 4)
+ Part 4 of the game data for aoe3-de-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: aoe3-de-wine-steam-data5
+Architecture: all
+Depends: ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN (data part 5)
+ Part 5 of the game data for aoe3-de-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: aoe3-de-wine-steam-data6
+Architecture: all
+Depends: ${misc:Depends}
+Description: Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN (data part 6)
+ Part 6 of the game data for aoe3-de-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.

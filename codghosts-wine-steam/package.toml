@@ -1,0 +1,42 @@
+name = "codghosts-wine-steam"
+family = "wine-steam"
+id = "codghosts"
+version = "1.18"
+release = 2
+summary = "Call of Duty: Ghosts using Wine with data via Steam"
+url = "https://store.steampowered.com/app/209160/Call_of_Duty_Ghosts/"
+remove_files = ["codghosts.sh"]
+changelog = [
+  "Switch to gamelaunch and gbe-fork-bin",
+  "Drop the iw6x client: XLabs is gone and its downloads return 404",
+]
+notes = """
+The XLabs iw6x client this package used is no longer available, so the stock
+executables are used against the Goldberg emulator (LAN only)."""
+deb = { parts = 6 }
+
+[source.steam]
+appid = 209170
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "iw6mp64_ship.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "iw6sp64_ship.exe"
+writable = true
+variants = [
+  { flag = "s", exe = "iw6sp64_ship.exe", description = "campaign" },
+  { flag = "m", exe = "iw6mp64_ship.exe", description = "multiplayer / extinction (LAN via Goldberg)" },
+]
+default_variant = "s"
+
+[desktop]
+name = "Call of Duty: Ghosts"
+comment = "Call of Duty: Ghosts (Wine)"
+categories = "Game;ActionGame;Shooter;"

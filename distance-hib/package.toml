@@ -1,0 +1,31 @@
+name = "distance-hib"
+family = "native-hib"
+id = "distance"
+version = "6895"
+release = 2
+summary = "Distance (native Linux) with data via Humble Bundle"
+url = "https://www.humblebundle.com/store/distance"
+remove_files = ["distance.sh"]
+changelog = ["Switch to gamelaunch; define a hib:// handler with download instructions"]
+
+[[source.files]]
+name = "distance_6895_linux.tar.gz"
+url = "hib://distance_6895_linux.tar.gz"
+sha256 = "a6fe7d235ae3e201e841824be1a4c368f8f88265df26e948660e03585d69adae"
+extract = "tar"
+copy = ["bin", "Distance", "EULA.txt"]
+
+[icon]
+png = "bin/Distance_Data/Resources/UnityPlayer.png"
+
+[launcher]
+exe = "Distance"
+
+[desktop]
+name = "Distance"
+categories = "Game;SportsGame;"
+
+[deps]
+arch = ["libgl", "libx11", "libxext"]
+fedora = ["mesa-libGL", "libX11", "libXext"]
+debian = ["libgl1", "libx11-6", "libxext6"]

@@ -1,0 +1,44 @@
+name = "codaw-wine-steam"
+family = "wine-steam"
+id = "codaw"
+version = "1.16"
+release = 2
+summary = "Call of Duty: Advanced Warfare using Wine with data via Steam"
+url = "https://store.steampowered.com/app/209650/Call_of_Duty_Advanced_Warfare__Gold_Edition/"
+remove_files = ["codaw.sh"]
+changelog = [
+  "Switch to gamelaunch and gbe-fork-bin",
+  "Drop the s1x client: XLabs is gone and its downloads return 404",
+]
+notes = """
+The XLabs s1x client this package used is no longer available, so the stock
+executables are used. Multiplayer is the stock client against the Goldberg
+emulator (LAN only); AlterWare's s1-mod has no public source release to
+package."""
+deb = { parts = 7 }
+
+[source.steam]
+appid = 209660
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "s1_mp64_ship.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "s1_sp64_ship.exe"
+writable = true
+variants = [
+  { flag = "s", exe = "s1_sp64_ship.exe", description = "campaign" },
+  { flag = "m", exe = "s1_mp64_ship.exe", description = "multiplayer / exo survival (LAN via Goldberg)" },
+]
+default_variant = "s"
+
+[desktop]
+name = "Call of Duty: Advanced Warfare"
+comment = "Call of Duty: Advanced Warfare (Wine)"
+categories = "Game;ActionGame;Shooter;"

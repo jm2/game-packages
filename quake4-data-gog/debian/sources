@@ -1,0 +1,3 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+b0602978c112116377094c45aa26eb51753bcad4bda8fe3f1016118c154bc8f5 setup_quake_iv_1.4.3_lang_update_(63131).exe local
+d3870c9dd56a5189acda1330b76d21897a5dcd515880a888586380f4ea2e5ea7 setup_quake_iv_1.4.3_lang_update_(63131)-1.bin local

@@ -1,0 +1,32 @@
+name = "torchlight2-gog"
+family = "native-gog"
+id = "torchlight2"
+version = "1.25.9.7"
+release = 3
+summary = "Torchlight II (native Linux) with data via GOG"
+url = "https://www.gog.com/game/torchlight_ii"
+provides = ["torchlight2"]
+remove_files = ["torchlight2.sh"]
+changelog = ["Switch to gamelaunch"]
+
+[[source.files]]
+name = "gog_torchlight_2_2.0.0.2.sh"
+url = "gogdownloader://torchlight_ii/en3installer2"
+sha256 = "ae50c7f6d423f59242cb7d6bf0b525880e94061a554fc3c37561db7a5568c998"
+extract = "mojo"
+subdir = "data/noarch"
+
+[icon]
+png = "support/icon.png"
+
+[launcher]
+exe = "start.sh"
+
+[desktop]
+name = "Torchlight II"
+categories = "Game;RolePlaying;"
+
+[deps]
+arch = ["libgl", "libx11", "libxext"]
+fedora = ["mesa-libGL", "libX11", "libXext"]
+debian = ["libgl1", "libx11-6", "libxext6"]

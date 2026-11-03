@@ -1,0 +1,7 @@
+# ageLANServer descriptor for Age of Mythology: Retold, read by agelan (agelanserver-bin).
+AGELAN_GAME=athens
+GAME_DIR=/opt/aom-retold
+CACERT=cacert.pem
+BATTLESERVER=BattleServer/BattleServer.exe
+# Upstream supports only AoE II's Battle Server for this game.
+BATTLESERVER_GAMELAUNCH_ID=aoe2-de

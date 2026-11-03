@@ -1,0 +1,31 @@
+name = "grid2019-wine-steam"
+family = "wine-steam"
+id = "grid2019"
+version = "1.0"
+release = 2
+summary = "GRID (2019) using Wine with data via Steam"
+url = "https://store.steampowered.com/app/703860/GRID/"
+remove_files = ["grid2019.sh", "grid2019.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 5 }
+
+[source.steam]
+appid = 703860
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "Grid_dx12.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "Grid_dx12.exe"
+
+[desktop]
+name = "GRID (2019)"
+comment = "GRID (2019) (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;codemasters"

@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=DiRT Showdown
-Comment=DiRT Showdown WINE
-Exec=/usr/bin/dirtshowdown
+Comment=DiRT Showdown (Wine)
+Exec=dirtshowdown
 Icon=dirtshowdown
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;derby;codemasters;

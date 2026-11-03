@@ -1,0 +1,22 @@
+name = "quake4-data-gog"
+family = "data-gog"
+version = "1"
+release = 3
+summary = "Quake 4 data via GOG"
+url = "https://www.gog.com/game/quake_4"
+target = "/opt/quake4"
+provides = ["quake4-data"]
+conflicts = ["quake4-data-steam"]
+changelog = ["Generated from package.toml"]
+
+[[source.files]]
+name = "setup_quake_iv_1.4.3_lang_update_(63131).exe"
+url = "gogdownloader://quake_4_game/en1installer0"
+sha256 = "b0602978c112116377094c45aa26eb51753bcad4bda8fe3f1016118c154bc8f5"
+extract = "inno"
+copy = ["q4base/pak00[1-9].pk4", "q4base/pak01[0-2].pk4", "q4base/zpak*h.pk4"]
+
+[[source.files]]
+name = "setup_quake_iv_1.4.3_lang_update_(63131)-1.bin"
+url = "gogdownloader://quake_4_game/en1installer1"
+sha256 = "d3870c9dd56a5189acda1330b76d21897a5dcd515880a888586380f4ea2e5ea7"

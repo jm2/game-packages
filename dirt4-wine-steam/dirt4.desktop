@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=DiRT 4
-Comment=DiRT 4 WINE
-Exec=/usr/bin/dirt4
+Comment=DiRT 4 (Wine)
+Exec=dirt4
 Icon=dirt4
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;rally;codemasters;

@@ -1,0 +1,15 @@
+Source: eliteforce-data-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/star_trek_voyager_elite_force
+Rules-Requires-Root: no
+
+Package: eliteforce-data-gog
+Architecture: all
+Depends: ${misc:Depends}
+Provides: eliteforce-data
+Description: Star Trek Voyager: Elite Force data via GOG
+ Star Trek Voyager: Elite Force data via GOG

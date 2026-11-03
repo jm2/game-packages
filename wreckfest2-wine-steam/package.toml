@@ -1,0 +1,31 @@
+name = "wreckfest2-wine-steam"
+family = "wine-steam"
+id = "wreckfest2"
+version = "1.0"
+release = 2
+summary = "Wreckfest 2 using Wine with data via Steam"
+url = "https://store.steampowered.com/app/1203190/Wreckfest_2/"
+remove_files = ["wreckfest2.sh", "wreckfest2.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin (umu GAMEID now set for protonfixes)"]
+deb = { parts = 4 }
+
+[source.steam]
+appid = 1203190
+
+[gbe]
+libs = ["steam_api64.dll", "?steam_api.dll"]
+
+[icon]
+exe = "Wreckfest2.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "Wreckfest2.exe"
+
+[desktop]
+name = "Wreckfest 2"
+comment = "Wreckfest 2 (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;derby"

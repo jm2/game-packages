@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Call of Duty: Modern Warfare 2
-Comment=Call of Duty: Modern Warfare 2 Multiplayer WINE
-Exec=/usr/bin/codmw2
+Type=Application
+Name=Call of Duty: Modern Warfare 2 (IW4x)
+Comment=Modern Warfare 2 multiplayer with IW4x (Wine)
+Exec=codmw2
 Icon=codmw2
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;ActionGame;Shooter;

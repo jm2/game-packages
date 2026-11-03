@@ -1,0 +1,88 @@
+name = "wreckfest-wine-gog"
+family = "wine-gog"
+id = "wreckfest-gog"
+version = "1.0o"
+release = 3
+summary = "Wreckfest using Wine with data via GOG"
+url = "https://www.gog.com/en/game/wreckfest"
+remove_files = ["wreckfest.sh", "wreckfest.desktop"]
+changelog = [
+  "Switch to gamelaunch (umu/Proton default, system wine fallback)",
+  "Fix the launcher looking in /opt/wreckfest instead of /opt/wreckfest-gog",
+  "Own prefix, no longer shared with wreckfest-wine-steam",
+]
+notes = """
+Season Pass DLC: install wreckfest-gog-dlc1 / wreckfest-gog-dlc2, which add
+their files to /opt/wreckfest-gog."""
+deb = { parts = 4 }
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627).exe"
+url = "gogdownloader://wreckfest/en1installer0"
+sha256 = "2b5272be9064d553070b3de70249fef0161387c5fcb9c2719cecfba0a7cadc0a"
+extract = "inno"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-1.bin"
+url = "gogdownloader://wreckfest/en1installer1"
+sha256 = "d895e4171f92406bd390a67e7c169bdec9466a39211ee6b2ca2fc2a3d4ea7bb2"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-2.bin"
+url = "gogdownloader://wreckfest/en1installer2"
+sha256 = "9a7df92aa45800f26db2860d659c09b99a18432362a5aebd63c3acd24ca85f11"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-3.bin"
+url = "gogdownloader://wreckfest/en1installer3"
+sha256 = "a1a29f274d75f2f0ac623428b1cf4aee77a5d50ddb6a354182111bc2e3951f28"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-4.bin"
+url = "gogdownloader://wreckfest/en1installer4"
+sha256 = "4fe320c3217cebec4ca4c9229c62e85ab8dd766cc1317fcb3c4beab4f652d5af"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-5.bin"
+url = "gogdownloader://wreckfest/en1installer5"
+sha256 = "977340bd72f736545ff4fb7c9194557f849f6686190159fa0a17eb8612de3860"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-6.bin"
+url = "gogdownloader://wreckfest/en1installer6"
+sha256 = "ae144fdec0f0fe7b3fb4eef64be098833a08b76de30b69010a85b824c8471bda"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-7.bin"
+url = "gogdownloader://wreckfest/en1installer7"
+sha256 = "a1f9812ea39f3e218e09f211cac098940f69c00f8545bead8f2ad02d3fd47d7d"
+
+[[source.files]]
+name = "setup_wreckfest_1.0o_(79627)-8.bin"
+url = "gogdownloader://wreckfest/en1installer8"
+sha256 = "17be69b5fae4ce9868b62689429666aacdfa5ded05aac10e6ca4a5f63fc9e621"
+
+[icon]
+ico = "goggame-*.ico"
+
+[hooks]
+post_prepare = """
+# Newer GOG installers keep the game under app/; flatten it.
+if [ -e app/Wreckfest_x64.exe ]; then cp -a app/. .; rm -rf app; fi
+rm -rf __redist commonappdata tmp
+"""
+
+[launcher]
+exe = "Wreckfest_x64.exe"
+legacy_dirs = []
+variants = [
+  { flag = "m", exe = "Wreckfest_x64.exe", description = "64-bit Wreckfest_x64.exe" },
+  { flag = "l", exe = "Wreckfest.exe", description = "legacy 32-bit Wreckfest.exe" },
+]
+default_variant = "m"
+
+[desktop]
+name = "Wreckfest (GOG)"
+comment = "Wreckfest (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;derby"

@@ -1,0 +1,55 @@
+name = "codmw2-wine-steam"
+family = "wine-steam"
+id = "codmw2"
+version = "r5292"
+release = 1
+summary = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam"
+url = "https://iw4x.dev/"
+remove_files = ["codmw2.sh"]
+changelog = [
+  "Switch to gamelaunch and gbe-fork-bin",
+  "Move from the dead XLabs IW4x to the maintained iw4x project (client r5292, rawfiles v0.2.40)",
+]
+notes = """
+IW4x is the community multiplayer client for MW2
+(https://github.com/iw4x/iw4x-client, GPL-3.0). `codmw2 -v` starts the stock
+iw4mp.exe instead."""
+
+[source.steam]
+appid = 10190
+
+[[source.files]]
+name = "iw4x-r5292.dll"
+url = "https://github.com/iw4x/iw4x-client/releases/download/r5292/iw4x.dll"
+sha256 = "890a310c9b594824ff3da71d24647821991c9ab5d1f2f9870fd9a07cb2341ba4"
+extract = "copy"
+to = "iw4x.dll"
+
+[[source.files]]
+name = "iw4x-rawfiles-v0.2.40.zip"
+url = "https://github.com/iw4x/iw4x-rawfiles/releases/download/v0.2.40/release.zip"
+sha256 = "e878a9c3d4d09591adec46a10a3545499ee03b385e4f12b7643de0ad5d484455"
+extract = "zip"
+
+[gbe]
+libs = ["steam_api.dll"]
+
+[icon]
+exe = "iw4mp.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "iw4x.exe"
+writable = true
+variants = [
+  { flag = "x", exe = "iw4x.exe", description = "IW4x multiplayer" },
+  { flag = "v", exe = "iw4mp.exe", description = "stock multiplayer executable" },
+]
+default_variant = "x"
+
+[desktop]
+name = "Call of Duty: Modern Warfare 2 (IW4x)"
+comment = "Modern Warfare 2 multiplayer with IW4x (Wine)"
+categories = "Game;ActionGame;Shooter;"

@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=Split/Second
-Comment=Split/Second WINE
-Exec=/usr/bin/splitsecond
+Comment=Split/Second (Wine)
+Exec=splitsecond
 Icon=splitsecond
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;

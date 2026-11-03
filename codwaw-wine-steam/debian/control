@@ -1,0 +1,14 @@
+Source: codwaw-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/
+Rules-Requires-Root: no
+
+Package: codwaw-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Call of Duty: World at War using Wine with data via Steam
+ Call of Duty: World at War using Wine with data via Steam

@@ -1,0 +1,41 @@
+name = "dirtrally-steam"
+family = "native-steam"
+id = "dirtrally"
+version = "1.23"
+aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
+release = 2
+summary = "DiRT Rally (native Linux, Feral) with data via Steam"
+url = "https://steamdb.info/app/310560/"
+remove_files = ["dirtrally.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+notes = """
+Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
+that only the AUR still provides; on Fedora/Debian install equivalents
+yourself."""
+deb = { parts = 4 }
+
+[source.steam]
+appid = 310560
+platform = "linux"
+
+[gbe]
+libs = ["lib/x86_64/libsteam_api.so"]
+
+[icon]
+png = "share/GameIcons/icon_512x512.png"
+
+[hooks]
+post_install = """
+sed -i '/steam-check.sh/d' DirtRally.sh
+"""
+
+[launcher]
+exe = "DirtRally.sh"
+
+[desktop]
+name = "DiRT Rally"
+categories = "Game;SportsGame;"
+keywords = "racing;codemasters"
+
+[deps]
+arch = ["openssl-1.0", "libidn11", "librtmp0", "gconf"]

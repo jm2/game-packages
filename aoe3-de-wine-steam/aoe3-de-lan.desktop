@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Age of Empires III: DE (LAN)
+Comment=Age of Empires III: Definitive Edition LAN multiplayer with ageLANServer (Wine)
+Exec=aoe3-de-lan
+Icon=aoe3-de
+Terminal=true
+Categories=Game;StrategyGame;
+Keywords=strategy;rts;lan;multiplayer;

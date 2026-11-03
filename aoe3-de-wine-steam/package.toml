@@ -1,0 +1,85 @@
+name = "aoe3-de-wine-steam"
+family = "wine-steam"
+id = "aoe3-de"
+version = "1.0"
+release = 3
+summary = "Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN"
+description = """
+Age of Empires III: Definitive Edition, run through gamelaunch
+(umu/Proton or system wine) with the game data downloaded from Steam and the
+Goldberg Steam emulator (gbe-fork-bin). ageLANServer and its launcher
+companion DLLs restore LAN multiplayer lobbies without the official servers."""
+url = "https://steamdb.info/app/933110/"
+changelog = [
+  "ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin",
+  "Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin",
+  "ageLANServer 1.15.6 and ageServerLauncherCompanion 1.5.0.0",
+  "Per-user ageLANServer launcher (aoe3-de-lan) via gamelaunch",
+  "Goldberg saves go to the user's GSE Saves directory, not the install",
+]
+remove_files = ["lan.sh", "lan-client.sh", "lan-wine.sh", "aoe3-de-lan.conf", "aoe3-de.sh", "ColdClientLoader.ini", "configs.app.ini", "configs.user.ini",
+                "achievements.json", "supported_languages.txt"]
+extra_files = ["gbe.configs.app.ini", "gbe.configs.user.ini", "gbe.achievements.json",
+               "gbe.supported_languages.txt", "aoe3-de-lan.desktop", "aoe3-de.agelan"]
+notes = """
+`aoe3-de` starts the game directly. `aoe3-de-lan` (menu entry "Age of Empires III: DE (LAN)")
+runs the ageLANServer launcher from agelanserver-bin: it finds a server on the
+LAN or offers to start one, then starts the game through gamelaunch with the
+companion DLLs (agelanserver-companion-bin, linked into
+`steam_settings/load_dlls/` and loaded by gbe-fork-bin's experimental
+steam_api64.dll) pointed at the server. Joining needs no root. For hosting,
+see /usr/share/doc/agelanserver-bin/README.md (the agelanserver@age3.service
+system service is the easy way). 
+
+Start `aoe3-de` once before the first LAN game: creating the Wine prefix can take
+longer than the minute the launcher waits for the game to appear."""
+
+[source.steam]
+appid = 933110
+
+
+[gbe]
+libs = ["steam_api64.dll"]
+flavour = "experimental"   # loads steam_settings/load_dlls/*.dll (companion DLLs)
+
+[icon]
+exe = "AoE3DE_s.exe"
+
+[deps]
+arch = ["agelanserver-bin", "agelanserver-companion-bin"]
+fedora = ["agelanserver-bin", "agelanserver-companion-bin"]
+debian = ["agelanserver-bin", "agelanserver-companion-bin"]
+
+[install]
+remove = ["*.vdf"]
+extra_paths = ["/usr/bin/aoe3-de-lan", "/usr/share/agelanserver/games/aoe3-de.conf",
+               "/usr/share/applications/aoe3-de-lan.desktop"]
+
+[launcher]
+exe = "AoE3DE_s.exe"
+writable = true
+writable_copy = ["cacert.pem"]
+
+[deb]
+parts = 6
+
+[hooks]
+post_install = '''
+# Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
+install -d steam_settings/load_dlls
+ln -sfn /usr/lib/agelanserver-companion/Age3FakeOnline.dll steam_settings/load_dlls/Age3FakeOnline.dll
+ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+# LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
+install -Dm644 "$PT_SRCDIR/aoe3-de.agelan" "$D/usr/share/agelanserver/games/aoe3-de.conf"
+install -Dm644 "$PT_SRCDIR/aoe3-de-lan.desktop" "$D/usr/share/applications/aoe3-de-lan.desktop"
+install -d "$D/usr/bin"
+echo '#!/bin/sh' > "$D/usr/bin/aoe3-de-lan"
+echo 'exec agelan aoe3-de "$@"' >> "$D/usr/bin/aoe3-de-lan"
+chmod 755 "$D/usr/bin/aoe3-de-lan"
+'''
+
+[desktop]
+name = "Age of Empires III: Definitive Edition"
+comment = "Age of Empires III: Definitive Edition (Wine)"
+categories = "Game;StrategyGame;"
+keywords = "strategy;rts;"

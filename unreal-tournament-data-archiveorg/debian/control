@@ -1,0 +1,19 @@
+Source: unreal-tournament-data-archiveorg
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, libarchive-tools
+Standards-Version: 4.7.0
+Homepage: https://archive.org/details/ut-goty
+Rules-Requires-Root: no
+
+Package: unreal-tournament-data-archiveorg
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: unreal-tournament-bin
+Provides: unreal-tournament-data
+Conflicts: unreal-tournament-data
+Description: Unreal Tournament 99 (GOTY) data from the archive.org CD image
+ Game data for Unreal Tournament: Game of the Year Edition, unpacked from the
+ GOTY CD 1 image on archive.org and installed to /opt/unreal-tournament. Play
+ it with the native OldUnreal binaries from unreal-tournament-bin.

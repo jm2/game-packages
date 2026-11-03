@@ -1,0 +1,3 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+8e6796c0f81e90de726e57978858ebdc8e162366060736bb080a51c73151936f setup_doom_3_bfg_1.14_(13452).exe local
+e71a1f1cf2674748046b677b88015a4807a624a14831a2e7ce1e084c82bd0952 setup_doom_3_bfg_1.14_(13452)-1.bin local

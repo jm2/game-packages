@@ -1,0 +1,27 @@
+name = "wreckfest-gog-dlc2"
+family = "data-gog"
+version = "1.0o"
+release = 2
+summary = "Wreckfest (GOG) - Season Pass 2"
+url = "https://www.gog.com/en/game/wreckfest"
+target = "/opt/wreckfest-gog"
+changelog = ["Install into /opt/wreckfest-gog so the game finds the DLC; fix checksums"]
+notes = """
+The installer checksum is not pinned yet: build once and copy the sha256
+printed by `makepkg -g` into package.toml."""
+
+[deps]
+arch = ["wreckfest-wine-gog"]
+fedora = ["wreckfest-wine-gog"]
+debian = ["wreckfest-wine-gog"]
+
+[[source.files]]
+name = "setup_wreckfest_season_pass_2_1.0o_(79627).exe"
+url = "gogdownloader://wreckfest_season_pass_2/en1installer0"
+extract = "inno"
+
+[hooks]
+post_prepare = """
+if [ -d app ]; then cp -a app/. .; rm -rf app; fi
+rm -rf __redist commonappdata tmp goggame-*
+"""

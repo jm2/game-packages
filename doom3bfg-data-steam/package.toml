@@ -1,0 +1,14 @@
+name = "doom3bfg-data-steam"
+family = "data-steam"
+version = "1"
+release = 2
+summary = "Doom 3 BFG Edition data via Steam"
+url = "https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/"
+target = "/usr/share/games/doom3bfg"
+provides = ["doom3bfg-data"]
+conflicts = ["doom3bfg-data-gog"]
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+
+[source.steam]
+appid = 208200
+copy = ["base"]

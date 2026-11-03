@@ -1,0 +1,15 @@
+Source: prey-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://steamdb.info/app/3970/
+Rules-Requires-Root: no
+
+Package: prey-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Provides: prey-data
+Description: Prey (2006) data via Steam
+ Prey (2006) data via Steam

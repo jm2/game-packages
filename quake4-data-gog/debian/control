@@ -1,0 +1,16 @@
+Source: quake4-data-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/quake_4
+Rules-Requires-Root: no
+
+Package: quake4-data-gog
+Architecture: all
+Depends: ${misc:Depends}
+Provides: quake4-data
+Conflicts: quake4-data-steam
+Description: Quake 4 data via GOG
+ Quake 4 data via GOG

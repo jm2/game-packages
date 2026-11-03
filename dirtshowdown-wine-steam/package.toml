@@ -1,0 +1,49 @@
+name = "dirtshowdown-wine-steam"
+family = "wine-steam"
+id = "dirtshowdown"
+version = "1.2"
+release = 3
+summary = "DiRT Showdown using Wine with data via Steam"
+url = "https://steamdb.info/app/201700/"
+remove_files = ["dirtshowdown.sh", "dirtshowdown.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 2 }
+
+[source.steam]
+appid = 201700
+
+[[source.files]]
+name = "showdown.exe"
+url = "https://github.com/jm2/archlinux-package-dirtshowdown-wine-steam/raw/master/showdown.exe"
+sha256 = "80b9b3bc95f2e1a3c1f8a183c32bb911f1dbbb662f4e09071c0f6d70b536a9e2"
+extract = "copy"
+
+[[source.files]]
+name = "showdown_avx.exe"
+url = "https://github.com/jm2/archlinux-package-dirtshowdown-wine-steam/raw/master/showdown_avx.exe"
+sha256 = "a62e1cb44020951d38ee4ab3c49a25fe76c77d9defd42661b81292d9ce495b7f"
+extract = "copy"
+
+[gbe]
+libs = ["steam_api.dll"]
+
+[icon]
+exe = "showdown.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "showdown_avx.exe"
+prereqs = ["openal|winetricks:openal"]
+variants = [
+  { flag = "a", exe = "showdown_avx.exe", description = "AVX build" },
+  { flag = "n", exe = "showdown.exe", description = "non-AVX build for older CPUs" },
+]
+default_variant = "a"
+
+[desktop]
+name = "DiRT Showdown"
+comment = "DiRT Showdown (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;derby;codemasters"

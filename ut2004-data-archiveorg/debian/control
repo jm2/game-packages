@@ -1,0 +1,20 @@
+Source: ut2004-data-archiveorg
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, libarchive-tools, unshield
+Standards-Version: 4.7.0
+Homepage: https://www.oldunreal.com/downloads/unreal-tournament-2004/full-game-installers/
+Rules-Requires-Root: no
+
+Package: ut2004-data-archiveorg
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: ut2004-bin
+Provides: ut2004-data
+Conflicts: ut2004-data, ut2004-gog
+Description: Unreal Tournament 2004 ECE data from the OldUnreal DVD image
+ Game data for Unreal Tournament 2004: Editor's Choice Edition, unpacked from
+ the ECE DVD image that OldUnreal hosts (files.oldunreal.net, the same image
+ as on archive.org) and installed to /opt/ut2004. Play it with the native
+ OldUnreal binaries from ut2004-bin.

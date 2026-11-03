@@ -1,0 +1,7 @@
+unreal-tournament-data-archiveorg (436-4) unstable; urgency=medium
+
+  * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
+  * Decompress the CD's .unr.uz maps at build time with OldUnreal's ucc-bin (the game cannot load them from /opt)
+  * Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

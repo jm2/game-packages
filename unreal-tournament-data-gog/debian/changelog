@@ -1,0 +1,7 @@
+unreal-tournament-data-gog (436-4) unstable; urgency=medium
+
+  * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
+  * Real sha256 for the GOG installer, under GOG's own file name setup_ut_goty_2.0.0.5.exe
+  * Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

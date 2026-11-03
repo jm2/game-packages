@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Trine 2
-Comment=GOG version of Trine 2 Complete Story
-Exec=/usr/bin/trine2
+Type=Application
+Name=Trine 2: Complete Story
+Comment=Trine 2: Complete Story (native Linux) with data via GOG
+Exec=trine2
 Icon=trine2
 Terminal=false
-Type=Application
-Categories=Game;
+Categories=Game;ActionGame;

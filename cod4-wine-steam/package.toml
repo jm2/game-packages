@@ -1,0 +1,36 @@
+name = "cod4-wine-steam"
+family = "wine-launcher"
+id = "cod4"
+version = "1.8"
+release = 3
+summary = "Call of Duty 4: Modern Warfare using Wine (game data from cod4-data-steam)"
+url = "https://store.steampowered.com/app/7940/Call_of_Duty_4_Modern_Warfare/"
+data_package = "cod4-data"
+extra_files = ["cod4.png"]
+remove_files = ["cod4.sh"]
+changelog = [
+  "Switch to gamelaunch (umu/Proton default, system wine fallback)",
+  "Game data moved to cod4-data-steam, shared with the native KisakCOD engine",
+  "Player profiles go to a per-user overlay instead of a world-writable /opt/cod4",
+]
+notes = """
+The game data comes from cod4-data-steam (installed to /opt/cod4), which the
+native KisakCOD engine (kisakcod-bin) uses too."""
+
+[icon]
+file = "cod4.png"
+
+[launcher]
+exe = "iw3mp.exe"
+writable = true
+umu_id = "umu-7940"
+variants = [
+  { flag = "m", exe = "iw3mp.exe", description = "multiplayer" },
+  { flag = "s", exe = "iw3sp.exe", description = "singleplayer" },
+]
+default_variant = "m"
+
+[desktop]
+name = "Call of Duty 4: Modern Warfare"
+comment = "Call of Duty 4: Modern Warfare (Wine)"
+categories = "Game;ActionGame;Shooter;"

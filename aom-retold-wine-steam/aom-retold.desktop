@@ -1,8 +1,9 @@
 [Desktop Entry]
-Name=Age of Mythology: Retold
-Comment=Play Age of Mythology: Retold with WINE
-Exec=/usr/bin/aom-retold
-Icon=aom-retold-wine-steam
-Terminal=false
 Type=Application
+Name=Age of Mythology: Retold
+Comment=Age of Mythology: Retold (Wine)
+Exec=aom-retold
+Icon=aom-retold
+Terminal=false
 Categories=Game;StrategyGame;
+Keywords=strategy;rts;

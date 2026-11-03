@@ -1,0 +1,65 @@
+name = "ut2004-data-steam"
+family = "data-steam"
+version = "3369"
+release = 3
+summary = "Unreal Tournament 2004 ECE data from Steam"
+description = """
+Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
+Steam with steamcmd and installed to /opt/ut2004. Play it with the native
+OldUnreal binaries from ut2004-bin."""
+url = "https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/"
+target = "/opt/ut2004"
+provides = ["ut2004-data"]
+conflicts = ["ut2004-data", "ut2004-gog"]
+changelog = [
+  "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
+  "Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt",
+  "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
+]
+
+[source.steam]
+appid = 13230
+
+[deps]
+optional_arch = ["ut2004-bin: native binaries to play the game"]
+recommends_fedora = ["ut2004-bin"]
+
+[deb]
+recommends = ["ut2004-bin"]
+
+[hooks]
+post_prepare = '''
+rm -rf "ut2004 content 2" directx9c
+rm -f installscript.vdf
+
+# --- shared UT2004 data cleanup (same block in every ut2004-data-* package) ---
+# ut_rm <dir> <name...>: delete <dir>/<name>, matching the name in any case.
+ut_rm() {
+    local dir=$1 n; shift
+    [ -d "$dir" ] || return 0
+    for n in "$@"; do find "$dir" -maxdepth 1 -iname "$n" -exec rm -rf {} +; done
+}
+# Steam ships the maps folder in lower case.
+if [ -d maps ] && [ ! -d Maps ]; then mv maps Maps; fi
+# Files that ut2004-bin (OldUnreal 3374) installs. Drop the originals in any
+# case, so the packages don't conflict and the engine never loads a stale
+# wrong-case copy (e.g. Gui2K4.u next to GUI2K4.u).
+ut_rm System AssaultBP.u BonusPack.u Core.u Editor.u Engine.u Fire.u GamePlay.u \
+    GUI2K4.u IpDrv.u OnslaughtBP.u OnslaughtFull.u Onslaught.u SkaarjPack_rc.u \
+    SkaarjPack.u StreamlineFX.u UnrealEd.u UnrealGame.u UT2k4AssaultFull.u \
+    UT2k4Assault.u UTClassic.u UTV2004c.u UTV2004s.u UWeb.u Vehicles.u XAdmin.u \
+    XEffects.u XGame_rc.u XGame.u XInterface.u XPickups_rc.u XPickups.u xVoting.u \
+    XWeapons_rc.u XWeapons.u XWebAdmin.u xaplayersl3.upl xplayersL1.upl \
+    xplayersL2.upl Build.ini CacheRecords.ucl Default.ini DefUnrealEd.ini \
+    DefUser.ini Packages.md5
+ut_rm Help DebuggerLogo.bmp InstallerLogo.bmp Unreal.bmp
+ut_rm Sounds PlayerSounds2.uax
+ut_rm Textures 2K4Fonts.het_utx 2K4Fonts.rut_utx 2K4MenusHR.utx 2K4MenusWS.utx \
+    UT2003Fonts.het_utx UT2003Fonts.rut_utx
+ut_rm . Web
+# Windows settings: the game writes its own UT2004.ini/User.ini to
+# ~/.ut2004/System from the patch's Default.ini/DefUser.ini.
+ut_rm System UT2004.ini User.ini
+# Windows-only programs, libraries and redistributables.
+find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' -o -iname '*.msi' \) -delete
+'''

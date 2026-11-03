@@ -1,0 +1,40 @@
+name = "dirt4-steam"
+family = "native-steam"
+id = "dirt4"
+version = "1.12"
+aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
+release = 2
+summary = "DiRT 4 (native Linux, Feral) with data via Steam"
+url = "https://store.steampowered.com/app/421020/DiRT_4/"
+conflicts = ["dirt4-wine-steam"]
+remove_files = ["dirt4.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+notes = """
+Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
+that only the AUR still provides; on Fedora/Debian install equivalents
+yourself or prefer dirt4-wine-steam."""
+deb = { parts = 6 }
+
+[source.steam]
+appid = 421020
+platform = "linux"
+
+[gbe]
+libs = ["lib/libsteam_api.so"]
+
+[icon]
+png = "share/GameIcons/icon_512x512.png"
+
+[install]
+remove = ["config/steam-check.sh"]
+
+[launcher]
+exe = "Dirt4.sh"
+
+[desktop]
+name = "DiRT 4"
+categories = "Game;SportsGame;"
+keywords = "racing;rally;codemasters"
+
+[deps]
+arch = ["openssl-1.0", "libidn11", "librtmp0", "gconf"]

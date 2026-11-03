@@ -1,0 +1,3 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+e2df876c91c143f1efd10e64ff8bd19db865ac84ee0bd4c727dbe69da2377e8e DOOMx64.exe local
+99529e881dfb42c04a3910f8901a716aee36c6cfcd0b0e03ae1a511f68040157 DOOMx64vk.exe local

@@ -1,0 +1,5 @@
+simcity4-wine-gog (1.1.641-2) unstable; urgency=medium
+
+  * Switch to gamelaunch (umu/Proton default, system wine fallback)
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

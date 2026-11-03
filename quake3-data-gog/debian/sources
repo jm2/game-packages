@@ -1,0 +1,2 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+f5471b4b29ea9a10cf5d1a8af2bedeedd4a8cfe1c60b1d52878f80a13bf4d5d6 setup_quake3_2.0.0.2.exe local

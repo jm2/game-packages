@@ -1,0 +1,36 @@
+name = "codww2-wine-steam"
+family = "wine-steam"
+id = "codww2"
+version = "1.0"
+release = 2
+summary = "Call of Duty: WWII using Wine with data via Steam"
+url = "https://store.steampowered.com/app/476600/Call_of_Duty_WWII/"
+remove_files = ["codww2.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 14 }
+
+[source.steam]
+appid = 476620
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "s2_mp64_ship.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "s2_sp64_ship.exe"
+writable = true
+variants = [
+  { flag = "s", exe = "s2_sp64_ship.exe", description = "campaign" },
+  { flag = "m", exe = "s2_mp64_ship.exe", description = "multiplayer / nazi zombies (LAN via Goldberg)" },
+]
+default_variant = "s"
+
+[desktop]
+name = "Call of Duty: WWII"
+comment = "Call of Duty: WWII (Wine)"
+categories = "Game;ActionGame;Shooter;"

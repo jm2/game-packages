@@ -1,0 +1,14 @@
+Source: codmw2-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, unzip, gbe-fork-bin
+Standards-Version: 4.7.0
+Homepage: https://iw4x.dev/
+Rules-Requires-Root: no
+
+Package: codmw2-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, ${misc:Depends}
+Description: Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
+ Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam

@@ -1,0 +1,55 @@
+name = "doom2016-wine-steam"
+family = "wine-steam"
+id = "doom2016"
+version = "6.66"
+release = 2
+summary = "DOOM (2016) using Wine with data via Steam"
+url = "https://store.steampowered.com/app/379720/DOOM/"
+remove_files = ["doom2016.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+notes = """
+The Steam executables are DRM-protected; supply DRM-free `DOOMx64.exe` and
+`DOOMx64vk.exe` next to the build files. `doom2016 -o` starts the OpenGL
+renderer, the default is Vulkan."""
+deb = { parts = 9 }
+
+[source.steam]
+appid = 379720
+
+[[source.files]]
+name = "DOOMx64.exe"
+url = "local"
+sha256 = "e2df876c91c143f1efd10e64ff8bd19db865ac84ee0bd4c727dbe69da2377e8e"
+extract = "copy"
+hint = "DRM-free DOOMx64.exe is required; see README.md."
+
+[[source.files]]
+name = "DOOMx64vk.exe"
+url = "local"
+sha256 = "99529e881dfb42c04a3910f8901a716aee36c6cfcd0b0e03ae1a511f68040157"
+extract = "copy"
+hint = "DRM-free DOOMx64vk.exe is required; see README.md."
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "DOOMx64vk.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "DOOMx64vk.exe"
+dxvk = false
+prereqs = ["vcrun2015|winetricks:mfc140"]
+variants = [
+  { flag = "v", exe = "DOOMx64vk.exe", description = "Vulkan renderer" },
+  { flag = "o", exe = "DOOMx64.exe", description = "OpenGL renderer" },
+]
+default_variant = "v"
+
+[desktop]
+name = "DOOM (2016)"
+comment = "DOOM (2016) (Wine)"
+categories = "Game;ActionGame;Shooter;"

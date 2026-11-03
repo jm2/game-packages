@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Serious Sam 3
-Comment=Serious Sam 3 BFE Linux-native
-Exec=/usr/bin/serioussam3
+Type=Application
+Name=Serious Sam 3: BFE
+Comment=Serious Sam 3: BFE (native Linux) with data via Steam
+Exec=serioussam3
 Icon=serioussam3
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;ActionGame;Shooter;

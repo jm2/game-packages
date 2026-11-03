@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Age of Empires II: DE (LAN)
+Comment=Age of Empires II: Definitive Edition LAN multiplayer with ageLANServer (Wine)
+Exec=aoe2-de-lan
+Icon=aoe2-de
+Terminal=true
+Categories=Game;StrategyGame;
+Keywords=strategy;rts;lan;multiplayer;

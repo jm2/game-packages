@@ -1,0 +1,14 @@
+Source: aoe3-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/
+Rules-Requires-Root: no
+
+Package: aoe3-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Age of Empires III (2007) Complete Collection using Wine with data via Steam
+ Age of Empires III (2007) Complete Collection using Wine with data via Steam

@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Age of Empires 3
-Comment=Age of Empires 3 Complete Collection
-Exec=/usr/bin/aoe3
+Type=Application
+Name=Age of Empires III
+Comment=Age of Empires III Complete Collection (Wine)
+Exec=aoe3
 Icon=aoe3
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;StrategyGame;

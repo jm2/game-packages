@@ -1,0 +1,6 @@
+codmw2-wine-steam (r5292-1) unstable; urgency=medium
+
+  * Switch to gamelaunch and gbe-fork-bin
+  * Move from the dead XLabs IW4x to the maintained iw4x project (client r5292, rawfiles v0.2.40)
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

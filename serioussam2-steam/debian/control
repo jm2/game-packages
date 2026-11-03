@@ -1,0 +1,14 @@
+Source: serioussam2-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, libarchive-tools
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/204340/Serious_Sam_2/
+Rules-Requires-Root: no
+
+Package: serioussam2-steam
+Architecture: amd64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Serious Sam 2 (flibit's Linux port) with data via Steam
+ Serious Sam 2 (flibit's Linux port) with data via Steam

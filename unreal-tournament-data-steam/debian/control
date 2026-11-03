@@ -1,0 +1,19 @@
+Source: unreal-tournament-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/13240/Unreal_Tournament_Game_of_the_Year_Edition/
+Rules-Requires-Root: no
+
+Package: unreal-tournament-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: unreal-tournament-bin
+Provides: unreal-tournament-data
+Conflicts: unreal-tournament-data
+Description: Unreal Tournament 99 (GOTY) data from Steam
+ Game data for Unreal Tournament: Game of the Year Edition, downloaded from
+ Steam with steamcmd and installed to /opt/unreal-tournament. Play it with
+ the native OldUnreal binaries from unreal-tournament-bin.

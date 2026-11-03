@@ -1,0 +1,4 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+cd3484b6908f89c3b6df0bf8b75b62fced56de2458cdad184006fc72ac29324c setup_race_driver_grid_1.0_(18584).exe local
+17cbdf2d1844607bf17b678a497bbfa77c9b726b12c46e01320618e32f37eafb setup_race_driver_grid_1.0_(18584)-1.bin local
+8d0d40d65ce960ed86ddad7bd41d9ec0e04a69f3598822694ee282ab51b3ec8e setup_race_driver_grid_1.0_(18584)-2.bin local

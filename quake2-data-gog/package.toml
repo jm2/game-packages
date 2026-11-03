@@ -1,0 +1,23 @@
+name = "quake2-data-gog"
+family = "data-gog"
+version = "1"
+release = 3
+summary = "Quake II data via GOG"
+url = "https://www.gog.com/game/quake_ii_quad_damage"
+target = "/usr/share/games/quake2"
+provides = ["quake2-data"]
+conflicts = ["quake2-data-steam", "quake2-rogue-data-steam", "quake2-xatrix-data-steam"]
+changelog = ["Generated from package.toml"]
+
+[hooks]
+post_prepare = """
+mv capture/Pak2.pak capture/pak2.pak
+"""
+
+[[source.files]]
+name = "setup_quake2_quad_damage_2.0.0.3.exe"
+url = "gogdownloader://quake_ii_quad_damage_game/en1installer1"
+sha256 = "08b6addf4a33ab09a7846e95a879a33017410f8ddb80152cd4759336747f7fa7"
+extract = "inno"
+subdir = "app"
+copy = ["baseq2/pak[0-2].pak", "baseq2/video", "xatrix/pak0.pak", "xatrix/video", "rogue/pak0.pak", "rogue/video", "ctf/pak0.pak", "capture/pak1.pak", "capture/Pak2.pak", "rover/pak[0-2].pak", "chaos/pak[01].pak", "qwar2/pak[01].pak", "arena/pak[01].pak", "arena/_origarena/pak0.pak", "Eraser/pak0.pak", "Eraser/pak5.pak", "action/pak0.pak", "jail/pak0.pak"]

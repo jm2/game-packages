@@ -1,0 +1,28 @@
+name = "splitsecond-wine-steam"
+family = "wine-steam"
+id = "splitsecond"
+version = "1.0"
+release = 2
+summary = "Split/Second using Wine with data via Steam"
+url = "https://store.steampowered.com/app/297860/SplitSecond/"
+extra_files = ["splitsecond.png"]
+remove_files = ["splitsecond.sh"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+
+[source.steam]
+appid = 297860
+
+[icon]
+file = "splitsecond.png"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "SplitSecond.exe"
+
+[desktop]
+name = "Split/Second"
+comment = "Split/Second (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing"

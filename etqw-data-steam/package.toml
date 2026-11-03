@@ -1,0 +1,16 @@
+name = "etqw-data-steam"
+family = "data-steam"
+version = "1"
+release = 2
+summary = "Enemy Territory: Quake Wars data via Steam"
+url = "https://steamdb.info/app/10000/"
+target = "/opt/etqw"
+provides = ["etqw-data"]
+conflicts = []
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+notes = """
+Used by the native openETQW engine (openetqw-bin) and the AUR etqw package."""
+
+[source.steam]
+appid = 10000
+copy = ["base/pak00[0-4].pk4", "base/zpak*000.pk4", "base/megatextures", "base/video"]

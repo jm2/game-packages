@@ -1,0 +1,16 @@
+Source: broforce-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/broforce
+Rules-Requires-Root: no
+
+Package: broforce-gog
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Provides: broforce
+Conflicts: broforce-steam
+Description: Broforce (native Linux) with data via GOG
+ Broforce (native Linux) with data via GOG

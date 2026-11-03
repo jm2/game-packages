@@ -1,0 +1,14 @@
+Source: distance-hib
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, libarchive-tools
+Standards-Version: 4.7.0
+Homepage: https://www.humblebundle.com/store/distance
+Rules-Requires-Root: no
+
+Package: distance-hib
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Distance (native Linux) with data via Humble Bundle
+ Distance (native Linux) with data via Humble Bundle

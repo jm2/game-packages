@@ -1,0 +1,16 @@
+Source: daikatana-data-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/en/game/daikatana
+Rules-Requires-Root: no
+
+Package: daikatana-data-gog
+Architecture: all
+Depends: ${misc:Depends}
+Provides: daikatana-data
+Conflicts: daikatana-data-steam
+Description: Daikatana data via GOG
+ Daikatana data via GOG

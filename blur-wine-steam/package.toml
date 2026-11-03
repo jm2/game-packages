@@ -1,0 +1,38 @@
+name = "blur-wine-steam"
+family = "wine-steam"
+id = "blur"
+version = "1.2"
+release = 2
+summary = "Blur using Wine with data via Steam"
+url = "https://steamdb.info/app/42640/"
+extra_files = ["blur.png"]
+remove_files = ["blur.sh"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+notes = """
+Blur.exe from Steam is DRM-wrapped and does not start under Wine. Supply an
+unpacked copy as `Blur.exe.unpacked.exe`; it replaces Blur.exe."""
+
+[source.steam]
+appid = 42640
+
+[[source.files]]
+name = "Blur.exe.unpacked.exe"
+url = "local"
+sha256 = "ba3df874a8b0084a8f038fb9550615f18c85d489a72caf4df035722ff2430324"
+extract = "copy"
+to = "Blur.exe"
+hint = "An unpacked Blur.exe is required; see README.md."
+
+[icon]
+file = "blur.png"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "Blur.exe"
+
+[desktop]
+name = "Blur"
+comment = "Blur (Wine)"
+categories = "Game;ActionGame;"

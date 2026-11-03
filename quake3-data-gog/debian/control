@@ -1,0 +1,16 @@
+Source: quake3-data-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/quake_iii_gold
+Rules-Requires-Root: no
+
+Package: quake3-data-gog
+Architecture: all
+Depends: ${misc:Depends}
+Provides: quake3-data
+Conflicts: quake3-data-steam, quake3-ta-data-steam
+Description: Quake III Arena and Team Arena data via GOG
+ Quake III Arena and Team Arena data via GOG

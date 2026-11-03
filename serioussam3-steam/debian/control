@@ -1,0 +1,14 @@
+Source: serioussam3-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, gbe-fork-bin
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/41070/Serious_Sam_3_BFE/
+Rules-Requires-Root: no
+
+Package: serioussam3-steam
+Architecture: amd64
+Depends: gamelaunch, gbe-fork-bin, ${misc:Depends}
+Description: Serious Sam 3: BFE (native Linux) with data via Steam
+ Serious Sam 3: BFE (native Linux) with data via Steam

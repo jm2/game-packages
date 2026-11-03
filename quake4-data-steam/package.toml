@@ -1,0 +1,14 @@
+name = "quake4-data-steam"
+family = "data-steam"
+version = "1"
+release = 2
+summary = "Quake 4 data via Steam"
+url = "https://store.steampowered.com/app/2210/Quake_IV/"
+target = "/opt/quake4"
+provides = ["quake4-data"]
+conflicts = ["quake4-data-gog"]
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+
+[source.steam]
+appid = 2210
+copy = ["q4base/pak00[1-9].pk4", "q4base/pak01[0-2].pk4", "q4base/zpak*h.pk4"]

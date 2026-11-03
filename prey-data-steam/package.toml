@@ -1,0 +1,14 @@
+name = "prey-data-steam"
+family = "data-steam"
+version = "1"
+release = 2
+summary = "Prey (2006) data via Steam"
+url = "https://steamdb.info/app/3970/"
+target = "/opt/prey"
+provides = ["prey-data"]
+conflicts = []
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+
+[source.steam]
+appid = 3970
+copy = ["base/pak00[0-4].pk4"]

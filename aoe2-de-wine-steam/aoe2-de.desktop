@@ -1,8 +1,9 @@
 [Desktop Entry]
-Name=Age of Empires II: Definitive Edition
-Comment=Play Age of Empires II: Definitive Edition with WINE
-Exec=/usr/bin/aoe2-de
-Icon=aoe2-de-wine-steam
-Terminal=false
 Type=Application
+Name=Age of Empires II: Definitive Edition
+Comment=Age of Empires II: Definitive Edition (Wine)
+Exec=aoe2-de
+Icon=aoe2-de
+Terminal=false
 Categories=Game;StrategyGame;
+Keywords=strategy;rts;

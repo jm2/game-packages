@@ -1,0 +1,14 @@
+Source: flatout2-wine-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/flatout_2
+Rules-Requires-Root: no
+
+Package: flatout2-wine-gog
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: FlatOut 2 using Wine with data via GOG
+ FlatOut 2 using Wine with data via GOG

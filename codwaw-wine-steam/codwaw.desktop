@@ -1,8 +1,8 @@
 [Desktop Entry]
+Type=Application
 Name=Call of Duty: World at War
-Comment=Call of Duty: World at War WINE
-Exec=/usr/bin/codwaw
+Comment=Call of Duty: World at War (Wine)
+Exec=codwaw
 Icon=codwaw
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;ActionGame;Shooter;

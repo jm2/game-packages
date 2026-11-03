@@ -1,0 +1,14 @@
+Source: dungeondefenders-hib
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://www.humblebundle.com/store/dungeon-defenders-collection
+Rules-Requires-Root: no
+
+Package: dungeondefenders-hib
+Architecture: amd64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Dungeon Defenders (native Linux) with data via Humble Bundle
+ Dungeon Defenders (native Linux) with data via Humble Bundle

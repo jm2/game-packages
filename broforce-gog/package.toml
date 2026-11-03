@@ -1,0 +1,34 @@
+name = "broforce-gog"
+family = "native-gog"
+id = "broforce"
+version = "1130_20201008"
+release = 4
+summary = "Broforce (native Linux) with data via GOG"
+url = "https://www.gog.com/game/broforce"
+provides = ["broforce"]
+conflicts = ["broforce-steam"]
+remove_files = ["broforce.sh"]
+changelog = ["Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce"]
+
+[[source.files]]
+name = "broforce_1130_20201008_41824.sh"
+url = "gogdownloader://broforce/en3installer0"
+sha256 = "405793776eda4d2fb54dcf20652021bc994070be60db2964395b79b61fbdae7f"
+extract = "mojo"
+subdir = "data/noarch"
+
+[icon]
+png = "support/icon.png"
+
+[launcher]
+exe = "start.sh"
+writable = true
+
+[desktop]
+name = "Broforce"
+categories = "Game;ActionGame;"
+
+[deps]
+arch = ["libgl", "libx11", "libxext"]
+fedora = ["mesa-libGL", "libX11", "libXext"]
+debian = ["libgl1", "libx11-6", "libxext6"]

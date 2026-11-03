@@ -1,0 +1,39 @@
+name = "simcity4-wine-gog"
+family = "wine-gog"
+id = "simcity4"
+version = "1.1.641"
+release = 2
+summary = "SimCity 4 Deluxe Edition using Wine with data via GOG"
+url = "https://www.gog.com/game/simcity_4_deluxe_edition"
+remove_files = ["simcity4.sh", "simcity4.install"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+notes = """
+The launcher passes `-CustomResolution:enabled -r1920x1080x32`; to use another
+resolution run `simcity4 -r<width>x<height>x32` (later arguments win)."""
+
+[[source.files]]
+name = "setup_simcity_4_deluxe_edition_1.1.641_hotfix_(25621).exe"
+url = "gogdownloader://simcity_4_deluxe_edition/en1installer0"
+sha256 = "1966f23a6c7d4faba18d7e09c887c5678192cccedb349e75fa055c63966e6e4d"
+extract = "inno"
+
+[icon]
+ico = "goggame-*.ico"
+
+[hooks]
+post_prepare = """
+# The installer splits the game across app/ and __support/; merge them.
+for d in __support app; do
+    [ -d "$d" ] && { cp -a "$d/." .; rm -rf "$d"; }
+done
+rm -rf __redist commonappdata
+"""
+
+[launcher]
+exe = "Apps/SimCity 4.exe"
+args = ["-CustomResolution:enabled", "-r1920x1080x32"]
+
+[desktop]
+name = "SimCity 4"
+comment = "SimCity 4 Deluxe Edition (Wine)"
+categories = "Game;Simulation;"

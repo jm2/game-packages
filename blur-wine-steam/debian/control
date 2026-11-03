@@ -1,0 +1,14 @@
+Source: blur-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://steamdb.info/app/42640/
+Rules-Requires-Root: no
+
+Package: blur-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Blur using Wine with data via Steam
+ Blur using Wine with data via Steam

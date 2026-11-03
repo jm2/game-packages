@@ -1,0 +1,5 @@
+# ageLANServer descriptor for Age of Empires II: DE, read by agelan (agelanserver-bin).
+AGELAN_GAME=age2
+GAME_DIR=/opt/aoe2-de
+CACERT=certificates/cacert.pem
+BATTLESERVER=BattleServer/BattleServer.exe

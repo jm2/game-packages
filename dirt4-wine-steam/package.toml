@@ -1,0 +1,32 @@
+name = "dirt4-wine-steam"
+family = "wine-steam"
+id = "dirt4"
+version = "1.12"
+release = 2
+summary = "DiRT 4 using Wine with data via Steam"
+url = "https://store.steampowered.com/app/421020/DiRT_4/"
+conflicts = ["dirt4-steam"]
+remove_files = ["dirt4.sh", "dirt4.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 6 }
+
+[source.steam]
+appid = 421020
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "dirt4.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "dirt4.exe"
+
+[desktop]
+name = "DiRT 4"
+comment = "DiRT 4 (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;rally;codemasters"

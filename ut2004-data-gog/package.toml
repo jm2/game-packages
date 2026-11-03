@@ -1,0 +1,80 @@
+name = "ut2004-data-gog"
+family = "data-gog"
+version = "3369"
+release = 3
+summary = "Unreal Tournament 2004 ECE data from GOG"
+description = """
+Game data for Unreal Tournament 2004: Editor's Choice Edition, extracted from
+the GOG installer you download yourself and installed to /opt/ut2004. Play it
+with the native OldUnreal binaries from ut2004-bin."""
+url = "https://www.gog.com/game/unreal_tournament_2004_ece"
+target = "/opt/ut2004"
+provides = ["ut2004-data"]
+conflicts = ["ut2004-data", "ut2004-gog"]
+changelog = [
+  "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
+  "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
+]
+notes = """
+GOG no longer sells Unreal Tournament 2004; use the installer from your GOG
+library. The CD key from the GOG install script is kept in /opt/ut2004/GOG,
+and the ut2004 launcher copies it to ~/.ut2004/System/CDkey on first start."""
+
+[[source.files]]
+name = "setup_unreal_tournament_2004_1.0_(18947).exe"
+url = "gogdownloader://unreal_tournament_2004_ece/en1installer0"
+sha256 = "1f8712b4da90a22d822e4f2c2a4d841df2692be96d0f85f9064c6c77480c3b85"
+extract = "inno"
+
+[[source.files]]
+name = "setup_unreal_tournament_2004_1.0_(18947)-1.bin"
+url = "gogdownloader://unreal_tournament_2004_ece/en1installer1"
+sha256 = "81b6c1cf3931bf030d918461a134eff49921a0809cf215a6066639d0e6f0bf67"
+
+[deps]
+optional_arch = ["ut2004-bin: native binaries to play the game"]
+recommends_fedora = ["ut2004-bin"]
+
+[deb]
+recommends = ["ut2004-bin"]
+
+[hooks]
+post_prepare = '''
+# Newer innoextract keeps GOG's app/ prefix; the GOG metadata sits next to it.
+if [ -d app ]; then cp -a app/. .; rm -rf app; fi
+install -d GOG
+for f in goggame-*; do mv -- "$f" GOG/; done
+rm -rf __redist __support commonappdata tmp
+rm -f ut2004.txt webcache.zip
+
+# --- shared UT2004 data cleanup (same block in every ut2004-data-* package) ---
+# ut_rm <dir> <name...>: delete <dir>/<name>, matching the name in any case.
+ut_rm() {
+    local dir=$1 n; shift
+    [ -d "$dir" ] || return 0
+    for n in "$@"; do find "$dir" -maxdepth 1 -iname "$n" -exec rm -rf {} +; done
+}
+# Steam ships the maps folder in lower case.
+if [ -d maps ] && [ ! -d Maps ]; then mv maps Maps; fi
+# Files that ut2004-bin (OldUnreal 3374) installs. Drop the originals in any
+# case, so the packages don't conflict and the engine never loads a stale
+# wrong-case copy (e.g. Gui2K4.u next to GUI2K4.u).
+ut_rm System AssaultBP.u BonusPack.u Core.u Editor.u Engine.u Fire.u GamePlay.u \
+    GUI2K4.u IpDrv.u OnslaughtBP.u OnslaughtFull.u Onslaught.u SkaarjPack_rc.u \
+    SkaarjPack.u StreamlineFX.u UnrealEd.u UnrealGame.u UT2k4AssaultFull.u \
+    UT2k4Assault.u UTClassic.u UTV2004c.u UTV2004s.u UWeb.u Vehicles.u XAdmin.u \
+    XEffects.u XGame_rc.u XGame.u XInterface.u XPickups_rc.u XPickups.u xVoting.u \
+    XWeapons_rc.u XWeapons.u XWebAdmin.u xaplayersl3.upl xplayersL1.upl \
+    xplayersL2.upl Build.ini CacheRecords.ucl Default.ini DefUnrealEd.ini \
+    DefUser.ini Packages.md5
+ut_rm Help DebuggerLogo.bmp InstallerLogo.bmp Unreal.bmp
+ut_rm Sounds PlayerSounds2.uax
+ut_rm Textures 2K4Fonts.het_utx 2K4Fonts.rut_utx 2K4MenusHR.utx 2K4MenusWS.utx \
+    UT2003Fonts.het_utx UT2003Fonts.rut_utx
+ut_rm . Web
+# Windows settings: the game writes its own UT2004.ini/User.ini to
+# ~/.ut2004/System from the patch's Default.ini/DefUser.ini.
+ut_rm System UT2004.ini User.ini
+# Windows-only programs, libraries and redistributables.
+find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' -o -iname '*.msi' \) -delete
+'''

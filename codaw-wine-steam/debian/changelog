@@ -1,0 +1,6 @@
+codaw-wine-steam (1.16-2) unstable; urgency=medium
+
+  * Switch to gamelaunch and gbe-fork-bin
+  * Drop the s1x client: XLabs is gone and its downloads return 404
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

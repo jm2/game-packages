@@ -1,0 +1,14 @@
+Source: trine2-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/trine_2_complete_story
+Rules-Requires-Root: no
+
+Package: trine2-gog
+Architecture: amd64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Trine 2: Complete Story (native Linux) with data via GOG
+ Trine 2: Complete Story (native Linux) with data via GOG

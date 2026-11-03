@@ -1,0 +1,23 @@
+name = "doom3bfg-data-gog"
+family = "data-gog"
+version = "1"
+release = 3
+summary = "Doom 3 BFG Edition data via GOG"
+url = "https://www.gog.com/game/doom_3_bfg_edition"
+target = "/usr/share/games/doom3bfg"
+provides = ["doom3bfg-data"]
+conflicts = ["doom3bfg-data-steam"]
+changelog = ["Generated from package.toml"]
+
+[[source.files]]
+name = "setup_doom_3_bfg_1.14_(13452).exe"
+url = "gogdownloader://doom_3_bfg_edition_game/en1installer0"
+sha256 = "8e6796c0f81e90de726e57978858ebdc8e162366060736bb080a51c73151936f"
+extract = "inno"
+subdir = "app"
+copy = ["base"]
+
+[[source.files]]
+name = "setup_doom_3_bfg_1.14_(13452)-1.bin"
+url = "gogdownloader://doom_3_bfg_edition_game/en1installer1"
+sha256 = "e71a1f1cf2674748046b677b88015a4807a624a14831a2e7ce1e084c82bd0952"

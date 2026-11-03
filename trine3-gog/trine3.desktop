@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Trine 3
-Comment=GOG version of Trine 3 The Artifacts of Power
-Exec=/usr/bin/trine3
+Type=Application
+Name=Trine 3: The Artifacts of Power
+Comment=Trine 3: The Artifacts of Power (native Linux) with data via GOG
+Exec=trine3
 Icon=trine3
 Terminal=false
-Type=Application
-Categories=Game;
+Categories=Game;ActionGame;

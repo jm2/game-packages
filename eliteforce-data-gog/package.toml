@@ -1,0 +1,22 @@
+name = "eliteforce-data-gog"
+family = "data-gog"
+version = "1"
+release = 3
+summary = "Star Trek Voyager: Elite Force data via GOG"
+url = "https://www.gog.com/game/star_trek_voyager_elite_force"
+target = "/opt/lilium-voyager"
+provides = ["eliteforce-data"]
+conflicts = []
+changelog = ["Generated from package.toml"]
+
+[hooks]
+post_prepare = """
+mv BaseEF baseEF
+"""
+
+[[source.files]]
+name = "setup_star_trek_voyagertm_elite_force_1.2_(34378).exe"
+url = "gogdownloader://star_trek_voyager_elite_force/en1installer0"
+sha256 = "2adb604a8916688689b700a9be3083903d036e1633e1fe675a97776891ac2ae8"
+extract = "inno"
+copy = ["BaseEF/*.pk3"]

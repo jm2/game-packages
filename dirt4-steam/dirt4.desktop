@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=DiRT 4
-Comment=DiRT 4 Linux-native
-Exec=/usr/bin/dirt4
+Comment=DiRT 4 (native Linux, Feral) with data via Steam
+Exec=dirt4
 Icon=dirt4
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;rally;codemasters;

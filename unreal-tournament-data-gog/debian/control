@@ -1,0 +1,19 @@
+Source: unreal-tournament-data-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/unreal_tournament_goty
+Rules-Requires-Root: no
+
+Package: unreal-tournament-data-gog
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: unreal-tournament-bin
+Provides: unreal-tournament-data
+Conflicts: unreal-tournament-data
+Description: Unreal Tournament 99 (GOTY) data from GOG
+ Game data for Unreal Tournament: Game of the Year Edition, extracted from the
+ GOG installer you download yourself and installed to /opt/unreal-tournament.
+ Play it with the native OldUnreal binaries from unreal-tournament-bin.

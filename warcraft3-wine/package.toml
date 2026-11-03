@@ -1,0 +1,46 @@
+name = "warcraft3-wine"
+family = "wine-local"
+id = "warcraft3"
+version = "1.27"
+release = 2
+summary = "Warcraft III Classic (1.27) using Wine"
+url = "https://us.forums.blizzard.com/en/warcraft3/t/classic-warcraft-iii-official-installers-official-patches/21415"
+extra_files = ["warcraft3.png"]
+remove_files = ["warcraft3.sh"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+notes = """
+Build from your own installed copy: zip the patched (1.27) `Warcraft III`
+folder as `warcraft3.zip`. The Movies folder is disabled because the intro
+movies crash the game under Wine."""
+
+[[source.files]]
+name = "warcraft3.zip"
+url = "local"
+sha256 = "6711eaec43f800f8647226a23287f4d450074a2940e1d8c4ce554cdd7a53a113"
+extract = "zip"
+subdir = "Warcraft III"
+hint = "Zip your patched 'Warcraft III' folder as warcraft3.zip; see README.md."
+
+[icon]
+file = "warcraft3.png"
+
+[hooks]
+post_install = """
+[ -d Movies ] && mv Movies Movies.orig
+"""
+
+[launcher]
+exe = "Frozen Throne.exe"
+args = ["-opengl"]
+dxvk = false
+writable = true
+variants = [
+  { flag = "x", exe = "Frozen Throne.exe", description = "The Frozen Throne" },
+  { flag = "o", exe = "Warcraft III.exe", description = "Reign of Chaos" },
+]
+default_variant = "x"
+
+[desktop]
+name = "Warcraft III"
+comment = "Warcraft III Classic (Wine)"
+categories = "Game;StrategyGame;"

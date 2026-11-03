@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=DiRT Rally 2.0
-Comment=DiRT Rally 2.0 WINE
-Exec=/usr/bin/dirtrally2
+Comment=DiRT Rally 2.0 (Wine)
+Exec=dirtrally2
 Icon=dirtrally2
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;rally;codemasters;

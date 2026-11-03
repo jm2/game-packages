@@ -1,0 +1,15 @@
+Source: doom3xp-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/
+Rules-Requires-Root: no
+
+Package: doom3xp-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Provides: doom3xp-data
+Description: Doom 3: Resurrection of Evil data via Steam
+ Doom 3: Resurrection of Evil data via Steam

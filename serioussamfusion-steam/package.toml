@@ -1,0 +1,28 @@
+name = "serioussamfusion-steam"
+family = "native-steam"
+id = "serioussamfusion"
+version = "1.0"
+release = 2
+summary = "Serious Sam Fusion 2017 (native Linux) with data via Steam"
+url = "https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/"
+extra_files = ["serioussamfusion.png"]
+remove_files = ["serioussamfusion.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 3 }
+
+[source.steam]
+appid = 564310
+platform = "linux"
+
+[gbe]
+libs = ["Bin/x64/libsteam_api.so"]
+
+[icon]
+file = "serioussamfusion.png"
+
+[launcher]
+exe = "Bin/x64/Sam2017_Unrestricted"
+
+[desktop]
+name = "Serious Sam Fusion 2017"
+categories = "Game;ActionGame;Shooter;"

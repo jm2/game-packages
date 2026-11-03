@@ -1,0 +1,14 @@
+Source: splitsecond-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/297860/SplitSecond/
+Rules-Requires-Root: no
+
+Package: splitsecond-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Split/Second using Wine with data via Steam
+ Split/Second using Wine with data via Steam

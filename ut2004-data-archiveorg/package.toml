@@ -1,0 +1,96 @@
+name = "ut2004-data-archiveorg"
+family = "data-url"
+version = "3369"
+release = 4
+summary = "Unreal Tournament 2004 ECE data from the OldUnreal DVD image"
+description = """
+Game data for Unreal Tournament 2004: Editor's Choice Edition, unpacked from
+the ECE DVD image that OldUnreal hosts (files.oldunreal.net, the same image
+as on archive.org) and installed to /opt/ut2004. Play it with the native
+OldUnreal binaries from ut2004-bin."""
+url = "https://www.oldunreal.com/downloads/unreal-tournament-2004/full-game-installers/"
+target = "/opt/ut2004"
+provides = ["ut2004-data"]
+conflicts = ["ut2004-data", "ut2004-gog"]
+changelog = [
+  "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
+  "sha256 for UT2004.ISO from OldUnreal's installer instead of md5",
+  "Unpack the InstallShield groups the way OldUnreal's installer does (English only)",
+  "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
+]
+notes = """
+The DVD image is about 3 GB; with the unpacked cabinets, the game tree and the
+finished package the build needs about 15 GB of free space. Only the English language
+groups are installed, as with OldUnreal's own installer."""
+
+[[source.files]]
+name = "UT2004.ISO"
+url = "https://files.oldunreal.net/UT2004.ISO"
+sha256 = "43e9182ae20bcbc0f6f4588fee6c1b336c261f1465403118a1973b09b1a22541"
+
+[deps]
+build_arch = ["libarchive", "unshield"]
+build_fedora = ["bsdtar", "unshield"]
+build_debian = ["libarchive-tools", "unshield"]
+optional_arch = ["ut2004-bin: native binaries to play the game"]
+recommends_fedora = ["ut2004-bin"]
+
+[deb]
+recommends = ["ut2004-bin"]
+
+[hooks]
+post_prepare = '''
+# The DVD holds InstallShield cabinets (Disk*/data*.cab + .hdr); unpack them
+# with unshield and lay the file groups out like OldUnreal's installer does.
+iso=$(pt_need_source UT2004.ISO)
+w=$PT_WORK/dvd
+rm -rf "$w"; mkdir -p "$w/iso" "$w/cabs" "$w/groups"
+pt_msg2 "unpacking UT2004.ISO"
+bsdtar -xf "$iso" -C "$w/iso"
+find "$w/iso" -type f \( -iname 'data*.cab' -o -iname 'data*.hdr' \) -exec ln -sf {} "$w/cabs/" \;
+[ -e "$w/cabs/data1.cab" ] || pt_die "data1.cab not found in UT2004.ISO"
+pt_msg2 "unpacking the InstallShield cabinets"
+unshield -d "$w/groups" x "$w/cabs/data1.cab" >/dev/null
+rm -rf "$w/iso" "$w/cabs"
+for pair in All_Animations:Animations All_Benchmark:Benchmark             All_ForceFeedback:ForceFeedback All_Help:Help All_KarmaData:KarmaData             All_Maps:Maps All_Music:Music All_StaticMeshes:StaticMeshes             All_Textures:Textures All_Web:Web All_UT2004.EXE:System             English_Manual:Manual English_Sounds_Speech_System_Help: US_License.int:System; do
+    g=${pair%%:*} t=${pair#*:}
+    if [ ! -d "$w/groups/$g" ]; then
+        [ "$g" = US_License.int ] && continue   # not in every image
+        pt_die "file group $g is missing from UT2004.ISO"
+    fi
+    install -d "./$t"
+    cp -alf "$w/groups/$g/." "./$t/"   # hard links: same file system, no copy
+done
+rm -rf "$w"
+
+# --- shared UT2004 data cleanup (same block in every ut2004-data-* package) ---
+# ut_rm <dir> <name...>: delete <dir>/<name>, matching the name in any case.
+ut_rm() {
+    local dir=$1 n; shift
+    [ -d "$dir" ] || return 0
+    for n in "$@"; do find "$dir" -maxdepth 1 -iname "$n" -exec rm -rf {} +; done
+}
+# Steam ships the maps folder in lower case.
+if [ -d maps ] && [ ! -d Maps ]; then mv maps Maps; fi
+# Files that ut2004-bin (OldUnreal 3374) installs. Drop the originals in any
+# case, so the packages don't conflict and the engine never loads a stale
+# wrong-case copy (e.g. Gui2K4.u next to GUI2K4.u).
+ut_rm System AssaultBP.u BonusPack.u Core.u Editor.u Engine.u Fire.u GamePlay.u \
+    GUI2K4.u IpDrv.u OnslaughtBP.u OnslaughtFull.u Onslaught.u SkaarjPack_rc.u \
+    SkaarjPack.u StreamlineFX.u UnrealEd.u UnrealGame.u UT2k4AssaultFull.u \
+    UT2k4Assault.u UTClassic.u UTV2004c.u UTV2004s.u UWeb.u Vehicles.u XAdmin.u \
+    XEffects.u XGame_rc.u XGame.u XInterface.u XPickups_rc.u XPickups.u xVoting.u \
+    XWeapons_rc.u XWeapons.u XWebAdmin.u xaplayersl3.upl xplayersL1.upl \
+    xplayersL2.upl Build.ini CacheRecords.ucl Default.ini DefUnrealEd.ini \
+    DefUser.ini Packages.md5
+ut_rm Help DebuggerLogo.bmp InstallerLogo.bmp Unreal.bmp
+ut_rm Sounds PlayerSounds2.uax
+ut_rm Textures 2K4Fonts.het_utx 2K4Fonts.rut_utx 2K4MenusHR.utx 2K4MenusWS.utx \
+    UT2003Fonts.het_utx UT2003Fonts.rut_utx
+ut_rm . Web
+# Windows settings: the game writes its own UT2004.ini/User.ini to
+# ~/.ut2004/System from the patch's Default.ini/DefUser.ini.
+ut_rm System UT2004.ini User.ini
+# Windows-only programs, libraries and redistributables.
+find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' -o -iname '*.msi' \) -delete
+'''

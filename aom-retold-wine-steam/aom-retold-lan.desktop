@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Age of Mythology: Retold (LAN)
+Comment=Age of Mythology: Retold LAN multiplayer with ageLANServer (Wine)
+Exec=aom-retold-lan
+Icon=aom-retold
+Terminal=true
+Categories=Game;StrategyGame;
+Keywords=strategy;rts;lan;multiplayer;

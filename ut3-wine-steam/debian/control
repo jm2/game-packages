@@ -1,0 +1,14 @@
+Source: ut3-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/
+Rules-Requires-Root: no
+
+Package: ut3-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Unreal Tournament 3 Black using Wine with data via Steam
+ Unreal Tournament 3 Black using Wine with data via Steam

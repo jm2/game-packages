@@ -1,0 +1,110 @@
+name = "unreal-tournament-data-archiveorg"
+family = "data-url"
+version = "436"
+release = 4
+summary = "Unreal Tournament 99 (GOTY) data from the archive.org CD image"
+description = """
+Game data for Unreal Tournament: Game of the Year Edition, unpacked from the
+GOTY CD 1 image on archive.org and installed to /opt/unreal-tournament. Play
+it with the native OldUnreal binaries from unreal-tournament-bin."""
+url = "https://archive.org/details/ut-goty"
+target = "/opt/unreal-tournament"
+provides = ["unreal-tournament-data"]
+conflicts = ["unreal-tournament-data"]
+changelog = [
+  "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
+  "Decompress the CD's .unr.uz maps at build time with OldUnreal's ucc-bin (the game cannot load them from /opt)",
+  "Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files",
+]
+notes = """
+81 of the CD's maps are UZ-compressed. 469e would try to decompress them into
+the read-only /opt/unreal-tournament/Maps on first start and fail, so the
+build decompresses them with ucc-bin from OldUnreal's 469e Linux patch (the
+same step OldUnreal's installer runs). That means the build runs an OldUnreal
+binary for the build machine's architecture (x86_64 or aarch64), and the
+patch tarballs are build sources of this package."""
+
+[[source.files]]
+name = "UT_GOTY_CD1.iso"
+url = "https://archive.org/download/ut-goty/UT_GOTY_CD1.iso"
+sha256 = "e184984ca88f001c5ddd52035d76cd64e266e26c74975161b5ed72366c74704f"
+extract = "iso"
+
+[[source.files]]
+name = "OldUnreal-UTPatch469e-Linux-amd64.tar.bz2"
+url = "https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469e/OldUnreal-UTPatch469e-Linux-amd64.tar.bz2"
+sha256 = "08c806aa3721b1970045aa158ad90051329d982e8a9a3661153900e9ccbf6b0c"
+
+[[source.files]]
+name = "OldUnreal-UTPatch469e-Linux-arm64.tar.bz2"
+url = "https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469e/OldUnreal-UTPatch469e-Linux-arm64.tar.bz2"
+sha256 = "4c3978073b12b049c3ffdeb4d275cfc7a2313650f3eb5b94db06fbfee77c3e3b"
+
+[deps]
+optional_arch = ["unreal-tournament-bin: native binaries to play the game"]
+recommends_fedora = ["unreal-tournament-bin"]
+
+[deb]
+recommends = ["unreal-tournament-bin"]
+
+[hooks]
+post_prepare = '''
+# Decompress Maps/*.unr.uz with ucc-bin from the 469e patch, in a scratch
+# game tree (System = patch System/ + System64/ or SystemARM64/).
+case $(uname -m) in
+    x86_64)  tb=OldUnreal-UTPatch469e-Linux-amd64.tar.bz2 sys=System64 ;;
+    aarch64) tb=OldUnreal-UTPatch469e-Linux-arm64.tar.bz2 sys=SystemARM64 ;;
+    *) pt_die "decompressing the maps needs an x86_64 or aarch64 build machine" ;;
+esac
+u=$PT_WORK/ucc
+rm -rf "$u"; mkdir -p "$u"
+bsdtar -xf "$(pt_need_source "$tb")" -C "$u"
+cp -a "$u/$sys/." "$u/System/"
+ln -s "$PWD/Maps" "$u/Maps"
+pt_msg2 "decompressing maps with ucc-bin from $tb"
+for m in Maps/*.unr.uz; do
+    z=${m##*/} n=${z%.uz}
+    if [ ! -e "Maps/$n" ]; then
+        (cd "$u/System" && ./ucc-bin decompress "../Maps/$z" -nohomedir >/dev/null 2>&1) ||
+            pt_die "ucc-bin decompress failed for $z"
+        [ -f "$u/System/$n" ] || pt_die "ucc-bin did not write $n"
+        mv "$u/System/$n" "Maps/$n"
+    fi
+    rm -f "$m"
+done
+rm -rf "$u"
+
+# --- shared UT99 data cleanup (same block in every unreal-tournament-data-* package) ---
+# ut_rm <dir> <name...>: delete <dir>/<name>, matching the name in any case.
+ut_rm() {
+    local dir=$1 n; shift
+    [ -d "$dir" ] || return 0
+    for n in "$@"; do find "$dir" -maxdepth 1 -iname "$n" -exec rm -rf {} +; done
+}
+# Files that unreal-tournament-bin (OldUnreal 469e) installs. Drop the
+# originals in any case, so the packages don't conflict and the engine never
+# loads a stale wrong-case copy (the CD has BotPack.u, the patch Botpack.u).
+ut_rm System Botpack.u Core.u de.u Editor.u Engine.u epiccustommodels.u Fire.u \
+    IpDrv.u IpServer.u multimesh.u OldUnreal469c.u relicsbindings.u relics.u \
+    SkeletalChars.u UBrowser.u udemo.u UMenu.u UnrealI.u UnrealShare.u \
+    UTBrowser.u UTMenu.u UTServerAdmin.u UWeb.u UWindow.u Default.ini \
+    DefUser.ini Packages.md5
+ut_rm Help ReleaseNotes.htm
+ut_rm Textures LadderFonts.utx UWindowFonts.utx
+ut_rm . Web
+# Windows settings: 469e writes its own UnrealTournament.ini/User.ini to
+# ~/.utpg/System from the patch's Default.ini/DefUser.ini.
+ut_rm System UnrealTournament.ini User.ini
+# Localisation comes from the patch's SystemLocalized/ (as in OldUnreal's
+# installer); the old copies in System/ would shadow it.
+find System -maxdepth 1 -type f \( -iname '*.int' -o -iname '*.ctt' -o -iname '*.det' \
+    -o -iname '*.elt' -o -iname '*.est' -o -iname '*.frt' -o -iname '*.itt' \
+    -o -iname '*.nlt' -o -iname '*.ptt' -o -iname '*.rut' \) -delete
+# Windows-only programs, libraries, old setup and stats tools.
+find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' \) -delete
+ut_rm . Autorun.inf DirectX7 GameSpy Microsoft NetGamesUSA.com System400 Logs
+# DM-Cybrosis][ is also used as a Domination map.
+if [ -f 'Maps/DM-Cybrosis][.unr' ] && [ ! -f 'Maps/DOM-Cybrosis][.unr' ]; then
+    cp 'Maps/DM-Cybrosis][.unr' 'Maps/DOM-Cybrosis][.unr'
+fi
+'''

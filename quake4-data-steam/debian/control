@@ -1,0 +1,16 @@
+Source: quake4-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/2210/Quake_IV/
+Rules-Requires-Root: no
+
+Package: quake4-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Provides: quake4-data
+Conflicts: quake4-data-gog
+Description: Quake 4 data via Steam
+ Quake 4 data via Steam

@@ -1,0 +1,41 @@
+name = "gridautosport-steam"
+family = "native-steam"
+id = "gridautosport"
+version = "1.0"
+aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
+release = 2
+summary = "GRID Autosport (native Linux, Feral) with data via Steam"
+url = "https://steamdb.info/app/255220/"
+remove_files = ["gridautosport.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+notes = """
+Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
+that only the AUR still provides; on Fedora/Debian install equivalents
+yourself."""
+deb = { parts = 4 }
+
+[source.steam]
+appid = 255220
+platform = "linux"
+
+[gbe]
+libs = ["lib/x86_64/libsteam_api.so"]
+
+[icon]
+png = "share/GameIcons/icon_512x512.png"
+
+[hooks]
+post_install = """
+sed -i '/steam-check.sh/d' GridAutosport.sh
+"""
+
+[launcher]
+exe = "GridAutosport.sh"
+
+[desktop]
+name = "GRID Autosport"
+categories = "Game;SportsGame;"
+keywords = "racing;codemasters"
+
+[deps]
+arch = ["openssl-1.0", "libidn11", "librtmp0", "gconf"]

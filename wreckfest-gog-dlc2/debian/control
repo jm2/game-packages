@@ -1,0 +1,14 @@
+Source: wreckfest-gog-dlc2
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/en/game/wreckfest
+Rules-Requires-Root: no
+
+Package: wreckfest-gog-dlc2
+Architecture: all
+Depends: wreckfest-wine-gog, ${misc:Depends}
+Description: Wreckfest (GOG) - Season Pass 2
+ Wreckfest (GOG) - Season Pass 2

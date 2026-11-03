@@ -1,0 +1,36 @@
+name = "broforce-steam"
+family = "native-steam"
+id = "broforce"
+version = "1130_20201008"
+release = 2
+summary = "Broforce (native Linux) with data via Steam"
+url = "https://store.steampowered.com/app/274190/Broforce/"
+provides = ["broforce"]
+conflicts = ["broforce-gog"]
+remove_files = ["broforce.sh"]
+changelog = ["Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce"]
+
+[source.steam]
+appid = 274190
+platform = "linux"
+
+[icon]
+png = "Broforce_Data/Resources/UnityPlayer.png"
+
+[launcher]
+exe = "Broforce.x86_64"
+writable = true
+variants = [
+  { flag = "m", exe = "Broforce.x86_64", description = "64-bit build" },
+  { flag = "l", exe = "Broforce.x86", description = "legacy 32-bit build" },
+]
+default_variant = "m"
+
+[desktop]
+name = "Broforce"
+categories = "Game;ActionGame;"
+
+[deps]
+arch = ["libgl", "libx11", "libxext"]
+fedora = ["mesa-libGL", "libX11", "libXext"]
+debian = ["libgl1", "libx11-6", "libxext6"]

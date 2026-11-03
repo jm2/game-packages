@@ -1,0 +1,86 @@
+name = "aom-retold-wine-steam"
+family = "wine-steam"
+id = "aom-retold"
+version = "1.0"
+release = 3
+summary = "Age of Mythology: Retold using Wine with data via Steam, ageLANServer for LAN"
+description = """
+Age of Mythology: Retold, run through gamelaunch
+(umu/Proton or system wine) with the game data downloaded from Steam and the
+Goldberg Steam emulator (gbe-fork-bin). ageLANServer and its launcher
+companion DLLs restore LAN multiplayer lobbies without the official servers."""
+url = "https://steamdb.info/app/1934680/"
+changelog = [
+  "ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin",
+  "Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin",
+  "ageLANServer 1.15.6 and ageServerLauncherCompanion 1.5.0.0",
+  "Per-user ageLANServer launcher (aom-retold-lan) via gamelaunch",
+  "Goldberg saves go to the user's GSE Saves directory, not the install",
+]
+remove_files = ["lan.sh", "lan-client.sh", "lan-wine.sh", "aom-retold-lan.conf", "aom-retold.sh", "ColdClientLoader.ini", "configs.app.ini", "configs.user.ini",
+                "configs.main.ini", "achievements.json", "supported_languages.txt"]
+extra_files = ["gbe.configs.app.ini", "gbe.configs.user.ini", "gbe.achievements.json",
+               "gbe.supported_languages.txt", "gbe.configs.main.ini", "aom-retold-lan.desktop", "aom-retold.agelan"]
+notes = """
+`aom-retold` starts the game directly. `aom-retold-lan` (menu entry "Age of Mythology: Retold (LAN)")
+runs the ageLANServer launcher from agelanserver-bin: it finds a server on the
+LAN or offers to start one, then starts the game through gamelaunch with the
+companion DLLs (agelanserver-companion-bin, linked into
+`steam_settings/load_dlls/` and loaded by gbe-fork-bin's experimental
+steam_api64.dll) pointed at the server. Joining needs no root. For hosting,
+see /usr/share/doc/agelanserver-bin/README.md (the agelanserver@athens.service
+system service is the easy way). Hosting Age of Mythology: Retold needs the Battle Server from aoe2-de-wine-steam (upstream only
+supports AoE II's for it).
+
+Start `aom-retold` once before the first LAN game: creating the Wine prefix can take
+longer than the minute the launcher waits for the game to appear."""
+
+[source.steam]
+appid = 1934680
+
+
+[gbe]
+libs = ["steam_api64.dll"]
+flavour = "experimental"   # loads steam_settings/load_dlls/*.dll (companion DLLs)
+
+[icon]
+exe = "AoMRT_s.exe"
+
+[deps]
+arch = ["agelanserver-bin", "agelanserver-companion-bin"]
+fedora = ["agelanserver-bin", "agelanserver-companion-bin"]
+debian = ["agelanserver-bin", "agelanserver-companion-bin"]
+optional_arch = ["aoe2-de-wine-steam: Battle Server for hosting LAN games"]
+
+[install]
+remove = ["*.vdf"]
+extra_paths = ["/usr/bin/aom-retold-lan", "/usr/share/agelanserver/games/aom-retold.conf",
+               "/usr/share/applications/aom-retold-lan.desktop"]
+
+[launcher]
+exe = "AoMRT_s.exe"
+writable = true
+writable_copy = ["cacert.pem"]
+
+[deb]
+parts = 6
+
+[hooks]
+post_install = '''
+# Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
+install -d steam_settings/load_dlls
+ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+# LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
+install -Dm644 "$PT_SRCDIR/aom-retold.agelan" "$D/usr/share/agelanserver/games/aom-retold.conf"
+install -Dm644 "$PT_SRCDIR/aom-retold-lan.desktop" "$D/usr/share/applications/aom-retold-lan.desktop"
+install -d "$D/usr/bin"
+echo '#!/bin/sh' > "$D/usr/bin/aom-retold-lan"
+echo 'exec agelan aom-retold "$@"' >> "$D/usr/bin/aom-retold-lan"
+chmod 755 "$D/usr/bin/aom-retold-lan"
+'''
+
+[desktop]
+name = "Age of Mythology: Retold"
+comment = "Age of Mythology: Retold (Wine)"
+categories = "Game;StrategyGame;"
+keywords = "strategy;rts;"

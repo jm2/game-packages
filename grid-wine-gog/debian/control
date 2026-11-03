@@ -1,0 +1,14 @@
+Source: grid-wine-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/race_driver_grid
+Rules-Requires-Root: no
+
+Package: grid-wine-gog
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Race Driver GRID (2008) using Wine with data via GOG
+ Race Driver GRID (2008) using Wine with data via GOG

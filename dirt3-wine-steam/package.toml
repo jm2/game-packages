@@ -1,0 +1,37 @@
+name = "dirt3-wine-steam"
+family = "wine-steam"
+id = "dirt3"
+version = "1.2"
+release = 2
+summary = "DiRT 3 Complete Edition using Wine with data via Steam"
+url = "https://steamdb.info/app/321040/"
+remove_files = ["dirt3.sh", "dirt3.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+notes = """
+If DiRT 3 crashes on the first start, set your native resolution in
+`Documents/My Games/DiRT3/hardwaresettings/hardware_settings_config.xml`
+(under `~/.local/share/gamelaunch/dirt3/userdata/`), and if that is not
+enough also `<directx forcedx9="true" />`."""
+deb = { parts = 2 }
+
+[source.steam]
+appid = 321040
+
+[gbe]
+libs = ["steam_api.dll"]
+
+[icon]
+exe = "dirt3_game.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "dirt3_game.exe"
+prereqs = ["openal|winetricks:openal"]
+
+[desktop]
+name = "DiRT 3"
+comment = "DiRT 3 Complete Edition (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;rally;codemasters"

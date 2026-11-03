@@ -1,0 +1,16 @@
+Source: doom3bfg-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/
+Rules-Requires-Root: no
+
+Package: doom3bfg-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Provides: doom3bfg-data
+Conflicts: doom3bfg-data-gog
+Description: Doom 3 BFG Edition data via Steam
+ Doom 3 BFG Edition data via Steam

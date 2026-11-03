@@ -1,0 +1,14 @@
+Source: simcity4-wine-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/simcity_4_deluxe_edition
+Rules-Requires-Root: no
+
+Package: simcity4-wine-gog
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: SimCity 4 Deluxe Edition using Wine with data via GOG
+ SimCity 4 Deluxe Edition using Wine with data via GOG

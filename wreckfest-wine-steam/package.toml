@@ -1,0 +1,36 @@
+name = "wreckfest-wine-steam"
+family = "wine-steam"
+id = "wreckfest"
+version = "1.30"
+release = 2
+summary = "Wreckfest using Wine with data via Steam"
+url = "https://store.steampowered.com/app/228380/Wreckfest/"
+remove_files = ["wreckfest.sh", "wreckfest.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 4 }
+
+[source.steam]
+appid = 228380
+
+[gbe]
+libs = ["steam_api64.dll", "?steam_api.dll"]
+
+[icon]
+exe = "Wreckfest.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "Wreckfest_x64.exe"
+variants = [
+  { flag = "m", exe = "Wreckfest_x64.exe", description = "64-bit Wreckfest_x64.exe" },
+  { flag = "l", exe = "Wreckfest.exe", description = "legacy 32-bit Wreckfest.exe" },
+]
+default_variant = "m"
+
+[desktop]
+name = "Wreckfest"
+comment = "Wreckfest (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;derby"

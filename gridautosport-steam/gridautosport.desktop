@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=GRID Autosport
-Comment=GRID Autosport Linux-native
-Exec=/usr/bin/gridautosport
+Comment=GRID Autosport (native Linux, Feral) with data via Steam
+Exec=gridautosport
 Icon=gridautosport
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;codemasters;

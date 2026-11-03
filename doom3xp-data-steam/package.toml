@@ -1,0 +1,14 @@
+name = "doom3xp-data-steam"
+family = "data-steam"
+version = "1"
+release = 2
+summary = "Doom 3: Resurrection of Evil data via Steam"
+url = "https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/"
+target = "/opt/doom3"
+provides = ["doom3xp-data"]
+conflicts = []
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+
+[source.steam]
+appid = 9070
+copy = ["d3xp/*.pk4"]

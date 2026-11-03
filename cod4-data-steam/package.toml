@@ -1,0 +1,20 @@
+name = "cod4-data-steam"
+family = "data-steam"
+version = "1"
+release = 2
+summary = "Call of Duty 4: Modern Warfare game data via Steam"
+url = "https://store.steampowered.com/app/7940/Call_of_Duty_4_Modern_Warfare/"
+target = "/opt/cod4"
+provides = ["cod4-data"]
+conflicts = []
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+deb = { parts = 2 }
+notes = """
+Installs the Steam CoD4 tree to /opt/cod4 for cod4-wine-steam (Wine) and the
+native KisakCOD engine (kisakcod-bin)."""
+
+[install]
+remove = ["*.vdf"]
+
+[source.steam]
+appid = 7940

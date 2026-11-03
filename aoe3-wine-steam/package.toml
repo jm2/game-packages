@@ -1,0 +1,32 @@
+name = "aoe3-wine-steam"
+family = "wine-steam"
+id = "aoe3"
+version = "1.03"
+release = 3
+summary = "Age of Empires III (2007) Complete Collection using Wine with data via Steam"
+url = "https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/"
+extra_files = ["aoe3.png"]
+remove_files = ["aoe3.sh", "aoe3.install"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+
+[source.steam]
+appid = 105450
+subdir = "bin/"
+
+[icon]
+file = "aoe3.png"
+
+[launcher]
+exe = "age3y.exe"
+args = ["+noIntroCinematics"]
+variants = [
+  { flag = "o", exe = "age3.exe", description = "Age of Empires III (original game)" },
+  { flag = "x", exe = "age3x.exe", description = "The WarChiefs" },
+  { flag = "y", exe = "age3y.exe", description = "The Asian Dynasties" },
+]
+default_variant = "y"
+
+[desktop]
+name = "Age of Empires III"
+comment = "Age of Empires III Complete Collection (Wine)"
+categories = "Game;StrategyGame;"

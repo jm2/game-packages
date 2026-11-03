@@ -1,0 +1,42 @@
+name = "trine-gog"
+family = "native-gog"
+id = "trine"
+version = "2.0.0.2"
+native32 = true   # 32-bit x86: FEX on aarch64, box64 cannot run it
+release = 2
+summary = "Trine Enchanted Edition (native Linux) with data via GOG"
+url = "https://www.gog.com/game/trine_enchanted_edition"
+remove_files = ["trine.sh"]
+changelog = ["Switch to gamelaunch"]
+notes = """
+libpng12 is only available on Arch (lib32-libpng12/libpng12 from the AUR); on
+Fedora/Debian provide it yourself if the game reports it missing."""
+
+[[source.files]]
+name = "gog_trine_enchanted_edition_2.0.0.2.sh"
+url = "gogdownloader://trine_enchanted_edition/en3installer1"
+sha256 = "c1d0a0c882f3b0b687b81e571de3f878b28485bcbb3bb6e6bea788980e6d971f"
+extract = "mojo"
+subdir = "data/noarch"
+
+[icon]
+png = "support/icon.png"
+
+[launcher]
+exe = "start.sh"
+
+[desktop]
+name = "Trine Enchanted Edition"
+categories = "Game;ActionGame;"
+
+[hooks]
+post_install = """
+# The bundled libraries conflict with the system ones the package depends on.
+rm -f lib/*
+"""
+
+[deps]
+arch = ["xorg-xwininfo", "lib32-glu", "lib32-libxxf86vm", "lib32-openal", "lib32-libx11", "lib32-libdrm", "lib32-libvorbis", "lib32-freetype2", "lib32-libogg", "lib32-gtk2", "lib32-gdk-pixbuf2", "lib32-libpng12"]
+fedora = ["xwininfo", "mesa-libGLU(x86-32)", "libXxf86vm(x86-32)", "openal-soft(x86-32)", "libX11(x86-32)", "libdrm(x86-32)", "libvorbis(x86-32)", "freetype(x86-32)", "libogg(x86-32)", "gtk2(x86-32)", "gdk-pixbuf2(x86-32)"]
+debian = ["x11-utils", "libglu1-mesa:i386", "libxxf86vm1:i386", "libopenal1:i386", "libx11-6:i386", "libdrm2:i386", "libvorbisfile3:i386", "libfreetype6:i386", "libogg0:i386", "libgtk2.0-0t64:i386"]
+optional_arch = ["lib32-gtk-engine-murrine: silences the GTK murrine warning", "lib32-gtk-engines: silences the GTK adwaita warning"]

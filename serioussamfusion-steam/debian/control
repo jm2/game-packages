@@ -1,0 +1,35 @@
+Source: serioussamfusion-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, gbe-fork-bin
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/
+Rules-Requires-Root: no
+
+Package: serioussamfusion-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, serioussamfusion-steam-data1 (= ${binary:Version}), serioussamfusion-steam-data2 (= ${binary:Version}), serioussamfusion-steam-data3 (= ${binary:Version}), ${misc:Depends}
+Description: Serious Sam Fusion 2017 (native Linux) with data via Steam
+ Serious Sam Fusion 2017 (native Linux) with data via Steam
+
+Package: serioussamfusion-steam-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: Serious Sam Fusion 2017 (native Linux) with data via Steam (data part 1)
+ Part 1 of the game data for serioussamfusion-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: serioussamfusion-steam-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: Serious Sam Fusion 2017 (native Linux) with data via Steam (data part 2)
+ Part 2 of the game data for serioussamfusion-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: serioussamfusion-steam-data3
+Architecture: all
+Depends: ${misc:Depends}
+Description: Serious Sam Fusion 2017 (native Linux) with data via Steam (data part 3)
+ Part 3 of the game data for serioussamfusion-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.

@@ -1,0 +1,32 @@
+name = "dungeondefenders-hib"
+family = "native-hib"
+id = "dungeondefenders"
+version = "03052013"
+native32 = true   # 32-bit x86: FEX on aarch64, box64 cannot run it
+release = 2
+summary = "Dungeon Defenders (native Linux) with data via Humble Bundle"
+url = "https://www.humblebundle.com/store/dungeon-defenders-collection"
+remove_files = ["dungeondefenders.sh"]
+changelog = ["Switch to gamelaunch; define a hib:// handler with download instructions"]
+
+[[source.files]]
+name = "dundef-linux-03052013.mojo.run"
+url = "hib://dundef-linux-03052013.mojo.run"
+sha256 = "bc81021859871169285111ef7b1806952dcc17b128f3e387d9b5072918490c61"
+extract = "mojo"
+subdir = "data"
+
+[icon]
+png = "*.png"
+
+[launcher]
+exe = "DungeonDefenders"
+
+[desktop]
+name = "Dungeon Defenders"
+categories = "Game;StrategyGame;"
+
+[deps]
+arch = ["libgl", "libx11", "libxext"]
+fedora = ["mesa-libGL", "libX11", "libXext"]
+debian = ["libgl1", "libx11-6", "libxext6"]

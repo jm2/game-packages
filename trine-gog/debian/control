@@ -1,0 +1,14 @@
+Source: trine-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/trine_enchanted_edition
+Rules-Requires-Root: no
+
+Package: trine-gog
+Architecture: amd64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Trine Enchanted Edition (native Linux) with data via GOG
+ Trine Enchanted Edition (native Linux) with data via GOG

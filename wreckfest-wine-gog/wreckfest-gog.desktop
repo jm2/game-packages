@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Wreckfest (GOG)
+Comment=Wreckfest (Wine)
+Exec=wreckfest-gog
+Icon=wreckfest-gog
+Terminal=false
+Categories=Game;SportsGame;
+Keywords=racing;derby;

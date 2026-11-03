@@ -1,0 +1,2 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+bc81021859871169285111ef7b1806952dcc17b128f3e387d9b5072918490c61 dundef-linux-03052013.mojo.run local

@@ -1,0 +1,19 @@
+Source: ut2004-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/
+Rules-Requires-Root: no
+
+Package: ut2004-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: ut2004-bin
+Provides: ut2004-data
+Conflicts: ut2004-data, ut2004-gog
+Description: Unreal Tournament 2004 ECE data from Steam
+ Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
+ Steam with steamcmd and installed to /opt/ut2004. Play it with the native
+ OldUnreal binaries from ut2004-bin.

@@ -1,0 +1,68 @@
+name = "unreal-tournament-data-steam"
+family = "data-steam"
+version = "436"
+release = 4
+summary = "Unreal Tournament 99 (GOTY) data from Steam"
+description = """
+Game data for Unreal Tournament: Game of the Year Edition, downloaded from
+Steam with steamcmd and installed to /opt/unreal-tournament. Play it with
+the native OldUnreal binaries from unreal-tournament-bin."""
+url = "https://store.steampowered.com/app/13240/Unreal_Tournament_Game_of_the_Year_Edition/"
+target = "/opt/unreal-tournament"
+provides = ["unreal-tournament-data"]
+conflicts = ["unreal-tournament-data"]
+changelog = [
+  "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
+  "Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt",
+  "Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files",
+]
+
+[source.steam]
+appid = 13240
+
+[deps]
+optional_arch = ["unreal-tournament-bin: native binaries to play the game"]
+recommends_fedora = ["unreal-tournament-bin"]
+
+[deb]
+recommends = ["unreal-tournament-bin"]
+
+[hooks]
+post_prepare = '''
+rm -rf common directx9c
+rm -f installscript.vdf
+
+# --- shared UT99 data cleanup (same block in every unreal-tournament-data-* package) ---
+# ut_rm <dir> <name...>: delete <dir>/<name>, matching the name in any case.
+ut_rm() {
+    local dir=$1 n; shift
+    [ -d "$dir" ] || return 0
+    for n in "$@"; do find "$dir" -maxdepth 1 -iname "$n" -exec rm -rf {} +; done
+}
+# Files that unreal-tournament-bin (OldUnreal 469e) installs. Drop the
+# originals in any case, so the packages don't conflict and the engine never
+# loads a stale wrong-case copy (the CD has BotPack.u, the patch Botpack.u).
+ut_rm System Botpack.u Core.u de.u Editor.u Engine.u epiccustommodels.u Fire.u \
+    IpDrv.u IpServer.u multimesh.u OldUnreal469c.u relicsbindings.u relics.u \
+    SkeletalChars.u UBrowser.u udemo.u UMenu.u UnrealI.u UnrealShare.u \
+    UTBrowser.u UTMenu.u UTServerAdmin.u UWeb.u UWindow.u Default.ini \
+    DefUser.ini Packages.md5
+ut_rm Help ReleaseNotes.htm
+ut_rm Textures LadderFonts.utx UWindowFonts.utx
+ut_rm . Web
+# Windows settings: 469e writes its own UnrealTournament.ini/User.ini to
+# ~/.utpg/System from the patch's Default.ini/DefUser.ini.
+ut_rm System UnrealTournament.ini User.ini
+# Localisation comes from the patch's SystemLocalized/ (as in OldUnreal's
+# installer); the old copies in System/ would shadow it.
+find System -maxdepth 1 -type f \( -iname '*.int' -o -iname '*.ctt' -o -iname '*.det' \
+    -o -iname '*.elt' -o -iname '*.est' -o -iname '*.frt' -o -iname '*.itt' \
+    -o -iname '*.nlt' -o -iname '*.ptt' -o -iname '*.rut' \) -delete
+# Windows-only programs, libraries, old setup and stats tools.
+find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' \) -delete
+ut_rm . Autorun.inf DirectX7 GameSpy Microsoft NetGamesUSA.com System400 Logs
+# DM-Cybrosis][ is also used as a Domination map.
+if [ -f 'Maps/DM-Cybrosis][.unr' ] && [ ! -f 'Maps/DOM-Cybrosis][.unr' ]; then
+    cp 'Maps/DM-Cybrosis][.unr' 'Maps/DOM-Cybrosis][.unr'
+fi
+'''

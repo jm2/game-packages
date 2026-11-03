@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Torchlight 2
-Comment=Torchlight II Linux-native
-Exec=/usr/bin/torchlight2
+Type=Application
+Name=Torchlight II
+Comment=Torchlight II (native Linux) with data via GOG
+Exec=torchlight2
 Icon=torchlight2
 Terminal=false
-Type=Application
-Categories=Game;
+Categories=Game;RolePlaying;

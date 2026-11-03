@@ -1,0 +1,54 @@
+name = "codwaw-wine-steam"
+family = "wine-steam"
+id = "codwaw"
+version = "1.7"
+release = 3
+summary = "Call of Duty: World at War using Wine with data via Steam"
+url = "https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/"
+remove_files = ["codwaw.sh"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+notes = """
+The executables are replaced with DRM-free builds from
+jm2/archlinux-package-codwaw-wine-steam."""
+
+[source.steam]
+appid = 10090
+
+[[source.files]]
+name = "CoDWaW.exe"
+url = "https://github.com/jm2/archlinux-package-codwaw-wine-steam/raw/master/CoDWaW.exe"
+sha256 = "f751d06799ed27f30c61d157ed292aa3adce73fbf9c30b92a5657b29624e8b31"
+extract = "copy"
+
+[[source.files]]
+name = "CoDWaWlf.exe"
+url = "https://github.com/jm2/archlinux-package-codwaw-wine-steam/raw/master/CoDWaWlf.exe"
+sha256 = "16ff3bb33af41b9d4d59e47df7e6e6074b27d54801714464af0eaba2af1e64f4"
+extract = "copy"
+
+[[source.files]]
+name = "CoDWaWmp.exe"
+url = "https://github.com/jm2/archlinux-package-codwaw-wine-steam/raw/master/CoDWaWmp.exe"
+sha256 = "b0e265592901cd248b7358e8b37c8c1b5c85c6b24fb3cb378f62d601378e4fae"
+extract = "copy"
+
+[icon]
+exe = "CoDWaW.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "CoDWaWlf.exe"
+writable = true
+variants = [
+  { flag = "z", exe = "CoDWaWlf.exe", description = "campaign and zombies (large-address-aware build)" },
+  { flag = "s", exe = "CoDWaW.exe", description = "campaign and zombies (standard build)" },
+  { flag = "m", exe = "CoDWaWmp.exe", description = "multiplayer" },
+]
+default_variant = "z"
+
+[desktop]
+name = "Call of Duty: World at War"
+comment = "Call of Duty: World at War (Wine)"
+categories = "Game;ActionGame;Shooter;"

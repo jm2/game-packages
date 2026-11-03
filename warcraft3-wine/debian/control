@@ -1,0 +1,14 @@
+Source: warcraft3-wine
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://us.forums.blizzard.com/en/warcraft3/t/classic-warcraft-iii-official-installers-official-patches/21415
+Rules-Requires-Root: no
+
+Package: warcraft3-wine
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: Warcraft III Classic (1.27) using Wine
+ Warcraft III Classic (1.27) using Wine

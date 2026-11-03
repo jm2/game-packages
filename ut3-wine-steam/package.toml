@@ -1,0 +1,28 @@
+name = "ut3-wine-steam"
+family = "wine-steam"
+id = "ut3"
+version = "2.1"
+release = 2
+summary = "Unreal Tournament 3 Black using Wine with data via Steam"
+url = "https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/"
+extra_files = ["ut3.png"]
+remove_files = ["ut3.sh"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+
+[source.steam]
+appid = 13210
+
+[icon]
+file = "ut3.png"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "Binaries/UT3.exe"
+args = ["-nostartupmovies"]
+
+[desktop]
+name = "Unreal Tournament 3"
+comment = "Unreal Tournament 3 Black (Wine)"
+categories = "Game;ActionGame;Shooter;"

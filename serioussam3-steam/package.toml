@@ -1,0 +1,29 @@
+name = "serioussam3-steam"
+family = "native-steam"
+id = "serioussam3"
+version = "1.0"
+native32 = true   # 32-bit x86: FEX on aarch64, box64 cannot run it
+release = 2
+summary = "Serious Sam 3: BFE (native Linux) with data via Steam"
+url = "https://store.steampowered.com/app/41070/Serious_Sam_3_BFE/"
+extra_files = ["serioussam3.png"]
+remove_files = ["serioussam3.sh"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+
+[source.steam]
+appid = 41070
+platform = "linux"
+
+[gbe]
+libs = ["Bin/libsteam_api.so"]
+linux_arch = "x86"
+
+[icon]
+file = "serioussam3.png"
+
+[launcher]
+exe = "Bin/Sam3"
+
+[desktop]
+name = "Serious Sam 3: BFE"
+categories = "Game;ActionGame;Shooter;"

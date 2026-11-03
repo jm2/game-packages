@@ -1,0 +1,14 @@
+Source: simcity-3000-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, innoextract, unzip, libarchive-tools
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/simcity_3000
+Rules-Requires-Root: no
+
+Package: simcity-3000-gog
+Architecture: amd64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Description: SimCity 3000 Unlimited (Loki Linux port) with data via GOG
+ SimCity 3000 Unlimited (Loki Linux port) with data via GOG

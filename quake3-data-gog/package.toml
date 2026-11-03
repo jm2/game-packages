@@ -1,0 +1,18 @@
+name = "quake3-data-gog"
+family = "data-gog"
+version = "1"
+release = 3
+summary = "Quake III Arena and Team Arena data via GOG"
+url = "https://www.gog.com/game/quake_iii_gold"
+target = "/opt/quake3"
+provides = ["quake3-data"]
+conflicts = ["quake3-data-steam", "quake3-ta-data-steam"]
+changelog = ["Generated from package.toml"]
+
+[[source.files]]
+name = "setup_quake3_2.0.0.2.exe"
+url = "gogdownloader://quake_iii_arena_and_team_arena/en1installer1"
+sha256 = "f5471b4b29ea9a10cf5d1a8af2bedeedd4a8cfe1c60b1d52878f80a13bf4d5d6"
+extract = "inno"
+subdir = "app"
+copy = ["baseq3/pak0.pk3", "missionpack/pak0.pk3"]

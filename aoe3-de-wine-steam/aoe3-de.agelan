@@ -1,0 +1,5 @@
+# ageLANServer descriptor for Age of Empires III: DE, read by agelan (agelanserver-bin).
+AGELAN_GAME=age3
+GAME_DIR=/opt/aoe3-de
+CACERT=cacert.pem
+BATTLESERVER=BattleServer.exe

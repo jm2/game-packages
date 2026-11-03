@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=DiRT 3
-Comment=DiRT 3 Complete Edition WINE
-Exec=/usr/bin/dirt3
+Comment=DiRT 3 Complete Edition (Wine)
+Exec=dirt3
 Icon=dirt3
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;
+Keywords=racing;rally;codemasters;

@@ -1,0 +1,4 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+f751d06799ed27f30c61d157ed292aa3adce73fbf9c30b92a5657b29624e8b31 CoDWaW.exe https://github.com/jm2/archlinux-package-codwaw-wine-steam/raw/master/CoDWaW.exe
+16ff3bb33af41b9d4d59e47df7e6e6074b27d54801714464af0eaba2af1e64f4 CoDWaWlf.exe https://github.com/jm2/archlinux-package-codwaw-wine-steam/raw/master/CoDWaWlf.exe
+b0e265592901cd248b7358e8b37c8c1b5c85c6b24fb3cb378f62d601378e4fae CoDWaWmp.exe https://github.com/jm2/archlinux-package-codwaw-wine-steam/raw/master/CoDWaWmp.exe

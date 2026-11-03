@@ -1,8 +1,8 @@
 [Desktop Entry]
+Type=Application
 Name=Distance
-Comment=Distance Linux-native
-Exec=/usr/bin/distance
+Comment=Distance (native Linux) with data via Humble Bundle
+Exec=distance
 Icon=distance
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;SportsGame;

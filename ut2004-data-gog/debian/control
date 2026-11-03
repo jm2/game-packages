@@ -1,0 +1,19 @@
+Source: ut2004-data-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/unreal_tournament_2004_ece
+Rules-Requires-Root: no
+
+Package: ut2004-data-gog
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: ut2004-bin
+Provides: ut2004-data
+Conflicts: ut2004-data, ut2004-gog
+Description: Unreal Tournament 2004 ECE data from GOG
+ Game data for Unreal Tournament 2004: Editor's Choice Edition, extracted from
+ the GOG installer you download yourself and installed to /opt/ut2004. Play it
+ with the native OldUnreal binaries from ut2004-bin.

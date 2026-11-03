@@ -1,0 +1,29 @@
+Source: cod4-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/7940/Call_of_Duty_4_Modern_Warfare/
+Rules-Requires-Root: no
+
+Package: cod4-data-steam
+Architecture: all
+Depends: cod4-data-steam-data1 (= ${binary:Version}), cod4-data-steam-data2 (= ${binary:Version}), ${misc:Depends}
+Provides: cod4-data
+Description: Call of Duty 4: Modern Warfare game data via Steam
+ Call of Duty 4: Modern Warfare game data via Steam
+
+Package: cod4-data-steam-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: Call of Duty 4: Modern Warfare game data via Steam (data part 1)
+ Part 1 of the game data for cod4-data-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: cod4-data-steam-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: Call of Duty 4: Modern Warfare game data via Steam (data part 2)
+ Part 2 of the game data for cod4-data-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.

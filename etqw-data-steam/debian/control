@@ -1,0 +1,15 @@
+Source: etqw-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://steamdb.info/app/10000/
+Rules-Requires-Root: no
+
+Package: etqw-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Provides: etqw-data
+Description: Enemy Territory: Quake Wars data via Steam
+ Enemy Territory: Quake Wars data via Steam

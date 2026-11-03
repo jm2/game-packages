@@ -1,0 +1,50 @@
+name = "grid-wine-gog"
+family = "wine-gog"
+id = "grid"
+version = "1.3"
+release = 2
+summary = "Race Driver GRID (2008) using Wine with data via GOG"
+url = "https://www.gog.com/game/race_driver_grid"
+extra_files = ["hardware_settings_restrictions.xml"]
+remove_files = ["grid.sh", "grid.install"]
+changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+notes = """
+For better visuals set `<postprocess enabled="false" blur="false" />` in
+`Documents/Codemasters/GRID/hardwaresettings/hardware_settings_config.xml`
+(under `~/.local/share/gamelaunch/grid/userdata/`)."""
+
+[[source.files]]
+name = "setup_race_driver_grid_1.0_(18584).exe"
+url = "gogdownloader://race_driver_grid/en1installer0"
+sha256 = "cd3484b6908f89c3b6df0bf8b75b62fced56de2458cdad184006fc72ac29324c"
+extract = "inno"
+subdir = "app"
+
+[[source.files]]
+name = "setup_race_driver_grid_1.0_(18584)-1.bin"
+url = "gogdownloader://race_driver_grid/en1installer1"
+sha256 = "17cbdf2d1844607bf17b678a497bbfa77c9b726b12c46e01320618e32f37eafb"
+
+[[source.files]]
+name = "setup_race_driver_grid_1.0_(18584)-2.bin"
+url = "gogdownloader://race_driver_grid/en1installer2"
+sha256 = "8d0d40d65ce960ed86ddad7bd41d9ec0e04a69f3598822694ee282ab51b3ec8e"
+
+[icon]
+ico = "goggame-*.ico"
+
+[hooks]
+post_install = """
+install -m644 "$PT_SRCDIR/hardware_settings_restrictions.xml" system/
+"""
+
+[launcher]
+exe = "GRID.exe"
+env = ["WINE_LARGE_ADDRESS_AWARE=1"]
+prereqs = ["openal|winetricks:openal"]
+
+[desktop]
+name = "Race Driver: GRID"
+comment = "Race Driver GRID (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;codemasters"

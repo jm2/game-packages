@@ -1,0 +1,4 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+e184984ca88f001c5ddd52035d76cd64e266e26c74975161b5ed72366c74704f UT_GOTY_CD1.iso https://archive.org/download/ut-goty/UT_GOTY_CD1.iso
+08c806aa3721b1970045aa158ad90051329d982e8a9a3661153900e9ccbf6b0c OldUnreal-UTPatch469e-Linux-amd64.tar.bz2 https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469e/OldUnreal-UTPatch469e-Linux-amd64.tar.bz2
+4c3978073b12b049c3ffdeb4d275cfc7a2313650f3eb5b94db06fbfee77c3e3b OldUnreal-UTPatch469e-Linux-arm64.tar.bz2 https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469e/OldUnreal-UTPatch469e-Linux-arm64.tar.bz2

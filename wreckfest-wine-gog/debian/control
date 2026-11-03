@@ -1,0 +1,42 @@
+Source: wreckfest-wine-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, innoextract
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/en/game/wreckfest
+Rules-Requires-Root: no
+
+Package: wreckfest-wine-gog
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, wreckfest-wine-gog-data1 (= ${binary:Version}), wreckfest-wine-gog-data2 (= ${binary:Version}), wreckfest-wine-gog-data3 (= ${binary:Version}), wreckfest-wine-gog-data4 (= ${binary:Version}), ${misc:Depends}
+Description: Wreckfest using Wine with data via GOG
+ Wreckfest using Wine with data via GOG
+
+Package: wreckfest-wine-gog-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: Wreckfest using Wine with data via GOG (data part 1)
+ Part 1 of the game data for wreckfest-wine-gog, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: wreckfest-wine-gog-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: Wreckfest using Wine with data via GOG (data part 2)
+ Part 2 of the game data for wreckfest-wine-gog, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: wreckfest-wine-gog-data3
+Architecture: all
+Depends: ${misc:Depends}
+Description: Wreckfest using Wine with data via GOG (data part 3)
+ Part 3 of the game data for wreckfest-wine-gog, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: wreckfest-wine-gog-data4
+Architecture: all
+Depends: ${misc:Depends}
+Description: Wreckfest using Wine with data via GOG (data part 4)
+ Part 4 of the game data for wreckfest-wine-gog, split so no package exceeds
+ the .deb size limit. Install the main package instead.

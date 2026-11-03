@@ -1,0 +1,34 @@
+name = "trine3-gog"
+family = "native-gog"
+id = "trine3"
+version = "2.2.0.4"
+release = 3
+summary = "Trine 3: The Artifacts of Power (native Linux) with data via GOG"
+url = "https://www.gog.com/game/trine_3_the_artifacts_of_power"
+remove_files = ["trine3.sh"]
+changelog = ["Switch to gamelaunch"]
+notes = """
+libpng12 is only available on Arch (lib32-libpng12/libpng12 from the AUR); on
+Fedora/Debian provide it yourself if the game reports it missing."""
+
+[[source.files]]
+name = "gog_trine_3_the_artifacts_of_power_2.2.0.4.sh"
+url = "gogdownloader://trine_3_the_artifacts_of_power/en3installer4"
+sha256 = "81e20187a3987d10b4472cfcdb0e14e2ff702b63ff2314597d894759dfe50968"
+extract = "mojo"
+subdir = "data/noarch"
+
+[icon]
+png = "support/icon.png"
+
+[launcher]
+exe = "start.sh"
+
+[desktop]
+name = "Trine 3: The Artifacts of Power"
+categories = "Game;ActionGame;"
+
+[deps]
+arch = ["xorg-xwininfo", "glu", "libxxf86vm", "openal", "libdrm", "libpng12", "libogg", "libvorbis", "freetype2", "libx11"]
+fedora = ["xwininfo", "mesa-libGLU", "libXxf86vm", "openal-soft", "libdrm", "libogg", "libvorbis", "freetype", "libX11"]
+debian = ["x11-utils", "libglu1-mesa", "libxxf86vm1", "libopenal1", "libdrm2", "libogg0", "libvorbisfile3", "libfreetype6", "libx11-6"]

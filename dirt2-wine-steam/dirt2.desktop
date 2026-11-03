@@ -1,8 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=DiRT 2
-Comment=Colin McRae: DiRT 2 WINE
-Exec=/usr/bin/dirt2
+Comment=Colin McRae: DiRT 2 (Wine)
+Exec=dirt2
 Icon=dirt2
 Terminal=false
-Type=Application
-Categories=Application;Game;
+Categories=Game;Simulation;
+Keywords=racing;rally;codemasters;

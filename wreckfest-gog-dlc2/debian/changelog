@@ -1,0 +1,5 @@
+wreckfest-gog-dlc2 (1.0o-2) unstable; urgency=medium
+
+  * Install into /opt/wreckfest-gog so the game finds the DLC; fix checksums
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

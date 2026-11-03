@@ -1,0 +1,57 @@
+Source: dirt4-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, gbe-fork-bin
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/421020/DiRT_4/
+Rules-Requires-Root: no
+
+Package: dirt4-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, dirt4-wine-steam-data1 (= ${binary:Version}), dirt4-wine-steam-data2 (= ${binary:Version}), dirt4-wine-steam-data3 (= ${binary:Version}), dirt4-wine-steam-data4 (= ${binary:Version}), dirt4-wine-steam-data5 (= ${binary:Version}), dirt4-wine-steam-data6 (= ${binary:Version}), ${misc:Depends}
+Conflicts: dirt4-steam
+Description: DiRT 4 using Wine with data via Steam
+ DiRT 4 using Wine with data via Steam
+
+Package: dirt4-wine-steam-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT 4 using Wine with data via Steam (data part 1)
+ Part 1 of the game data for dirt4-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirt4-wine-steam-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT 4 using Wine with data via Steam (data part 2)
+ Part 2 of the game data for dirt4-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirt4-wine-steam-data3
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT 4 using Wine with data via Steam (data part 3)
+ Part 3 of the game data for dirt4-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirt4-wine-steam-data4
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT 4 using Wine with data via Steam (data part 4)
+ Part 4 of the game data for dirt4-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirt4-wine-steam-data5
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT 4 using Wine with data via Steam (data part 5)
+ Part 5 of the game data for dirt4-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirt4-wine-steam-data6
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT 4 using Wine with data via Steam (data part 6)
+ Part 6 of the game data for dirt4-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.

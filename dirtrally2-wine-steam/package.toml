@@ -1,0 +1,31 @@
+name = "dirtrally2-wine-steam"
+family = "wine-steam"
+id = "dirtrally2"
+version = "1.18"
+release = 2
+summary = "DiRT Rally 2.0 using Wine with data via Steam"
+url = "https://store.steampowered.com/app/690790/DiRT_Rally_20/"
+remove_files = ["dirtrally2.sh", "dirtrally2.install"]
+changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+deb = { parts = 12 }
+
+[source.steam]
+appid = 690790
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "dirtrally2.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "dirtrally2.exe"
+
+[desktop]
+name = "DiRT Rally 2.0"
+comment = "DiRT Rally 2.0 (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;rally;codemasters"
