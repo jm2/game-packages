@@ -1,14 +1,40 @@
 [Unit]
-Description=GeyserMC - A bridge between Minecraft: Bedrock Edition and Minecraft: Java Edition.
-ConditionPathExists=/etc/geysermc/config.yml
-Requires=network.target local-fs.target
-After=remote-fs.target zfs.target
+Description=GeyserMC standalone proxy (Minecraft: Bedrock Edition to Java Edition)
+Documentation=https://geysermc.org/wiki/geyser/
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple
-WorkingDirectory=/usr/share/geysermc
-ExecStart=/usr/bin/java -Xms1024M -jar Geyser.jar
-Restart=always
+User=geysermc
+Group=geysermc
+# Logs, caches, packs, extensions and keys go to the working directory.
+StateDirectory=geysermc
+WorkingDirectory=/var/lib/geysermc
+# Geyser rewrites config.yml when it migrates it and keeps saved logins next
+# to it, so /etc/geysermc is writable by the geysermc group (tmpfiles.d).
+ExecStart=/usr/bin/java -Xms1024M -jar /usr/share/geysermc/Geyser.jar --nogui --config /etc/geysermc/config.yml
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=5
+
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/etc/geysermc
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 
 [Install]
 WantedBy=multi-user.target

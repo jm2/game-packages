@@ -1,28 +1,38 @@
-# Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=geysermc-bin
-pkgver=1.1.0.5b76a85
+_ver=2.12.1
+_build=1283
+_commit=8c61d73988ff3c1a30a001bdc798ac7833376c5e
+pkgver=${_ver}.b${_build}
 pkgrel=1
-pkgdesc="Geyser is a bridge between Minecraft: Bedrock Edition and Minecraft: Java Edition, closing the gap from those wanting to play true cross-platform."
+pkgdesc="Bridge that lets Minecraft: Bedrock Edition clients join Minecraft: Java Edition servers (standalone jar)"
 arch=('any')
-url="https://github.com/GeyserMC/Geyser"
+url="https://geysermc.org/"
 license=('MIT')
+depends=('java-runtime-headless>=21')
+provides=('geysermc')
+conflicts=('geysermc')
 backup=('etc/geysermc/config.yml')
-depends=('java-runtime=8')
-source=("https://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar" "geysermc.service")
-md5sums=('SKIP'
-         '7043a1445d39f7ee753c9c1513472890')
+source=("Geyser-Standalone-${_ver}-b${_build}.jar::https://download.geysermc.org/v2/projects/geyser/versions/${_ver}/builds/${_build}/downloads/standalone"
+        "LICENSE-${_commit}::https://raw.githubusercontent.com/GeyserMC/Geyser/${_commit}/LICENSE"
+        "install.sh"
+        "config.yml"
+        "geysermc.service"
+        "geysermc.sysusers"
+        "geysermc.tmpfiles"
+        "README.md")
+noextract=("Geyser-Standalone-${_ver}-b${_build}.jar")
+sha256sums=('2b1c47c62d209695e2f1abbfca193d5db30d71f42cb0b661a22435651aacee92'
+            '7421fa1da9de486b73147a11a0facdc7994c03b3d502720a2e269d944055595a'
+            '0d19a1e970ebe1ac30312b0b207e9cde4108042ee3f938e2b5fe57a6bf50c232'
+            'dc09cd9677195159413b679a12ba003dfb8613a75c685cadbd433c29389a2a7f'
+            'be0d0a4f4c33d68f5ba6d5434722b8d101f0c727f0bd7e3df7bdec848701c235'
+            'baaa43f0501c3d193d8fe9f9372eb97180e9393859f288413aac6cb477361727'
+            '5a779dc12a2606e24b8848fb4b9b2f303475d8a256ac685ac93c45792595e217'
+            '26be77a051b2da8553cf4ab88fd7bf3a18e066082afe5a7bae90e040e89d43a6')
 
-pkgver () {
-  cd "${srcdir}"
-  echo "$(cat git.properties | grep version | cut -d= -f2).$(cat git.properties | grep id.abbrev | cut -d= -f2)"
-}
-
-package () {
-  mkdir -p "${pkgdir}/usr/share/geysermc"
-  mkdir -p "${pkgdir}/etc/geysermc"
-  install -Dm644 "${srcdir}/Geyser.jar" "${pkgdir}/usr/share/geysermc/Geyser.jar"
-  install -Dm644 "${srcdir}/config.yml" "${pkgdir}/etc/geysermc/config.yml"
-  install -Dm644 "${srcdir}/geysermc.service" "${pkgdir}/usr/lib/systemd/system/geysermc.service"
-  ln -s "/etc/geysermc/config.yml" "${pkgdir}/usr/share/geysermc/config.yml"
+package() {
+  sh install.sh "${srcdir}" "Geyser-Standalone-${_ver}-b${_build}.jar" "${pkgdir}" "${pkgname}"
+  install -Dm644 "LICENSE-${_commit}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

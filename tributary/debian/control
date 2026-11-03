@@ -1,0 +1,21 @@
+Source: tributary
+Section: sound
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cargo, rustc (>= 1.94), pkgconf,
+ libglib2.0-dev-bin, libgtk-4-dev (>= 4.16), libadwaita-1-dev (>= 1.6),
+ libgstreamer1.0-dev, libgstreamer-plugins-base1.0-dev, libdbus-1-dev,
+ curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/tributary
+Rules-Requires-Root: no
+
+Package: tributary
+Architecture: amd64 arm64
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-4-1 (>= 4.16),
+ libadwaita-1-0 (>= 1.6), gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad,
+ gstreamer1.0-plugins-ugly, gstreamer1.0-libav
+Description: Rhythmbox-style media manager with local and remote backends
+ Tributary is a Rhythmbox-style music manager for GNOME, written in Rust with
+ GTK4 and libadwaita. One library view browses and plays local music alongside
+ Subsonic/Navidrome, Jellyfin and Plex servers, DAAP shares and internet radio.

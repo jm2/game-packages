@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+JAR := Geyser-Standalone-2.12.1-b1283.jar
+D := debian/geysermc-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+
+override_dh_auto_install:
+	sh install.sh . $(JAR) $(D) geysermc-bin
+
+# Installed, but not enabled until configured (as on Arch and Fedora).
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start

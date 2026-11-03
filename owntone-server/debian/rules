@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+SRC := owntone-29.3
+D := $(CURDIR)/debian/owntone-server
+
+%:
+	dh $@ --sourcedirectory=$(SRC)
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf $(SRC) && tar -xJf $(SRC).tar.xz
+	dh_auto_configure -- \
+		--with-systemddir=/usr/lib/systemd/system \
+		--enable-chromecast --with-libwebsockets --with-avahi --with-alsa --with-pulseaudio
+
+override_dh_auto_install:
+	$(MAKE) -C $(SRC) install DESTDIR=$(D)
+	sh install.sh . $(D) owntone-server
+
+# Like Arch and Fedora: installed, but not enabled until configured.
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf $(SRC)

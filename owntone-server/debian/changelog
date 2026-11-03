@@ -1,0 +1,5 @@
+owntone-server (29.3-1) unstable; urgency=medium
+
+  * Local Debian build of OwnTone 29.3, running as a sysusers.d owntone user.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

@@ -1,0 +1,64 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: Denis Yantarev <denis dot yantarev at gmail dot com>
+# Contributor: SJ_UnderWater
+# Contributor: Dominik Dingel <mail at wodar dot de>
+
+# Arch only: Fedora and Debian ship netatalk 4.x with AppleTalk enabled.
+pkgname=netatalk-appletalk
+_pkgname=netatalk
+pkgver=4.6.1
+pkgrel=1
+pkgdesc="Apple Filing Protocol (AFP) file server with the AppleTalk (DDP) stack: atalkd, papd, timelord, a2boot, macipgw"
+arch=('x86_64' 'aarch64')
+url="https://netatalk.io/"
+license=('GPL-2.0-or-later')
+depends=('acl' 'avahi' 'bash' 'cracklib' 'db5.3' 'file' 'glibc' 'iniparser' 'krb5' 'libcups'
+         'libevent' 'libgcc' 'libgcrypt' 'libldap' 'libtirpc' 'libxcrypt' 'pam' 'perl' 'libstdc++' 'sqlite' 'talloc'
+         'xapian-core')
+makedepends=('cmark' 'meson' 'rpcsvc-proto')
+optdepends=('cups: print from Macs through papd')
+provides=("netatalk=${pkgver}" 'netatalk-ddp')
+conflicts=('netatalk' 'netatalk-ddp')
+replaces=('netatalk' 'netatalk-ddp')
+backup=('etc/afp.conf'
+        'etc/atalkd.conf'
+        'etc/extmap.conf'
+        'etc/macipgw.conf'
+        'etc/papd.conf'
+        'etc/pam.d/netatalk')
+source=("https://github.com/Netatalk/netatalk/releases/download/${_pkgname}-${pkgver//./-}/${_pkgname}-${pkgver}.tar.xz"
+        "README.md")
+sha256sums=('c97412f7f4bbbbfa922664f52b9d6a5f75282b99a52fe0463134bb477fea715e'
+            'dc4fcae9807e0cbb23003b3b1e497b54f9f53f20a8fe6316c0910f8573e784e5')
+
+build() {
+  arch-meson "${_pkgname}-${pkgver}" build \
+    --localstatedir /var/lib \
+    -Dwith-appletalk=true \
+    -Dwith-cups-pap-backend=true \
+    -Dwith-init-style=systemd \
+    -Dwith-init-hooks=false \
+    -Dwith-install-hooks=false \
+    -Dwith-bdb-version=5.3 \
+    -Dwith-cnid-backends=dbd,sqlite \
+    -Dwith-spotlight-backends=cnid,xapian \
+    -Dwith-docs=man \
+    -Dwith-dtrace=false \
+    -Dwith-rpath=false \
+    -Dwith-tcp-wrappers=false \
+    -Dwith-lockfile-path=/run \
+    -Dwith-spooldir=/var/spool/netatalk \
+    -Dwith-overwrite=true \
+    -Dbstring:default_library=static
+  meson compile -C build
+}
+
+package() {
+  # The bundled bstring subproject is linked in statically; don't install
+  # its library and headers (they would clash with the bstring package).
+  meson install -C build --destdir "${pkgdir}" --skip-subprojects
+  # papd's spool: upstream makes it 0777; at least keep users from removing
+  # each other's jobs.
+  chmod 1777 "${pkgdir}/var/spool/netatalk"
+  install -Dm644 README.md -t "${pkgdir}/usr/share/doc/${pkgname}/"
+}

@@ -1,0 +1,23 @@
+Source: owntone-server
+Section: sound
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-sequence-installsysusers, pkgconf, curl, ca-certificates,
+ libasound2-dev, libavahi-client-dev, libavcodec-dev, libavfilter-dev,
+ libavformat-dev, libavutil-dev, libconfuse-dev, libcurl4-openssl-dev,
+ libevent-dev, libgcrypt20-dev, libgnutls28-dev, libgpg-error-dev,
+ libjson-c-dev, libmount-dev, libplist-dev, libprotobuf-c-dev, libpulse-dev,
+ libsodium-dev, libsqlite3-dev, libunistring-dev, libwebsockets-dev,
+ libxml2-dev, uuid-dev, zlib1g-dev
+Standards-Version: 4.7.0
+Homepage: https://github.com/owntone/owntone-server
+Rules-Requires-Root: no
+
+Package: owntone-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, avahi-daemon
+Description: DAAP (iTunes), MPD and RSP media server with AirPlay support
+ OwnTone (formerly forked-daapd) is a DAAP/DACP (iTunes), MPD (Music Player
+ Daemon) and RSP (Roku) media server. It streams to AirPlay and Chromecast
+ devices, can be controlled by Apple Remote and MPD clients, and supports
+ internet radio, Spotify and Last.fm.

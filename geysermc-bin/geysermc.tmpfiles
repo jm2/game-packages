@@ -1,0 +1,2 @@
+# Geyser writes config.yml (migrations) and saved logins into its config dir.
+d /etc/geysermc 0770 root geysermc -

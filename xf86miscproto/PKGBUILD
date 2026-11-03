@@ -3,28 +3,22 @@
 
 pkgname=xf86miscproto
 pkgver=0.9.3
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 Misc extension wire protocol"
 arch=('any')
-url="http://xorg.freedesktop.org/"
-license=('custom')
-makedepends=('xorg-util-macros')
-source=("https://gitlab.freedesktop.org/xorg/proto/xf86miscproto/-/archive/xf86miscproto-0.9.3/xf86miscproto-xf86miscproto-0.9.3.tar.bz2")
-sha256sums=('29ae3143f5bb0cf9ee9ac873ac259a7400a98061fa279a262bb8fe78ea8f5afe')
+url="https://gitlab.freedesktop.org/xorg/proto/xf86miscproto"
+license=('X11')
+source=("https://www.x.org/releases/individual/proto/${pkgname}-${pkgver}.tar.bz2")
+sha256sums=('45b8ec6a4a8ca21066dce117e09dcc88539862e616e60fb391de05b36f63b095')
 
 build() {
-  cd ${pkgname}-${pkgname}-${pkgver}
-
-  ./autogen.sh --prefix='/usr'
+  cd "${pkgname}-${pkgver}"
+  ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd ${pkgname}-${pkgname}-${pkgver}
-
+  cd "${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-
-# License
-  install -dm 755 "${pkgdir}"/usr/share/licenses/${pkgname}
-  install -m 644 {,"${pkgdir}"/usr/share/licenses/${pkgname}/}COPYING
+  install -Dm644 COPYING -t "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

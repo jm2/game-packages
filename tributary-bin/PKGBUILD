@@ -1,35 +1,24 @@
-# Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+# Arch only: RPM and Debian users can install the tributary-*.rpm / *.deb
+# assets that upstream publishes with each release.
 pkgname=tributary-bin
-pkgver=0.1.0
-pkgrel=1
-pkgdesc="A high-performance, Rhythmbox-style media manager (Pre-compiled Binary)"
+pkgver=0.7.2
+pkgrel=2
+pkgdesc="A high-performance, Rhythmbox-style media manager (prebuilt binary)"
 arch=('x86_64')
 url="https://github.com/jm2/tributary"
 license=('GPL-3.0-or-later')
-depends=(
-  'gtk4'
-  'libadwaita'
-  'gstreamer'
-  'gst-plugins-good'
-  'gst-plugins-bad'
-  'gst-plugins-ugly'
-  'gst-libav'
-  'dbus'
-)
-provides=('tributary')
+depends=('dbus' 'gdk-pixbuf2' 'glib2' 'glibc' 'gtk4>=4.16' 'hicolor-icon-theme' 'libadwaita>=1.6' 'libgcc'
+         'pango' 'gstreamer' 'gst-plugins-good' 'gst-plugins-bad' 'gst-plugins-ugly' 'gst-libav')
+provides=("tributary=${pkgver}")
 conflicts=('tributary')
-# Use the official Arch pre-compiled package as the source
+options=('!strip' '!debug')
+# Upstream's own Arch package from the release.
 source=("${pkgname}-${pkgver}.pkg.tar.zst::${url}/releases/download/v${pkgver}/tributary-x86_64.pkg.tar.zst")
-sha256sums=('SKIP')
+sha256sums=('4ec5d3a61415967522d83795295d2d2675d389c8b765abbdbb979b2b88d738c0')
 
 package() {
-  # The source is a .pkg.tar.zst which makepkg extracts to $srcdir.
-  # We copy its contents to $pkgdir.
-  # Using find to copy everything except the src directory if it exists
-  cp -av "$srcdir"/usr "$pkgdir/"
-  
-  # Ensure the license directory matches the package name for AUR standards
-  if [ -d "$pkgdir/usr/share/licenses/tributary" ]; then
-    mv "$pkgdir/usr/share/licenses/tributary" "$pkgdir/usr/share/licenses/$pkgname"
-  fi
+  cp -a --no-preserve=ownership "${srcdir}/usr" "${pkgdir}/"
+  mv "${pkgdir}/usr/share/licenses/tributary" "${pkgdir}/usr/share/licenses/${pkgname}"
 }

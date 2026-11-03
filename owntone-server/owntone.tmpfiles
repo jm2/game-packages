@@ -1,0 +1,4 @@
+# Library database and artwork cache.
+d /var/cache/owntone 0750 owntone owntone -
+# logfile from /etc/owntone.conf; owntone (not root) must be able to open it.
+f /var/log/owntone.log 0644 owntone root -

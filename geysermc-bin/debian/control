@@ -1,0 +1,18 @@
+Source: geysermc-bin
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-sequence-installsysusers, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://geysermc.org/
+Rules-Requires-Root: no
+
+Package: geysermc-bin
+Architecture: all
+Depends: default-jre-headless (>= 2:1.21) | java-runtime-headless (>= 21), ${misc:Depends}
+Provides: geysermc
+Description: Lets Minecraft: Bedrock Edition clients join Java Edition servers
+ Geyser is a proxy that bridges Minecraft: Bedrock Edition and Minecraft: Java
+ Edition, so Bedrock clients (consoles, mobile, Windows) can join Java servers.
+ This package ships the standalone jar from download.geysermc.org (pinned
+ build) with a systemd service that runs it as the geysermc system user.

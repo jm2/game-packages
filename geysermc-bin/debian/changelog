@@ -1,0 +1,6 @@
+geysermc-bin (2.12.1+b1283-1) unstable; urgency=medium
+
+  * Pin Geyser 2.12.1 build 1283; run as the geysermc user from
+    /var/lib/geysermc.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

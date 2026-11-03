@@ -1,0 +1,4 @@
+# OwnTone runs as this user (see owntone.service.d/override.conf).
+u owntone - "OwnTone media server" /var/cache/owntone
+# Local ALSA output.
+m owntone audio
