@@ -1,7 +1,6 @@
 name = "codmw2-wine-steam"
 family = "wine-steam"
 id = "codmw2"
-version = "r5292"
 release = 1
 summary = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam"
 url = "https://iw4x.dev/"

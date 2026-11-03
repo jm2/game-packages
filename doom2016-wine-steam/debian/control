@@ -2,7 +2,7 @@ Source: doom2016-wine-steam
 Section: contrib/games
 Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
-Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, gbe-fork-bin
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, gbe-fork-bin, python3
 Standards-Version: 4.7.0
 Homepage: https://store.steampowered.com/app/379720/DOOM/
 Rules-Requires-Root: no

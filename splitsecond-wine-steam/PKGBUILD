@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=splitsecond-wine-steam
-pkgver=1.0
+pkgver=0
 pkgrel=2
 pkgdesc='Split/Second using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/297860/SplitSecond/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -17,11 +17,16 @@ source=("build.sh"
         "splitsecond.desktop"
         "README.md"
         "splitsecond.png")
-sha256sums=('767186d15ffb53709c355287a4b3f172d44ef1d9811dccbbf107d62a0a89999b'
+sha256sums=('df477663f8169a9fb60413b0838d00579af7cc64a8e8cd1f86036ef640a4ad0a'
             '37c7117142a5f703a48635241cb6c40574243fb30a1b1341be9a58bb07d36737'
             'a76eeb1e062b90758b0acb65ca38d7b25a5720b0253fbd61d710e7d9f29ed649'
             'c59b08819a869e20b58504e1be567e31c019bb2d2317033e662989871084186a'
             'd30e3ea9313de07dde53a913cb60270d9ec51acfd2b2d8bef6df0b7ed35ee38b')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

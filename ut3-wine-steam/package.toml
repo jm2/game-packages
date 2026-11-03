@@ -1,7 +1,6 @@
 name = "ut3-wine-steam"
 family = "wine-steam"
 id = "ut3"
-version = "2.1"
 release = 2
 summary = "Unreal Tournament 3 Black using Wine with data via Steam"
 url = "https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/"

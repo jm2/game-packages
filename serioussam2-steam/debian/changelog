@@ -1,4 +1,4 @@
-serioussam2-steam (2.07-2) unstable; urgency=medium
+serioussam2-steam (0-2) unstable; urgency=medium
 
   * Generated package: non-interactive install (no steamcmd inside package(), no piped install.sh)
   * sha256 instead of md5

@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           aoe2-de-wine-steam
-Version:        1.0
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        3%{?dist}
 Summary:        Age of Empires II: DE using Wine with data via Steam, ageLANServer for LAN
 License:        LicenseRef-Proprietary
@@ -30,6 +31,7 @@ ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  gbe-fork-bin
+BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
@@ -56,6 +58,8 @@ official servers.
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -68,7 +72,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/aoe2-de.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin
 - Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin
 - ageLANServer 1.15.6 and ageServerLauncherCompanion 1.5.0.0

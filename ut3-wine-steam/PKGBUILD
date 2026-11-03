@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=ut3-wine-steam
-pkgver=2.1
+pkgver=0
 pkgrel=2
 pkgdesc='Unreal Tournament 3 Black using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -17,11 +17,16 @@ source=("build.sh"
         "ut3.desktop"
         "README.md"
         "ut3.png")
-sha256sums=('e060cb8f8231a8ef27cc298135c2079ac1ce11e73485ac7b16ebd87296145439'
+sha256sums=('a38f147020952df1aaf5b8f269d59eb36f541ef9c123a2cae6e8aaffea60623c'
             'e39d887866554070b5a3b55d8aab5fbfc0c3f085997e7d38c1c3c95b2948dc8f'
             '79968e7a85358eefabaf9a63de2463759758b3872f82e5b906104804c7e193f4'
             'b1a3f1aa4e779c2b632fe8705359d3245169223a290da672fc268b314a9306fd'
             '1f9441dc8dbae60187883799125393c4333f22eb2eb33fea5bf4a6270bdaa055')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

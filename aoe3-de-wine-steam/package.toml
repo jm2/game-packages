@@ -1,7 +1,6 @@
 name = "aoe3-de-wine-steam"
 family = "wine-steam"
 id = "aoe3-de"
-version = "1.0"
 release = 3
 summary = "Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN"
 description = """

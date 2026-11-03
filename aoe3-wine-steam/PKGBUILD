@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=aoe3-wine-steam
-pkgver=1.03
+pkgver=0
 pkgrel=3
 pkgdesc='Age of Empires III (2007) Complete Collection using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -17,11 +17,16 @@ source=("build.sh"
         "aoe3.desktop"
         "README.md"
         "aoe3.png")
-sha256sums=('d742ab2879a2126c5b615efcbe5f4ca795737bf2f5c0bc18521ccb341446dd5b'
+sha256sums=('9f78f516aa17554feb80bca36dcdb01f289a2f8a179ed583992e9a4b2bfb635f'
             'b97c3479173b606fed31dba0c6624e0926b31750622a320a09aea819f17b2870'
             'a8eb5902bde9bed5542876c7bdd02a2055799d9f8ee7e92e371fc844b0cf3e6d'
             'b425a1f3e5f0ed225dd28e7ebff9360825421e1a10413723bd10456bafda8196'
             'ec3d23d8b0a15a10ed15141fd236efb523f056745df3aabed29e0a6eb71689b9')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

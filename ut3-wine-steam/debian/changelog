@@ -1,4 +1,4 @@
-ut3-wine-steam (2.1-2) unstable; urgency=medium
+ut3-wine-steam (0-2) unstable; urgency=medium
 
   * Switch to gamelaunch (umu/Proton default, system wine fallback)
 

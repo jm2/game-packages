@@ -1,7 +1,6 @@
 name = "dirt4-wine-steam"
 family = "wine-steam"
 id = "dirt4"
-version = "1.12"
 release = 2
 summary = "DiRT 4 using Wine with data via Steam"
 url = "https://store.steampowered.com/app/421020/DiRT_4/"

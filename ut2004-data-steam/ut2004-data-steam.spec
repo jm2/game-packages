@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           ut2004-data-steam
-Version:        3369
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        3%{?dist}
 Summary:        Unreal Tournament 2004 ECE data from Steam
 License:        LicenseRef-Proprietary
@@ -20,6 +21,7 @@ Source1:       README.md
 
 BuildArch:      noarch
 BuildRequires:  desktop-file-utils
+BuildRequires:  python3
 Recommends:     ut2004-bin
 Provides:       ut2004-data
 Conflicts:      ut2004-data
@@ -33,6 +35,8 @@ OldUnreal binaries from ut2004-bin.
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -42,7 +46,7 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3369-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Generated package (tools/gen.py); builds for Arch, Fedora and Debian
 - Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt
 - Drop the files ut2004-bin ships in any letter case, and the old Windows ini files

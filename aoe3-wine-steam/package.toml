@@ -1,7 +1,6 @@
 name = "aoe3-wine-steam"
 family = "wine-steam"
 id = "aoe3"
-version = "1.03"
 release = 3
 summary = "Age of Empires III (2007) Complete Collection using Wine with data via Steam"
 url = "https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/"

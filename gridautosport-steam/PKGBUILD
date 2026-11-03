@@ -2,23 +2,28 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=gridautosport-steam
-pkgver=1.0
+pkgver=0
 pkgrel=2
 pkgdesc='GRID Autosport (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/255220/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'openssl-1.0' 'libidn11' 'librtmp0' 'gconf')
-makedepends=('gbe-fork-bin' 'steamcmd')
+makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "gridautosport.conf"
         "gridautosport.desktop"
         "README.md")
-sha256sums=('c74ffdc60e30c4b2f86e86629450a7b71d11c62382397f215e464fbb3f4bac6d'
+sha256sums=('1bec95a6574d3a5096f0c3297bbdb227340e8e22b5a79de72f3628c4f021afaa'
             '86016ee48c67728dbb580b7354d76bfff0d597d24dca0f546856eda62958c65d'
             '68f4ec0329b321461856b4572bcf20641417d922f048c5bf1e8064404d29348c'
             'cdaf97019065b24b5bfd69bb2d60d3c5b97e706d741d5d46279e4f14ba313421')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

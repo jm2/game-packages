@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=blur-wine-steam
-pkgver=1.2
+pkgver=0
 pkgrel=2
 pkgdesc='Blur using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/42640/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -19,12 +19,17 @@ source=("build.sh"
         "blur.png"
         "Blur.exe.unpacked.exe")
 noextract=("Blur.exe.unpacked.exe")
-sha256sums=('5a5750e79dbfda19c7818daca89c24b84feb0dae89b3ccfa74fdfaba8ba05745'
+sha256sums=('adaa12dcb675988f026983ad255c640506bfc1801b187685c6ca58d5fab1a3b7'
             'f3dba76786108e5c1857fd3ea5c7a93ec49dbf491ab8aa64aee5f242c9ef6b28'
             '0b58c376b781b8f91029a10d1f263329a3ce94b221159df92c0c6728c4ee4305'
             '4212e3cebb30f87d1f65400c97f5086ee4dc175faa549c81279c2d0e7de0a4d8'
             '76bf2a1e36d7231d8dce0802244f41b0534b993487f5c90713e684e678fc0c31'
             'ba3df874a8b0084a8f038fb9550615f18c85d489a72caf4df035722ff2430324')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

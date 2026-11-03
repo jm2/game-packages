@@ -1,7 +1,6 @@
 name = "minimetro-steam"
 family = "native-steam"
 id = "minimetro"
-version = "57"
 release = 1
 summary = "Mini Metro (native Linux) with data via Steam"
 description = """

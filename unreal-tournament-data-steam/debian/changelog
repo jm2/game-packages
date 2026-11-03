@@ -1,4 +1,4 @@
-unreal-tournament-data-steam (436-4) unstable; urgency=medium
+unreal-tournament-data-steam (0-4) unstable; urgency=medium
 
   * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
   * Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt

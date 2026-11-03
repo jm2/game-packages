@@ -69,6 +69,8 @@ BUILD_TOOLS = {
 EXTRACT_TOOL = {"inno": "inno", "zip": "zip", "mojo": "mojo", "7z": "bsdtar", "tar": "bsdtar",
                 "iso": "bsdtar", "makeself": None, "copy": None, "none": None}
 
+DOLLAR = "$"
+
 DEB_ARCH = {"x86_64": "amd64", "i686": "i386", "aarch64": "arm64", "any": "all"}
 
 
@@ -116,7 +118,10 @@ class Pkg:
         self.id = t.get("id", "") if self.game else ""
         if self.game and not self.id:
             die(f"{self.name}: games need an id")
-        self.version = str(t["version"])
+        src0 = t.get("source", {})
+        self.steam_versioned = bool(src0.get("steam"))
+        # Steam packages are versioned at build time (pkgtool: <binary>.b<buildid>).
+        self.version = "0" if self.steam_versioned else str(t["version"])
         self.release = int(t.get("release", 1))
         self.summary = t["summary"]
         self.description = t.get("description", self.summary).strip()
@@ -230,6 +235,13 @@ class Pkg:
 # build.sh
 # --------------------------------------------------------------------------
 
+def version_exe(p: Pkg) -> str:
+    """Windows exe whose FileVersion versions the package (relative to the Steam dir)."""
+    if not (p.steam and p.wine and p.launcher.get("exe")):
+        return ""
+    return p.steam.get("subdir", "") + p.launcher["exe"]
+
+
 def gen_build_sh(p: Pkg) -> str:
     lines = ["#!/bin/bash", f"# {HEADER}", "",
              f"PT_NAME={sh(p.name)}",
@@ -240,7 +252,9 @@ def gen_build_sh(p: Pkg) -> str:
              f"PT_ALIASES={sh_array(p.aliases)}",
              f"PT_EXTRA_PATHS={sh_array(p.install.get('extra_paths', []))}",
              f"PT_ICON_NAME={sh(p.t.get('icon', {}).get('name', ''))}",
-             f"PT_NO_DATA={'1' if p.datasrc == 'none' else ''}"]
+             f"PT_NO_DATA={'1' if p.datasrc == 'none' else ''}",
+             f"PT_VERSION_EXE={sh(version_exe(p))}",
+             f"PT_VERSION_STATIC={sh(p.version)}"]
     if p.gbe:
         libs = p.gbe["libs"]
         lines += [f"PT_GBE_LIBS={sh_array(libs)}",
@@ -258,6 +272,7 @@ def gen_build_sh(p: Pkg) -> str:
         body.append(f"local dir; dir=$(pt_steam_fetch {sh(p.steam['appid'])} "
                     f"{sh(p.steam.get('platform', 'windows' if p.wine or p.family == 'data-steam' else 'linux'))} "
                     + " ".join(sh(x) for x in depots) + ")")
+        body.append('pt_steam_version "$dir" > "$PT_META/version"')
         copy = p.steam.get("copy")
         if copy:
             body.append("local f")
@@ -447,7 +462,7 @@ def gen_pkgbuild(p: Pkg, local_sums: dict[str, str]) -> str:
     depends = p.runtime_deps("arch") + p.x86_deps("arch")
     makedepends = p.build_deps("arch")
     if p.datasrc == "steam":
-        makedepends.append("steamcmd")
+        makedepends += ["steamcmd", "python"]
     optdepends = (WINE_OPTDEPS_ARCH if p.wine else []) + p.deps.get("optional_arch", [])
     arch = p.arch
     L = [f"# {HEADER}", f"# Maintainer: {MAINTAINER_ARCH}", ""]
@@ -472,6 +487,9 @@ def gen_pkgbuild(p: Pkg, local_sums: dict[str, str]) -> str:
     if any(s.get("url", "").startswith("hib://") for s in p.files):
         L += ["", "# Humble Bundle downloads: put them next to this PKGBUILD.",
               "DLAGENTS+=(\"hib::/usr/bin/echo ==> ERROR: Humble Bundle file %u is missing; download it from your Humble library and place it next to the PKGBUILD.\")"]
+    if p.steam_versioned:
+        L += ["", "# The version comes from the Steam download: <game version>.b<Steam build ID>.",
+              "pkgver() {", '    cat "${srcdir}/work/meta/version"', "}"]
     L += ["", "prepare() {",
           '    PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare',
           "}", "", "package() {",
@@ -499,7 +517,11 @@ def gen_spec(p: Pkg) -> str:
          f"%global __requires_exclude_from ^{re.escape(p.target)}/.*$",
          "# Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.",
          "%global _binary_payload w3.zstdio", "",
-         f"Name:           {p.name}", f"Version:        {p.version}", f"Release:        {p.release}%{{?dist}}",
+         f"Name:           {p.name}",
+         *([f"# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.",
+            "Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)"]
+           if p.steam_versioned else [f"Version:        {p.version}"]),
+         f"Release:        {p.release}%{{?dist}}",
          f"Summary:        {p.summary}", f"License:        {p.license}", f"URL:            {p.url}"]
     for i, s in enumerate(p.sources()):
         if s.get("local") and p.is_dir_source(s["name"]):
@@ -515,7 +537,7 @@ def gen_spec(p: Pkg) -> str:
     else:
         arches = list(p.arch) + (["aarch64"] if p.aarch64 and "aarch64" not in p.arch else [])
         L.append("ExclusiveArch:  " + " ".join(arches))
-    for d in p.build_deps("fedora"):
+    for d in p.build_deps("fedora") + (["python3"] if p.steam_versioned else []):
         L.append(f"BuildRequires:  {d}")
     for d in p.runtime_deps("fedora"):
         L.append(f"Requires:       {rpm_dep(d)}")
@@ -540,14 +562,18 @@ def gen_spec(p: Pkg) -> str:
         L.append(f"Obsoletes:      {x}")
     L += ["", "%description", p.description, "",
           "%prep", "%setup -q -c -T",
-          "PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare", "",
+          "PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare",
+          *(['v=$(cat work/meta/version)',
+             '[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }']
+            if p.steam_versioned else []), "",
           "%build", "",
           "%install",
           "PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}", ""]
     if p.game:
         L += ["%check", f"desktop-file-validate %{{buildroot}}%{{_datadir}}/applications/{p.id}.desktop", ""]
     L += ["%files -f work/files.list", ""]
-    L += ["%changelog", f"* {CHANGELOG_DATE.strftime('%a %b %d %Y')} {MAINTAINER} - {p.version}-{p.release}"]
+    L += ["%changelog", f"* {CHANGELOG_DATE.strftime('%a %b %d %Y')} {MAINTAINER}"
+          + ("" if p.steam_versioned else f" - {p.version}-{p.release}")]
     L += [f"- {c}" for c in p.changelog]
     return "\n".join(L) + "\n"
 
@@ -567,7 +593,7 @@ def gen_debian(p: Pkg) -> dict[str, str]:
     if deb_arm and "arm64" not in debarch and "all" not in debarch:
         debarch.append("arm64")
     arch = " ".join(debarch)
-    bdeps = ["debhelper-compat (= 13)"] + p.build_deps("debian")
+    bdeps = ["debhelper-compat (= 13)"] + p.build_deps("debian") + (["python3"] if p.steam_versioned else [])
     rdeps = p.runtime_deps("debian")
     x86d, emud = p.x86_deps("debian"), p.emu_deps("debian")
     if x86d or (deb_arm and emud):
@@ -622,7 +648,9 @@ def gen_debian(p: Pkg) -> dict[str, str]:
               f"PT_DEPENDS := {', '.join(x86d)}",
               "endif",
               "override_dh_gencontrol:",
-              "\tdh_gencontrol -- '-Vpt:Depends=$(PT_DEPENDS)'", "",
+              ("\tdh_gencontrol -- -v" + DOLLAR + DOLLAR + "(cat work/meta/version)-" + str(p.release)
+               + " '-Vpt:Depends=$(PT_DEPENDS)'" if p.steam_versioned
+               else "\tdh_gencontrol -- '-Vpt:Depends=$(PT_DEPENDS)'"), "",
               "override_dh_auto_clean:", "\trm -rf work", ""]
     srclines = ["# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>"]
     for s in p.sources():

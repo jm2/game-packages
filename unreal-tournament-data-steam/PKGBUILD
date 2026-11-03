@@ -2,21 +2,26 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=unreal-tournament-data-steam
-pkgver=436
+pkgver=0
 pkgrel=4
 pkgdesc='Unreal Tournament 99 (GOTY) data from Steam'
 arch=('any')
 url='https://store.steampowered.com/app/13240/Unreal_Tournament_Game_of_the_Year_Edition/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 optdepends=('unreal-tournament-bin: native binaries to play the game')
 provides=('unreal-tournament-data')
 conflicts=('unreal-tournament-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('1e8b14801060eb71d5069de0dfc432d2dff31bf827ee55a3fcc82b57f751c54c'
+sha256sums=('071ec7a4ad86d6c3299fc6fa8314c57021c3fba83813b425c189176aef46820e'
             '06f76ba34886b6b1ab05b830a20ad82ce94337f9a15cd7a17a6ffa2bdbfa53e3')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

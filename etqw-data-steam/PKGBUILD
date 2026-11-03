@@ -2,19 +2,24 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=etqw-data-steam
-pkgver=1
+pkgver=0
 pkgrel=2
 pkgdesc='Enemy Territory: Quake Wars data via Steam'
 arch=('any')
 url='https://steamdb.info/app/10000/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('etqw-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('a8ef1abe54b65a86b79e52886acbcaf26e9f4fedb9ea752b04d909b1e9081f66'
+sha256sums=('1691edb807230b69cb8ea075c2c7f97a66cd91409c9679fd37c7d4b601b23a16'
             '76801cb77965c1f005cc4c23efc7de6e87392068520e7c7b3d1a916f54fc3772')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

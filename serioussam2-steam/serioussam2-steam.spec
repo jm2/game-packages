@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           serioussam2-steam
-Version:        2.07
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        2%{?dist}
 Summary:        Serious Sam 2 (flibit's Linux port) with data via Steam
 License:        LicenseRef-Proprietary
@@ -24,6 +25,7 @@ Source4:       http://www.flibitijibibo.com/fedora/installers/flibitSam2_2070b.t
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  bsdtar
+BuildRequires:  python3
 Requires:       gamelaunch
 %ifarch aarch64
 Requires:       fex-emu
@@ -41,6 +43,8 @@ Serious Sam 2 (flibit's Linux port) with data via Steam
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -53,6 +57,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/serioussam2.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2.07-2
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Generated package: non-interactive install (no steamcmd inside package(), no piped install.sh)
 - sha256 instead of md5

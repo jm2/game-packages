@@ -1,7 +1,6 @@
 name = "dirt3-wine-steam"
 family = "wine-steam"
 id = "dirt3"
-version = "1.2"
 release = 2
 summary = "DiRT 3 Complete Edition using Wine with data via Steam"
 url = "https://steamdb.info/app/321040/"

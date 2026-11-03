@@ -2,24 +2,29 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=grid2019-wine-steam
-pkgver=1.0
+pkgver=0
 pkgrel=2
 pkgdesc='GRID (2019) using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/703860/GRID/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
+makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "grid2019.conf"
         "grid2019.desktop"
         "README.md")
-sha256sums=('a3e33c1a617d1bd76e75130674e8bde4c4f78d5c514c6a505b08c9091d4b6534'
+sha256sums=('8a4636f9bb712c4cf4ea29cc531102d1759b0e10d290e7e2f4bc1d53a4175f4b'
             '366e82781d785883dfb6820cfed90feb82c53c67afb17826d5311c1c6559b343'
             '11dc271e37988cd34ce334d61930512de6a3f33652bae373fbb374f95fb49d7f'
             'fa24d6fd54a83292b16aca5fd9a7ad408032a64ffcbbfed316bca3422f105425')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

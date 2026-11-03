@@ -1,4 +1,4 @@
-dirtrally-steam (1.23-2) unstable; urgency=medium
+dirtrally-steam (0-2) unstable; urgency=medium
 
   * Switch to gamelaunch and gbe-fork-bin
 

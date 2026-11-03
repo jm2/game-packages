@@ -1,6 +1,5 @@
 name = "doom3bfg-data-steam"
 family = "data-steam"
-version = "1"
 release = 2
 summary = "Doom 3 BFG Edition data via Steam"
 url = "https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/"

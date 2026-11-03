@@ -1,7 +1,6 @@
 name = "gridautosport-steam"
 family = "native-steam"
 id = "gridautosport"
-version = "1.0"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
 release = 2
 summary = "GRID Autosport (native Linux, Feral) with data via Steam"

@@ -1,6 +1,5 @@
 name = "unreal-tournament-data-steam"
 family = "data-steam"
-version = "436"
 release = 4
 summary = "Unreal Tournament 99 (GOTY) data from Steam"
 description = """

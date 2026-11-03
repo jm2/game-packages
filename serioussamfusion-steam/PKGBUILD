@@ -2,25 +2,30 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=serioussamfusion-steam
-pkgver=1.0
+pkgver=0
 pkgrel=2
 pkgdesc='Serious Sam Fusion 2017 (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme')
-makedepends=('gbe-fork-bin' 'steamcmd')
+makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "serioussamfusion.conf"
         "serioussamfusion.desktop"
         "README.md"
         "serioussamfusion.png")
-sha256sums=('32b4f87a18619466b512567de4b43b50d63a9d566059435c0b8e9ed95443ef4d'
+sha256sums=('55c7549a2c82725055b45aa49b75ae12e9d6065ac563b9de49f83f22c8fb245f'
             '1baba926312dcb0a32427e036d31acfffaca2b4e95fa16413d59bc1e38465871'
             '8973fabb7986f70fe2620900f8b498c5f54eacf2c13e1aaf2f326a9b589d0786'
             '7fc4dd4b5f48f758d3d3415273a59fa32b03731b1c66d8b088710b561d262a04'
             '6eae4389da60c96c04587a867edcc82f516c0231494488fe8c94e90325f3fd0a')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

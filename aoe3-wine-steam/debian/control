@@ -2,7 +2,7 @@ Source: aoe3-wine-steam
 Section: contrib/games
 Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
-Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, python3
 Standards-Version: 4.7.0
 Homepage: https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/
 Rules-Requires-Root: no

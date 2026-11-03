@@ -1,7 +1,6 @@
 name = "doom2016-wine-steam"
 family = "wine-steam"
 id = "doom2016"
-version = "6.66"
 release = 2
 summary = "DOOM (2016) using Wine with data via Steam"
 url = "https://store.steampowered.com/app/379720/DOOM/"

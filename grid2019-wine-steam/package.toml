@@ -1,7 +1,6 @@
 name = "grid2019-wine-steam"
 family = "wine-steam"
 id = "grid2019"
-version = "1.0"
 release = 2
 summary = "GRID (2019) using Wine with data via Steam"
 url = "https://store.steampowered.com/app/703860/GRID/"

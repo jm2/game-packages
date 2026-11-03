@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           serioussamfusion-steam
-Version:        1.0
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        2%{?dist}
 Summary:        Serious Sam Fusion 2017 (native Linux) with data via Steam
 License:        LicenseRef-Proprietary
@@ -24,6 +25,7 @@ Source4:       serioussamfusion.png
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  gbe-fork-bin
+BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
@@ -42,6 +44,8 @@ Serious Sam Fusion 2017 (native Linux) with data via Steam
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -54,5 +58,5 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/serioussamfusion.desk
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0-2
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch and gbe-fork-bin

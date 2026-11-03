@@ -2,24 +2,29 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=dirt4-steam
-pkgver=1.12
+pkgver=0
 pkgrel=2
 pkgdesc='DiRT 4 (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/421020/DiRT_4/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'openssl-1.0' 'libidn11' 'librtmp0' 'gconf')
-makedepends=('gbe-fork-bin' 'steamcmd')
+makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 conflicts=('dirt4-wine-steam')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "dirt4.conf"
         "dirt4.desktop"
         "README.md")
-sha256sums=('efdc6474f006d10b46758c50ab2234a3be48a9f6d1aef272fed14c677c47574d'
+sha256sums=('3e9cb07b8684dad7d4c178aba5e4d709b573df91ed1775dd17f9102d73a69664'
             '0eeba08b3063f2d33575e01c14edd7980d5308b6745166a8f96b4e4b6b098878'
             'dcb518afdf72d2feaf3ec1262bd611227d7094d6407911a6de4d295b5ef70e34'
             'b4df189a12c1de8f00ce1286e93d198effac9aba3d053bf5a679188dab2bcc5c')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           aoe3-wine-steam
-Version:        1.03
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        3%{?dist}
 Summary:        Age of Empires III (2007) Complete Collection using Wine with data via Steam
 License:        LicenseRef-Proprietary
@@ -23,6 +24,7 @@ Source4:       aoe3.png
 
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
+BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
 %ifarch aarch64
@@ -42,6 +44,8 @@ Age of Empires III (2007) Complete Collection using Wine with data via Steam
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -54,5 +58,5 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/aoe3.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.03-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch (umu/Proton default, system wine fallback)

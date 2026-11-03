@@ -1,6 +1,5 @@
 name = "etqw-data-steam"
 family = "data-steam"
-version = "1"
 release = 2
 summary = "Enemy Territory: Quake Wars data via Steam"
 url = "https://steamdb.info/app/10000/"

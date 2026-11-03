@@ -25,7 +25,7 @@ noextract=("setup_simcity3k_unlimited_2.0.0.3.exe"
            "sc3-lnx-support.tar.bz2"
            "loki_compat_libs-1.5.tar.bz2"
            "sc3u_2.0a-multilingual_x86-836250321b03ae4ef2496cc86aed22d479873473.zip")
-sha256sums=('569c2c7a2c9bc1a420330d02423a2bf8766aae4b4040bdf21106d647d366faa2'
+sha256sums=('417855416e8da9b33860f7966c2c09b7994b14b1c40d4821a7dfa933dfcdc275'
             '26f693045eda6da324561a5b07eb4089161a74625cc44e4108902b5664faa2a8'
             '437cc990ad98a0bc223fe65e6de10686b5568ad603bf3ca1370d34f44013ba20'
             '99aa2f02a3c8b8761ba44026c9da5b61eef1a57ef5866a4f746bfdc16b8ff6e1'

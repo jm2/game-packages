@@ -1,6 +1,5 @@
 name = "ut2004-data-steam"
 family = "data-steam"
-version = "3369"
 release = 3
 summary = "Unreal Tournament 2004 ECE data from Steam"
 description = """

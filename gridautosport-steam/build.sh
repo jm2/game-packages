@@ -10,12 +10,15 @@ PT_ALIASES=()
 PT_EXTRA_PATHS=()
 PT_ICON_NAME=''
 PT_NO_DATA=
+PT_VERSION_EXE=''
+PT_VERSION_STATIC=0
 PT_GBE_LIBS=(lib/x86_64/libsteam_api.so)
 PT_GBE_FLAVOUR=regular
 PT_GBE_LINUX_ARCH=x64
 
 pt_fetch() {
     local dir; dir=$(pt_steam_fetch 255220 linux )
+    pt_steam_version "$dir" > "$PT_META/version"
     cp -a "$dir/." "$PT_GAME/"
     rm -rf "$PT_GAME/steamapps"
 }
@@ -122,6 +125,66 @@ pt_extract() { # <kind> <file> <dest>
         copy)    cp -a "$f" "$dest/" ;;
         *)       pt_die "unknown extract kind '$kind'" ;;
     esac
+}
+
+# ------------------------------------------------------------ version ----
+# Steam packages are versioned from what was actually downloaded:
+#   <binary version>.b<Steam build ID>   e.g. 2.57.1.b25333770
+#   0.b<Steam build ID>                  when the game carries no version
+# The binary version is the Unity bundle version for Unity games (their exe
+# carries the engine version), else the FileVersion of the main Windows exe.
+
+pt_binary_version() { # <game dir> <exe relative to it, or empty>
+    python3 -I - "$1" "${2:-}" <<'PY'
+import glob, os, re, struct, sys
+root, exe = sys.argv[1], sys.argv[2]
+VER = re.compile(rb'\d+(?:\.\d+){1,3}[a-z]?')
+
+def unity():
+    files = glob.glob(os.path.join(glob.escape(root), '*_Data', 'globalgamemanagers'))
+    if not files:
+        return None
+    data = open(files[0], 'rb').read()
+    engine = set(re.findall(rb'\d{4}\.\d+\.\d+[abfpx]\d+', data[:256]))
+    seen = {}
+    for m in VER.finditer(data):
+        s, e = m.span()
+        # Serialized strings are length-prefixed (little-endian uint32).
+        if s >= 4 and struct.unpack_from('<I', data, s - 4)[0] == e - s and m.group() not in engine:
+            seen[m.group()] = seen.get(m.group(), 0) + 1
+    return max(seen, key=seen.get).decode() if seen else ''   # '' = Unity, no version
+
+def pe():
+    if not exe or not os.path.isfile(os.path.join(root, exe)):
+        return None
+    data = open(os.path.join(root, exe), 'rb').read()
+    if data[:2] != b'MZ':
+        return None
+    sig = struct.pack('<I', 0xFEEF04BD)
+    i = data.find(sig)
+    while i != -1:
+        strucver, ms, ls = struct.unpack_from('<III', data, i + 4)
+        if strucver == 0x00010000:           # VS_FIXEDFILEINFO
+            v = (ms >> 16, ms & 0xFFFF, ls >> 16, ls & 0xFFFF)
+            return '.'.join(map(str, v)) if any(v) else None
+        i = data.find(sig, i + 4)
+    return None
+
+v = unity()
+if v is None:
+    v = pe()
+print(v or '')
+PY
+}
+
+pt_steam_version() { # <steam download dir> -> prints the package version
+    local dir=$1 acf buildid bin
+    acf=$dir/steamapps/appmanifest_$PT_STEAM_APPID.acf
+    [ -f "$acf" ] || pt_die "no Steam manifest in $dir (download it with steamcmd / tools/fetch-steam)"
+    buildid=$(sed -n -E 's/^\s*"buildid"\s+"([0-9]+)".*/\1/p' "$acf" | head -n1)
+    [ -n "$buildid" ] || pt_die "no build ID in $acf"
+    bin=$(pt_binary_version "$dir" "${PT_VERSION_EXE:-}")
+    printf '%s.b%s\n' "${bin:-0}" "$buildid"
 }
 
 # -------------------------------------------------------------- icons ----
@@ -314,5 +377,8 @@ case ${1:-} in
     prepare)   pt_prepare ;;
     install)   pt_install "${2:-}" ;;
     deb-split) pt_deb_split "$2" "$3" "$4" ;;
-    *)         echo "usage: build.sh prepare | install <destdir> | deb-split <main> <prefix> <n>" >&2; exit 2 ;;
+    version)   # Version of the cached Steam download (RPM needs it before %prep).
+               [ -n "$PT_STEAM_APPID" ] || { echo "${PT_VERSION_STATIC:-0}"; exit 0; }
+               pt_steam_version "$PT_CACHE/$PT_NAME/steam-$PT_STEAM_APPID" ;;
+    *)         echo "usage: build.sh prepare | install <destdir> | version | deb-split <main> <prefix> <n>" >&2; exit 2 ;;
 esac

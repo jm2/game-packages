@@ -1,7 +1,6 @@
 name = "blur-wine-steam"
 family = "wine-steam"
 id = "blur"
-version = "1.2"
 release = 2
 summary = "Blur using Wine with data via Steam"
 url = "https://steamdb.info/app/42640/"

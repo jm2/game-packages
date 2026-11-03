@@ -1,6 +1,5 @@
 name = "quake4-data-steam"
 family = "data-steam"
-version = "1"
 release = 2
 summary = "Quake 4 data via Steam"
 url = "https://store.steampowered.com/app/2210/Quake_IV/"

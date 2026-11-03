@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           splitsecond-wine-steam
-Version:        1.0
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        2%{?dist}
 Summary:        Split/Second using Wine with data via Steam
 License:        LicenseRef-Proprietary
@@ -23,6 +24,7 @@ Source4:       splitsecond.png
 
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
+BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
 %ifarch aarch64
@@ -42,6 +44,8 @@ Split/Second using Wine with data via Steam
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -54,5 +58,5 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/splitsecond.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0-2
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch (umu/Proton default, system wine fallback)

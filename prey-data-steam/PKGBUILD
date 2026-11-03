@@ -2,19 +2,24 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=prey-data-steam
-pkgver=1
+pkgver=0
 pkgrel=2
 pkgdesc='Prey (2006) data via Steam'
 arch=('any')
 url='https://steamdb.info/app/3970/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('prey-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('e43c16a85359035f142da4e5d0138618b67db3e5c1a7ff1174567d84fd23cfc5'
+sha256sums=('18d039493d1e96d0632b0cd69309bb21502aad8c7ad5b60b1779c48637618be6'
             'dccddceae4995e1d79cf6dcf8af20f04dcf0aaeba827fc3565118c2d906dbf7d')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

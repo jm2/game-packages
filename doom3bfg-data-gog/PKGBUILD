@@ -18,7 +18,7 @@ source=("build.sh"
         "setup_doom_3_bfg_1.14_(13452)-1.bin::gogdownloader://doom_3_bfg_edition_game/en1installer1")
 noextract=("setup_doom_3_bfg_1.14_(13452).exe"
            "setup_doom_3_bfg_1.14_(13452)-1.bin")
-sha256sums=('91fb27272a4f587a0be415139ad33a97911f14ce819a525f11432961fef18c88'
+sha256sums=('8252314b54f6528faa03df5446cc13f81c57903f3bbe0883079e4501a3d83f2f'
             'd2d8b1a1b3808290bca7b3e5802cf5b092cf515f73b0d25b0d05507bc570699a'
             '8e6796c0f81e90de726e57978858ebdc8e162366060736bb080a51c73151936f'
             'e71a1f1cf2674748046b677b88015a4807a624a14831a2e7ce1e084c82bd0952')

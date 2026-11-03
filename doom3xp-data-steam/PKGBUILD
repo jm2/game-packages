@@ -2,19 +2,24 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=doom3xp-data-steam
-pkgver=1
+pkgver=0
 pkgrel=2
 pkgdesc='Doom 3: Resurrection of Evil data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('doom3xp-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('0a3a4eddbb1438a268ed4209ee4ab2774e43d674a4cd1bff8badff5431f1c7f1'
+sha256sums=('c074eec32343e0f7ca3b7d124e27fa02fc34505b77bcd30b6258c7e8ccdb3b9a'
             'f62baa339d48f8e2130a8d45a992a4106bc9d9c0cd34f62a2d3121fe9b0e4504')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

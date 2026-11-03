@@ -27,7 +27,7 @@ else
 PT_DEPENDS := libc6, libgl1, libx11-6, libxext6, libglu1-mesa
 endif
 override_dh_gencontrol:
-	dh_gencontrol -- '-Vpt:Depends=$(PT_DEPENDS)'
+	dh_gencontrol -- -v$$(cat work/meta/version)-1 '-Vpt:Depends=$(PT_DEPENDS)'
 
 override_dh_auto_clean:
 	rm -rf work

@@ -19,7 +19,7 @@ source=("build.sh"
         "setup_unreal_tournament_2004_1.0_(18947)-1.bin::gogdownloader://unreal_tournament_2004_ece/en1installer1")
 noextract=("setup_unreal_tournament_2004_1.0_(18947).exe"
            "setup_unreal_tournament_2004_1.0_(18947)-1.bin")
-sha256sums=('30dbf8525124de3c41336d19ffd3b14da4ba5f3195c3daa92b1ad429b85ca208'
+sha256sums=('c689ef310eb8f2f88b74790848860373724f2004559dd59aadee8e44096c4b3d'
             '07dd3947846a74c1c59facc25842cca2f3d88b63753c14796e9fcbce3bfe7aba'
             '1f8712b4da90a22d822e4f2c2a4d841df2692be96d0f85f9064c6c77480c3b85'
             '81b6c1cf3931bf030d918461a134eff49921a0809cf215a6066639d0e6f0bf67')

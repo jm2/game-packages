@@ -2,23 +2,28 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=dirtrally-steam
-pkgver=1.23
+pkgver=0
 pkgrel=2
 pkgdesc='DiRT Rally (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/310560/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'openssl-1.0' 'libidn11' 'librtmp0' 'gconf')
-makedepends=('gbe-fork-bin' 'steamcmd')
+makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "dirtrally.conf"
         "dirtrally.desktop"
         "README.md")
-sha256sums=('02d66b66d4773160624be851a1bd6d41f6994278935462e15a9140813b58137a'
+sha256sums=('367c03dc6e4610684d04b184775e5e59f396fa9fddd96507c8ad2b5390974d84'
             'cc771d7702cfb622d6610eb201b64cabc783fa26ac5d8f4e3ac97e0760dc1b62'
             '58739b2b054e2686acc55c2857653b745ff8d977e96fcba3b287d354452a7074'
             '56c29062a671dfb4f45228c0b540a451bd6086b569314ddf4f461bd9e3746fb0')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

@@ -1,6 +1,5 @@
 name = "doom3xp-data-steam"
 family = "data-steam"
-version = "1"
 release = 2
 summary = "Doom 3: Resurrection of Evil data via Steam"
 url = "https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/"

@@ -2,7 +2,7 @@ Source: gridautosport-steam
 Section: contrib/games
 Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
-Build-Depends: debhelper-compat (= 13), curl, ca-certificates, gbe-fork-bin
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, gbe-fork-bin, python3
 Standards-Version: 4.7.0
 Homepage: https://steamdb.info/app/255220/
 Rules-Requires-Root: no

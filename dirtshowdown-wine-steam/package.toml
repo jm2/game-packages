@@ -1,7 +1,6 @@
 name = "dirtshowdown-wine-steam"
 family = "wine-steam"
 id = "dirtshowdown"
-version = "1.2"
 release = 3
 summary = "DiRT Showdown using Wine with data via Steam"
 url = "https://steamdb.info/app/201700/"

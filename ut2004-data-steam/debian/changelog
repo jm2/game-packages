@@ -1,4 +1,4 @@
-ut2004-data-steam (3369-3) unstable; urgency=medium
+ut2004-data-steam (0-3) unstable; urgency=medium
 
   * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
   * Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt

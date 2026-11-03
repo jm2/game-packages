@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=serioussam2-steam
-pkgver=2.07
+pkgver=0
 pkgrel=2
 pkgdesc='Serious Sam 2 (flibit'\''s Linux port) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/204340/Serious_Sam_2/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'lib32-openal' 'lib32-libxxf86misc')
-makedepends=('libarchive' 'steamcmd')
+makedepends=('libarchive' 'steamcmd' 'python')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "serioussam2.conf"
@@ -17,11 +17,16 @@ source=("build.sh"
         "README.md"
         "flibitSam2_2070b.tar.gz::http://www.flibitijibibo.com/fedora/installers/flibitSam2_2070b.tar.gz")
 noextract=("flibitSam2_2070b.tar.gz")
-sha256sums=('026547fe66a2c12f66cab8ffef97c1d34749526c16d2aea057945e17ee6f190c'
+sha256sums=('3ecfb79acbd48734fc4c651a9f9b06e282924f5f9a99c620aa2cee01d58639f5'
             '59a011b2066278c474bd3c2399ef25f9260f1798a50e7421564354e2685c75ab'
             'ca5698797c62ac59285b532bbf21a885b269ef1bef6ab581ac7a0c89b2c09828'
             'dd16b7874095ca1185d37e2a842a5bd7a06f77b8f3bee7566e4b73d68d80478d'
             '0b38125a80b004f47ef5ba6b3dc5cca5f8c32d73040cf31026f8ac8c159e6981')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

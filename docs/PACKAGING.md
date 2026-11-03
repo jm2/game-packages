@@ -57,6 +57,25 @@ packages contain proprietary game data or prebuilt third-party binaries.
 - `xlln-bin`: GFWL games set `[xlln] enabled = true`; gamelaunch links
   XLiveLessNess into the per-user game directory.
 
+## Versions of Steam packages
+
+Steam packages have no hand-written version. At build time pkgtool reads
+the Steam build ID from steamcmd's `appmanifest` and the game's own version
+from the download:
+
+- Unity games: the bundle version in `*_Data/globalgamemanagers` (their exe
+  carries the Unity engine version, so it is never used);
+- other Windows games: the FileVersion of the main exe (`[launcher] exe`).
+
+The version is `<game version>.b<build ID>` (`2.57.1.b25333770`), or
+`0.b<build ID>` when the game carries no version. The build ID makes every
+Steam update an upgrade even when the game's own version doesn't change.
+Arch sets it in `pkgver()`, Debian through `dh_gencontrol -v`, and the RPM
+spec computes it before the build from the cached download, so RPM builds of
+Steam packages need `tools/fetch-steam` first. GOG/Humble/data-url packages
+keep the version in `package.toml`, which their pinned installer checksums
+make exact.
+
 ## aarch64
 
 - Native arm64 upstream binaries or source builds: list `aarch64` in all three

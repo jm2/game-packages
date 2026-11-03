@@ -1,7 +1,6 @@
 name = "codww2-wine-steam"
 family = "wine-steam"
 id = "codww2"
-version = "1.0"
 release = 2
 summary = "Call of Duty: WWII using Wine with data via Steam"
 url = "https://store.steampowered.com/app/476600/Call_of_Duty_WWII/"

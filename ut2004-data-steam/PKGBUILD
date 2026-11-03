@@ -2,21 +2,26 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=ut2004-data-steam
-pkgver=3369
+pkgver=0
 pkgrel=3
 pkgdesc='Unreal Tournament 2004 ECE data from Steam'
 arch=('any')
 url='https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 optdepends=('ut2004-bin: native binaries to play the game')
 provides=('ut2004-data')
 conflicts=('ut2004-data' 'ut2004-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('7b1eeee047ec3239e567064b57e4404a4e1a3b6b5eecb3393a0d55bab783e6bb'
+sha256sums=('250cbd13bfc5702ce5a2f1729f8bfde456a18b3902e26b44b5510c85eed1189d'
             '58edfdf08a585f48f3579490e70cde4510610b343a93ca49dbe2a5684c43b04c')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

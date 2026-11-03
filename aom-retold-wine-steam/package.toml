@@ -1,7 +1,6 @@
 name = "aom-retold-wine-steam"
 family = "wine-steam"
 id = "aom-retold"
-version = "1.0"
 release = 3
 summary = "Age of Mythology: Retold using Wine with data via Steam, ageLANServer for LAN"
 description = """

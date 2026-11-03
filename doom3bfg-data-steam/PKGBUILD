@@ -2,20 +2,25 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=doom3bfg-data-steam
-pkgver=1
+pkgver=0
 pkgrel=2
 pkgdesc='Doom 3 BFG Edition data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('doom3bfg-data')
 conflicts=('doom3bfg-data-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('c192d84ae4c8e4ca600fed7eadf83f518c58202e1d43daa154b408f23c48f856'
+sha256sums=('3b8cc1f117755e0abba6fa4d5b3430dc65ae1b75468578bb1e89e5eb8fffcf4c'
             '420bdb89e99c68f847c34e93488b025c65b55e808d9e0b15b89bf6fb05d28aef')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

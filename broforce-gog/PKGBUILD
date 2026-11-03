@@ -19,7 +19,7 @@ source=("build.sh"
         "README.md"
         "broforce_1130_20201008_41824.sh::gogdownloader://broforce/en3installer0")
 noextract=("broforce_1130_20201008_41824.sh")
-sha256sums=('7404f12555333ddad7dcbc27997d8614b1c1d7ab5f77ea986ae3ddd4e0ae8f98'
+sha256sums=('bb6cfdbba93ea5a5f8440ac163a0eb47080e1eef0559c48e036e61669830855c'
             '881018cb397aea7be9b0cbb145d1f4a9c589d33da1c27e03cceacda6b49395b9'
             'b20f3e2d63f2a23ee500b7b4695ac03ff7090498543db8f297725c51532cab7d'
             '01e56cdb65d81c9ebd4f7ed5dba2ccb00eb0a69869bd5bd8044f6cc85a5795f8'

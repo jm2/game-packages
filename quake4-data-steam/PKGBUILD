@@ -2,20 +2,25 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=quake4-data-steam
-pkgver=1
+pkgver=0
 pkgrel=2
 pkgdesc='Quake 4 data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2210/Quake_IV/'
 license=('LicenseRef-Proprietary')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('quake4-data')
 conflicts=('quake4-data-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('0f43c6baec0090dbae1466816fe25947c5d29e561c06dc860f4778d88f72ad87'
+sha256sums=('90658bc0681e964802a1d54e64b3b3158ade9e165b5f81f30b99e3e3e2955b4a'
             '89bc9777ab91cbf8d1988c2a1558aa155b518d2dd97bff7864a88886e349e3a3')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

@@ -1,7 +1,6 @@
 name = "serioussamfusion-steam"
 family = "native-steam"
 id = "serioussamfusion"
-version = "1.0"
 release = 2
 summary = "Serious Sam Fusion 2017 (native Linux) with data via Steam"
 url = "https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/"

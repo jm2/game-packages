@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           dirt2-wine-steam
-Version:        1.1
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        4%{?dist}
 Summary:        Colin McRae: DiRT 2 using Wine with data via Steam
 License:        LicenseRef-Proprietary
@@ -23,6 +24,7 @@ Source3:       README.md
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
+BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       xlln-bin
 Requires:       hicolor-icon-theme
@@ -45,6 +47,8 @@ XLiveLessNess, which restores LAN multiplayer.
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -57,6 +61,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/dirt2.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.1-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch (umu/Proton default, system wine fallback)
 - Replace the Ultimate ASI Loader xlive stub with XLiveLessNess (xlln-bin) for LAN play

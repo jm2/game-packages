@@ -1,4 +1,4 @@
-cod4-data-steam (1-2) unstable; urgency=medium
+cod4-data-steam (0-2) unstable; urgency=medium
 
   * Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
 

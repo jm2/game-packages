@@ -1,7 +1,6 @@
 name = "dirtrally2-wine-steam"
 family = "wine-steam"
 id = "dirtrally2"
-version = "1.18"
 release = 2
 summary = "DiRT Rally 2.0 using Wine with data via Steam"
 url = "https://store.steampowered.com/app/690790/DiRT_Rally_20/"

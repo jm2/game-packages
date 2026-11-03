@@ -1,6 +1,5 @@
 name = "prey-data-steam"
 family = "data-steam"
-version = "1"
 release = 2
 summary = "Prey (2006) data via Steam"
 url = "https://steamdb.info/app/3970/"

@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=codwaw-wine-steam
-pkgver=1.7
+pkgver=0
 pkgrel=3
 pkgdesc='Call of Duty: World at War using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('icoutils' 'steamcmd')
+makedepends=('icoutils' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -22,13 +22,18 @@ source=("build.sh"
 noextract=("CoDWaW.exe"
            "CoDWaWlf.exe"
            "CoDWaWmp.exe")
-sha256sums=('677258d6cf2b323a5db2605d5529768808e1ed6e92da65c12598fa6c90070148'
+sha256sums=('4496ff1fb3f398397a98163817a16ea38c83de2415d6544fd5990eab52aacd3e'
             '4557d7994bca5fcad3f5b3f82894a5ed5118a2788e31c01028e2966997f43d89'
             '6e554624f8e2a2f72ba821f3ecc04d90a527ad4c7a88777b8820b1fb61f1421c'
             '7dc1bda48425abfb97cbfdfc41e9ef61dc62cdbafb22722023707ee42d292e64'
             'f751d06799ed27f30c61d157ed292aa3adce73fbf9c30b92a5657b29624e8b31'
             '16ff3bb33af41b9d4d59e47df7e6e6074b27d54801714464af0eaba2af1e64f4'
             'b0e265592901cd248b7358e8b37c8c1b5c85c6b24fb3cb378f62d601378e4fae')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

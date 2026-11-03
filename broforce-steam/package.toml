@@ -1,7 +1,6 @@
 name = "broforce-steam"
 family = "native-steam"
 id = "broforce"
-version = "1130_20201008"
 release = 2
 summary = "Broforce (native Linux) with data via Steam"
 url = "https://store.steampowered.com/app/274190/Broforce/"

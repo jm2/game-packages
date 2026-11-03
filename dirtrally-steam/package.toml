@@ -1,7 +1,6 @@
 name = "dirtrally-steam"
 family = "native-steam"
 id = "dirtrally"
-version = "1.23"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
 release = 2
 summary = "DiRT Rally (native Linux, Feral) with data via Steam"

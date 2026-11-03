@@ -1,4 +1,4 @@
-doom2016-wine-steam (6.66-2) unstable; urgency=medium
+doom2016-wine-steam (0-2) unstable; urgency=medium
 
   * Switch to gamelaunch and gbe-fork-bin
 

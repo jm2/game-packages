@@ -2,24 +2,29 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=dirt3-wine-steam
-pkgver=1.2
+pkgver=0
 pkgrel=2
 pkgdesc='DiRT 3 Complete Edition using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/321040/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
+makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "dirt3.conf"
         "dirt3.desktop"
         "README.md")
-sha256sums=('162999e2e5eaf7cb00c004ddbb317c11608e846fd153dd958bdc1af5b89409ba'
+sha256sums=('5eb71925601c99fc115f21ab6a1d82c6c4ceed451cc64cc23c855aede0602a86'
             'd25dca630564fde2ed15e2719e6436dfe7d2fd134c3a86bf4642f050a2b3ec1a'
             '5fb763661193b21913a54dd5ca3cea8d3301efc952c3a7d137a4b55460517e73'
             '46260d860dca7d7de72f23129a32dbb87660b6670145e51515aa046560d1c14a')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

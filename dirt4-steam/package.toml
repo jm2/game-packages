@@ -1,7 +1,6 @@
 name = "dirt4-steam"
 family = "native-steam"
 id = "dirt4"
-version = "1.12"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
 release = 2
 summary = "DiRT 4 (native Linux, Feral) with data via Steam"

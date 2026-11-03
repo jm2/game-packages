@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=aom-retold-wine-steam
-pkgver=1.0
+pkgver=0
 pkgrel=3
 pkgdesc='Age of Mythology: Retold using Wine with data via Steam, ageLANServer for LAN'
 arch=('x86_64')
 url='https://steamdb.info/app/1934680/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'agelanserver-bin' 'agelanserver-companion-bin' 'umu-launcher')
-makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
+makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend' 'aoe2-de-wine-steam: Battle Server for hosting LAN games')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -23,7 +23,7 @@ source=("build.sh"
         "gbe.configs.main.ini"
         "aom-retold-lan.desktop"
         "aom-retold.agelan")
-sha256sums=('c26885f0af5f9701542015de12434f4bbf6278544fa6660a55354ff4d1ec7301'
+sha256sums=('c1b3a1e3162c2e992d2e1fe32d7bf18944c76bc89af0254847949cee7ebf0afd'
             '5c74f744e6269fe0c461c6da268d7fb945730ce77cfe20e7069b8e3c0774058d'
             'a776ecb98b45a725f6e3a69d1f3e620f2d8fd4df572d0badb44c297b5c17a53f'
             '014065443feeedca66ae8c5eb55b48de00e4f8270348efe183e9c221ab3c9e93'
@@ -34,6 +34,11 @@ sha256sums=('c26885f0af5f9701542015de12434f4bbf6278544fa6660a55354ff4d1ec7301'
             'ac7293718952cebb1521612d5ad9a775b6f11bb77f0afd1ec22964df65538517'
             '6a797e8dac5a7bca61b2f86a48745f2466fae473d2d1bce438e3af601cc1d87b'
             'ef4197524b91e24b8fc8961ed7e2a88cdbac6f31e42531fa5ddaddcae31b8ec5')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

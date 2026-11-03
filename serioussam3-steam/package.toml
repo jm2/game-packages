@@ -1,7 +1,6 @@
 name = "serioussam3-steam"
 family = "native-steam"
 id = "serioussam3"
-version = "1.0"
 native32 = true   # 32-bit x86: FEX on aarch64, box64 cannot run it
 release = 2
 summary = "Serious Sam 3: BFE (native Linux) with data via Steam"

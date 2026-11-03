@@ -1,7 +1,6 @@
 name = "codaw-wine-steam"
 family = "wine-steam"
 id = "codaw"
-version = "1.16"
 release = 2
 summary = "Call of Duty: Advanced Warfare using Wine with data via Steam"
 url = "https://store.steampowered.com/app/209650/Call_of_Duty_Advanced_Warfare__Gold_Edition/"

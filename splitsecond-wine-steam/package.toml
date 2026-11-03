@@ -1,7 +1,6 @@
 name = "splitsecond-wine-steam"
 family = "wine-steam"
 id = "splitsecond"
-version = "1.0"
 release = 2
 summary = "Split/Second using Wine with data via Steam"
 url = "https://store.steampowered.com/app/297860/SplitSecond/"

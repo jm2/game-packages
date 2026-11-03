@@ -2,24 +2,29 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=dirt2-wine-steam
-pkgver=1.1
+pkgver=0
 pkgrel=4
 pkgdesc='Colin McRae: DiRT 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/12840/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'xlln-bin' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('icoutils' 'steamcmd')
+makedepends=('icoutils' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "dirt2.conf"
         "dirt2.desktop"
         "README.md")
-sha256sums=('1b3fef4e240a29ee91d549eb2990544def339a40c3b2804cee06cd36fd2a96f5'
+sha256sums=('9038354bce54d6d53f45fa4856ecab208bf0c51c819c84cc4caa0170901161e7'
             'c6ae51aa05fa6f93b996e122814b9da6c012b984811c1d5758aec0f36f5626b8'
             'c15820bc4315dbde47aef351c67ddc1d34bbcf1f5227af8092f0804a247f41de'
             '319c86384bf972a1692b5283c28c6f965d3c03b3db11c7d80a5e70cefaf03f17')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

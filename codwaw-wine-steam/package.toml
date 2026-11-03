@@ -1,7 +1,6 @@
 name = "codwaw-wine-steam"
 family = "wine-steam"
 id = "codwaw"
-version = "1.7"
 release = 3
 summary = "Call of Duty: World at War using Wine with data via Steam"
 url = "https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/"

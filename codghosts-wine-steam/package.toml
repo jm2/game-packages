@@ -1,7 +1,6 @@
 name = "codghosts-wine-steam"
 family = "wine-steam"
 id = "codghosts"
-version = "1.18"
 release = 2
 summary = "Call of Duty: Ghosts using Wine with data via Steam"
 url = "https://store.steampowered.com/app/209160/Call_of_Duty_Ghosts/"

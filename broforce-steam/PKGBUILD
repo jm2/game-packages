@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=broforce-steam
-pkgver=1130_20201008
+pkgver=0
 pkgrel=2
 pkgdesc='Broforce (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/274190/Broforce/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'libgl' 'libx11' 'libxext')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('broforce')
 conflicts=('broforce-gog')
 options=('!strip' '!debug' 'emptydirs')
@@ -17,10 +17,15 @@ source=("build.sh"
         "broforce.conf"
         "broforce.desktop"
         "README.md")
-sha256sums=('7a08f6d40cea0747325816d6e16738f7473d1f0bf95900b267dd8d411b71fc61'
+sha256sums=('5104d537d3098efbbbbdbef8dd814bfb8b60f7e33418cce72f2451f0a9edd344'
             '19e65990f69d8ccf7572c9abe08039d910cdcc5858e6b45c422a0d3ebc71833d'
             'c65e3ececb87ea4fbe44f78d427170e04c23926ab5492847ffa90fec1e2b60ae'
             'c3918b726fe1cc66876779de55b9bae41d1a38845b56dc64285fbe35520e7578')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

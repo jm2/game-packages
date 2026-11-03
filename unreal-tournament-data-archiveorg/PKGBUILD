@@ -21,7 +21,7 @@ source=("build.sh"
 noextract=("UT_GOTY_CD1.iso"
            "OldUnreal-UTPatch469e-Linux-amd64.tar.bz2"
            "OldUnreal-UTPatch469e-Linux-arm64.tar.bz2")
-sha256sums=('9b1528be4b065b4c3533c25c220bff119c07b04e3af25e477d97d5f17534f1eb'
+sha256sums=('c11bdac176e9a4bb9fc789ffe6a556dedd22b1ba900c5ff110b91f5516a61dd1'
             '3dcfa7f2f772fe9670cb4fcf184f453ea57c654e003bbef8e10fd395a333aa1c'
             'e184984ca88f001c5ddd52035d76cd64e266e26c74975161b5ed72366c74704f'
             '08c806aa3721b1970045aa158ad90051329d982e8a9a3661153900e9ccbf6b0c'

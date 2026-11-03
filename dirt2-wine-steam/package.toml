@@ -1,7 +1,6 @@
 name = "dirt2-wine-steam"
 family = "wine-steam"
 id = "dirt2"
-version = "1.1"
 release = 4
 summary = "Colin McRae: DiRT 2 using Wine with data via Steam"
 description = """

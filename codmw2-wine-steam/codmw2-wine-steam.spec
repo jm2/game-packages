@@ -10,7 +10,8 @@
 %global _binary_payload w3.zstdio
 
 Name:           codmw2-wine-steam
-Version:        r5292
+# Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
+Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
 Release:        1%{?dist}
 Summary:        Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
 License:        LicenseRef-Proprietary
@@ -27,6 +28,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  unzip
 BuildRequires:  gbe-fork-bin
+BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
@@ -47,6 +49,8 @@ Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
 %prep
 %setup -q -c -T
 PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} prepare
+v=$(cat work/meta/version)
+[ "$v" = "%{version}" ] || { echo "Steam download is version $v but the spec computed %{version}; fetch it first with tools/fetch-steam" >&2; exit 1; }
 
 %build
 
@@ -59,6 +63,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/codmw2.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - r5292-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch and gbe-fork-bin
 - Move from the dead XLabs IW4x to the maintained iw4x project (client r5292, rawfiles v0.2.40)

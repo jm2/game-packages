@@ -1,7 +1,6 @@
 name = "wreckfest2-wine-steam"
 family = "wine-steam"
 id = "wreckfest2"
-version = "1.0"
 release = 2
 summary = "Wreckfest 2 using Wine with data via Steam"
 url = "https://store.steampowered.com/app/1203190/Wreckfest_2/"

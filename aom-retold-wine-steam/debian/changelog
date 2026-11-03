@@ -1,4 +1,4 @@
-aom-retold-wine-steam (1.0-3) unstable; urgency=medium
+aom-retold-wine-steam (0-3) unstable; urgency=medium
 
   * ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin
   * Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin

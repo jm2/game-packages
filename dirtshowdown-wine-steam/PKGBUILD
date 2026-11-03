@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=dirtshowdown-wine-steam
-pkgver=1.2
+pkgver=0
 pkgrel=3
 pkgdesc='DiRT Showdown using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/201700/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
-makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
+makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
@@ -20,12 +20,17 @@ source=("build.sh"
         "showdown_avx.exe::https://github.com/jm2/archlinux-package-dirtshowdown-wine-steam/raw/master/showdown_avx.exe")
 noextract=("showdown.exe"
            "showdown_avx.exe")
-sha256sums=('7b4de8723a62cb52b8c952647ce90c2baab88d3c84c994a96219ee3bd3a525f8'
+sha256sums=('8f2a83e675afd07ed9fd09c2b2e49a8e51ca154042bbd239bf6c82164ddf324a'
             '68d193287a265d999fe5b4b5e1e5a499a6427ee5bf0469cb462fc4af7013e0e8'
             '2411c96e0502b30ad331003ccb1039ec574738d90db72cd44a745be80da6f7cc'
             '8b02ccd22efe4c7470ed3d925236a0ce8dea9d5607376966beef5fc4c5181a59'
             '80b9b3bc95f2e1a3c1f8a183c32bb911f1dbbb662f4e09071c0f6d70b536a9e2'
             'a62e1cb44020951d38ee4ab3c49a25fe76c77d9defd42661b81292d9ce495b7f')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

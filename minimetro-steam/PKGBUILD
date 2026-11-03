@@ -2,14 +2,14 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=minimetro-steam
-pkgver=57
+pkgver=0
 pkgrel=1
 pkgdesc='Mini Metro (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/287980/Mini_Metro/'
 license=('LicenseRef-Proprietary')
 depends=('gamelaunch' 'hicolor-icon-theme' 'libgl' 'libx11' 'libxext' 'glu')
-makedepends=('steamcmd')
+makedepends=('steamcmd' 'python')
 provides=('minimetro')
 conflicts=('minimetro' 'minimetro-hib' 'minimetro-gog')
 options=('!strip' '!debug' 'emptydirs')
@@ -17,10 +17,15 @@ source=("build.sh"
         "minimetro.conf"
         "minimetro.desktop"
         "README.md")
-sha256sums=('7fdc28662d50704f226a28e8301b25958ca20da245eb68fad53d06f2d73d24a4'
+sha256sums=('139fbf147ee3f101fa334398281c5d20240415182264b3ee3372f37f6283cddd'
             '2a81b77f017d543e170ecd84d9b8adc8bd47ddfa00f688f859848dec7e65f888'
             '8df97f0651a864e31a0358d2fb341a36c99e396458495cc4298bad5407c1dabc'
             '08254d1e3396b293d7651abfaa313e3a584ba86f24fbc923e491499bc32eb6bc')
+
+# The version comes from the Steam download: <game version>.b<Steam build ID>.
+pkgver() {
+    cat "${srcdir}/work/meta/version"
+}
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare
