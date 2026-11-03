@@ -1,3 +1,0 @@
-post_install() {
-    echo "To complete installation, write your UT2004 cdkey to /opt/ut2004/System/CDkey as root."
-}
