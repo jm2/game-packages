@@ -1,0 +1,38 @@
+# ageLANServer as a system service, for a machine that hosts LAN games.
+#   systemctl enable --now agelanserver@age2.service     (age2, age3, athens)
+# Players then run `agelan <game>` (or the "(LAN)" menu entry); the launcher
+# finds this server through the LAN announcement (UDP 31978) and only joins.
+# The Battle Server (a Windows program) is started by a player's launcher.
+[Unit]
+Description=ageLANServer for %i
+Documentation=file:///usr/share/doc/agelanserver-bin/README.md
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+# The server and genCert keep certificates next to their own binary
+# (resources/certificates); give them a writable directory there.
+StateDirectory=agelanserver/%i
+BindPaths=%S/agelanserver/%i:/usr/lib/agelanserver/server/resources/certificates
+ExecStartPre=/usr/lib/agelanserver/server/bin/genCert --ignoreIfExisting
+ExecStart=/usr/lib/agelanserver/server/server -e %i --config /etc/agelanserver/config.toml
+# Port 443 without running as root.
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+NoNewPrivileges=yes
+# Shared with battle-server-manager (upstream's Docker setup shares it too).
+PrivateTmp=no
+ReadWritePaths=-/tmp/ageLANServer
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

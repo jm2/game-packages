@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+417b7d348652ee9c7d2609edc921154cac2c52299975f360f5b04b436ab8c243 emu-win-release-vs26.7z https://github.com/Detanup01/gbe_fork/releases/download/release-2026_09_27/emu-win-release-vs26.7z
+f3e08366fb8052e55d9ca29ef5bb1f80afb66d59e96879e5900aac8a6d86c7b9 emu-linux-release.tar.bz2 https://github.com/Detanup01/gbe_fork/releases/download/release-2026_09_27/emu-linux-release.tar.bz2
+e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118 LICENSE.upstream https://raw.githubusercontent.com/Detanup01/gbe_fork/release-2026_09_27/LICENSE

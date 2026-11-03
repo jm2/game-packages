@@ -1,0 +1,19 @@
+Source: gbe-fork-bin
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), libarchive-tools, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/Detanup01/gbe_fork
+Rules-Requires-Root: no
+
+Package: gbe-fork-bin
+Architecture: amd64 arm64
+Depends: libstdc++6, ${misc:Depends}
+Provides: gbe-fork, goldberg-emu
+Description: Goldberg Steam Emulator (gbe_fork) prebuilt steam_api for game packages
+ Prebuilt release of gbe_fork, the maintained fork of Mr_Goldberg's Steam
+ emulator. Game packages in jm2/linux-packages link their steam_api(64).dll or
+ libsteam_api.so to the copies in /usr/lib/gbe-fork, so an emulator update
+ reaches every game without rebuilding it. Also ships gbe-steam-interfaces,
+ which writes steam_interfaces.txt for an original steam_api library.

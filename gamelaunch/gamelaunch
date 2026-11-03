@@ -1,0 +1,491 @@
+#!/bin/bash
+# gamelaunch - shared launcher for the games in jm2/linux-packages.
+#
+#   gamelaunch <id> [-<variant>] [game args...]   run a game
+#   gamelaunch --run <id> <program> [args...]     run any program in the game's
+#                                                 prefix/backend (winecfg, an
+#                                                 installer, a mod tool, ...)
+#   gamelaunch --info <id>                        print resolved paths and backend
+#   gamelaunch --reset-overlay <id>               rebuild the per-user overlay
+#   gamelaunch --list                             list installed game ids
+#
+# Each game package installs /usr/share/gamelaunch/games/<id>.conf, a bash
+# fragment of plain assignments (see gamelaunch.conf.5.md). Per-user state
+# lives in ${XDG_DATA_HOME:-~/.local/share}/gamelaunch/<id>/:
+#
+#   prefix-umu/  prefix-wine/   one Wine prefix per backend
+#   userdata/                   Documents, AppData, Saved Games shared by both
+#                               prefixes, so switching backend keeps saves
+#   game/                       writable overlay of GAME_DIR (WRITABLE=1)
+#
+# Environment overrides:
+#   GAMELAUNCH_RUNNER=umu|wine   force a backend (default: umu if installed)
+#   GAMELAUNCH_DEBUG=1           trace and keep wine/umu logging
+#   PROTONPATH, GAMEID           passed through to umu-run
+#   WINE                         wine binary for the wine backend
+#   GAMELAUNCH_WRAPPER           command to wrap games in on non-x86 hosts
+#                                (default: muvm on 16K-page systems)
+
+set -o pipefail
+shopt -s nullglob
+
+readonly GL_VERSION=1
+readonly GL_CONF_DIRS=("${GAMELAUNCH_CONF_DIR:-}" /etc/gamelaunch/games /usr/share/gamelaunch/games)
+readonly GL_DXVK_DLLS=(d3d8 d3d9 d3d10core d3d11 dxgi)
+
+die()  { printf 'gamelaunch: %s\n' "$*" >&2; exit 1; }
+warn() { printf 'gamelaunch: %s\n' "$*" >&2; }
+note() { [ -n "${GAMELAUNCH_QUIET:-}" ] || printf 'gamelaunch: %s\n' "$*" >&2; }
+
+[ -n "${GAMELAUNCH_DEBUG:-}" ] && set -x
+
+# ---------------------------------------------------------------- config ----
+
+gl_find_conf() {
+    local d
+    for d in "${GL_CONF_DIRS[@]}"; do
+        [ -n "$d" ] && [ -f "$d/$1.conf" ] && { printf '%s\n' "$d/$1.conf"; return 0; }
+    done
+    return 1
+}
+
+gl_load() {
+    GL_ID=$1
+    [[ $GL_ID =~ ^[A-Za-z0-9._-]+$ ]] || die "invalid game id: $GL_ID"
+    local conf
+    conf=$(gl_find_conf "$GL_ID") || die "no config for '$GL_ID' (is the game package installed?)"
+
+    # Defaults, then the package's config.
+    GAME_NAME=$GL_ID GAME_TYPE=wine GAME_DIR='' GAME_EXE='' GAME_WORKDIR='' GAME_ARGS=()
+    VARIANTS=() DEFAULT_VARIANT=''
+    WRITABLE=0 WRITABLE_COPY=()
+    DXVK=1 UMU_ID='' WINE_ARCH=win64 WINE_DLL_OVERRIDES='' WINE_ENV=() PREREQS=()
+    XLLN=0 XLLN_DIR='' LEGACY_DIRS=() NATIVE_ENV=() NEEDS_X86_32=0
+    # shellcheck source=/dev/null
+    . "$conf" || die "failed to read $conf"
+
+    [ -n "$GAME_DIR" ] && [ -d "$GAME_DIR" ] || die "$GAME_NAME: game directory '$GAME_DIR' is missing"
+    GL_DATA=${XDG_DATA_HOME:-$HOME/.local/share}/gamelaunch/$GL_ID
+    mkdir -p "$GL_DATA" || die "cannot create $GL_DATA"
+}
+
+# --------------------------------------------------------------- overlay ----
+# A per-user tree of real directories and symlinks into GAME_DIR, so the game
+# can create files next to its binaries without the install being writable.
+# Files listed in WRITABLE_COPY (globs relative to GAME_DIR) are real copies,
+# for games that rewrite files they ship (ini files, profiles).
+
+readonly GL_XLLN_ROOT=${GAMELAUNCH_XLLN_ROOT:-/usr/lib/xlln}
+
+gl_overlay_stamp() {
+    # Changes whenever the game package (or xlln-bin, for XLLN games) is updated.
+    stat -c '%Y:%i' "$GAME_DIR" "$GAME_DIR/.gamelaunch-stamp" 2>/dev/null | tr '\n' ' '
+    [ "$XLLN" = 1 ] && stat -c '%Y:%i' "$GL_XLLN_ROOT" "$GL_XLLN_ROOT/xlive.dll" 2>/dev/null | tr '\n' ' '
+    printf 'v%s\n' "$GL_VERSION"
+}
+
+gl_xlln_overlay() {
+    # xlive.dll next to the game exe, plus a real XLiveLessNess/ directory:
+    # modules and quick-patches link to xlln-bin, the config is a user copy.
+    local ov=$1 dir
+    [ -f "$GL_XLLN_ROOT/xlive.dll" ] || die "$GAME_NAME needs XLiveLessNess; install xlln-bin"
+    dir=$ov/${XLLN_DIR:-$(dirname "$GAME_EXE")}
+    mkdir -p "$dir/XLiveLessNess"
+    rm -f "$dir/xlive.dll"
+    ln -s "$GL_XLLN_ROOT/xlive.dll" "$dir/xlive.dll"
+    find "$dir/XLiveLessNess" -xtype l -delete 2>/dev/null
+    cp -asn "$GL_XLLN_ROOT/XLiveLessNess/." "$dir/XLiveLessNess/"
+    find "$dir/XLiveLessNess" -type d ! -perm -u+w -exec chmod u+w {} +
+    local ini
+    for ini in "$GL_XLLN_ROOT"/XLiveLessNess/*.ini; do
+        if [ -L "$dir/XLiveLessNess/${ini##*/}" ]; then
+            rm -f "$dir/XLiveLessNess/${ini##*/}"
+            install -m644 "$ini" "$dir/XLiveLessNess/${ini##*/}"
+        fi
+    done
+}
+
+gl_overlay_sync() {
+    local ov=$GL_DATA/game want have
+    want=$(gl_overlay_stamp)
+    have=$(cat "$GL_DATA/.overlay-stamp" 2>/dev/null)
+    if [ -d "$ov" ] && [ "$want" = "$have" ]; then
+        return 0
+    fi
+    note "preparing per-user game directory (first run or package update)"
+    mkdir -p "$ov"
+    # Drop links that no longer point anywhere (files removed by an update).
+    find "$ov" -xtype l -delete 2>/dev/null
+    # Add links for everything new; existing entries (links or the user's own
+    # files) are left alone.
+    cp -asn "$GAME_DIR/." "$ov/" || die "failed to build overlay in $ov"
+    # cp copies directory modes; the overlay's directories must be ours to write.
+    find "$ov" -type d ! -perm -u+w -exec chmod u+w {} +
+    local pat f rel
+    for pat in "${WRITABLE_COPY[@]}"; do
+        for f in "$GAME_DIR"/$pat; do
+            rel=${f#"$GAME_DIR"/}
+            if [ -L "$ov/$rel" ] || [ ! -e "$ov/$rel" ]; then
+                rm -f "$ov/$rel"
+                mkdir -p "$(dirname "$ov/$rel")"
+                cp -a --no-preserve=ownership "$f" "$ov/$rel"
+                chmod -R u+w "$ov/$rel"
+            fi
+        done
+    done
+    [ "$XLLN" = 1 ] && gl_xlln_overlay "$ov"
+    printf '%s\n' "$want" > "$GL_DATA/.overlay-stamp"
+}
+
+gl_game_root() {
+    if [ "$WRITABLE" = 1 ] || [ "$XLLN" = 1 ]; then
+        gl_overlay_sync
+        printf '%s\n' "$GL_DATA/game"
+    else
+        printf '%s\n' "$GAME_DIR"
+    fi
+}
+
+# ------------------------------------------------------ x86 on non-x86 ----
+# On aarch64 (and other non-x86 hosts) the games' x86 code runs through FEX
+# (Fedora: fex-emu + fex-emu-rootfs-fedora) or box64 (Debian, x86-64 only),
+# registered with binfmt_misc. Systems with 16K pages (Apple Silicon) need the
+# muvm microVM around it, the way Asahi Linux runs Steam.
+GL_WRAP=()
+gl_emu_setup() {
+    GL_WRAP=()
+    case $(uname -m) in x86_64|i?86) return 0 ;; esac
+    if [ -n "${GAMELAUNCH_WRAPPER:-}" ]; then
+        read -ra GL_WRAP <<<"$GAMELAUNCH_WRAPPER"; return 0
+    fi
+    local page; page=$(getconf PAGESIZE 2>/dev/null || echo 4096)
+    if [ "$page" != 4096 ]; then
+        command -v muvm >/dev/null 2>&1 ||
+            die "this system uses ${page}-byte pages: x86 games need muvm and fex-emu (Fedora: dnf install muvm fex-emu)"
+        GL_WRAP=(muvm --)
+        return 0
+    fi
+    [ -e /proc/sys/fs/binfmt_misc/FEX-x86_64 ] || [ -e /proc/sys/fs/binfmt_misc/box64 ] ||
+        die "x86 emulation is not set up: install fex-emu and fex-emu-rootfs-fedora (Fedora) or box64 (Debian), then restart systemd-binfmt"
+    if [ "${NEEDS_X86_32:-0}" = 1 ] && [ ! -e /proc/sys/fs/binfmt_misc/FEX-x86 ]; then
+        die "$GAME_NAME is a 32-bit x86 program: it needs FEX (fex-emu), box64 cannot run it"
+    fi
+}
+
+# Run a command through the wrapper (if any). Variables set in our environment
+# are passed explicitly, since a VM wrapper does not inherit them.
+gl_envarr() {
+    GL_ENVA=()
+    local v
+    for v in WINEPREFIX WINEARCH WINEDEBUG WINEDLLOVERRIDES WINE GAMEID PROTONPATH PROTON_VERB \
+             STORE LD_LIBRARY_PATH ${GL_ENV_NAMES:-}; do
+        [ -n "${!v+x}" ] && GL_ENVA+=("$v=${!v}")
+    done
+}
+gl_run() {
+    if [ ${#GL_WRAP[@]} -eq 0 ]; then "$@"; return; fi
+    gl_envarr
+    "${GL_WRAP[@]}" env -C "$PWD" "${GL_ENVA[@]}" "$@"
+}
+gl_exec() {
+    if [ ${#GL_WRAP[@]} -eq 0 ]; then exec "$@"; fi
+    gl_envarr
+    exec "${GL_WRAP[@]}" env -C "$PWD" "${GL_ENVA[@]}" "$@"
+}
+
+# ------------------------------------------------------------ wine prefix ----
+
+gl_pick_runner() {
+    local r=${GAMELAUNCH_RUNNER:-}
+    if [ -z "$r" ]; then
+        if command -v umu-run >/dev/null 2>&1; then r=umu; else r=wine; fi
+    fi
+    case $r in
+        umu)  command -v umu-run >/dev/null 2>&1 || die "GAMELAUNCH_RUNNER=umu but umu-run is not installed" ;;
+        wine) GL_WINE=${WINE:-$(command -v wine)} || true
+              [ -n "$GL_WINE" ] || die "neither umu-run nor wine is installed" ;;
+        *)    die "unknown GAMELAUNCH_RUNNER '$r' (use umu or wine)" ;;
+    esac
+    GL_RUNNER=$r
+    export WINEPREFIX=$GL_DATA/prefix-$r
+    if [ "$r" = umu ]; then
+        export GAMEID=${GAMEID:-${UMU_ID:-umu-default}}
+    else
+        case $(uname -m) in x86_64|i?86) ;; *)
+            warn "system wine on $(uname -m) only runs native programs; x86 Windows games need umu-launcher" ;;
+        esac
+    fi
+}
+
+# Run a program through the selected backend (no exec).
+gl_wine() {
+    if [ "$GL_RUNNER" = umu ]; then
+        PROTON_VERB=${PROTON_VERB:-waitforexitandrun} gl_run umu-run "$@"
+    else
+        "$GL_WINE" "$@"
+    fi
+}
+
+gl_legacy_migrate() {
+    # Older packages used ~/.<game>/wine. Adopt it as the wine-backend prefix
+    # once, and leave a symlink so anything pointing at the old path still works.
+    [ "$GL_RUNNER" = wine ] || return 0
+    [ -e "$WINEPREFIX" ] && return 0
+    local d
+    for d in "${LEGACY_DIRS[@]}"; do
+        d=${d/#\~/$HOME}
+        if [ -d "$d" ] && [ ! -L "$d" ] && [ -f "$d/system.reg" ]; then
+            note "moving existing prefix $d to $WINEPREFIX"
+            mv "$d" "$WINEPREFIX" && ln -s "$WINEPREFIX" "$d"
+            return 0
+        fi
+    done
+}
+
+# Point the per-user folders of a prefix at the shared userdata/ tree.
+gl_link_userdata() {
+    local udir ud=$GL_DATA/userdata sub
+    for udir in "$WINEPREFIX"/drive_c/users/*; do
+        [ "${udir##*/}" = Public ] && continue
+        [ -d "$udir" ] && [ ! -L "$udir" ] || continue
+        for sub in Documents "AppData/Roaming" "AppData/Local" "Saved Games"; do
+            mkdir -p "$(dirname "$ud/$sub")"
+            if [ -L "$udir/$sub" ]; then
+                local tgt
+                tgt=$(readlink -f "$udir/$sub")
+                [ "$tgt" = "$(readlink -f "$ud/$sub")" ] && continue
+                # Wine links Documents to the host ~/Documents (where older
+                # packages' saves already are). Adopt that target for the
+                # shared tree if nothing claimed it yet, so every backend agrees.
+                if [ ! -e "$ud/$sub" ] && [ ! -L "$ud/$sub" ]; then
+                    ln -s "$tgt" "$ud/$sub"
+                fi
+                rm -f "$udir/$sub"
+            elif [ -d "$udir/$sub" ]; then
+                [ -e "$ud/$sub" ] || mkdir -p "$ud/$sub"
+                # Keep anything already there (e.g. a migrated legacy prefix).
+                cp -an "$udir/$sub/." "$ud/$sub/" 2>/dev/null
+                rm -rf "${udir:?}/${sub:?}"
+            fi
+            [ -e "$ud/$sub" ] || mkdir -p "$ud/$sub"
+            mkdir -p "$(dirname "$udir/$sub")"
+            ln -s "$ud/$sub" "$udir/$sub"
+        done
+    done
+}
+
+gl_dxvk_dirs() {
+    # Prints "<x64 dir> <x32 dir>" for the system DXVK, or nothing.
+    local base
+    for base in "${DXVK_DIR:-}" /usr/share/dxvk /usr/lib/dxvk /usr/local/share/dxvk; do
+        [ -n "$base" ] || continue
+        if [ -f "$base/x64/d3d11.dll" ]; then
+            printf '%s %s\n' "$base/x64" "$base/x32"; return 0
+        fi
+    done
+    # Debian: dxvk-wine64 / dxvk-wine32 install under the multiarch wine dirs.
+    local d64 d32
+    for d64 in /usr/lib/x86_64-linux-gnu/dxvk /usr/lib/dxvk/wine64; do
+        [ -f "$d64/d3d11.dll" ] && break; d64=
+    done
+    for d32 in /usr/lib/i386-linux-gnu/dxvk /usr/lib/dxvk/wine32; do
+        [ -f "$d32/d3d11.dll" ] && break; d32=
+    done
+    [ -n "$d64$d32" ] && printf '%s %s\n' "${d64:--}" "${d32:--}"
+    return 0
+}
+
+gl_dxvk_link() {
+    # Wine backend only: umu/Proton ships its own DXVK. Fedora's wine-dxvk is
+    # wired into wine itself via alternatives, so finding nothing is fine.
+    [ "$GL_RUNNER" = wine ] && [ "$DXVK" = 1 ] || return 0
+    local dirs x64 x32 dll
+    dirs=$(gl_dxvk_dirs)
+    [ -n "$dirs" ] || return 0
+    read -r x64 x32 <<<"$dirs"
+    for dll in "${GL_DXVK_DLLS[@]}"; do
+        [ "$x64" != - ] && [ -f "$x64/$dll.dll" ] && [ -d "$WINEPREFIX/drive_c/windows/system32" ] &&
+            ln -sfn "$x64/$dll.dll" "$WINEPREFIX/drive_c/windows/system32/$dll.dll"
+        [ "$x32" != - ] && [ -f "$x32/$dll.dll" ] && [ -d "$WINEPREFIX/drive_c/windows/syswow64" ] &&
+            ln -sfn "$x32/$dll.dll" "$WINEPREFIX/drive_c/windows/syswow64/$dll.dll"
+    done
+    GL_OVERRIDES+="${GL_OVERRIDES:+;}$(IFS=,; echo "${GL_DXVK_DLLS[*]}")=n,b"
+}
+
+gl_prefix_ready() {
+    local stamp=$WINEPREFIX/.gamelaunch-setup
+    if [ ! -f "$stamp" ] || [ "$(cat "$stamp")" != "$GL_VERSION" ]; then
+        note "setting up Wine prefix for $GAME_NAME ($GL_RUNNER); the first start takes a while"
+        mkdir -p "$WINEPREFIX"
+        if [ "$GL_RUNNER" = wine ]; then
+            WINEARCH=$WINE_ARCH WINEDEBUG=-all gl_run "$GL_WINE" wineboot -u >/dev/null 2>&1 ||
+                die "wineboot failed for $WINEPREFIX (run with GAMELAUNCH_DEBUG=1)"
+            "${GL_WINE%/*}/wineserver" -w 2>/dev/null || wineserver -w 2>/dev/null
+        else
+            # An empty program makes umu create/update the prefix and exit.
+            gl_run umu-run "" >/dev/null 2>&1 ||
+                die "umu-run could not initialise $WINEPREFIX (run with GAMELAUNCH_DEBUG=1)"
+        fi
+        gl_link_userdata
+        printf '%s\n' "$GL_VERSION" > "$stamp"
+    fi
+    gl_dxvk_link
+    gl_prereqs
+}
+
+gl_prereqs() {
+    # Each entry: "<name>|<exe relative to game root> [args]". Run once per prefix.
+    local entry name cmd root
+    root=$(gl_game_root)
+    for entry in "${PREREQS[@]}"; do
+        name=${entry%%|*} cmd=${entry#*|}
+        [ -f "$WINEPREFIX/.gamelaunch-prereq-$name" ] && continue
+        note "installing prerequisite: $name"
+        case $cmd in
+            winetricks:*)
+                # umu bundles winetricks; the wine backend needs it installed.
+                local verbs=${cmd#winetricks:}
+                if [ "$GL_RUNNER" = umu ]; then
+                    # shellcheck disable=SC2086
+                    gl_run umu-run winetricks -q $verbs
+                elif command -v winetricks >/dev/null 2>&1; then
+                    # shellcheck disable=SC2086
+                    WINE=$GL_WINE gl_run winetricks -q $verbs
+                else
+                    warn "prerequisite '$name' needs winetricks (not installed)"; false
+                fi ;;
+            *)
+                # shellcheck disable=SC2086
+                (cd "$root" && gl_wine $cmd) ;;
+        esac || { warn "prerequisite '$name' failed; will retry next start"; continue; }
+        : > "$WINEPREFIX/.gamelaunch-prereq-$name"
+    done
+}
+
+# ------------------------------------------------------------------ main ----
+
+gl_select_variant() {
+    # VARIANTS entries: "<flag>|<exe>|<extra args>|<description>"
+    GL_EXE=$GAME_EXE GL_EXTRA=()
+    local want=${DEFAULT_VARIANT:-} v flag exe args
+    if [ -n "${1:-}" ] && [ "${#VARIANTS[@]}" -gt 0 ]; then
+        case $1 in
+            -h|--help)
+                printf 'Usage: %s [variant] [game arguments]\n\nVariants:\n' "${GL_ARGV0:-gamelaunch $GL_ID}"
+                for v in "${VARIANTS[@]}"; do
+                    IFS='|' read -r flag exe _ desc <<<"$v"
+                    printf '  -%-4s %s%s\n' "$flag" "$desc" "$([ "$flag" = "$DEFAULT_VARIANT" ] && echo ' (default)')"
+                done
+                exit 0 ;;
+            -?*)
+                for v in "${VARIANTS[@]}"; do
+                    [ "-${v%%|*}" = "$1" ] && { want=${v%%|*}; GL_SHIFT=1; break; }
+                done ;;
+        esac
+    fi
+    [ -n "$want" ] || return 0
+    for v in "${VARIANTS[@]}"; do
+        IFS='|' read -r flag exe args _ <<<"$v"
+        if [ "$flag" = "$want" ]; then
+            [ -n "$exe" ] && GL_EXE=$exe
+            # shellcheck disable=SC2206
+            [ -n "$args" ] && GL_EXTRA=($args)
+            return 0
+        fi
+    done
+    die "unknown default variant '$want' in config"
+}
+
+gl_run_game() {
+    gl_load "$1"; shift
+    GL_SHIFT=0
+    gl_select_variant "${1:-}"
+    [ "$GL_SHIFT" = 1 ] && shift
+    [ -n "$GL_EXE" ] || die "$GAME_NAME: no GAME_EXE configured"
+
+    local root workdir
+    root=$(gl_game_root) || exit 1
+    workdir=$root/${GAME_WORKDIR:-$(dirname "$GL_EXE")}
+
+    if [ "$GAME_TYPE" = native ]; then
+        local e
+        for e in "${NATIVE_ENV[@]}"; do export "${e?}"; done
+        cd "$workdir" || die "cannot enter $workdir"
+        gl_emu_setup
+        GL_ENV_NAMES=$(for e in "${NATIVE_ENV[@]}"; do printf '%s ' "${e%%=*}"; done)
+        gl_exec "$root/$GL_EXE" "${GAME_ARGS[@]}" "${GL_EXTRA[@]}" "$@"
+    fi
+
+    gl_pick_runner
+    gl_emu_setup
+    GL_ENV_NAMES=$(for e in "${WINE_ENV[@]}"; do printf '%s ' "${e%%=*}"; done)
+    gl_legacy_migrate
+    GL_OVERRIDES=$WINE_DLL_OVERRIDES
+    [ "$XLLN" = 1 ] && GL_OVERRIDES+="${GL_OVERRIDES:+;}xlive=n"
+    gl_prefix_ready
+    local e
+    for e in "${WINE_ENV[@]}"; do export "${e?}"; done
+    [ -n "$GL_OVERRIDES" ] && export WINEDLLOVERRIDES="$GL_OVERRIDES${WINEDLLOVERRIDES:+;$WINEDLLOVERRIDES}"
+    [ -n "${GAMELAUNCH_DEBUG:-}" ] || export WINEDEBUG=${WINEDEBUG:--all}
+    cd "$workdir" || die "cannot enter $workdir"
+    if [ "$GL_RUNNER" = umu ]; then
+        gl_exec umu-run "$root/$GL_EXE" "${GAME_ARGS[@]}" "${GL_EXTRA[@]}" "$@"
+    else
+        gl_exec "$GL_WINE" "$root/$GL_EXE" "${GAME_ARGS[@]}" "${GL_EXTRA[@]}" "$@"
+    fi
+}
+
+gl_run_program() {
+    gl_load "$1"; shift
+    [ $# -gt 0 ] || die "usage: gamelaunch --run <id> <program> [args...]"
+    [ "$GAME_TYPE" = wine ] || die "$GAME_NAME is a native game; --run needs a Wine game"
+    gl_pick_runner
+    gl_emu_setup
+    gl_legacy_migrate
+    GL_OVERRIDES=$WINE_DLL_OVERRIDES
+    gl_prefix_ready
+    [ -n "$GL_OVERRIDES" ] && export WINEDLLOVERRIDES="$GL_OVERRIDES"
+    cd "$(gl_game_root)" || exit 1
+    if [ "$GL_RUNNER" = umu ]; then
+        gl_exec umu-run "$@"
+    else
+        gl_exec "$GL_WINE" "$@"
+    fi
+}
+
+gl_info() {
+    gl_load "$1"
+    printf 'id:        %s\nname:      %s\ntype:      %s\ngame dir:  %s\ndata dir:  %s\nwritable:  %s\n' \
+        "$GL_ID" "$GAME_NAME" "$GAME_TYPE" "$GAME_DIR" "$GL_DATA" "$WRITABLE"
+    if [ "$GAME_TYPE" = wine ]; then
+        gl_pick_runner
+        printf 'backend:   %s\nprefix:    %s\numu id:    %s\ndxvk:      %s\n' \
+            "$GL_RUNNER" "$WINEPREFIX" "${UMU_ID:-umu-default}" \
+            "$([ "$GL_RUNNER" = umu ] && echo 'bundled with Proton' || { d=$(gl_dxvk_dirs); echo "${d:-wine builtin / distro alternatives}"; })"
+    fi
+}
+
+gl_list() {
+    local d f seen=" "
+    for d in "${GL_CONF_DIRS[@]}"; do
+        [ -n "$d" ] || continue
+        for f in "$d"/*.conf; do
+            f=${f##*/}; f=${f%.conf}
+            [[ $seen == *" $f "* ]] && continue
+            seen+="$f "; printf '%s\n' "$f"
+        done
+    done
+}
+
+case ${1:-} in
+    ""|-h|--help) sed -n '2,25p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    --version)    echo "gamelaunch $GL_VERSION" ;;
+    --list)       gl_list ;;
+    --info)       [ -n "${2:-}" ] || die "usage: gamelaunch --info <id>"; gl_info "$2" ;;
+    --run)        shift; [ -n "${1:-}" ] || die "usage: gamelaunch --run <id> <program> [args...]"; gl_run_program "$@" ;;
+    --reset-overlay)
+        [ -n "${2:-}" ] || die "usage: gamelaunch --reset-overlay <id>"
+        gl_load "$2"; rm -f "$GL_DATA/.overlay-stamp"; [ "$WRITABLE" = 1 ] && gl_overlay_sync ;;
+    -*)           die "unknown option $1" ;;
+    *)            gl_run_game "$@" ;;
+esac

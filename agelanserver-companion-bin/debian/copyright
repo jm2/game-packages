@@ -1,0 +1,11 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ageServerLauncherCompanion
+Source: https://github.com/luskaner/ageServerLauncherCompanion
+
+Files: *
+Copyright: luskaner and contributors
+License: AGPL-3.0
+
+Files: debian/* install.sh
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

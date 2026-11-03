@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+V := 1.6.2.1
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf XLiveLessNess-v$(V)-Release
+	unzip -q XLiveLessNess-v$(V)-Release.zip
+
+override_dh_auto_install:
+	sh install.sh XLiveLessNess-v$(V)-Release debian/xlln-bin
+
+override_dh_strip override_dh_dwz override_dh_shlibdeps:
+
+override_dh_auto_clean:
+	rm -rf XLiveLessNess-v$(V)-Release

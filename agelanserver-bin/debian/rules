@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+V := 1.15.6
+UA := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x86-64)
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf upstream && mkdir upstream
+	tar -xf ageLANServer_full_$(V)_linux_$(UA).tar.gz -C upstream
+
+override_dh_auto_install:
+	sh install.sh upstream debian/agelanserver-bin
+
+# The template unit is enabled per game by the admin, never automatically.
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start agelanserver@.service
+
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs:
+
+override_dh_auto_clean:
+	rm -rf upstream

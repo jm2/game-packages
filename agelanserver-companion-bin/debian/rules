@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+V := 1.5.0.0
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf zip && mkdir zip && cd zip && unzip -q ../ageServerLauncherCompanion_full_release_v$(V).zip
+
+override_dh_auto_install:
+	sh install.sh zip debian/agelanserver-companion-bin
+	install -Dm644 LICENSE.upstream debian/agelanserver-companion-bin/usr/share/doc/agelanserver-companion-bin/LICENSE
+
+override_dh_strip override_dh_dwz override_dh_shlibdeps:
+
+override_dh_auto_clean:
+	rm -rf zip

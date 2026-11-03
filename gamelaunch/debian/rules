@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_install:
+	install -Dm755 gamelaunch -t debian/gamelaunch/usr/bin/
+	install -dm755 debian/gamelaunch/usr/share/gamelaunch/games debian/gamelaunch/etc/gamelaunch/games
+	install -Dm644 gamelaunch.conf.5.md -t debian/gamelaunch/usr/share/doc/gamelaunch/

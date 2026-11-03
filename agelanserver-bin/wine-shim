@@ -1,0 +1,25 @@
+#!/bin/sh
+# 'wine' as seen by ageLANServer's battle-server-manager (agelan puts this
+# directory first in PATH): run BattleServer.exe in the game's gamelaunch
+# prefix and backend instead of a bare system wine.
+#
+#   wine <program.exe> [arguments]
+#
+# Absolute Unix paths among the arguments (-sslCert, -sslKey) become Wine
+# paths (Z:\...).
+set -eu
+shim=/usr/lib/agelanserver/libexec/shim
+PATH=$(printf '%s' "$PATH" | tr ':' '\n' | grep -vxF "$shim" | paste -sd: -)
+export PATH
+id=${AGELAN_GAMELAUNCH_ID:?the wine shim only works when started by agelan}
+[ $# -gt 0 ] || { echo "usage: wine <program> [arguments]" >&2; exit 2; }
+exe=$1
+shift
+for a; do
+    case $a in
+        /*) [ -e "$a" ] && a="Z:$(printf '%s' "$a" | tr / '\\')" ;;
+    esac
+    set -- "$@" "$a"
+    shift
+done
+exec gamelaunch --run "$id" "$exe" "$@"

@@ -1,0 +1,5 @@
+gbe-fork-bin (2026.09.27-1) unstable; urgency=medium
+
+  * Initial package of gbe_fork release-2026_09_27 (vs26 Windows build).
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

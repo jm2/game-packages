@@ -1,0 +1,20 @@
+Source: gamelaunch
+Section: misc
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/linux-packages
+Rules-Requires-Root: no
+
+Package: gamelaunch
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: umu-launcher | wine
+Suggests: dxvk
+Description: shared launcher for wine and native game packages
+ gamelaunch runs the Windows and native games packaged in jm2/linux-packages
+ from a per-game config in /usr/share/gamelaunch/games. Windows games run
+ through umu-launcher (Proton) when it is installed, or through system wine
+ with the distribution's DXVK. Prefixes, saves and a writable per-user copy of
+ the game directory live under ~/.local/share/gamelaunch.

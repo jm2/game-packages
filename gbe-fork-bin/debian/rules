@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+HOST := $(if $(filter arm64,$(DEB_HOST_ARCH)),ARM64,x64)
+D := debian/gbe-fork-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf win lin && mkdir win lin
+	bsdtar -xf emu-win-release-vs26.7z -C win
+	bsdtar -xf emu-linux-release.tar.bz2 -C lin
+
+override_dh_auto_install:
+	sh install.sh win lin $(D) $(HOST)
+	install -Dm644 LICENSE.upstream $(D)/usr/share/doc/gbe-fork-bin/LICENSE
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs:
+
+override_dh_auto_clean:
+	rm -rf win lin

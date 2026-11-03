@@ -1,0 +1,22 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=xlln-bin
+pkgver=1.6.2.1
+pkgrel=1
+pkgdesc="XLiveLessNess: Games for Windows - LIVE replacement xlive.dll for Wine game packages (prebuilt)"
+arch=('any')
+url="https://gitlab.com/GlitchyScripts/xlivelessness"
+license=('LGPL-2.1-only')
+provides=("xlln=${pkgver}")
+conflicts=('xlln')
+options=('!strip' '!debug')
+source=("https://dl.glitchyscripts.com/xlln/XLiveLessNess-v${pkgver}-Release.zip"
+        "install.sh")
+sha256sums=('6f6e0285211c9fbcd77eb12cfd2efe5860eb7e5e6262f7a3139f14edfebcbf94'
+            '6a052b45b775313615cd5789738b8216e843327c77acdc443d8b5ba65c56dffa')
+
+package() {
+    sh install.sh "${srcdir}/XLiveLessNess-v${pkgver}-Release" "${pkgdir}"
+    install -Dm644 "${srcdir}/XLiveLessNess-v${pkgver}-Release/LICENSE.md" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+}

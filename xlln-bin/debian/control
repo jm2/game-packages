@@ -1,0 +1,18 @@
+Source: xlln-bin
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), unzip, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://gitlab.com/GlitchyScripts/xlivelessness
+Rules-Requires-Root: no
+
+Package: xlln-bin
+Architecture: all
+Depends: ${misc:Depends}
+Provides: xlln
+Description: XLiveLessNess GFWL replacement xlive.dll for Wine game packages
+ XLiveLessNess (XLLN) is a rewrite of the Games for Windows - LIVE library
+ (xlive.dll), restoring LAN and online sessions for GFWL titles. Game packages
+ in jm2/linux-packages that use GFWL depend on this package; gamelaunch links
+ xlive.dll and the XLiveLessNess modules into the per-user game directory.

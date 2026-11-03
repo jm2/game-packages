@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: XLiveLessNess
+Source: https://gitlab.com/GlitchyScripts/xlivelessness
+
+Files: *
+Copyright: Glitchy Scripts
+License: LGPL-2.1
+ On Debian systems the full text is in /usr/share/common-licenses/LGPL-2.1.
+
+Files: debian/* install.sh
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

@@ -1,0 +1,39 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=agelanserver-bin
+pkgver=1.15.6
+pkgrel=1
+pkgdesc="ageLANServer: LAN server and launcher for Age of Empires II/III: DE and Age of Mythology: Retold"
+arch=('x86_64' 'aarch64')
+url="https://github.com/luskaner/ageServer"
+license=('AGPL-3.0-only')
+depends=('gamelaunch')
+optdepends=('agelanserver-companion-bin: game-side DLLs (pulled in by the game packages)')
+provides=("agelanserver=${pkgver}")
+conflicts=('agelanserver')
+backup=('etc/agelanserver/config.toml')
+options=('!strip' '!debug')
+source=("agelan" "client" "wine-shim" "agelanserver@.service" "install.sh" "README.md")
+source_x86_64=("ageLANServer_full_${pkgver}_linux_x86-64.tar.gz::${url}/releases/download/v${pkgver}/ageLANServer_full_${pkgver}_linux_x86-64.tar.gz")
+source_aarch64=("ageLANServer_full_${pkgver}_linux_arm64.tar.gz::${url}/releases/download/v${pkgver}/ageLANServer_full_${pkgver}_linux_arm64.tar.gz")
+noextract=("ageLANServer_full_${pkgver}_linux_x86-64.tar.gz" "ageLANServer_full_${pkgver}_linux_arm64.tar.gz")
+sha256sums=('f10c6e8a170f372da05286583295afde88d08a3674d7ecd6cb79ac830fa9e929'
+            'c7be5c45b3039e6c6efddf2974893d51197c41d94a5a014615c6a4a86c281c8a'
+            'adcb9e28505748f0889099f21f08fe1448b2a71e7f4fb7becc9732aea43473c9'
+            '110781eba050640d1e7eaa0ff87f90e1f15791cf0539d794a50b2b5d439c1cc0'
+            '6a81718aaedcfa45933e3b0541e212176a0053d3707d52daeab10cf6bda029e5'
+            'c3724fbca7d4d16e2bbf810091d54e9a82f265c9c75134703fa2ccad4464b820')
+sha256sums_x86_64=('88b7e0064fc97517d27db4b55c73c1a2ec3e28bcbdd50cd5de09b6518e2453a8')
+sha256sums_aarch64=('1120c6fa03a4b9dbfc6caed1dba01d0ece7a6cab975e53c447585d2c80019616')
+
+prepare() {
+    local _a=x86-64
+    [ "${CARCH}" = aarch64 ] && _a=arm64
+    rm -rf upstream && mkdir upstream
+    bsdtar -xf "ageLANServer_full_${pkgver}_linux_${_a}.tar.gz" -C upstream
+}
+
+package() {
+    sh install.sh "${srcdir}/upstream" "${pkgdir}"
+    install -Dm644 upstream/docs/LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

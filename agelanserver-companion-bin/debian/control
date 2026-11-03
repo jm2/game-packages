@@ -1,0 +1,18 @@
+Source: agelanserver-companion-bin
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), unzip, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/luskaner/ageServerLauncherCompanion
+Rules-Requires-Root: no
+
+Package: agelanserver-companion-bin
+Architecture: all
+Depends: ${misc:Depends}
+Provides: agelanserver-companion
+Description: ageServerLauncherCompanion DLLs for AoE II/III: DE and AoM: Retold
+ Windows DLLs from luskaner's ageServerLauncherCompanion, loaded into Age of
+ Empires II/III: DE and Age of Mythology: Retold by the Goldberg emulator so
+ the games use an ageLANServer without editing /etc/hosts or the system trust
+ store.

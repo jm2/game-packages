@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ageLANServer
+Source: https://github.com/luskaner/ageServer
+
+Files: *
+Copyright: luskaner and contributors
+License: AGPL-3.0
+ The full text is in /usr/share/doc/agelanserver-bin (upstream LICENSE).
+
+Files: debian/* agelan client wine-shim install.sh agelanserver@.service
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

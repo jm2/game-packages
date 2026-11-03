@@ -1,0 +1,23 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=agelanserver-companion-bin
+pkgver=1.5.0.0
+pkgrel=1
+pkgdesc="ageServerLauncherCompanion DLLs for Age of Empires II/III: DE and Age of Mythology: Retold (Wine)"
+arch=('any')
+url="https://github.com/luskaner/ageServerLauncherCompanion"
+license=('AGPL-3.0-only')
+provides=("agelanserver-companion=${pkgver}")
+options=('!strip' '!debug')
+source=("ageServerLauncherCompanion_full_release_v${pkgver}.zip::${url}/releases/download/v${pkgver}/ageServerLauncherCompanion_full_release_v${pkgver}.zip"
+        "LICENSE-${pkgver}::https://raw.githubusercontent.com/luskaner/ageServerLauncherCompanion/v${pkgver}/LICENSE"
+        "install.sh" "README.md")
+sha256sums=('1e565e65fab3476af83ee2e3488321178806cfdc6ddc82aee399b5996a8fc10b'
+            '8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef'
+            '0951b9e2d262e9b8d3d15eb0b85144742321b3aae803b3180e94a7a4ac1ac71b'
+            'b0c064738fa81f0cd61556ccb5bd1ac5176b206ce1e511d225b1adf96e379daa')
+
+package() {
+    sh install.sh "${srcdir}" "${pkgdir}"
+    install -Dm644 "LICENSE-${pkgver}" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

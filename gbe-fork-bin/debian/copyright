@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: gbe_fork
+Source: https://github.com/Detanup01/gbe_fork
+
+Files: *
+Copyright: Mr_Goldberg, Detanup01 and gbe_fork contributors
+License: LGPL-3.0+
+ On Debian systems the full text is in /usr/share/common-licenses/LGPL-3.
+
+Files: debian/* install.sh
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

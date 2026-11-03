@@ -1,0 +1,24 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=gamelaunch
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Shared launcher for wine (umu/Proton or system wine + DXVK) and native game packages"
+arch=('any')
+url="https://github.com/jm2/linux-packages"
+license=('0BSD')
+depends=('bash')
+optdepends=('umu-launcher: run Windows games through Proton (default backend)'
+            'wine: system wine backend (GAMELAUNCH_RUNNER=wine)'
+            'dxvk-bin: Direct3D 8-11 over Vulkan for the system wine backend')
+source=("gamelaunch" "gamelaunch.conf.5.md" "LICENSE")
+sha256sums=('29b0b46d086d636b77a63da04601772b7a5ca8319ee482b47b3320b6ee6ad215'
+            'df7c4bb06ab81467f433a4b06b3443d62857d1e1fc397a64c5f7de5f51494a10'
+            '6d3b473b559ad3816a3ca62bd6f59dc66a06eb89a0b237e79f3f8217a8a6a467')
+
+package() {
+    install -Dm755 gamelaunch -t "${pkgdir}/usr/bin/"
+    install -Dm644 gamelaunch.conf.5.md -t "${pkgdir}/usr/share/doc/${pkgname}/"
+    install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+    install -dm755 "${pkgdir}/usr/share/gamelaunch/games" "${pkgdir}/etc/gamelaunch/games"
+}

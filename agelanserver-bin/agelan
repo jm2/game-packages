@@ -1,0 +1,108 @@
+#!/bin/sh
+# agelan - run luskaner's ageLANServer launcher for a game package.
+#
+#   agelan <gamelaunch id> [launcher options]     e.g. agelan aoe2-de
+#   agelan --list                                 games with LAN support
+#
+# Game packages describe themselves in /usr/share/agelanserver/games/<id>.conf.
+# The launcher, the Battle Server manager and the companion DLLs run from the
+# read-only install in /usr/lib; their configs are generated for every run
+# (from /usr/share/agelanserver/templates) into a private runtime directory,
+# so they never go stale after a package update. Copy a template to
+# ~/.config/agelanserver/ to override it (same @PLACEHOLDERS@ apply).
+#
+# The game is started through gamelaunch (umu/Proton or system wine) with the
+# companion DLLs' --overrideHosts/--overrideCerts, so neither /etc/hosts nor
+# the system trust store is touched and no root is needed to join.
+#
+# Hosting: if no server is found on the LAN, the launcher offers to start one.
+# That server runs from a per-user copy in ~/.local/share/agelanserver/server
+# (it keeps its certificates next to its own binary) and needs permission to
+# listen on port 443; for a machine that hosts regularly, use the system
+# service instead: systemctl enable --now agelanserver@<game>.service
+set -eu
+
+LIB=${AGELAN_LIB:-/usr/lib/agelanserver}
+SHARE=${AGELAN_SHARE:-/usr/share/agelanserver}
+data=${XDG_DATA_HOME:-$HOME/.local/share}
+conf=${XDG_CONFIG_HOME:-$HOME/.config}/agelanserver
+
+die() { echo "agelan: $*" >&2; exit 1; }
+
+if [ "${1:-}" = --list ] || [ $# -eq 0 ]; then
+    [ $# -eq 0 ] && echo "usage: agelan <game> [launcher options]; games:" >&2
+    for f in "$SHARE"/games/*.conf; do
+        [ -e "$f" ] || continue
+        n=${f##*/}; echo "  ${n%.conf}"
+    done
+    exit 0
+fi
+id=$1; shift
+gconf=$SHARE/games/$id.conf
+[ -f "$gconf" ] || die "no LAN configuration for '$id' (is its game package installed?)"
+# Provides: AGELAN_GAME (age2/age3/athens), GAME_DIR, CACERT (relative),
+# BATTLESERVER (relative), BATTLESERVER_GAMELAUNCH_ID (whose prefix/dir runs it)
+. "$gconf"
+: "${AGELAN_GAME:?}" "${GAME_DIR:?}" "${CACERT:?}" "${BATTLESERVER:?}"
+bs_id=${BATTLESERVER_GAMELAUNCH_ID:-$id}
+
+gameov=$data/gamelaunch/$id/game
+bsov=$data/gamelaunch/$bs_id/game
+
+# The launcher writes the server's CA into the game's cacert.pem: the game's
+# per-user directory must hold a real copy of it (gamelaunch WRITABLE_COPY).
+if [ ! -f "$gameov/$CACERT" ] || [ -L "$gameov/$CACERT" ]; then
+    gamelaunch --reset-overlay "$id" >/dev/null || die "could not prepare $gameov"
+fi
+if [ "$bs_id" != "$id" ] && [ ! -d "$bsov" ]; then
+    [ -d "/usr/share/gamelaunch/games" ] && [ -f "/usr/share/gamelaunch/games/$bs_id.conf" ] ||
+        echo "agelan: hosting $id needs the Battle Server from the $bs_id package" >&2
+    gamelaunch --reset-overlay "$bs_id" >/dev/null 2>&1 || true
+fi
+
+# Per-user server copy, only used when this user hosts. The server finds its
+# resources and keeps its certificates relative to its real executable, so the
+# binaries are real copies (refreshed when the package changes them); the
+# read-only resources are links.
+srv=$data/agelanserver/server
+sync_server() {
+    mkdir -p "$srv/resources/certificates" "$srv/bin"
+    for d in "$LIB"/server/resources/*; do
+        n=${d##*/}
+        [ "$n" = certificates ] && continue
+        [ -L "$srv/resources/$n" ] || { rm -rf "$srv/resources/$n"; ln -s "$d" "$srv/resources/$n"; }
+    done
+    for b in server bin/genCert; do
+        if ! cmp -s "$LIB/server/$b" "$srv/$b"; then
+            rm -f "$srv/$b"; cp "$LIB/server/$b" "$srv/$b"; chmod 755 "$srv/$b"
+        fi
+    done
+}
+sync_server
+
+run=$(mktemp -d "${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/agelan.XXXXXX")
+trap 'rm -rf "$run"' EXIT INT TERM
+
+render() { # <template name> <output>
+    t=$conf/$1
+    [ -f "$t" ] || t=$SHARE/templates/$1
+    sed -e "s|@GAME@|$AGELAN_GAME|g" \
+        -e "s|@GAMELAUNCH_ID@|$id|g" \
+        -e "s|@GAME_PATH@|$gameov|g" \
+        -e "s|@BATTLESERVER@|$bsov/$BATTLESERVER|g" \
+        -e "s|@SERVER@|$srv/server|g" \
+        -e "s|@BSM_CONFIG@|$run/battle-server-manager.toml|g" \
+        -e "s|@LIB@|$LIB|g" "$t" > "$2"
+}
+render launcher.toml "$run/launcher.toml"
+render launcher.game.toml "$run/launcher.game.toml"
+render battle-server-manager.toml "$run/battle-server-manager.toml"
+
+# battle-server-manager starts BattleServer.exe with a bare 'wine': the shim
+# runs it through gamelaunch in the right game's prefix instead.
+AGELAN_GAMELAUNCH_ID=$bs_id
+export AGELAN_GAMELAUNCH_ID
+PATH=$LIB/libexec/shim:$PATH
+export PATH
+"$LIB/launcher/launcher" -e "$AGELAN_GAME" \
+    --config "$run/launcher.toml" --gameConfig "$run/launcher.game.toml" "$@"
