@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: dirtrally-steam
 Architecture: amd64
-Depends: gamelaunch, gbe-fork-bin, dirtrally-steam-data1 (= ${binary:Version}), dirtrally-steam-data2 (= ${binary:Version}), dirtrally-steam-data3 (= ${binary:Version}), dirtrally-steam-data4 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, dirtrally-steam-data1 (= ${binary:Version}), dirtrally-steam-data2 (= ${binary:Version}), dirtrally-steam-data3 (= ${binary:Version}), dirtrally-steam-data4 (= ${binary:Version}), ${misc:Depends}
 Description: DiRT Rally (native Linux, Feral) with data via Steam
  DiRT Rally (native Linux, Feral) with data via Steam
 

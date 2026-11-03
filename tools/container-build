@@ -21,6 +21,11 @@ out=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/$pkg
 work=$(mktemp -d -p "${TMPDIR:-/var/tmp}" "cb-$pkg.XXXXXX")
 trap 'rm -rf "$work"' EXIT
 cp -a "$pkgdir" "$work/$pkg"
+# Store downloads (GOG/Humble installers) cached by tools/fetch-* go next to
+# the build files in the scratch copy, where makepkg/rpmbuild/dpkg expect them.
+if [ -n "${PT_CACHE:-}" ] && [ -d "$PT_CACHE/$pkg" ]; then
+    find "$PT_CACHE/$pkg" -maxdepth 1 -type f -exec cp -n {} "$work/$pkg/" \;
+fi
 mkdir -p "$out"
 local_root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
 cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NODEPS:-}")

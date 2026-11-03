@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: gridautosport-steam
 Architecture: amd64
-Depends: gamelaunch, gbe-fork-bin, gridautosport-steam-data1 (= ${binary:Version}), gridautosport-steam-data2 (= ${binary:Version}), gridautosport-steam-data3 (= ${binary:Version}), gridautosport-steam-data4 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, gridautosport-steam-data1 (= ${binary:Version}), gridautosport-steam-data2 (= ${binary:Version}), gridautosport-steam-data3 (= ${binary:Version}), gridautosport-steam-data4 (= ${binary:Version}), ${misc:Depends}
 Description: GRID Autosport (native Linux, Feral) with data via Steam
  GRID Autosport (native Linux, Feral) with data via Steam
 

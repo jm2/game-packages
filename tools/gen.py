@@ -194,7 +194,9 @@ class Pkg:
         if self.wine:
             out += [d for d in WINE_DEPS[fmt] if d != "gamelaunch"]
         elif self.game:
-            out += self.deps.get(fmt, [])
+            # dh_shlibdeps is off for prebuilt game binaries, so declare libc.
+            libc = "libc6:i386" if self.native32 else "libc6"
+            out += ([libc] if fmt == "debian" else []) + self.deps.get(fmt, [])
         return out
 
     def emu_deps(self, fmt: str) -> list[str]:

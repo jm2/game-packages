@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: serioussam3-steam
 Architecture: amd64
-Depends: gamelaunch, gbe-fork-bin, ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, ${misc:Depends}
 Description: Serious Sam 3: BFE (native Linux) with data via Steam
  Serious Sam 3: BFE (native Linux) with data via Steam

@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: dirt4-steam
 Architecture: amd64
-Depends: gamelaunch, gbe-fork-bin, dirt4-steam-data1 (= ${binary:Version}), dirt4-steam-data2 (= ${binary:Version}), dirt4-steam-data3 (= ${binary:Version}), dirt4-steam-data4 (= ${binary:Version}), dirt4-steam-data5 (= ${binary:Version}), dirt4-steam-data6 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, dirt4-steam-data1 (= ${binary:Version}), dirt4-steam-data2 (= ${binary:Version}), dirt4-steam-data3 (= ${binary:Version}), dirt4-steam-data4 (= ${binary:Version}), dirt4-steam-data5 (= ${binary:Version}), dirt4-steam-data6 (= ${binary:Version}), ${misc:Depends}
 Conflicts: dirt4-wine-steam
 Description: DiRT 4 (native Linux, Feral) with data via Steam
  DiRT 4 (native Linux, Feral) with data via Steam
