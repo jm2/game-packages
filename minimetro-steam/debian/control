@@ -1,0 +1,18 @@
+Source: minimetro-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/287980/Mini_Metro/
+Rules-Requires-Root: no
+
+Package: minimetro-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Provides: minimetro
+Conflicts: minimetro, minimetro-hib, minimetro-gog
+Description: Mini Metro (native Linux) with data via Steam
+ Mini Metro, the minimalist subway layout game by Dinosaur Polo Club, from the
+ Linux depot of the Steam release. The Steam build is DRM-free: it runs without
+ the Steam client, so no Steam emulator is involved.

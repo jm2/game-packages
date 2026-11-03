@@ -1,0 +1,17 @@
+Source: minimetro-gog
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://www.gog.com/game/mini_metro
+Rules-Requires-Root: no
+
+Package: minimetro-gog
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Provides: minimetro
+Conflicts: minimetro, minimetro-hib, minimetro-steam
+Description: Mini Metro (native Linux) with data via GOG
+ Mini Metro, the minimalist subway layout game by Dinosaur Polo Club, from the
+ DRM-free Linux installer on GOG.

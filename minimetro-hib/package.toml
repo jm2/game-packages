@@ -1,0 +1,48 @@
+name = "minimetro-hib"
+family = "native-hib"
+id = "minimetro"
+version = "57"
+release = 1
+summary = "Mini Metro (native Linux) with data via Humble Bundle"
+description = """
+Mini Metro, the minimalist subway layout game by Dinosaur Polo Club, from the
+DRM-free Linux build in your Humble Bundle library."""
+url = "https://dinopoloclub.com/games/mini-metro/"
+provides = ["minimetro"]
+conflicts = ["minimetro", "minimetro-gog", "minimetro-steam"]
+replaces = ["minimetro"]
+changelog = [
+  "Moved into jm2/linux-packages from the AUR minimetro package (release 52)",
+  "Update to release 57; icon from the game, launcher via gamelaunch",
+]
+notes = """
+Download the Linux tarball from your Humble library and save it as
+`MiniMetro-release-57-linux.tar.gz` (rename it if Humble's name differs).
+Its checksum is not pinned yet: after the first successful build, copy the
+sha256 of the tarball into package.toml.
+
+Settings and saves live in `~/.config/unity3d/Dinosaur Polo Club/Mini Metro/`."""
+
+[[source.files]]
+name = "MiniMetro-release-57-linux.tar.gz"
+url = "hib://MiniMetro-release-57-linux.tar.gz"
+extract = "tar"
+hint = "Download the Mini Metro Linux tarball from your Humble library; see README.md."
+
+[launcher]
+exe = "Mini Metro"
+
+[icon]
+png = "Mini?Metro_Data/Resources/UnityPlayer.png"
+
+[desktop]
+name = "Mini Metro"
+comment = "Minimalist subway layout game"
+categories = "Game;StrategyGame;Simulation;"
+keywords = "subway;metro;puzzle;strategy"
+
+[deps]
+arch = ["libgl", "libx11", "libxext", "glu"]
+fedora = ["mesa-libGL", "libX11", "libXext", "mesa-libGLU"]
+debian = ["libgl1", "libx11-6", "libxext6", "libglu1-mesa"]
+

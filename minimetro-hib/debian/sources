@@ -1,0 +1,2 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+- MiniMetro-release-57-linux.tar.gz local

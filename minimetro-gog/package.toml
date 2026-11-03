@@ -1,0 +1,44 @@
+name = "minimetro-gog"
+family = "native-gog"
+id = "minimetro"
+version = "57"
+release = 1
+summary = "Mini Metro (native Linux) with data via GOG"
+description = """
+Mini Metro, the minimalist subway layout game by Dinosaur Polo Club, from the
+DRM-free Linux installer on GOG."""
+url = "https://www.gog.com/game/mini_metro"
+provides = ["minimetro"]
+conflicts = ["minimetro", "minimetro-hib", "minimetro-steam"]
+changelog = ["Initial package (GOG release-57, build 202609291145)"]
+notes = """
+GOG's Linux installer for release-57 (build 202609291145, 228589568 bytes).
+Fetch it with `tools/fetch-gog minimetro-gog` (lgogdownloader), or download it
+from GOG (`mini_metro_202609291145_release_57_94756.sh`).
+
+Settings and saves live in `~/.config/unity3d/Dinosaur Polo Club/Mini Metro/`."""
+
+[[source.files]]
+name = "mini_metro_202609291145_release_57_94756.sh"
+url = "gogdownloader://mini_metro/en3installer0"
+sha256 = "50bca5ff80643a0a1423c6dfe83f572bd0bb091f3570a85811210bbe834d8c50"
+extract = "mojo"
+subdir = "data/noarch"
+
+[launcher]
+exe = "start.sh"
+
+[icon]
+png = "support/icon.png"
+
+[desktop]
+name = "Mini Metro"
+comment = "Minimalist subway layout game"
+categories = "Game;StrategyGame;Simulation;"
+keywords = "subway;metro;puzzle;strategy"
+
+[deps]
+arch = ["libgl", "libx11", "libxext", "glu"]
+fedora = ["mesa-libGL", "libX11", "libXext", "mesa-libGLU"]
+debian = ["libgl1", "libx11-6", "libxext6", "libglu1-mesa"]
+

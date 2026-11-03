@@ -1,0 +1,46 @@
+name = "minimetro-steam"
+family = "native-steam"
+id = "minimetro"
+version = "57"
+release = 1
+summary = "Mini Metro (native Linux) with data via Steam"
+description = """
+Mini Metro, the minimalist subway layout game by Dinosaur Polo Club, from the
+Linux depot of the Steam release. The Steam build is DRM-free: it runs without
+the Steam client, so no Steam emulator is involved."""
+url = "https://store.steampowered.com/app/287980/Mini_Metro/"
+provides = ["minimetro"]
+conflicts = ["minimetro", "minimetro-hib", "minimetro-gog"]
+changelog = ["Initial package (Steam Linux depot 287983)"]
+notes = """
+The Steam build runs without Steam: PCGamingWiki says so, and the game's own
+code only checks whether Steam is running (it never calls
+SteamAPI_RestartAppIfNecessary). Steam Workshop content needs the client.
+
+Settings and saves live in `~/.config/unity3d/Dinosaur Polo Club/Mini Metro/`."""
+
+[source.steam]
+appid = 287980
+platform = "linux"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+# Valve's wrapper: puts Mini Metro_Data/Plugins on LD_LIBRARY_PATH.
+exe = "launchscript"
+
+[icon]
+png = "Mini?Metro_Data/Resources/UnityPlayer.png"
+
+[desktop]
+name = "Mini Metro"
+comment = "Minimalist subway layout game"
+categories = "Game;StrategyGame;Simulation;"
+keywords = "subway;metro;puzzle;strategy"
+
+[deps]
+arch = ["libgl", "libx11", "libxext", "glu"]
+fedora = ["mesa-libGL", "libX11", "libXext", "mesa-libGLU"]
+debian = ["libgl1", "libx11-6", "libxext6", "libglu1-mesa"]
+

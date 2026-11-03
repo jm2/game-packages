@@ -1,0 +1,6 @@
+minimetro-hib (57-1) unstable; urgency=medium
+
+  * Moved into jm2/linux-packages from the AUR minimetro package (release 52)
+  * Update to release 57; icon from the game, launcher via gamelaunch
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

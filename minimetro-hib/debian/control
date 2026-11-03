@@ -1,0 +1,19 @@
+Source: minimetro-hib
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, libarchive-tools
+Standards-Version: 4.7.0
+Homepage: https://dinopoloclub.com/games/mini-metro/
+Rules-Requires-Root: no
+
+Package: minimetro-hib
+Architecture: amd64 arm64
+Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Provides: minimetro
+Conflicts: minimetro, minimetro-gog, minimetro-steam
+Replaces: minimetro
+Breaks: minimetro
+Description: Mini Metro (native Linux) with data via Humble Bundle
+ Mini Metro, the minimalist subway layout game by Dinosaur Polo Club, from the
+ DRM-free Linux build in your Humble Bundle library.

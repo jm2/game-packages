@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Mini Metro
+Comment=Minimalist subway layout game
+Exec=minimetro
+Icon=minimetro
+Terminal=false
+Categories=Game;StrategyGame;Simulation;
+Keywords=subway;metro;puzzle;strategy;
