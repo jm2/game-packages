@@ -1,0 +1,22 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: openQ4
+Source: https://github.com/themuffinator/openQ4
+
+Files: *
+Copyright: themuffinator and openQ4 contributors
+License: GPL-3.0+
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-3.
+
+Files: opt/openq4/baseoq4/*.so
+Copyright: id Software, Raven Software, openQ4 contributors
+License: LicenseRef-Quake4-SDK
+ Quake 4 SDK EULA; see /usr/share/doc/openq4-bin/LICENSE.
+
+Files: opt/openq4/q4base/*
+Copyright: id Software, Inc.
+License: LicenseRef-Quake4-EULA
+ See /usr/share/doc/openq4-bin/Quake4-License.txt.
+
+Files: debian/* openq4.sh
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

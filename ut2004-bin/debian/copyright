@@ -1,0 +1,14 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: UT2004Patches
+Source: https://github.com/OldUnreal/UT2004Patches
+
+Files: *
+Copyright: Epic Games, Inc.; OldUnreal
+License: LicenseRef-OldUnreal
+ Unreal Tournament 2004 patch binaries, distributed by OldUnreal with Epic
+ Games' permission. Not free software. Third-party components and their
+ licenses are listed in /usr/share/doc/ut2004-bin/LICENSE.md.
+
+Files: debian/* install.sh ut2004.sh ut2004.desktop README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

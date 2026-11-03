@@ -1,0 +1,22 @@
+Source: lilium-voyager-git
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), pkgconf, libsdl2-dev, libcurl4-gnutls-dev | libcurl-dev,
+ libfreetype-dev, libjpeg-dev, libmad0-dev, libopenal-dev, libopus-dev,
+ libopusfile-dev, libvorbis-dev, zlib1g-dev, desktop-file-utils, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://clover.moe/lilium-voyager/
+Rules-Requires-Root: no
+
+Package: lilium-voyager-git
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Suggests: eliteforce-data, mumble
+Provides: lilium-voyager
+Conflicts: lilium-voyager
+Description: ioquake3-based Voyager: Elite Force source port
+ Lilium Voyager is an ioquake3-based engine for Star Trek Voyager: Elite Force
+ Holomatch (multiplayer), with widescreen support (ZTM's Flexible Display),
+ modern renderers and the original gameplay. It needs the retail baseEF pk3
+ files in /opt/lilium-voyager/baseEF (eliteforce-data-gog installs them).

@@ -1,0 +1,3 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The PKGBUILD follows git master; Debian builds this pinned commit.
+f70d81108822da1ab63b5659d8b67135fe679f2a2cf1632bfd51980141ecc57d lilium-voyager-51fccb9b01faa8694b00be36a6262ff73b876d5a.tar.gz https://github.com/zturtleman/lilium-voyager/archive/51fccb9b01faa8694b00be36a6262ff73b876d5a/lilium-voyager-51fccb9b01faa8694b00be36a6262ff73b876d5a.tar.gz

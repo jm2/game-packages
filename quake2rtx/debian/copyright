@@ -1,0 +1,18 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Quake II RTX
+Source: https://github.com/NVIDIA/Q2RTX
+
+Files: *
+Copyright: 2019-2025 NVIDIA CORPORATION; 2018 Christoph Schied; 2018 Florian Simon;
+ 2018 Tobias Zirr; 2003-2013 Andrey Nazarov; 1997-2001 Id Software, Inc.
+License: GPL-2
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-2.
+
+Files: usr/share/quake2rtx/baseq2/pak0.pak
+Copyright: 1997 Id Software, Inc.
+License: LicenseRef-Quake2-Demo
+ The Quake II shareware episode, freely redistributable.
+
+Files: debian/* install.sh q2rtx.sh q2rtx.desktop
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

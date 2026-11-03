@@ -1,9 +1,10 @@
 [Desktop Entry]
-Name=UT2004
-Comment=Unreal Tournament 2004
-Exec=/usr/bin/ut2004
+Type=Application
+Name=Unreal Tournament 2004
+GenericName=First-person shooter
+Comment=Unreal Tournament 2004 (OldUnreal native binaries)
+Exec=ut2004
 Icon=ut2004
 Terminal=false
-Type=Application
-Categories=Application;Game;
-Keywords=Unreal;Tournament;Shooter;FPS;Arena;
+Categories=Game;ActionGame;
+Keywords=Unreal;Tournament;UT2004;Shooter;FPS;Arena;

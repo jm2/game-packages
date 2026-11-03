@@ -1,0 +1,19 @@
+Source: unreal-tournament-bin
+Section: non-free/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), bzip2, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/OldUnreal/UnrealTournamentPatches
+Rules-Requires-Root: no
+
+Package: unreal-tournament-bin
+Architecture: amd64 arm64
+Depends: unreal-tournament-data, libsdl2-2.0-0, libopenal1, libasound2t64 | libasound2, libgl1, libstdc++6, libgcc-s1, libfreetype6, libc6, ${misc:Depends}
+Provides: unreal-tournament
+Conflicts: unreal-tournament-goty-steam (<< 469f)
+Replaces: unreal-tournament-goty-steam (<< 469f)
+Description: Unreal Tournament 99 (GOTY) native binaries (OldUnreal)
+ Native Linux binaries for Unreal Tournament (GOTY) from OldUnreal's community
+ patch, installed to /opt/unreal-tournament. The game data comes from a
+ separate unreal-tournament-data-gog, -data-steam or -data-archiveorg package.

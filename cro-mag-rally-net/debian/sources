@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The same pinned commit as the PKGBUILD, and the Pomme commit it records.
+f762f4f338fb27b6487532e4ad6b6a0ec8f1452d8e89f52783a60eac79a74d47 CroMagRally-1345101db55ab1879b2e5caf11948b2beefc95fa.tar.gz https://github.com/jm2/CroMagRally/archive/1345101db55ab1879b2e5caf11948b2beefc95fa/CroMagRally-1345101db55ab1879b2e5caf11948b2beefc95fa.tar.gz
+c97281993b3cd6c169b4274b02259953a62c777b674d2994f95c8dbaabb59389 Pomme-06607ff2d7e3735f80deb0e75dec9f99f8542148.tar.gz https://github.com/jm2/Pomme/archive/06607ff2d7e3735f80deb0e75dec9f99f8542148/Pomme-06607ff2d7e3735f80deb0e75dec9f99f8542148.tar.gz

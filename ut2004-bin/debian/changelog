@@ -1,0 +1,5 @@
+ut2004-bin (3374~preview23-1) unstable; urgency=medium
+
+  * Initial Debian package: OldUnreal 3374-preview-23, system SDL3 and OpenAL.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

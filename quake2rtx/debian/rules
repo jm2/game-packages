@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+VER := 1.8.1
+STB := 5c205738c191bcb0abc65c4febfa9bd25ff35234
+TINYOBJ := 46d333d0165427b22895d05e278736bc9ef84365
+VKHEADERS := d4a196d8c84e032d27f999adcea3075517c1c97f
+GLSLANG := 99ee11b0106b48f06fb9e2a324ba928b8316cc33
+D := $(CURDIR)/debian/quake2rtx
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=src --builddirectory=build
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src q2rtx && mkdir src
+	tar -xzf Q2RTX-$(VER).tar.gz -C src --strip-components=1
+	for sm in stb:$(STB) tinyobjloader-c:$(TINYOBJ) Vulkan-Headers:$(VKHEADERS) glslang:$(GLSLANG); do \
+	    n=$${sm%%:*}; rm -rf src/extern/$$n && mkdir src/extern/$$n && \
+	    tar -xzf $$n-$${sm#*:}.tar.gz -C src/extern/$$n --strip-components=1 || exit 1; \
+	done
+	tar -xzf q2rtx-$(VER)-linux.tar.gz
+	dh_auto_configure -- -DUSE_SYSTEM_ZLIB=ON -DUSE_SYSTEM_CURL=ON \
+	    -DUSE_SYSTEM_SDL2=ON -DUSE_SYSTEM_OPENAL=ON -DCMAKE_SKIP_RPATH=ON -Wno-dev
+
+override_dh_auto_install:
+	sh install.sh src q2rtx $(D) quake2rtx $(D)/usr/share/doc/quake2rtx
+	desktop-file-validate $(D)/usr/share/applications/q2rtx.desktop
+
+override_dh_auto_test:
+
+override_dh_builddeb:
+	dh_builddeb -- -Zzstd -z1
+
+override_dh_auto_clean:
+	rm -rf src build q2rtx

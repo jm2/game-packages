@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+VER := 3.0.2
+COMMIT := 1345101db55ab1879b2e5caf11948b2beefc95fa
+POMME := 06607ff2d7e3735f80deb0e75dec9f99f8542148
+D := $(CURDIR)/debian/cro-mag-rally-net
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=src --builddirectory=build
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf CroMagRally-$(COMMIT).tar.gz -C src --strip-components=1
+	rmdir src/extern/Pomme && mkdir src/extern/Pomme
+	tar -xf Pomme-$(POMME).tar.gz -C src/extern/Pomme --strip-components=1
+	dh_auto_configure -- -Wno-dev
+
+override_dh_auto_install:
+	sh install.sh src build $(D) $(VER) cro-mag-rally-net
+	install -m644 src/LICENSE.md $(D)/usr/share/doc/cro-mag-rally-net/
+	install -m644 src/extern/Pomme/LICENSE.md $(D)/usr/share/doc/cro-mag-rally-net/Pomme-LICENSE.md
+	desktop-file-validate $(D)/usr/share/applications/cro-mag-rally.desktop
+
+override_dh_auto_clean:
+	rm -rf src build

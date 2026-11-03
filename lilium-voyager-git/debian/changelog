@@ -1,0 +1,6 @@
+lilium-voyager-git (0~git20261031.51fccb9b-1) unstable; urgency=medium
+
+  * Initial Debian package, built from commit 51fccb9 of
+    zturtleman/lilium-voyager.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

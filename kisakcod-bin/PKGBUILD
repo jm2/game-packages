@@ -1,0 +1,55 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+#
+# UNPUBLISHED: the KisakCOD v0.1.0 release on jm2/kisakcod is still a draft,
+# so the source URLs below return 404 until it is published. To build before
+# then, download the two linux tarballs with
+#   gh release download v0.1.0 -R jm2/kisakcod -p 'kisakcod-0.1.0-linux-*-client-beta.tar.xz'
+# into this directory. The checksums are those of the draft's assets
+# (SHA256SUMS.txt); re-check them if the release is rebuilt before publishing.
+
+pkgname=kisakcod-bin
+_pkgname=kisakcod
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Native Call of Duty 4 multiplayer client and dedicated server (beta binary release). You need the retail Call of Duty 4 data to play."
+arch=('x86_64' 'aarch64')
+url="https://github.com/jm2/kisakcod"
+license=('GPL-3.0-only' 'BSD-3-Clause' 'Zlib' 'LGPL-2.1-or-later' 'LGPL-2.0-or-later')
+depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'vulkan-icd-loader' 'vulkan-driver')
+optdepends=('cod4-data: retail Call of Duty 4 data in /opt/cod4 (or set KISAKCOD_COD4_PATH)'
+            'libx11: X11 video (with libxcursor, libxext, libxfixes, libxi, libxrandr, libxss)'
+            'libxcursor: X11 video'
+            'libxext: X11 video'
+            'libxfixes: X11 video'
+            'libxi: X11 video'
+            'libxrandr: X11 video'
+            'libxss: X11 video'
+            'wayland: native Wayland video'
+            'libxkbcommon: native Wayland keyboard input'
+            'libdecor: Wayland window decorations'
+            'libpulse: PulseAudio/PipeWire audio output'
+            'alsa-lib: ALSA audio output')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}" "${_pkgname}-git")
+options=('!strip' '!debug')
+source=("${_pkgname}.sh"
+        "${_pkgname}.desktop"
+        "install.sh"
+        "README.md")
+source_x86_64=("${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-x64-client-beta.tar.xz")
+source_aarch64=("${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-arm64-client-beta.tar.xz")
+sha256sums=('1dfa9568cbedd4959475c06aa3ef82a65650776dc2907f99d347ab9a2619e019'
+            'b606fe2b40aa8524102ae445f2f109f4dd0ba1840dd655d0e26049bcbcefe2ac'
+            '24ebcca38ec1986b171fc5b2703a619e491baf2ef0877447c4121e7f6fd0d4ec'
+            'a508648194c89836e7d8bbbf55dca4e823eb9564458c30f3e18d577fb3e94590')
+sha256sums_x86_64=('526115b416492fa0c0dbc748bc490a71f9713f6279ba1f61f2d58a23a6589958')
+sha256sums_aarch64=('d8489c672ee790208b0a396b066b5161bc67bff605c73aad8da532f30c8f05ec')
+
+package() {
+    # The x64 archive unpacks to kisakcod-<ver>-linux-amd64, arm64 to -linux-arm64.
+    local _src
+    _src=$(echo "${srcdir}/${_pkgname}-${pkgver}-linux-"*/)
+    sh "${srcdir}/install.sh" "${_src%/}" "${pkgdir}" "${pkgname}"
+
+    install -Dm644 "${_src}LICENSE" "${_src}THIRD-PARTY-NOTICES" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

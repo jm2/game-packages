@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+COMMIT := 51fccb9b01faa8694b00be36a6262ff73b876d5a
+D := $(CURDIR)/debian/lilium-voyager-git
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf lilium-voyager-$(COMMIT).tar.gz -C src --strip-components=1
+
+override_dh_auto_build:
+	sh q3make.sh build src
+
+override_dh_auto_install:
+	sh q3make.sh install src $(D) lilium-voyager-git
+	install -m644 src/COPYING.txt $(D)/usr/share/doc/lilium-voyager-git/
+	desktop-file-validate $(D)/usr/share/applications/lilium-voyager.desktop
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf src

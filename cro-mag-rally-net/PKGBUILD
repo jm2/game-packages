@@ -1,73 +1,50 @@
-# Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 # Contributor: George Rawlinson <george@rawlinson.net.nz>
 
 _pkgname=cro-mag-rally
 pkgname="${_pkgname}-net"
-pkgver=3.0.0
-pkgrel=1
-provides=("${_pkgname}")
-conflicts=("${_pkgname}")
+pkgver=3.0.2
+pkgrel=5
 pkgdesc='The wildest racing game since man invented the wheel! Experimental LAN build.'
-arch=('i686' 'x86_64' 'aarch64')
+arch=('x86_64' 'aarch64')
 url='https://github.com/jm2/CroMagRally'
-license=('custom:CC-BY-NC-SA-4.0')
-depends=('sdl2' 'glu' 'hicolor-icon-theme')
+license=('CC-BY-NC-SA-4.0' 'MIT')
+depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'libglvnd' 'sdl3')
 makedepends=('cmake' 'git')
-_commit='a0a60c09652df686f50968cf25f040db2268874e'
-source=(
-  "$_pkgname::git+$url.git#commit=$_commit"
-  'git+https://github.com/jorio/Pomme.git'
-  "$_pkgname.desktop"
-  "$_pkgname.sh"
-)
-b2sums=('SKIP'
-        'SKIP'
-        '2395a1f207c58e1ffdfe9a6036b99ad7ea3a19f6ab7a0418ed7c256f8c32ccfedf69924bfa3af807dfb7db33457d237d55f5b89566fc1ba87e182d701947eca9'
-        'ca267b6b8f9a0d1a8202bd938abbfe641ca1d8dbcf6d645bc311303a5fa407096648e4abb18c39c8324b8174295840daef67dea82e39866d3a7d89f06edb9a3c')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}")
+_commit='1345101db55ab1879b2e5caf11948b2beefc95fa'
+source=("${_pkgname}::git+${url}.git#commit=${_commit}"
+        'git+https://github.com/jm2/Pomme.git'
+        "${_pkgname}.desktop"
+        "${_pkgname}.sh"
+        'install.sh')
+sha256sums=('SKIP'
+            'SKIP'
+            '95fb5ad4d9371e4c1d0bcfd0df48146944fb161ae4ff94325050fbedc4ff85fc'
+            '79fcbc20ec4176edc87fe617d0cdce311271cabb41d566031cf6380262bb628e'
+            '7b54cab794eb7060726757d26b6e7bd2bb1cfaa91b2cdf0d28dab1023a6675d5')
 
 prepare() {
-  cd "$_pkgname"
+  cd "${_pkgname}"
 
-  # handle git submodules
-  git submodule init
-  git config submodule.extern/Pomme.url ../Pomme
-  git submodule--helper update
+  # Point the Pomme submodule at makepkg's clone; the superproject pins the
+  # commit. extern/gl4es is only used on Android/iOS and is not fetched.
+  git submodule init extern/Pomme
+  git config submodule.extern/Pomme.url "${srcdir}/Pomme"
+  git -c protocol.file.allow=always submodule update extern/Pomme
 }
 
 build() {
-  cd "$_pkgname"
-
-  cmake -S . -B build \
+  cmake -S "${_pkgname}" -B build \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -Wno-dev
-
   cmake --build build
 }
 
 package() {
-  cd "$_pkgname"
-
-  # move binary & assets
-  install -vd "$pkgdir/usr/lib/$_pkgname"
-  install -vDm755 -t "$pkgdir/usr/lib/$_pkgname" build/CroMagRally
-  mv -v build/Data "$pkgdir/usr/lib/$_pkgname"
-
-  # wrapper script for $PATH execution
-  install -vDm755 "$srcdir/$_pkgname.sh" "$pkgdir/usr/bin/$_pkgname"
-
-  # desktop file & icon
-  install -vDm644 -t "$pkgdir/usr/share/applications" "$srcdir/$_pkgname.desktop"
-  install -vDm644 packaging/cromagrally-desktopicon.png \
-    "$pkgdir/usr/share/icons/hicolor/512x512/apps/$_pkgname.png"
-
-  # documentation
-  install -vDm644 -t "$pkgdir/usr/share/doc/$_pkgname" *.md
-  rm -vf "$pkgdir/usr/share/doc/$_pkgname/LICENSE.md"
-  cp -vr docs "$pkgdir/usr/share/doc/$_pkgname"
-  sed -e "s/@PROJECT_VERSION@/$pkgver/" packaging/ReadMe.txt.in \
-    > "$pkgdir/usr/share/doc/$_pkgname/README"
-
-  # license
-  install -Dm644 -t "$pkgdir/usr/share/licenses/$_pkgname" LICENSE.md
+  sh "${srcdir}/install.sh" "${srcdir}/${_pkgname}" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "${_pkgname}/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "${_pkgname}/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
 }

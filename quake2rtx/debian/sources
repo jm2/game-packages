@@ -1,0 +1,9 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The v1.8.1 tag, the submodule commits it records, and the release tarball
+# for the media archives.
+f3721d2ed2fdbd0a6996f62400afab1480beaae301a60f2ba38235e764455943 Q2RTX-1.8.1.tar.gz https://github.com/NVIDIA/Q2RTX/archive/refs/tags/v1.8.1.tar.gz
+cfeab9f800961882d6d22ddf36e965523b33002f4f937de08321304c9ba72af3 stb-5c205738c191bcb0abc65c4febfa9bd25ff35234.tar.gz https://github.com/nothings/stb/archive/5c205738c191bcb0abc65c4febfa9bd25ff35234.tar.gz
+789eca1ca0255b74fb661b40018c0e3cc8f520bcd7c353379ab0ae63fc520f40 tinyobjloader-c-46d333d0165427b22895d05e278736bc9ef84365.tar.gz https://github.com/syoyo/tinyobjloader-c/archive/46d333d0165427b22895d05e278736bc9ef84365.tar.gz
+1e1cc5a939f376e20e03ae61485343b79133b87380ac2ff7ce7859714878e989 Vulkan-Headers-d4a196d8c84e032d27f999adcea3075517c1c97f.tar.gz https://github.com/KhronosGroup/Vulkan-Headers/archive/d4a196d8c84e032d27f999adcea3075517c1c97f.tar.gz
+c4c81485d6e3f52d1cdccf52362520d046c1f6d45312e7c52414817f849d7bad glslang-99ee11b0106b48f06fb9e2a324ba928b8316cc33.tar.gz https://github.com/KhronosGroup/glslang/archive/99ee11b0106b48f06fb9e2a324ba928b8316cc33.tar.gz
+31dfd0a924366272161d3e1ff728e8f1ae8304142e3ce954d0fa73d9ff5b7562 q2rtx-1.8.1-linux.tar.gz https://github.com/NVIDIA/Q2RTX/releases/download/v1.8.1/q2rtx-1.8.1-linux.tar.gz

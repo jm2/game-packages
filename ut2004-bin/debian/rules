@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+CPU := $(if $(filter arm64,$(DEB_HOST_ARCH)),aarch64,x86_64)
+D := debian/ut2004-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf patch && mkdir patch
+	tar -xjf OldUnreal-UT2004Patch3374-Linux-094b94dc.tar.bz2 -C patch
+
+override_dh_auto_install:
+	sh install.sh patch . $(D) $(CPU)
+	install -Dm644 LICENSE.upstream.md $(D)/usr/share/doc/ut2004-bin/LICENSE.md
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs:
+
+override_dh_auto_clean:
+	rm -rf patch

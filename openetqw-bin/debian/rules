@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+VER := 0.1.0
+ETQWVER := 1.5
+OEARCH := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x64)
+D := $(CURDIR)/debian/openetqw-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf openetqw etqw-$(ETQWVER) && mkdir openetqw etqw-$(ETQWVER)
+	tar -xf openetqw-$(VER)-linux-$(OEARCH).tar.xz -C openetqw --strip-components=1
+	# The 1.5 patch is a MojoSetup archive (shell stub + zip).
+	bsdtar -xf ETQW-client-$(ETQWVER)-full.x86.run -C etqw-$(ETQWVER) \
+	    'data/base/pak00[5-8].pk4' 'data/base/zpak_english00[1-3].pk4' data/EULA.txt
+
+override_dh_auto_install:
+	sh install.sh openetqw etqw-$(ETQWVER)/data $(D) $(OEARCH) openetqw-bin \
+	    $(D)/usr/share/doc/openetqw-bin/licenses
+	desktop-file-validate $(D)/usr/share/applications/openetqw.desktop
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
+
+# Mostly already-compressed pk4 (zip) data.
+override_dh_builddeb:
+	dh_builddeb -- -Zzstd -z1
+
+override_dh_auto_clean:
+	rm -rf openetqw etqw-$(ETQWVER)

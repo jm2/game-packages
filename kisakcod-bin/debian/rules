@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+VER := 0.1.0
+KCARCH := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x64)
+D := $(CURDIR)/debian/kisakcod-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf kisakcod && mkdir kisakcod
+	tar -xf kisakcod-$(VER)-linux-$(KCARCH)-client-beta.tar.xz -C kisakcod --strip-components=1
+
+override_dh_auto_install:
+	sh install.sh kisakcod $(D) kisakcod-bin
+	install -m644 kisakcod/LICENSE $(D)/usr/share/doc/kisakcod-bin/
+	desktop-file-validate $(D)/usr/share/applications/kisakcod.desktop
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
+
+override_dh_auto_clean:
+	rm -rf kisakcod

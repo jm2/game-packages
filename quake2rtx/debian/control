@@ -1,0 +1,22 @@
+Source: quake2rtx
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, python3, libcurl4-gnutls-dev | libcurl-dev,
+ libopenal-dev, libsdl2-dev, libvulkan-dev, zlib1g-dev, desktop-file-utils,
+ curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/NVIDIA/Q2RTX
+Rules-Requires-Root: no
+
+Package: quake2rtx
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Recommends: zenity | kdialog
+Replaces: quake2rtx-bin
+Breaks: quake2rtx-bin (<< 1.8.1-3)
+Description: ray-traced version of Quake II (built from source)
+ Quake II RTX is NVIDIA's path-traced remaster of Quake II, based on Q2VKPT
+ and Q2PRO. It ships the shareware episode; the full game's paks can be
+ imported from a retail install on the first launch. Needs a Vulkan driver
+ with ray tracing support.

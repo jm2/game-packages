@@ -1,0 +1,19 @@
+Source: ut2004-bin
+Section: non-free/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), bzip2, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/OldUnreal/UT2004Patches
+Rules-Requires-Root: no
+
+Package: ut2004-bin
+Architecture: amd64 arm64
+Depends: ut2004-data, libsdl3-0, libopenal1, libasound2t64 | libasound2, libgl1, libstdc++6, libgcc-s1, libc6, ${misc:Depends}
+Provides: ut2004
+Conflicts: ut2004-steam, ut2004-gog (<< 3375)
+Replaces: ut2004-gog (<< 3375)
+Description: Unreal Tournament 2004 ECE native binaries (OldUnreal)
+ Native Linux binaries for Unreal Tournament 2004 from OldUnreal's community
+ patch, installed to /opt/ut2004. The game data comes from a separate
+ ut2004-data-gog, ut2004-data-steam or ut2004-data-archiveorg package.

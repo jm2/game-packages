@@ -1,0 +1,27 @@
+Source: kisakcod-bin
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), desktop-file-utils, xz-utils, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/kisakcod
+Rules-Requires-Root: no
+
+Package: kisakcod-bin
+Architecture: amd64 arm64
+Depends: libc6 (>= 2.38), libstdc++6 (>= 13), libgcc-s1, libatomic1, libvulkan1,
+ hicolor-icon-theme, ${misc:Depends}
+Recommends: libx11-6, libxcursor1, libxext6, libxfixes3, libxi6, libxrandr2,
+ libxss1, libwayland-client0, libwayland-cursor0, libwayland-egl1,
+ libxkbcommon0, libdecor-0-0, libpulse0 | libasound2t64
+Suggests: cod4-data
+Provides: kisakcod
+Conflicts: kisakcod
+Description: Native Call of Duty 4 multiplayer client and server (beta binary release)
+ KisakCOD is a native 64-bit reimplementation of the Call of Duty 4: Modern
+ Warfare (1.8) multiplayer client and dedicated server. It bundles its runtime
+ (SDL3, OpenAL Soft, Bink-only FFmpeg, dxvk-native) and renders through Vulkan.
+ .
+ It contains no game data: it needs your own Steam copy of Call of Duty 4,
+ which it reads from /opt/cod4 (cod4-data-steam) by default. Set
+ KISAKCOD_COD4_PATH or pass "+set fs_basepath <dir>" to use another location.

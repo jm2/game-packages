@@ -1,0 +1,30 @@
+Source: openetqw-bin
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), desktop-file-utils, libarchive-tools, patchelf, xz-utils, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/openETQW
+Rules-Requires-Root: no
+
+Package: openetqw-bin
+Architecture: amd64 arm64
+Depends: libc6 (>= 2.38), libstdc++6 (>= 13), libgcc-s1, libgl1, zlib1g,
+ hicolor-icon-theme, ${misc:Depends}
+Recommends: libvulkan1, libx11-6, libxcursor1, libxext6, libxfixes3, libxi6,
+ libxrandr2, libxss1, libwayland-client0, libwayland-cursor0, libwayland-egl1,
+ libxkbcommon0, libdecor-0-0, libpulse0 | libasound2t64, zenity | kdialog
+Suggests: etqw-data
+Provides: openetqw
+Conflicts: openetqw
+Description: Open-source Enemy Territory: QUAKE Wars engine (binary release)
+ openETQW is an open-source engine for Enemy Territory: QUAKE Wars 1.5, with
+ a Vulkan renderer (OpenGL fallback), dedicated server and the retail game
+ module rebuilt from id Software's ET:QW SDK.
+ .
+ This package includes the ET:QW 1.5 patch paks (pak005.pk4 - pak008.pk4 and
+ the English zpaks) extracted from id Software's Linux 1.5 client patch. You
+ still need the retail base data (base/pak000.pk4 - pak004.pk4, megatextures,
+ video). openETQW looks in /opt/etqw first, then in Steam, retail and Wine
+ installs; set OPENETQW_BASEPATH or pass "+set fs_basepath <dir>" to use
+ another location.

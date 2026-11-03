@@ -1,0 +1,14 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: UnrealTournamentPatches
+Source: https://github.com/OldUnreal/UnrealTournamentPatches
+
+Files: *
+Copyright: Epic Games, Inc.; OldUnreal
+License: LicenseRef-OldUnreal
+ Unreal Tournament patch binaries, distributed by OldUnreal with Epic Games'
+ permission. Not free software. Third-party components and their licenses
+ are listed in /usr/share/doc/unreal-tournament-bin/LICENSE.md.
+
+Files: debian/* install.sh unreal-tournament.sh unreal-tournament.desktop README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

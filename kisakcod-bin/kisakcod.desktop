@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=KisakCOD
+GenericName=Multiplayer shooter
+Comment=Native Call of Duty 4 multiplayer client (needs the retail game data)
+Exec=kisakcod
+Icon=kisakcod
+Terminal=false
+Categories=Game;ActionGame;

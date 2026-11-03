@@ -1,0 +1,5 @@
+quake2rtx (1.8.1-1) unstable; urgency=medium
+
+  * Initial Debian package, built from the v1.8.1 tag.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

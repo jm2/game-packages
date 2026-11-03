@@ -1,0 +1,68 @@
+#!/usr/bin/make -f
+# Mirrors the PKGBUILD and openq4-bin.spec: keep the three in step.
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+VER := 0.13.2
+Q4VER := 1.4.2
+# Upstream names its binaries and modules by architecture tag.
+OQ4ARCH := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x64)
+# The arm64 archive carries a -preview suffix.
+TARBALL := openq4-$(VER)-linux-$(OQ4ARCH)$(if $(filter arm64,$(OQ4ARCH)),-preview).tar.xz
+D := $(CURDIR)/debian/openq4-bin
+Q4 := $(CURDIR)/quake4-$(Q4VER)
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf openq4 $(Q4) && mkdir openq4
+	tar -xf $(TARBALL) -C openq4 --strip-components=1
+	# Unpack the makeself archive without running its installer.
+	sh quake4-linux-$(Q4VER).x86.run --noexec --nox11 --target $(Q4)
+
+override_dh_auto_install:
+	# Engine, renderers and openQ4 runtime content
+	cd openq4 && install -D -m 755 -t $(D)/opt/openq4/ \
+	    openQ4-client_$(OQ4ARCH) openQ4-ded_$(OQ4ARCH) renderer-*_$(OQ4ARCH).so
+	cd openq4 && install -D -m 644 -t $(D)/opt/openq4/ VERSION.txt
+	cd openq4 && install -D -m 755 -t $(D)/opt/openq4/baseoq4/ baseoq4/*.so
+	cd openq4 && install -D -m 644 -t $(D)/opt/openq4/baseoq4/ baseoq4/*.pk4 baseoq4/mod.json
+	# Quake 4 1.4.2 patch paks, mounted from the q4base overlay
+	install -D -m 644 -t $(D)/opt/openq4/q4base/ \
+	    $(Q4)/q4base/pak0??.pk4 \
+	    $(Q4)/q4base/q4cmp_pak001.pk4 \
+	    $(Q4)/q4base/zpak_english_0?.pk4 \
+	    $(Q4)/us/q4base/*.pk4
+	# Launcher and its dedicated server / Steam Deck aliases
+	install -d $(D)/usr/bin
+	sed 's/@ARCH@/$(OQ4ARCH)/g' openq4.sh > $(D)/usr/bin/openq4
+	chmod 755 $(D)/usr/bin/openq4
+	ln -s openq4 $(D)/usr/bin/openq4-dedicated
+	ln -s openq4 $(D)/usr/bin/openq4-steamdeck
+	# Desktop files, pointed at the launcher
+	install -d $(D)/usr/share/applications
+	cd openq4 && for desktop in share/applications/*.desktop; do \
+	    sed -e 's/^Exec=openQ4-steamdeck/Exec=openq4-steamdeck/' \
+	        -e 's/^Exec=openQ4-client_.*/Exec=openq4/' "$$desktop" \
+	        > $(D)/usr/share/applications/"$${desktop##*/}"; \
+	done
+	desktop-file-validate $(D)/usr/share/applications/*.desktop
+	# Icons
+	cd openq4 && for icon in share/icons/hicolor/*/apps/openq4.*; do \
+	    install -D -m 644 "$$icon" $(D)/usr/"$$icon"; \
+	done
+	# Documentation and licenses (openQ4 GPL + SDK EULA, id's license for the patch paks)
+	install -d $(D)/usr/share/doc/openq4-bin
+	install -m 644 openq4/README.html openq4/LICENSE $(D)/usr/share/doc/openq4-bin/
+	cp -r --no-preserve=ownership openq4/docs $(D)/usr/share/doc/openq4-bin/
+	install -m 644 $(Q4)/License.txt $(D)/usr/share/doc/openq4-bin/Quake4-License.txt
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
+
+# Mostly already-compressed pk4 (zip) data.
+override_dh_builddeb:
+	dh_builddeb -- -Zzstd -z1
+
+override_dh_auto_clean:
+	rm -rf openq4 $(Q4)

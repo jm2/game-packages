@@ -1,51 +1,71 @@
-# Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+#
+# Upstream (NVIDIA/Q2RTX) was archived after 1.8.1, so this is the final
+# release. This builds the engine from the v1.8.1 tag against the system
+# zlib, curl, SDL2 and OpenAL (the bundled glslang, Vulkan-Headers, stb and
+# tinyobjloader submodules are still used); the media archives come from the
+# release tarball. Builds natively for x86_64 and aarch64 (replaces the old quake2rtx-bin).
+
 pkgname=quake2rtx
-pkgver=1.7.0
+pkgver=1.8.1
 pkgrel=1
-pkgdesc="Ray-traced version of Quake II."
-arch=(x86_64 aarch64)
+pkgdesc="Ray-traced version of Quake II (built from source)"
+arch=('x86_64' 'aarch64')
 url="https://github.com/NVIDIA/Q2RTX"
-license=('GPL')
-groups=()
-depends=(zlib curl sdl2 vulkan-headers vulkan-driver)
-makedepends=(git cmake)
-checkdepends=()
-optdepends=()
-provides=('quake2rtx')
-conflicts=('quake2rtx-bin')
-replaces=()
-source=("git+https://github.com/NVIDIA/Q2RTX.git"
-        "https://github.com/NVIDIA/Q2RTX/releases/download/v${pkgver}/q2rtx-${pkgver}-linux.tar.gz")
+license=('GPL-2.0-only' 'LicenseRef-Quake2-Demo')
+depends=('bash' 'curl' 'gcc-libs' 'glibc' 'hicolor-icon-theme' 'openal' 'sdl2'
+         'vulkan-driver' 'vulkan-icd-loader' 'zlib')
+makedepends=('cmake' 'git' 'python')
+optdepends=('zenity: retail pak import dialog on first launch (or kdialog)')
+provides=("${pkgname}=${pkgver}")
+conflicts=("${pkgname}-bin")
+replaces=("${pkgname}-bin")
+source=("Q2RTX::git+${url}.git#tag=v${pkgver}"
+        "git+https://github.com/nothings/stb.git"
+        "git+https://github.com/syoyo/tinyobjloader-c.git"
+        "git+https://github.com/KhronosGroup/Vulkan-Headers.git"
+        "git+https://github.com/KhronosGroup/glslang.git"
+        "${url}/releases/download/v${pkgver}/q2rtx-${pkgver}-linux.tar.gz"
+        "q2rtx.sh"
+        "q2rtx.desktop"
+        "install.sh")
 sha256sums=('SKIP'
-            '7309ad2f2d062275c651a5c0fc0552427682215a8099472e4778cb61517290f3')
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            '31dfd0a924366272161d3e1ff728e8f1ae8304142e3ce954d0fa73d9ff5b7562'
+            'c54c84872bf6028adcf356ec927713a4b3b0cb183b59c685d7402762d3025360'
+            '2996ba54148a732e8ceacd8319b12c92b7f6e68e07d07c41ad3e991d9920ecc4'
+            '436b3f83dcd62b1fc6b84927935721b7c9c61d26617ec39a59b499f10fb5704b')
+
+_submodules=(stb tinyobjloader-c Vulkan-Headers glslang)
 
 prepare() {
-  cd "${srcdir}/Q2RTX"
-  git checkout tags/v${pkgver}
-  git submodule update --init --recursive
-  mkdir -p ${srcdir}/Q2RTX/{build,baseq2}
-  cp -rf ${srcdir}/q2rtx/baseq2/* ${srcdir}/Q2RTX/baseq2/
+    cd Q2RTX
+    # Point the submodules at makepkg's clones; the superproject pins the
+    # commits. zlib, curl, SDL2 and openal-soft come from the system.
+    local _sm
+    for _sm in "${_submodules[@]}"; do
+        git submodule init "extern/${_sm}"
+        git config "submodule.extern/${_sm}.url" "${srcdir}/${_sm}"
+    done
+    git -c protocol.file.allow=always submodule update "${_submodules[@]/#/extern/}"
 }
 
 build() {
-  cd "${srcdir}/Q2RTX/build"
-  cmake ..
-  cmake --build .
+    cmake -S Q2RTX -B build \
+        -DCMAKE_BUILD_TYPE=None \
+        -DUSE_SYSTEM_ZLIB=ON \
+        -DUSE_SYSTEM_CURL=ON \
+        -DUSE_SYSTEM_SDL2=ON \
+        -DUSE_SYSTEM_OPENAL=ON \
+        -DCMAKE_SKIP_RPATH=ON \
+        -Wno-dev
+    cmake --build build
 }
 
 package() {
-  mkdir -p "${pkgdir}/usr/share/${pkgname}/bin"
-  cp "${srcdir}/q2rtx"/{changelog.md,license.txt,notice.txt,readme.md} "${pkgdir}/usr/share/${pkgname}/"
-  cp "${srcdir}/q2rtx"/find-retail-paks.sh "${pkgdir}/usr/share/${pkgname}/bin/"
-  cp "${srcdir}/Q2RTX"/q2rtx{,ded} "${pkgdir}/usr/share/${pkgname}/bin/"
-  cp -r "${srcdir}/Q2RTX/baseq2" "${pkgdir}/usr/share/${pkgname}/"
-  install -Dm755 "${srcdir}/q2rtx/q2rtx.sh" "${pkgdir}/usr/bin/${pkgname}"
-  install -Dm755 "${srcdir}/q2rtx/q2rtx.sh" "${pkgdir}/usr/bin/q2rtx"
-  install -Dm755 "${srcdir}/q2rtx/find-retail-paks.sh" "${pkgdir}/usr/bin/${pkgname}-find-retail-paks"
-  install -Dm644 \
-    "${srcdir}/Q2RTX/setup/q2rtx.png" \
-    "${pkgdir}/usr/share/pixmaps/q2rtx.png"
-  install -Dm644 \
-    "${srcdir}/Q2RTX/setup/q2rtx.desktop" \
-    "${pkgdir}/usr/share/applications/q2rtx.desktop"
+    sh "${srcdir}/install.sh" "${srcdir}/Q2RTX" "${srcdir}/q2rtx" "${pkgdir}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}"
 }

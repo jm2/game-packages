@@ -1,0 +1,17 @@
+[Unit]
+Description=Lilium Voyager (Elite Force Holomatch) dedicated server
+Documentation=https://clover.moe/lilium-voyager/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Configs and logs go to /var/lib/lilium-voyager-server. A map must be loaded
+# (for example "+map hm_borg1" through a drop-in) before players can join.
+DynamicUser=yes
+StateDirectory=lilium-voyager-server
+Environment=HOME=%S/lilium-voyager-server
+ExecStart=/opt/lilium-voyager/lilium-voyager-server +set dedicated 2
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+CPU := $(if $(filter arm64,$(DEB_HOST_ARCH)),aarch64,x86_64)
+TARBALL := OldUnreal-UTPatch469e-Linux-$(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,amd64).tar.bz2
+D := debian/unreal-tournament-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf patch && mkdir patch
+	tar -xjf $(TARBALL) -C patch
+
+override_dh_auto_install:
+	sh install.sh patch . $(D) $(CPU)
+	install -Dm644 patch/LICENSE.md $(D)/usr/share/doc/unreal-tournament-bin/LICENSE.md
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs:
+
+override_dh_auto_clean:
+	rm -rf patch

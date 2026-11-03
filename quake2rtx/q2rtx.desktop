@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Quake II RTX
+Comment=Path-traced remaster of Quake II
+Exec=q2rtx
+Icon=q2rtx
+Terminal=false
+Categories=Game;ActionGame;Shooter;

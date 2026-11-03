@@ -1,0 +1,15 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: KisakCOD
+Source: https://github.com/jm2/kisakcod
+
+Files: *
+Copyright: KisakCOD contributors
+License: GPL-3
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-3.
+ The bundled runtime (SDL3, dxvk-native: Zlib; FFmpeg: LGPL-2.1+;
+ OpenAL Soft: LGPL-2+) and the statically linked ODE, zlib, unzip and Speex
+ are listed in /usr/share/doc/kisakcod-bin/THIRD-PARTY-NOTICES.
+
+Files: debian/* install.sh kisakcod.sh kisakcod.desktop README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

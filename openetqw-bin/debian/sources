@@ -1,0 +1,10 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# UNPUBLISHED: the v0.1.0 release is still a draft, so the two release URLs
+# return 404 until it is published; put the tarballs next to debian/ (or in
+# $PT_CACHE) to build before then. Both architectures are listed;
+# debian/rules unpacks the host's.
+ecc0b0551655fd197da8268238e1a65e2b776790a38f074a9b986b5c05e56e74 openetqw-0.1.0-linux-x64.tar.xz https://github.com/jm2/openETQW/releases/download/v0.1.0/openetqw-0.1.0-linux-x64.tar.xz
+92aae170caa37aa8a2af8224298154f75b6583c5c84ef013cf80c9f4dbb64ade openetqw-0.1.0-linux-arm64.tar.xz https://github.com/jm2/openETQW/releases/download/v0.1.0/openetqw-0.1.0-linux-arm64.tar.xz
+827395c5ad7bff36a8456f7f210ab43b8cc2b0d18e9f366d15ff4f11eacfc4c5 ETQW-client-1.5-full.x86.run https://cdn.splashdamage.com/downloads/games/etqw/ETQW-client-1.5-full.x86.run
+2b2cbaee9b8255a1ba50dfa8ffc4a3a5dcded068279a0419b3ec675d3d159dd1 openetqw.desktop https://raw.githubusercontent.com/jm2/openETQW/90bc0382eaf7280ca3745ddfbb998420b2ce6571/tools/build/linux/openetqw.desktop
+ee009d912966584867144253b815eef564085ce74b85e8c51c400aeb43579927 etqw_icon.png https://raw.githubusercontent.com/jm2/openETQW/90bc0382eaf7280ca3745ddfbb998420b2ce6571/assets/icons/etqw_icon.png

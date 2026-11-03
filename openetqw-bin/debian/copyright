@@ -1,0 +1,27 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: openETQW
+Source: https://github.com/jm2/openETQW
+
+Files: *
+Copyright: openETQW contributors, id Software, jmarshall
+License: GPL-3+
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-3.
+
+Files: opt/openetqw/game_*.so
+Copyright: id Software, Inc., Splash Damage, openETQW contributors
+License: LicenseRef-ETQW-SDK-EULA
+ See /usr/share/doc/openetqw-bin/licenses/ETQW-SDK/EULA_SDK_ETQW.txt.
+
+Files: opt/openetqw/base/*.pk4 opt/openetqw/assets/* usr/share/icons/*
+Copyright: id Software, Inc.
+License: LicenseRef-ETQW-EULA
+ See /usr/share/doc/openetqw-bin/licenses/ETQW-EULA.txt.
+
+Files: opt/openetqw/libSDL3.so.0 opt/openetqw/glslangValidator
+Copyright: Sam Lantinga; The Khronos Group and glslang contributors
+License: Zlib and BSD-3-Clause and BSD-2-Clause and MIT and Apache-2.0
+ See /usr/share/doc/openetqw-bin/licenses/.
+
+Files: debian/* install.sh openetqw.sh README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

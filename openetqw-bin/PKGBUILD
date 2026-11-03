@@ -1,0 +1,78 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+#
+# UNPUBLISHED: the openETQW v0.1.0 release on jm2/openETQW is still a draft,
+# so the release URLs below return 404 until it is published. To build before
+# then, download the two linux tarballs with
+#   gh release download v0.1.0 -R jm2/openETQW -p 'openetqw-0.1.0-linux-x64.tar.xz' -p 'openetqw-0.1.0-linux-arm64.tar.xz'
+# into this directory. The checksums are those of the draft's assets
+# (openetqw-0.1.0-SHA256SUMS.txt); re-check them if the release is rebuilt
+# before publishing.
+
+pkgname=openetqw-bin
+_pkgname=openetqw
+pkgver=0.1.0
+_commit=90bc0382eaf7280ca3745ddfbb998420b2ce6571
+_etqwver=1.5
+pkgrel=1
+pkgdesc="Open-source Enemy Territory: QUAKE Wars engine (binary release). You need the retail ET:QW data to play."
+arch=('x86_64' 'aarch64')
+url="https://github.com/jm2/openETQW"
+license=('GPL-3.0-or-later' 'LicenseRef-ETQW-SDK-EULA' 'LicenseRef-ETQW-EULA' 'LicenseRef-ETQW-Retail'
+         'Zlib' 'MIT' 'BSD-3-Clause' 'BSD-2-Clause' 'Apache-2.0')
+depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'libgl' 'zlib')
+optdepends=('etqw-data: retail ET:QW data in /opt/etqw (otherwise a Steam/retail/Wine install is detected)'
+            'vulkan-icd-loader: Vulkan renderer (the default; OpenGL is the fallback)'
+            'libx11: X11 video (with libxcursor, libxext, libxfixes, libxi, libxrandr, libxss)'
+            'libxcursor: X11 video'
+            'libxext: X11 video'
+            'libxfixes: X11 video'
+            'libxi: X11 video'
+            'libxrandr: X11 video'
+            'libxss: X11 video'
+            'wayland: native Wayland video'
+            'libxkbcommon: native Wayland keyboard input'
+            'libdecor: Wayland window decorations'
+            'libpulse: PulseAudio/PipeWire audio output'
+            'alsa-lib: ALSA audio output'
+            'zenity: asks for the ET:QW folder when none is found (or kdialog)')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}" "${_pkgname}-git")
+makedepends=('patchelf')
+options=('!strip' '!debug')
+source=("openetqw.sh"
+        "install.sh"
+        "README.md"
+        "openetqw.desktop::https://raw.githubusercontent.com/jm2/openETQW/${_commit}/tools/build/linux/openetqw.desktop"
+        "etqw_icon.png::https://raw.githubusercontent.com/jm2/openETQW/${_commit}/assets/icons/etqw_icon.png"
+        "https://cdn.splashdamage.com/downloads/games/etqw/ETQW-client-${_etqwver}-full.x86.run")
+source_x86_64=("${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-x64.tar.xz")
+source_aarch64=("${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-arm64.tar.xz")
+noextract=("ETQW-client-${_etqwver}-full.x86.run")
+sha256sums=('160e4cac5ae6391215be9471c988b97617cbb9f9c00157d3a39ce9209889a22c'
+            '8e4488d528ddf51bcf523a97c0e96bedab99b191c0583f15bd567160f3b4aa2d'
+            'd1990dc18484ff4a3baf4cd09f24e83fdc16873af0093e0d5dac608f00b946ef'
+            '2b2cbaee9b8255a1ba50dfa8ffc4a3a5dcded068279a0419b3ec675d3d159dd1'
+            'ee009d912966584867144253b815eef564085ce74b85e8c51c400aeb43579927'
+            '827395c5ad7bff36a8456f7f210ab43b8cc2b0d18e9f366d15ff4f11eacfc4c5')
+sha256sums_x86_64=('ecc0b0551655fd197da8268238e1a65e2b776790a38f074a9b986b5c05e56e74')
+sha256sums_aarch64=('92aae170caa37aa8a2af8224298154f75b6583c5c84ef013cf80c9f4dbb64ade')
+
+# Upstream names its binaries and modules by architecture tag.
+case "${CARCH}" in
+    x86_64)  _arch=x64 ;;
+    aarch64) _arch=arm64 ;;
+esac
+
+prepare() {
+    # The 1.5 patch paks (pak005-pak008, zpak_english001-003) from id's Linux
+    # client patch, a MojoSetup archive (shell stub + zip).
+    rm -rf "etqw-${_etqwver}" && mkdir "etqw-${_etqwver}"
+    bsdtar -xf "ETQW-client-${_etqwver}-full.x86.run" -C "etqw-${_etqwver}" \
+        'data/base/pak00[5-8].pk4' 'data/base/zpak_english00[1-3].pk4' data/EULA.txt
+}
+
+package() {
+    sh "${srcdir}/install.sh" "${srcdir}/${_pkgname}-${pkgver}-linux-${_arch}" \
+        "${srcdir}/etqw-${_etqwver}/data" "${pkgdir}" "${_arch}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}"
+}
