@@ -25,6 +25,7 @@ Source5:       Blur.exe.unpacked.exe
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 Requires:       gamelaunch
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu

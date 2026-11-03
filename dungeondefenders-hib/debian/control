@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: dungeondefenders-hib
 Architecture: amd64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Dungeon Defenders (native Linux) with data via Humble Bundle
  Dungeon Defenders (native Linux) with data via Humble Bundle

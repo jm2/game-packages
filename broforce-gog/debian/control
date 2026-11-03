@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: broforce-gog
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Provides: broforce
 Conflicts: broforce-steam
 Description: Broforce (native Linux) with data via GOG

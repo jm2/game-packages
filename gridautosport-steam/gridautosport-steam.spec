@@ -25,6 +25,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  gbe-fork-bin
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
+Requires:       hicolor-icon-theme
 
 %description
 GRID Autosport (native Linux, Feral) with data via Steam

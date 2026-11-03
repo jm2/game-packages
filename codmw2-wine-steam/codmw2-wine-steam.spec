@@ -29,6 +29,7 @@ BuildRequires:  unzip
 BuildRequires:  gbe-fork-bin
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu

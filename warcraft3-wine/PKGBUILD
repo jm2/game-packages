@@ -8,7 +8,7 @@ pkgdesc='Warcraft III Classic (1.27) using Wine'
 arch=('x86_64')
 url='https://us.forums.blizzard.com/en/warcraft3/t/classic-warcraft-iii-official-installers-official-patches/21415'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'umu-launcher')
+depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('unzip')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

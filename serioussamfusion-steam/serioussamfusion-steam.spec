@@ -26,6 +26,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  gbe-fork-bin
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       fex-emu
 # x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems

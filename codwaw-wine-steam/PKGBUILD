@@ -8,7 +8,7 @@ pkgdesc='Call of Duty: World at War using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'umu-launcher')
+depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: cod4-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, cod4-data, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, cod4-data, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Call of Duty 4: Modern Warfare using Wine (game data from cod4-data-steam)
  Call of Duty 4: Modern Warfare using Wine (game data from cod4-data-steam)

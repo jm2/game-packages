@@ -8,7 +8,7 @@ pkgdesc='Split/Second using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/297860/SplitSecond/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'umu-launcher')
+depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

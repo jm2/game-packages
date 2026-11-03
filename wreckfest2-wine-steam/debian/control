@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: wreckfest2-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, wreckfest2-wine-steam-data1 (= ${binary:Version}), wreckfest2-wine-steam-data2 (= ${binary:Version}), wreckfest2-wine-steam-data3 (= ${binary:Version}), wreckfest2-wine-steam-data4 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, wreckfest2-wine-steam-data1 (= ${binary:Version}), wreckfest2-wine-steam-data2 (= ${binary:Version}), wreckfest2-wine-steam-data3 (= ${binary:Version}), wreckfest2-wine-steam-data4 (= ${binary:Version}), ${misc:Depends}
 Description: Wreckfest 2 using Wine with data via Steam
  Wreckfest 2 using Wine with data via Steam
 

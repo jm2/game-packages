@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: simcity4-wine-gog
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: SimCity 4 Deluxe Edition using Wine with data via GOG
  SimCity 4 Deluxe Edition using Wine with data via GOG

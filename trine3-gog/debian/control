@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: trine3-gog
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Trine 3: The Artifacts of Power (native Linux) with data via GOG
  Trine 3: The Artifacts of Power (native Linux) with data via GOG

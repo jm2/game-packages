@@ -8,7 +8,7 @@ pkgdesc='Age of Mythology: Retold using Wine with data via Steam, ageLANServer f
 arch=('x86_64')
 url='https://steamdb.info/app/1934680/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'agelanserver-bin' 'agelanserver-companion-bin' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'agelanserver-bin' 'agelanserver-companion-bin' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend' 'aoe2-de-wine-steam: Battle Server for hosting LAN games')
 options=('!strip' '!debug' 'emptydirs')

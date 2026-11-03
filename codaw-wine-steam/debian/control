@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: codaw-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, codaw-wine-steam-data1 (= ${binary:Version}), codaw-wine-steam-data2 (= ${binary:Version}), codaw-wine-steam-data3 (= ${binary:Version}), codaw-wine-steam-data4 (= ${binary:Version}), codaw-wine-steam-data5 (= ${binary:Version}), codaw-wine-steam-data6 (= ${binary:Version}), codaw-wine-steam-data7 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, codaw-wine-steam-data1 (= ${binary:Version}), codaw-wine-steam-data2 (= ${binary:Version}), codaw-wine-steam-data3 (= ${binary:Version}), codaw-wine-steam-data4 (= ${binary:Version}), codaw-wine-steam-data5 (= ${binary:Version}), codaw-wine-steam-data6 (= ${binary:Version}), codaw-wine-steam-data7 (= ${binary:Version}), ${misc:Depends}
 Description: Call of Duty: Advanced Warfare using Wine with data via Steam
  Call of Duty: Advanced Warfare using Wine with data via Steam
 

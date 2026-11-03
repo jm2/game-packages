@@ -8,7 +8,7 @@ pkgdesc='DiRT Rally 2.0 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/690790/DiRT_Rally_20/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

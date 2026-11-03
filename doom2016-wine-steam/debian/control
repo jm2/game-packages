@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: doom2016-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, doom2016-wine-steam-data1 (= ${binary:Version}), doom2016-wine-steam-data2 (= ${binary:Version}), doom2016-wine-steam-data3 (= ${binary:Version}), doom2016-wine-steam-data4 (= ${binary:Version}), doom2016-wine-steam-data5 (= ${binary:Version}), doom2016-wine-steam-data6 (= ${binary:Version}), doom2016-wine-steam-data7 (= ${binary:Version}), doom2016-wine-steam-data8 (= ${binary:Version}), doom2016-wine-steam-data9 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, doom2016-wine-steam-data1 (= ${binary:Version}), doom2016-wine-steam-data2 (= ${binary:Version}), doom2016-wine-steam-data3 (= ${binary:Version}), doom2016-wine-steam-data4 (= ${binary:Version}), doom2016-wine-steam-data5 (= ${binary:Version}), doom2016-wine-steam-data6 (= ${binary:Version}), doom2016-wine-steam-data7 (= ${binary:Version}), doom2016-wine-steam-data8 (= ${binary:Version}), doom2016-wine-steam-data9 (= ${binary:Version}), ${misc:Depends}
 Description: DOOM (2016) using Wine with data via Steam
  DOOM (2016) using Wine with data via Steam
 

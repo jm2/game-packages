@@ -8,7 +8,7 @@ pkgdesc='Call of Duty 4: Modern Warfare using Wine (game data from cod4-data-ste
 arch=('x86_64')
 url='https://store.steampowered.com/app/7940/Call_of_Duty_4_Modern_Warfare/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'cod4-data' 'umu-launcher')
+depends=('gamelaunch' 'cod4-data' 'hicolor-icon-theme' 'umu-launcher')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"

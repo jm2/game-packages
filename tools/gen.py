@@ -183,6 +183,8 @@ class Pkg:
             out.append("xlln-bin")
         if self.data_package:
             out.append(self.data_package)
+        if self.t.get("icon"):                    # icons go into the hicolor tree
+            out.append("hicolor-icon-theme")
         if not (self.game and not self.wine):     # native games' deps are x86 libraries
             out += self.deps.get(fmt, [])
         out += self.deps.get(f"{fmt}_common", [])

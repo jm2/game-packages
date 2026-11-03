@@ -8,7 +8,7 @@ pkgdesc='Colin McRae: DiRT 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/12840/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'xlln-bin' 'umu-launcher')
+depends=('gamelaunch' 'xlln-bin' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

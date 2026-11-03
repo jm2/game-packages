@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: grid2019-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, grid2019-wine-steam-data1 (= ${binary:Version}), grid2019-wine-steam-data2 (= ${binary:Version}), grid2019-wine-steam-data3 (= ${binary:Version}), grid2019-wine-steam-data4 (= ${binary:Version}), grid2019-wine-steam-data5 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, grid2019-wine-steam-data1 (= ${binary:Version}), grid2019-wine-steam-data2 (= ${binary:Version}), grid2019-wine-steam-data3 (= ${binary:Version}), grid2019-wine-steam-data4 (= ${binary:Version}), grid2019-wine-steam-data5 (= ${binary:Version}), ${misc:Depends}
 Description: GRID (2019) using Wine with data via Steam
  GRID (2019) using Wine with data via Steam
 

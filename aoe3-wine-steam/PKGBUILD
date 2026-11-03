@@ -8,7 +8,7 @@ pkgdesc='Age of Empires III (2007) Complete Collection using Wine with data via 
 arch=('x86_64')
 url='https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'umu-launcher')
+depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

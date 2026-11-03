@@ -25,6 +25,7 @@ ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  bsdtar
 Requires:       gamelaunch
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       fex-emu
 # x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems

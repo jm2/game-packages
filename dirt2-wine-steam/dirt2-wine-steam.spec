@@ -25,6 +25,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 Requires:       gamelaunch
 Requires:       xlln-bin
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu

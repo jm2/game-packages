@@ -33,6 +33,7 @@ BuildRequires:  icoutils
 BuildRequires:  gbe-fork-bin
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
+Requires:       hicolor-icon-theme
 Requires:       agelanserver-bin
 Requires:       agelanserver-companion-bin
 %ifarch aarch64

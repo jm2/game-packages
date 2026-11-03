@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: trine-gog
 Architecture: amd64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Trine Enchanted Edition (native Linux) with data via GOG
  Trine Enchanted Edition (native Linux) with data via GOG

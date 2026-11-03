@@ -26,6 +26,7 @@ ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  unzip
 Requires:       gamelaunch
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu

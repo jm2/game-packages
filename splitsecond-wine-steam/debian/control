@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: splitsecond-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Split/Second using Wine with data via Steam
  Split/Second using Wine with data via Steam

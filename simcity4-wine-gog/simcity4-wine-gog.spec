@@ -26,6 +26,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  innoextract
 Requires:       gamelaunch
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu

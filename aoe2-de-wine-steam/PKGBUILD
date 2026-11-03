@@ -8,7 +8,7 @@ pkgdesc='Age of Empires II: DE using Wine with data via Steam, ageLANServer for 
 arch=('x86_64')
 url='https://steamdb.info/app/813780/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'agelanserver-bin' 'agelanserver-companion-bin' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'agelanserver-bin' 'agelanserver-companion-bin' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: ut3-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Unreal Tournament 3 Black using Wine with data via Steam
  Unreal Tournament 3 Black using Wine with data via Steam

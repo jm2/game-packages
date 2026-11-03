@@ -25,6 +25,7 @@ ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 Requires:       gamelaunch
 Requires:       cod4-data
+Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu

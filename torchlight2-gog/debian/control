@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: torchlight2-gog
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Provides: torchlight2
 Description: Torchlight II (native Linux) with data via GOG
  Torchlight II (native Linux) with data via GOG

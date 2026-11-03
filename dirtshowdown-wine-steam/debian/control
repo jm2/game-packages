@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: dirtshowdown-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, ${pt:Depends}, dirtshowdown-wine-steam-data1 (= ${binary:Version}), dirtshowdown-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, dirtshowdown-wine-steam-data1 (= ${binary:Version}), dirtshowdown-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: DiRT Showdown using Wine with data via Steam
  DiRT Showdown using Wine with data via Steam
 

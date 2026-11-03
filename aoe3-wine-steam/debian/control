@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: aoe3-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Age of Empires III (2007) Complete Collection using Wine with data via Steam
  Age of Empires III (2007) Complete Collection using Wine with data via Steam

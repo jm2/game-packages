@@ -8,7 +8,7 @@ pkgdesc='Unreal Tournament 3 Black using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'umu-launcher')
+depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('steamcmd')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')

@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: minimetro-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Provides: minimetro
 Conflicts: minimetro, minimetro-hib, minimetro-gog
 Description: Mini Metro (native Linux) with data via Steam

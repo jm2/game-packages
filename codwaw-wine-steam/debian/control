@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: codwaw-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Call of Duty: World at War using Wine with data via Steam
  Call of Duty: World at War using Wine with data via Steam

@@ -9,6 +9,6 @@ Rules-Requires-Root: no
 
 Package: trine2-gog
 Architecture: amd64
-Depends: gamelaunch, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Description: Trine 2: Complete Story (native Linux) with data via GOG
  Trine 2: Complete Story (native Linux) with data via GOG

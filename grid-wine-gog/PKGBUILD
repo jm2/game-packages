@@ -8,7 +8,7 @@ pkgdesc='Race Driver GRID (2008) using Wine with data via GOG'
 arch=('x86_64')
 url='https://www.gog.com/game/race_driver_grid'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'umu-launcher')
+depends=('gamelaunch' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'innoextract')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
