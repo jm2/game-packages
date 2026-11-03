@@ -13,9 +13,9 @@ PT_NO_DATA=
 PT_GBE_LIBS=()
 
 pt_fetch() {
-    f=$(pt_need_source MiniMetro-release-57-linux.tar.gz 'Download the Mini Metro Linux tarball from your Humble library; see README.md.')
-    rm -rf "$PT_WORK/x-MiniMetro-release-57-linux.tar.gz"; pt_extract tar "$f" "$PT_WORK/x-MiniMetro-release-57-linux.tar.gz"
-    install -d "$PT_GAME/"; cp -a "$PT_WORK/x-MiniMetro-release-57-linux.tar.gz/." "$PT_GAME/"
+    f=$(pt_need_source MiniMetro-release-56-linux.tar.gz 'Download the Mini Metro Linux tarball from your Humble library; see README.md.')
+    rm -rf "$PT_WORK/x-MiniMetro-release-56-linux.tar.gz"; pt_extract tar "$f" "$PT_WORK/x-MiniMetro-release-56-linux.tar.gz"
+    install -d "$PT_GAME/"; cp -a "$PT_WORK/x-MiniMetro-release-56-linux.tar.gz/." "$PT_GAME/"
 }
 
 pt_icon() {

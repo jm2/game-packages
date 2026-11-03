@@ -2,7 +2,7 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=minimetro-hib
-pkgver=57
+pkgver=56
 pkgrel=1
 pkgdesc='Mini Metro (native Linux) with data via Humble Bundle'
 arch=('x86_64')
@@ -18,13 +18,13 @@ source=("build.sh"
         "minimetro.conf"
         "minimetro.desktop"
         "README.md"
-        "MiniMetro-release-57-linux.tar.gz::hib://MiniMetro-release-57-linux.tar.gz")
-noextract=("MiniMetro-release-57-linux.tar.gz")
-sha256sums=('7b57dd24df72a5d293f63a3a23a07735281f0927c8bba512ec155998a264a5aa'
+        "MiniMetro-release-56-linux.tar.gz::hib://MiniMetro-release-56-linux.tar.gz")
+noextract=("MiniMetro-release-56-linux.tar.gz")
+sha256sums=('c829f04b65dd411f2d9baf2d43a170326c5d184582c6b4d789fdba71c0aa5fac'
             'da17b9e115e1f258ad88f61478fccd1d40da560c2f99bd25639df6beb9310cb8'
             '8df97f0651a864e31a0358d2fb341a36c99e396458495cc4298bad5407c1dabc'
-            'a88405a825d52e670fe4c121b038a0ffba31ac809be7be5c4bd2fb7e0317ecf0'
-            'SKIP')
+            '9e640d25cf534154c2ed96c87ac51f26ba981fe42056b147d212d5954f91a380'
+            '6f5c8526f2a1c2cf86030ad0e298f7f0bb3933b8af7ea5c6a579db6820e74b0c')
 
 # Humble Bundle downloads: put them next to this PKGBUILD.
 DLAGENTS+=("hib::/usr/bin/echo ==> ERROR: Humble Bundle file %u is missing; download it from your Humble library and place it next to the PKGBUILD.")

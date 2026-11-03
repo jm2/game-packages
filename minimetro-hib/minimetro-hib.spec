@@ -10,7 +10,7 @@
 %global _binary_payload w3.zstdio
 
 Name:           minimetro-hib
-Version:        57
+Version:        56
 Release:        1%{?dist}
 Summary:        Mini Metro (native Linux) with data via Humble Bundle
 License:        LicenseRef-Proprietary
@@ -19,7 +19,7 @@ Source0:       build.sh
 Source1:       minimetro.conf
 Source2:       minimetro.desktop
 Source3:       README.md
-Source4:       MiniMetro-release-57-linux.tar.gz
+Source4:       MiniMetro-release-56-linux.tar.gz
 
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
@@ -62,6 +62,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/minimetro.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 57-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 56-1
 - Moved into jm2/linux-packages from the AUR minimetro package (release 52)
-- Update to release 57; icon from the game, launcher via gamelaunch
+- Update to release 56 (the current Humble build); icon from the game, launcher via gamelaunch

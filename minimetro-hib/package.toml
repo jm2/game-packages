@@ -1,7 +1,7 @@
 name = "minimetro-hib"
 family = "native-hib"
 id = "minimetro"
-version = "57"
+version = "56"
 release = 1
 summary = "Mini Metro (native Linux) with data via Humble Bundle"
 description = """
@@ -13,19 +13,20 @@ conflicts = ["minimetro", "minimetro-gog", "minimetro-steam"]
 replaces = ["minimetro"]
 changelog = [
   "Moved into jm2/linux-packages from the AUR minimetro package (release 52)",
-  "Update to release 57; icon from the game, launcher via gamelaunch",
+  "Update to release 56 (the current Humble build); icon from the game, launcher via gamelaunch",
 ]
 notes = """
-Download the Linux tarball from your Humble library and save it as
-`MiniMetro-release-57-linux.tar.gz` (rename it if Humble's name differs).
-Its checksum is not pinned yet: after the first successful build, copy the
-sha256 of the tarball into package.toml.
+Download the Linux tarball from your Humble library as
+`MiniMetro-release-56-linux.tar.gz`. Some browsers drop the `.gz` and save it
+as `.tar`; rename it back. Humble's build lags GOG/Steam (release 57) by one
+release.
 
 Settings and saves live in `~/.config/unity3d/Dinosaur Polo Club/Mini Metro/`."""
 
 [[source.files]]
-name = "MiniMetro-release-57-linux.tar.gz"
-url = "hib://MiniMetro-release-57-linux.tar.gz"
+name = "MiniMetro-release-56-linux.tar.gz"
+url = "hib://MiniMetro-release-56-linux.tar.gz"
+sha256 = "6f5c8526f2a1c2cf86030ad0e298f7f0bb3933b8af7ea5c6a579db6820e74b0c"
 extract = "tar"
 hint = "Download the Mini Metro Linux tarball from your Humble library; see README.md."
 
