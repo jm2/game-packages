@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+"""Download a package's GOG installers into the build cache with lgogdownloader.
+
+    tools/fetch-gog <package>
+
+Every gogdownloader://<game>/<file> source in package.toml is fetched with
+`lgogdownloader --download-file` (log in once with `lgogdownloader --login`)
+into ${PT_CACHE:-${TMPDIR:-/var/tmp}/linux-packages-cache}/<package>/ and
+checked against its sha256.
+"""
+import hashlib, os, shutil, subprocess, sys, tomllib
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+
+def sha256(p: Path) -> str:
+    h = hashlib.sha256()
+    with p.open("rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+def main() -> int:
+    if len(sys.argv) != 2 or sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip()); return 0
+    pkg = sys.argv[1].rstrip("/").split("/")[-1]
+    t = tomllib.loads((REPO / pkg / "package.toml").read_text())
+    files = [f for f in t.get("source", {}).get("files", []) if f.get("url", "").startswith("gogdownloader://")]
+    if not files:
+        sys.exit(f"fetch-gog: {pkg} has no GOG sources")
+    if not shutil.which("lgogdownloader"):
+        sys.exit("fetch-gog: lgogdownloader is not installed")
+    cache = Path(os.environ.get("PT_CACHE") or Path(os.environ.get("TMPDIR", "/var/tmp")) / "linux-packages-cache") / pkg
+    cache.mkdir(parents=True, exist_ok=True)
+    bad = False
+    for f in files:
+        out = cache / f["name"]
+        if not out.exists():
+            subprocess.run(["lgogdownloader", "--download-file", f["url"].split("://", 1)[1], "-o", str(out)], check=True)
+        want = f.get("sha256")
+        if want and sha256(out) != want:
+            print(f"fetch-gog: checksum mismatch for {out.name} (GOG may have updated the installer)")
+            bad = True
+        else:
+            print(f"fetch-gog: {out.name} ok")
+    return 1 if bad else 0
+
+if __name__ == "__main__":
+    sys.exit(main())

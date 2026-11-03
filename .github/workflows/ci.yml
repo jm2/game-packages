@@ -1,0 +1,71 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generated files are up to date
+        run: python tools/gen.py --check
+      - name: shellcheck
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq install -y shellcheck desktop-file-utils
+          shellcheck -S warning gamelaunch/gamelaunch tools/container-build tools/debian-fetch-sources
+          # pkgtool.sh is a library; check it through one generated build.sh per family.
+          for f in dirt2-wine-steam cod4-wine-steam gridautosport-steam trine2-gog etqw-data-steam quake2-data-gog; do
+            shellcheck -S error "$f/build.sh"
+          done
+      - name: Desktop files
+        run: |
+          for f in */*.desktop; do desktop-file-validate "$f"; done
+
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PKGBUILDs (makepkg --printsrcinfo)
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" archlinux:latest bash -euc '
+            pacman -Syu --noconfirm --needed base-devel >/dev/null
+            useradd -m b
+            cp -a /repo /home/b/repo && chown -R b /home/b/repo
+            cd /home/b/repo
+            rc=0
+            for d in */PKGBUILD; do
+              d=${d%/PKGBUILD}
+              su b -c "cd $d && makepkg --printsrcinfo >/dev/null" || { echo "::error file=$d/PKGBUILD::printsrcinfo failed"; rc=1; }
+            done
+            exit $rc'
+      - name: RPM specs (rpmspec -P)
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" registry.fedoraproject.org/fedora:latest bash -euc '
+            dnf -yq install rpm-build >/dev/null
+            rc=0
+            for s in /repo/*/*.spec; do
+              rpmspec -P "$s" >/dev/null || { echo "::error file=${s#/repo/}::rpmspec failed"; rc=1; }
+            done
+            exit $rc'
+
+  runtime-packages:
+    # The shared runtime packages download their sources anonymously, so CI
+    # can build them in all three formats.
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkg: [gamelaunch, gbe-fork-bin, xlln-bin, agelanserver-companion-bin]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ${{ matrix.pkg }}
+        run: OUT="$RUNNER_TEMP/out" tools/container-build "${{ matrix.pkg }}" all
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pkg }}
+          path: ${{ runner.temp }}/out/${{ matrix.pkg }}

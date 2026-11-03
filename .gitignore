@@ -1,48 +1,72 @@
-# PKGBUILD build artifacts (recursive)
-**/src/
-**/pkg/
-
-# Arch Linux package files (recursive)
-**/*.pkg.tar.zst
-**/*.pkg.tar.xz
-**/*.pkg.tar.gz
-
-# Source archives (recursive)
-**/*.tar.gz
-**/*.tar.bz2
-**/*.tar.xz
-**/*.tar.zst
-**/*.zip
-
-# Log files (recursive)
-**/*.log
-**/*.log.*
-
-# Windows binaries (recursive)
-**/*.exe
-**/*.dll
-**/*.msi
-**/*.bin
-**/*.cab
-
-# ISO files (recursive)
-**/*.iso
-**/*.ISO
-
-# Text files (recursive)
-**/*.txt
-
-# Signature files (recursive)
-**/*.sig
-
-# Partial downloads (recursive)
-**/*.part
-
-# Rust build artifacts (recursive)
-**/target/
-
-# Nested git repositories (cloned during build)
-**/.git/
-
-# Any subdirectory within a package folder (source clones, extracted build trees, etc.)
+# Subdirectories of a package dir are build output or makepkg's bare git
+# clones, except the ones listed here.
 /*/*/
+!/*/debian/
+!/*/patches/
+!/*/LICENSES/
+!/.github/workflows/
+
+# Local scratch listings
+/*/filelist*.txt
+
+# makepkg build trees and output
+/*/src/
+/*/pkg/
+/*/*.pkg.tar
+/*/*.pkg.tar.*
+
+# rpmbuild / dpkg-buildpackage output when run in a package directory
+/*/rpmbuild/
+/*/*.rpm
+/*/*.deb
+/*/*.ddeb
+/*/*.buildinfo
+/*/*.changes
+/*/debian/.debhelper/
+/*/debian/debhelper-build-stamp
+/*/debian/files
+/*/debian/*.substvars
+/*/debian/*.debhelper.log
+/*/debian/tmp/
+# dh installs each binary package into debian/<pkgname>/; the tracked files in
+# debian/ are plain files, so ignore only directories there (except source/).
+/*/debian/*/
+!/*/debian/source/
+
+# Downloaded sources and VCS checkouts makepkg leaves next to the PKGBUILD
+/*/*.tar
+/*/*.tar.*
+/*/*.tgz
+/*/*.zip
+/*/*.7z
+/*/*.iso
+/*/*.ISO
+/*/*.run
+/*/*.jar
+/*/*.cab
+/*/*.part
+/*/*.sig
+
+# Vendor installers and binaries (GOG/Humble/Steam). Packages that need a
+# local copy document where to get it in their package.toml / README.
+/*/*.exe
+/*/*.bin
+/*/*.dll
+/*/*.msi
+/*/*.mojo.run
+
+# Nested git checkouts cloned by makepkg (git+https sources)
+/*/*/.git/
+
+# Logs
+*.log
+*.log.*
+
+# Fetch cache (tools/fetch-*) if pointed inside the repo
+/.cache/
+
+# Rust build output (tributary)
+/*/target/
+
+# Python
+__pycache__/

@@ -1,0 +1,82 @@
+#!/bin/bash
+# Build one package directory in a clean container for each format.
+#
+#   tools/container-build <pkgdir> [arch|fedora|debian|all] [extra deps...]
+#
+# Uses podman with archlinux:latest, fedora:44 and debian:sid. The package
+# directory is copied into a scratch dir under ${TMPDIR:-/var/tmp}, so build
+# output never lands in the repo. Results (packages + logs) are written to
+# ${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/<pkg>/<distro>/.
+#
+# Only for packages whose sources can be fetched non-interactively. Game
+# packages that need Steam/GOG data must be given a pre-filled cache via
+# PT_CACHE (see tools/fetch-steam, tools/fetch-gog).
+set -euo pipefail
+
+pkgdir=$(realpath "${1:?usage: container-build <pkgdir> [arch|fedora|debian|all] [deps...]}")
+which=${2:-all}; shift $(( $# >= 2 ? 2 : 1 ))
+extra=("$@")
+pkg=$(basename "$pkgdir")
+out=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/$pkg
+work=$(mktemp -d -p "${TMPDIR:-/var/tmp}" "cb-$pkg.XXXXXX")
+trap 'rm -rf "$work"' EXIT
+cp -a "$pkgdir" "$work/$pkg"
+mkdir -p "$out"
+local_root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
+cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NODEPS:-}")
+[ -n "${PT_CACHE:-}" ] && cache_mount+=(-v "$PT_CACHE:/cache:ro,z" -e PT_CACHE=/cache)
+
+run() { # distro image script
+    local d=$1 img=$2 script=$3
+    mkdir -p "$out/$d"
+    echo "==> $pkg: $d ($img)"
+    if podman run --rm -v "$work/$pkg:/src:ro,Z" -v "$out/$d:/out:Z" "${cache_mount[@]}" \
+        -e EXTRA="${extra[*]}" "$img" bash -euo pipefail -c "$script" > "$out/$d/build.log" 2>&1; then
+        echo "    ok: $(cd "$out/$d" && ls -- *.pkg.tar* *.rpm *.deb 2>/dev/null | tr '\n' ' ')"
+    else
+        echo "    FAILED, see $out/$d/build.log"; tail -n 25 "$out/$d/build.log" | sed 's/^/    | /'
+        return 1
+    fi
+}
+
+rc=0
+if [[ $which == arch || $which == all ]] && [ -f "$pkgdir/PKGBUILD" ]; then
+run arch docker.io/library/archlinux:latest '
+pacman -Syu --noconfirm --needed base-devel git namcap $EXTRA >/dev/null
+for l in $LOCAL; do pacman -U --noconfirm /local/$l/arch/*.pkg.tar.zst >/dev/null; done
+useradd -m b; cp -a /src /home/b/p; chown -R b /home/b/p
+cd /home/b/p
+su b -c "makepkg --printsrcinfo > /dev/null"
+su b -c "makepkg --verifysource --noconfirm" || { echo "ERROR: source checksum verification failed"; exit 1; }
+if [ -n "$NODEPS" ]; then su b -c "makepkg -d --noconfirm 2>&1" || exit 1
+else su b -c "makepkg -s --noconfirm 2>&1" || exit 1; fi
+namcap PKGBUILD *.pkg.tar.zst || true
+cp *.pkg.tar.zst /out/' || rc=1
+fi
+
+if [[ $which == fedora || $which == all ]] && compgen -G "$pkgdir/*.spec" >/dev/null; then
+run fedora registry.fedoraproject.org/fedora:44 '
+dnf -yq install rpm-build rpmdevtools rpmlint dnf-plugins-core $EXTRA >/dev/null
+for l in $LOCAL; do dnf -yq install /local/$l/fedora/*.rpm >/dev/null; done
+mkdir -p /b/SOURCES; cp -a /src/. /b/SOURCES/; cd /b/SOURCES
+spec=$(ls *.spec)
+spectool -g -C /b/SOURCES "$spec" >/dev/null || true
+dnf -yq builddep "$spec" >/dev/null
+rpmbuild -bb --define "_topdir /b" --define "_sourcedir /b/SOURCES" "$spec"
+rpmlint "$spec" /b/RPMS/*/*.rpm || true
+cp /b/RPMS/*/*.rpm /out/' || rc=1
+fi
+
+if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
+run debian docker.io/library/debian:sid '
+export DEBIAN_FRONTEND=noninteractive
+apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs lintian fakeroot $EXTRA >/dev/null
+for l in $LOCAL; do apt-get -qq install -y /local/$l/debian/*.deb >/dev/null; done
+cp -a /src /b; cd /b
+mk-build-deps -i -r -t "apt-get -y -qq --no-install-recommends" debian/control >/dev/null
+[ -x debian/fetch-sources ] && debian/fetch-sources
+dpkg-buildpackage -b -us -uc
+lintian --suppress-tags bad-distribution-in-changes-file ../*.deb || true
+cp ../*.deb /out/' || rc=1
+fi
+exit $rc

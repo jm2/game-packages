@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+"""Download a package's Steam data into the build cache with steamcmd.
+
+    tools/fetch-steam <package> [--user NAME]
+
+Writes ${PT_CACHE:-${TMPDIR:-/var/tmp}/linux-packages-cache}/<package>/steam-<appid>/,
+which build.sh uses instead of running steamcmd itself, so the actual
+makepkg/rpmbuild/dpkg-buildpackage run is non-interactive and offline.
+steamcmd asks for the password and Steam Guard code; STEAM_USER or --user
+gives the account name.
+"""
+import os, shutil, subprocess, sys, tomllib
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
+
+def main() -> int:
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        print(__doc__.strip()); return 0
+    pkg = args[0].rstrip("/").split("/")[-1]
+    user = os.environ.get("STEAM_USER", "")
+    if "--user" in args:
+        user = args[args.index("--user") + 1]
+    toml = REPO / pkg / "package.toml"
+    if not toml.exists():
+        sys.exit(f"fetch-steam: {pkg} has no package.toml")
+    t = tomllib.loads(toml.read_text())
+    steam = t.get("source", {}).get("steam")
+    if not steam:
+        sys.exit(f"fetch-steam: {pkg} does not use Steam data")
+    if not shutil.which("steamcmd"):
+        sys.exit("fetch-steam: steamcmd is not installed")
+    if not user:
+        user = input("Steam username: ").strip()
+    cache = Path(os.environ.get("PT_CACHE") or Path(os.environ.get("TMPDIR", "/var/tmp")) / "linux-packages-cache")
+    appid = steam["appid"]
+    wine = t["family"].startswith("wine") or t["family"] == "data-steam"
+    platform = steam.get("platform", "windows" if wine else "linux")
+    dest = cache / pkg / f"steam-{appid}"
+    dest.mkdir(parents=True, exist_ok=True)
+    cmd = ["steamcmd", "+@sSteamCmdForcePlatformType", platform, "+@ShutdownOnFailedCommand", "1",
+           "+force_install_dir", str(dest), "+login", user, f"+app_update {appid} validate"]
+    depots = steam.get("depots", [])
+    for app, depot in depots:
+        cmd.append(f"+download_depot {app} {depot}")
+    cmd.append("+quit")
+    print("fetch-steam:", " ".join(cmd[:-1]), flush=True)
+    subprocess.run(cmd, check=True)
+    home = Path.home()
+    for app, depot in depots:
+        for base in (dest / "steamapps/content", home / ".steam/steamcmd/linux32/steamapps/content",
+                     home / ".local/share/Steam/steamcmd/linux32/steamapps/content",
+                     home / ".steam/steam/steamapps/content", home / "Steam/steamapps/content"):
+            src = base / f"app_{app}" / f"depot_{depot}"
+            if src.is_dir():
+                subprocess.run(["cp", "-rn", f"{src}/.", f"{dest}/"], check=True)
+                break
+        else:
+            sys.exit(f"fetch-steam: depot {depot} of app {app} not found after download")
+    print(f"fetch-steam: {pkg} cached in {dest}")
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
