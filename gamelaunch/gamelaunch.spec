@@ -1,5 +1,5 @@
 Name:           gamelaunch
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        Shared launcher for wine/Proton and native game packages
 License:        0BSD
@@ -43,5 +43,9 @@ install -dm755 %{buildroot}%{_datadir}/gamelaunch/games %{buildroot}%{_sysconfdi
 %dir %{_sysconfdir}/gamelaunch/games
 
 %changelog
+* Tue Nov 03 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0.1-1
+- Suppress the wine-mono/gecko prompts when creating a wine-backend prefix
+- x86 emulation on aarch64 (FEX/box64, muvm on 16K-page systems)
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0.0-1
 - Initial package

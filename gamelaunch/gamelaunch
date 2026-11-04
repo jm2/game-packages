@@ -318,7 +318,9 @@ gl_prefix_ready() {
         note "setting up Wine prefix for $GAME_NAME ($GL_RUNNER); the first start takes a while"
         mkdir -p "$WINEPREFIX"
         if [ "$GL_RUNNER" = wine ]; then
-            WINEARCH=$WINE_ARCH WINEDEBUG=-all gl_run "$GL_WINE" wineboot -u >/dev/null 2>&1 ||
+            # Skip the wine-mono/gecko download prompts: games do not need them.
+            WINEARCH=$WINE_ARCH WINEDEBUG=-all WINEDLLOVERRIDES="mscoree,mshtml=" \
+                gl_run "$GL_WINE" wineboot -u >/dev/null 2>&1 ||
                 die "wineboot failed for $WINEPREFIX (run with GAMELAUNCH_DEBUG=1)"
             "${GL_WINE%/*}/wineserver" -w 2>/dev/null || wineserver -w 2>/dev/null
         else

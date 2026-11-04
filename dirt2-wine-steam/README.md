@@ -11,11 +11,6 @@ it is installed, otherwise system wine with your distribution's DXVK. Use
 `GAMELAUNCH_RUNNER=wine dirt2` to force system wine. Prefixes and saves
 live in `~/.local/share/gamelaunch/dirt2/`; the first start takes a while.
 
-`dirt2 -h` lists the available modes:
-
-- `-l`: start through the DiRT 2 launcher (default)
-- `-g`: start the game directly, skipping the launcher
-
 ## Building
 
 Game data comes from Steam via steamcmd, using an account that owns the
@@ -30,5 +25,6 @@ If DiRT 2 crashes on the first start, set `<directx forcedx9="true" />` in
 in `~/.local/share/gamelaunch/dirt2/userdata/` (or `~/Documents` for prefixes
 created by the old package).
 
-LAN play uses XLiveLessNess; `dirt2 -g` skips the launcher, which some LAN
-setups need. XLLN's DiRT 2 quick-patch allows several instances on one machine.
+LAN play uses XLiveLessNess. XLLN's DiRT 2 quick-patch allows several
+instances on one machine. (dirt2_game.exe refuses to start without the
+dirt2.exe launcher, so there is no "skip the launcher" mode.)

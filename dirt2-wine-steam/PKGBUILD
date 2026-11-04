@@ -16,10 +16,10 @@ source=("build.sh"
         "dirt2.conf"
         "dirt2.desktop"
         "README.md")
-sha256sums=('9038354bce54d6d53f45fa4856ecab208bf0c51c819c84cc4caa0170901161e7'
-            'c6ae51aa05fa6f93b996e122814b9da6c012b984811c1d5758aec0f36f5626b8'
+sha256sums=('fe8da236de3925b79c5858ad7d9a8235db7abeb565e5f4c4c0b8d0ba92e83a8a'
+            '9ecf51f3ee176423c32279c5d5523bc0d9dc3e7478f49db063684f197896c774'
             'c15820bc4315dbde47aef351c67ddc1d34bbcf1f5227af8092f0804a247f41de'
-            '319c86384bf972a1692b5283c28c6f965d3c03b3db11c7d80a5e70cefaf03f17')
+            '04eaa1acf0c38ebb58362cbc2cabfa45f1dfcd9168ad3d0bebb8c9e2f5ef280f')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
 pkgver() {

@@ -10,7 +10,7 @@ PT_ALIASES=()
 PT_EXTRA_PATHS=()
 PT_ICON_NAME=''
 PT_NO_DATA=
-PT_VERSION_EXE=dirt2.exe
+PT_VERSION_EXE=dirt2_game.exe
 PT_VERSION_STATIC=0
 PT_GBE_LIBS=()
 
@@ -22,7 +22,7 @@ pt_fetch() {
 }
 
 pt_icon() {
-    local i; for i in "$PT_GAME"/*.ico; do pt_icon_from_ico "$i"; break; done
+    local i; for i in "$PT_GAME"/dirt2.ico; do pt_icon_from_ico "$i"; break; done
 }
 
 # pkgtool.sh - shared build logic for generated game/data packages.

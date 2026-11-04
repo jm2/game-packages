@@ -237,9 +237,10 @@ class Pkg:
 
 def version_exe(p: Pkg) -> str:
     """Windows exe whose FileVersion versions the package (relative to the Steam dir)."""
-    if not (p.steam and p.wine and p.launcher.get("exe")):
+    exe = p.launcher.get("version_exe") or p.launcher.get("exe")
+    if not (p.steam and p.wine and exe):
         return ""
-    return p.steam.get("subdir", "") + p.launcher["exe"]
+    return p.steam.get("subdir", "") + exe
 
 
 def gen_build_sh(p: Pkg) -> str:

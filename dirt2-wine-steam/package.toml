@@ -13,20 +13,22 @@ changelog = [
   "Replace the Ultimate ASI Loader xlive stub with XLiveLessNess (xlln-bin) for LAN play",
 ]
 remove_files = ["dirt2.sh", "dirt2.install"]
+deb = { parts = 2 }   # ~11 GB of data
 notes = """
 If DiRT 2 crashes on the first start, set `<directx forcedx9="true" />` in
 `hardware_settings_config.xml` under `Documents/My Games/DiRT2/hardwaresettings/`
 in `~/.local/share/gamelaunch/dirt2/userdata/` (or `~/Documents` for prefixes
 created by the old package).
 
-LAN play uses XLiveLessNess; `dirt2 -g` skips the launcher, which some LAN
-setups need. XLLN's DiRT 2 quick-patch allows several instances on one machine."""
+LAN play uses XLiveLessNess. XLLN's DiRT 2 quick-patch allows several
+instances on one machine. (dirt2_game.exe refuses to start without the
+dirt2.exe launcher, so there is no "skip the launcher" mode.)"""
 
 [source.steam]
 appid = 12840
 
 [icon]
-ico = "*.ico"
+ico = "dirt2.ico"
 
 [xlln]
 enabled = true
@@ -36,12 +38,10 @@ remove = ["*.vdf"]
 
 [launcher]
 exe = "dirt2.exe"
-prereqs = ["openal|winetricks:openal"]
-variants = [
-  { flag = "l", exe = "dirt2.exe", description = "start through the DiRT 2 launcher" },
-  { flag = "g", exe = "dirt2_game.exe", description = "start the game directly, skipping the launcher" },
-]
-default_variant = "l"
+# The launcher exe has its own version (0.1.0.8); version from the game.
+version_exe = "dirt2_game.exe"
+# Creative OpenAL from the game's own redist folder (offline, silent).
+prereqs = ["openal|redist/OpenAL/OpenALwEAX.exe /s"]
 
 [desktop]
 name = "DiRT 2"
