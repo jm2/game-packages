@@ -1,3 +1,9 @@
+openq4-bin (0.13.2-2) unstable; urgency=medium
+
+  * Ship README.md with the notes formerly printed by the Arch .install.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 04 Nov 2026 15:30:00 -0500
+
 openq4-bin (0.13.2-1) unstable; urgency=medium
 
   * Initial Debian packaging of the openQ4 0.13.2 binary release.

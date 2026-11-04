@@ -54,13 +54,15 @@ cd /home/b/p
 su b -c "makepkg --printsrcinfo" > /tmp/srcinfo
 # makepkg -s would need sudo; install the repo-available deps as root instead.
 deps=$(sed -n -E "s/^\s*(check|make)?depends(_x86_64)? = ([^<>=]+).*/\3/p" /tmp/srcinfo | sort -u)
-avail=$(for d in $deps; do pacman -Si "$d" >/dev/null 2>&1 && echo "$d"; done; true)
+avail=$(for d in $deps; do pacman -Sp "$d" >/dev/null 2>&1 && echo "$d"; done; true)  # -Sp also resolves provides (java-runtime-headless)
 [ -z "$avail" ] || pacman -S --noconfirm --needed $avail >/dev/null
 su b -c "makepkg --verifysource --noconfirm" || { echo "ERROR: source checksum verification failed"; exit 1; }
-if [ -n "$NODEPS" ]; then su b -c "makepkg -d --noconfirm 2>&1" || exit 1
-else su b -c "makepkg -s --noconfirm 2>&1" || exit 1; fi
-namcap PKGBUILD *.pkg.tar.zst || true
-cp *.pkg.tar.zst /out/' || rc=1
+# PKGDEST keeps built packages apart from sources or stale files named *.pkg.tar.zst.
+mkdir /home/b/pkgs; chown b /home/b/pkgs
+if [ -n "$NODEPS" ]; then su b -c "PKGDEST=/home/b/pkgs makepkg -d --noconfirm 2>&1" || exit 1
+else su b -c "PKGDEST=/home/b/pkgs makepkg -s --noconfirm 2>&1" || exit 1; fi
+namcap PKGBUILD /home/b/pkgs/*.pkg.tar.zst || true
+cp /home/b/pkgs/*.pkg.tar.zst /out/' || rc=1
 fi
 
 if [[ $which == fedora || $which == all ]] && compgen -G "$pkgdir/*.spec" >/dev/null; then

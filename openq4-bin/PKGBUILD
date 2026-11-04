@@ -5,12 +5,12 @@ pkgname=openq4-bin
 _pkgname=openq4
 pkgver=0.13.2
 _q4ver=1.4.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Open-source Quake 4 engine and game code replacement (binary release). You need the retail Quake 4 data to play."
 arch=('x86_64' 'aarch64')
 url="https://github.com/themuffinator/openQ4"
 license=('GPL-3.0-or-later' 'LicenseRef-Quake4-SDK' 'LicenseRef-Quake4-EULA')
-depends=('gcc-libs' 'glibc' 'libgl' 'libx11' 'libxcursor' 'libxext' 'libxi' 'libxrandr' 'openal')
+depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'libgl' 'libx11' 'libxcursor' 'libxext' 'libxi' 'libxrandr' 'openal')
 optdepends=('quake4-data: retail Quake 4 data in /opt/quake4 (otherwise a Steam/GOG install is detected)'
             'vulkan-icd-loader: experimental Vulkan renderer (r_renderApi vulkan)'
             'wayland: native Wayland video'
@@ -19,13 +19,14 @@ optdepends=('quake4-data: retail Quake 4 data in /opt/quake4 (otherwise a Steam/
 provides=("${_pkgname}=${pkgver}")
 conflicts=("${_pkgname}" "${_pkgname}-git")
 options=('!strip' '!debug')
-install=${pkgname}.install
 source=("openq4.sh"
+        "README.md"
         "https://aur.slashbunny.com/quake4/quake4-linux-${_q4ver}.x86.run")
 source_x86_64=("${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-x64.tar.xz")
 source_aarch64=("${url}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-arm64-preview.tar.xz")
 noextract=("quake4-linux-${_q4ver}.x86.run")
 sha256sums=('15423ab60c6a738fa92926d994e63c12ea71a59a7b0fd50a62283d964b882f4b'
+            'b3bd819fef8f057f34d908296a852527c44cec1711ab603dba95daae342c31ff'
             '9203b387b1a4075a1b9ad1eb7be32b49a88141a448d9330d9cbe1f40a145bd6a')
 sha256sums_x86_64=('04f146ee96da1a0afcf839e31223222b49be2a8bcc7cfe239ea858552f551208')
 sha256sums_aarch64=('2415cf1d4591591403d81e333da4d2441fdcacc65c80799469d4289e675a716c')
@@ -83,9 +84,9 @@ package() {
     done
 
     # Install documentation
-    install -d "${pkgdir}/usr/share/doc/${_pkgname}"
-    install -m 644 README.html "${pkgdir}/usr/share/doc/${_pkgname}/"
-    cp -r --no-preserve=ownership docs "${pkgdir}/usr/share/doc/${_pkgname}/"
+    install -d "${pkgdir}/usr/share/doc/${pkgname}"
+    install -m 644 README.html "${srcdir}/README.md" "${pkgdir}/usr/share/doc/${pkgname}/"
+    cp -r --no-preserve=ownership docs "${pkgdir}/usr/share/doc/${pkgname}/"
 
     # Install licenses (openQ4 GPL, id Software license for the patch paks)
     install -D -m 644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"

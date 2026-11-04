@@ -17,6 +17,6 @@ Copyright: id Software, Inc.
 License: LicenseRef-Quake4-EULA
  See /usr/share/doc/openq4-bin/Quake4-License.txt.
 
-Files: debian/* openq4.sh
+Files: debian/* openq4.sh README.md
 Copyright: 2026 John-Michael Mulesa
 License: 0BSD

@@ -53,7 +53,7 @@ override_dh_auto_install:
 	done
 	# Documentation and licenses (openQ4 GPL + SDK EULA, id's license for the patch paks)
 	install -d $(D)/usr/share/doc/openq4-bin
-	install -m 644 openq4/README.html openq4/LICENSE $(D)/usr/share/doc/openq4-bin/
+	install -m 644 openq4/README.html openq4/LICENSE README.md $(D)/usr/share/doc/openq4-bin/
 	cp -r --no-preserve=ownership openq4/docs $(D)/usr/share/doc/openq4-bin/
 	install -m 644 $(Q4)/License.txt $(D)/usr/share/doc/openq4-bin/Quake4-License.txt
 

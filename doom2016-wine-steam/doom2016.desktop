@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=DOOM (2016)
-Comment=DOOM (2016) (Wine)
-Exec=doom2016
-Icon=doom2016
-Terminal=false
-Categories=Game;ActionGame;Shooter;

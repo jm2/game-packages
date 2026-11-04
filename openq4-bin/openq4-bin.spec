@@ -22,7 +22,7 @@
 
 Name:           openq4-bin
 Version:        0.13.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Open-source Quake 4 engine and game code replacement (binary release)
 License:        GPL-3.0-or-later AND LicenseRef-Quake4-SDK AND LicenseRef-Quake4-EULA
 URL:            https://github.com/themuffinator/openQ4
@@ -32,6 +32,7 @@ Source1:        %{url}/releases/download/v%{version}/openq4-%{version}-linux-arm
 # Quake 4 1.4.2 Linux point release, for the patch paks (pak013-pak022).
 Source2:        https://aur.slashbunny.com/quake4/quake4-linux-%{q4ver}.x86.run
 Source3:        openq4.sh
+Source4:        README.md
 
 ExclusiveArch:  x86_64 aarch64
 
@@ -80,7 +81,7 @@ mv openq4-%{version}-linux-%{oq4arch}* openq4
 sh %{SOURCE2} --noexec --nox11 --target quake4-%{q4ver}
 
 cp -p openq4/LICENSE LICENSE
-cp -p quake4-%{q4ver}/License.txt Quake4-License.txt
+install -m 644 quake4-%{q4ver}/License.txt Quake4-License.txt
 
 
 %build
@@ -126,7 +127,7 @@ done
 
 # Documentation
 install -d %{buildroot}%{_docdir}/%{name}
-install -m 644 README.html %{buildroot}%{_docdir}/%{name}/
+install -m 644 README.html %{SOURCE4} %{buildroot}%{_docdir}/%{name}/
 cp -r --no-preserve=ownership docs %{buildroot}%{_docdir}/%{name}/
 
 
@@ -149,5 +150,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/openq4-steamdeck.desk
 
 
 %changelog
+* Wed Nov 04 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.13.2-2
+- Ship README.md; make Quake4-License.txt world-readable
+
 * Sun Oct 25 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.13.2-1
 - Initial package of the openQ4 0.13.2 binary release
