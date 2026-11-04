@@ -1,3 +1,3 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-179ea43c8831bff147005850cd373c0ec2b70dcf6f841c2109c1525ef11ad4d3 OldUnreal-UT2004Patch3374-Linux-094b94dc.tar.bz2 https://github.com/OldUnreal/UT2004Patches/releases/download/3374-preview-23/OldUnreal-UT2004Patch3374-Linux-094b94dc.tar.bz2
-e6dadad5fccc4a9f41886b5db2ca06b5a5fe019fdd06ac66d3ef5e5dcb6a4391 LICENSE.upstream.md https://raw.githubusercontent.com/OldUnreal/UT2004Patches/3374-preview-23/LICENSE.md
+d79eb45fda3ace2b7a68e6a0b9730b7d6602004b111e0b16f3f7cc28f3111572 OldUnreal-UT2004Patch3374-Linux-fc0484d6.tar.bz2 https://github.com/OldUnreal/UT2004Patches/releases/download/3374-rc3/OldUnreal-UT2004Patch3374-Linux-fc0484d6.tar.bz2
+e6dadad5fccc4a9f41886b5db2ca06b5a5fe019fdd06ac66d3ef5e5dcb6a4391 LICENSE.upstream.md https://raw.githubusercontent.com/OldUnreal/UT2004Patches/3374-rc3/LICENSE.md

@@ -25,7 +25,13 @@ cp -R --no-preserve=ownership "$src/System" "$root/"
 case $arch in
     x86_64) ;;
     aarch64)
-        cp -R --no-preserve=ownership --remove-destination "$src/SystemARM64/." "$root/System/"
+        # Skip links back into System (3374-rc3 ships SystemARM64/Packages.md5 ->
+        # ../System/Packages.md5): copied over System they would replace the file
+        # they point to with a link to itself.
+        for f in "$src"/SystemARM64/*; do
+            case $(readlink "$f" || true) in ../System/*) continue ;; esac
+            cp -R --no-preserve=ownership --remove-destination "$f" "$root/System/"
+        done
         rm -f "$root"/System/*-amd64 ;;
     *) echo "install.sh: unsupported architecture $arch" >&2; exit 1 ;;
 esac

@@ -1,11 +1,14 @@
 # Built from the same pinned commit as the PKGBUILD, with its Pomme submodule
 # fetched as a GitHub archive of the commit the superproject records.
-%global commit 1345101db55ab1879b2e5caf11948b2beefc95fa
-%global pomme_commit 06607ff2d7e3735f80deb0e75dec9f99f8542148
+%global commit 04f65c36f6db0218be3869d40fb26f17d8109de8
+%global pomme_commit 0251ee2d5654bd1d33a2b3f35a5ebfd47f97e8e7
+# No LTO, as upstream: with -ffp-contract=off it keeps floating-point results
+# identical across LAN peers (lockstep netcode).
+%global _lto_cflags %{nil}
 
 Name:           cro-mag-rally-net
-Version:        3.0.2
-Release:        5%{?dist}
+Version:        3.2.0
+Release:        1%{?dist}
 Summary:        Prehistoric kart racer from Pangea Software (experimental LAN build)
 License:        CC-BY-NC-SA-4.0 AND MIT
 URL:            https://github.com/jm2/CroMagRally
@@ -41,8 +44,9 @@ cp -p %{SOURCE2} %{SOURCE3} %{SOURCE4} .
 
 
 %build
-# Pomme is linked statically, as upstream builds it.
-%cmake -DBUILD_SHARED_LIBS=OFF -Wno-dev
+# Pomme is linked statically, as upstream builds it; SDL3 comes from the system
+# (upstream defaults to building its extern/SDL3 submodule).
+%cmake -DBUILD_SHARED_LIBS=OFF -DBUILD_SDL_FROM_SOURCE=OFF -DBUILD_TESTING=OFF -Wno-dev
 %cmake_build
 
 
@@ -66,5 +70,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/cro-mag-rally.desktop
 
 
 %changelog
+* Wed Nov 04 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3.2.0-1
+- Update to 3.2.0 (commit 04f65c3, Pomme 0251ee2)
+- Build against the system SDL3 and without the test suite; no LTO, as upstream
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3.0.2-5
 - Initial RPM package, built from commit 1345101 of jm2/CroMagRally

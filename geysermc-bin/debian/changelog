@@ -1,3 +1,9 @@
+geysermc-bin (2.12.1+b1288-1) unstable; urgency=medium
+
+  * Update to Geyser 2.12.1 build 1288.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 04 Nov 2026 16:00:00 -0500
+
 geysermc-bin (2.12.1+b1283-1) unstable; urgency=medium
 
   * Pin Geyser 2.12.1 build 1283; run as the geysermc user from

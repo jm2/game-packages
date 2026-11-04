@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 export DH_VERBOSE = 1
-JAR := Geyser-Standalone-2.12.1-b1283.jar
+JAR := Geyser-Standalone-2.12.1-b1288.jar
 D := debian/geysermc-bin
 
 %:

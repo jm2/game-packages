@@ -1,6 +1,6 @@
 # geysermc-bin
 
-The standalone GeyserMC jar (build 1283 of Geyser 2.12.1, pinned by sha256),
+The standalone GeyserMC jar (build 1288 of Geyser 2.12.1, pinned by sha256),
 which lets Minecraft: Bedrock Edition clients join a Minecraft: Java Edition
 server.
 

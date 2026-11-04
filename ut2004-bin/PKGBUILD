@@ -6,9 +6,9 @@
 
 pkgname=ut2004-bin
 pkgver=3374
-_preview=preview-23
-_build=094b94dc
-pkgrel=8
+_preview=rc3
+_build=fc0484d6
+pkgrel=9
 pkgdesc="Unreal Tournament 2004 ECE native binaries (OldUnreal)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/OldUnreal/UT2004Patches"
@@ -27,9 +27,9 @@ source=("https://github.com/OldUnreal/UT2004Patches/releases/download/${pkgver}-
         "ut2004.desktop"
         "ut2004.png"
         "README.md")
-sha256sums=('179ea43c8831bff147005850cd373c0ec2b70dcf6f841c2109c1525ef11ad4d3'
+sha256sums=('d79eb45fda3ace2b7a68e6a0b9730b7d6602004b111e0b16f3f7cc28f3111572'
             'e6dadad5fccc4a9f41886b5db2ca06b5a5fe019fdd06ac66d3ef5e5dcb6a4391'
-            '04623bfcc3f51a4d541a208b3bf03a6d2807e9744349384c9ecf15d292fb57a9'
+            '5a63bdcbbbc2d0d3b75c341b0cbd08d3d341e740eb8e4709a94799d3a802e68f'
             '36a09c4632c041b4b49112b3b9e53b2a1d07f07d2cf96edf9692d4d14a3ac31e'
             '2bfd8b158dd8f7681d54adf10918d0e7a23e4e72df90716f56c8d21806604c3f'
             '1b39cc33426331b4bfa53012107ac14b7260bfa9b9e9cd7e23278b08338a3f41'

@@ -7,4 +7,4 @@ Comment[fr]=Le jeu de course le plus déjanté depuis l’invention de la roue !
 Icon=cro-mag-rally
 Exec=cro-mag-rally
 Terminal=false
-Categories=Game;ActionGame;
+Categories=Game;ActionGame;SportsGame;

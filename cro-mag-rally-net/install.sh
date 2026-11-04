@@ -24,9 +24,12 @@ install -Dm644 "$src/packaging/io.jor.cromagrally-alternateicon.png" \
 d=$dest/usr/share/doc/$doc
 install -d "$d"
 for f in "$src"/*.md; do
-    [ "${f##*/}" = LICENSE.md ] || install -m644 "$f" "$d/"
+    case ${f##*/} in LICENSE.md|SECRETS.md) ;; *) install -m644 "$f" "$d/" ;; esac
 done
-cp -r --no-preserve=ownership "$src/docs" "$d/"
+# Only the player-facing docs: docs/ also holds development notes and reviews.
+install -d "$d/docs"
+cp -r --no-preserve=ownership "$src/docs/Manual" "$d/docs/"
+install -m644 "$src/docs/screenshot.webp" "$d/docs/"
 sed -e "s/@GAME_FULL_NAME@/Cro-Mag Rally/" -e "s/@GAME_VERSION@/$ver/" \
     -e "s/@GAME_COPYRIGHT@/© 2000 Pangea Software, Inc., © 2025 Iliyas Jorio./" \
     -e "s/@GAME_NAME@/CroMagRally/" "$src/packaging/ReadMe.txt.in" > "$d/README"

@@ -7,11 +7,11 @@
 %global __requires_exclude_from ^/opt/ut2004/.*$
 
 %global upver 3374
-%global preview preview-23
-%global upbuild 094b94dc
+%global preview rc3
+%global upbuild fc0484d6
 
 Name:           ut2004-bin
-Version:        %{upver}~preview23
+Version:        %{upver}~rc3
 Release:        1%{?dist}
 Summary:        Unreal Tournament 2004 ECE native binaries (OldUnreal)
 License:        LicenseRef-OldUnreal
@@ -76,5 +76,10 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/ut2004.desktop
 %dir /opt/ut2004
 
 %changelog
+* Wed Nov 04 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3374~rc3-1
+- Update to OldUnreal 3374-rc3
+- aarch64: do not let SystemARM64/Packages.md5 (a link to ../System) replace
+  System/Packages.md5
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3374~preview23-1
 - Initial RPM package: OldUnreal 3374-preview-23, system SDL3 and OpenAL

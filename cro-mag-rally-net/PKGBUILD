@@ -3,17 +3,20 @@
 
 _pkgname=cro-mag-rally
 pkgname="${_pkgname}-net"
-pkgver=3.0.2
-pkgrel=5
+pkgver=3.2.0
+pkgrel=1
 pkgdesc='The wildest racing game since man invented the wheel! Experimental LAN build.'
 arch=('x86_64' 'aarch64')
 url='https://github.com/jm2/CroMagRally'
 license=('CC-BY-NC-SA-4.0' 'MIT')
 depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'libglvnd' 'sdl3')
 makedepends=('cmake' 'git')
+# No LTO, as upstream: with -ffp-contract=off it keeps floating-point results
+# identical across LAN peers (lockstep netcode).
+options=('!lto')
 provides=("${_pkgname}=${pkgver}")
 conflicts=("${_pkgname}")
-_commit='1345101db55ab1879b2e5caf11948b2beefc95fa'
+_commit='04f65c36f6db0218be3869d40fb26f17d8109de8'
 source=("${_pkgname}::git+${url}.git#commit=${_commit}"
         'git+https://github.com/jm2/Pomme.git'
         "${_pkgname}.desktop"
@@ -21,9 +24,9 @@ source=("${_pkgname}::git+${url}.git#commit=${_commit}"
         'install.sh')
 sha256sums=('SKIP'
             'SKIP'
-            '95fb5ad4d9371e4c1d0bcfd0df48146944fb161ae4ff94325050fbedc4ff85fc'
+            '3b95a8828a96f722eb8102f6b4d93953e52de2cf3d0dfa8ac3846042d86c8f96'
             '79fcbc20ec4176edc87fe617d0cdce311271cabb41d566031cf6380262bb628e'
-            '7b54cab794eb7060726757d26b6e7bd2bb1cfaa91b2cdf0d28dab1023a6675d5')
+            'c39901aafe69a006981e229dddaf989c1fb6a8ef9d09f1324ae8b5265746509a')
 
 prepare() {
   cd "${_pkgname}"
@@ -39,6 +42,8 @@ build() {
   cmake -S "${_pkgname}" -B build \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_SDL_FROM_SOURCE=OFF \
+    -DBUILD_TESTING=OFF \
     -Wno-dev
   cmake --build build
 }
