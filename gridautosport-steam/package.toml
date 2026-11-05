@@ -14,8 +14,8 @@ notes = """
 Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
 that only the AUR still provides; on Fedora/Debian install equivalents
 yourself."""
-deb = { disabled = "the game needs libidn11, librtmp0, OpenLDAP 2.4 and GConf, which current Fedora and Debian do not ship" }
-rpm = { disabled = "the game needs libidn11, librtmp0, OpenLDAP 2.4 and GConf, which current Fedora and Debian do not ship" }
+deb = { disabled = "libidn.so.11, librtmp.so.0, OpenLDAP 2.4 and GConf, which the game links, are not in Debian" }
+rpm = { disabled = "libidn.so.11 and librtmp.so.0, which the game's bundled curl links, are not in Fedora" }
 
 [source.steam]
 appid = 255220

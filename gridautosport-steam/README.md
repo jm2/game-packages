@@ -15,8 +15,8 @@ the cache.
 
 Not built for:
 
-- Fedora (RPM): the game needs libidn11, librtmp0, OpenLDAP 2.4 and GConf, which current Fedora and Debian do not ship
-- Debian (.deb): the game needs libidn11, librtmp0, OpenLDAP 2.4 and GConf, which current Fedora and Debian do not ship
+- Fedora (RPM): libidn.so.11 and librtmp.so.0, which the game's bundled curl links, are not in Fedora
+- Debian (.deb): libidn.so.11, librtmp.so.0, OpenLDAP 2.4 and GConf, which the game links, are not in Debian
 
 ## Notes
 
