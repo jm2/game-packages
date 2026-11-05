@@ -1,0 +1,2 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+db2414cd14c44adae24021beb3f00dfe8605833255291aa43062f68916544d36 rvgl_dcpack-23.0501a1.zip https://distribute.re-volt.io/packs/rvgl_dcpack.zip

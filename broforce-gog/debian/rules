@@ -24,7 +24,7 @@ override_dh_builddeb:
 ifeq ($(DEB_HOST_ARCH),arm64)
 PT_DEPENDS := fex-emu | box64
 else
-PT_DEPENDS := libc6, libgl1, libx11-6, libxext6
+PT_DEPENDS := libc6, libglib2.0-0t64, libgl1, libx11-6, libxext6
 endif
 override_dh_gencontrol:
 	dh_gencontrol -- '-Vpt:Depends=$(PT_DEPENDS)'

@@ -13,7 +13,7 @@ provides=('prey-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('90303db80c49556968bc8021b7daeafc69d7be916b4d8b56d3a54f7ccbed5f4b'
+sha256sums=('82fefbd4f96792678ddd48279d977cb8a2dcaee88cfea8889dad60aa0d079c8e'
             'dccddceae4995e1d79cf6dcf8af20f04dcf0aaeba827fc3565118c2d906dbf7d')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

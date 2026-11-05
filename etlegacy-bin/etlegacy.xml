@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>ET: Legacy server</short>
+  <description>ET: Legacy / Wolfenstein: Enemy Territory dedicated server. The first server listens on UDP 27960; LAN browsing also probes 27961-27963 for further servers on the same host.</description>
+  <port protocol="udp" port="27960-27963"/>
+</service>

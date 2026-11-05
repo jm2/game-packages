@@ -13,7 +13,7 @@
 
 Name:           flatout2-wine-gog
 Version:        1.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        FlatOut 2 using Wine with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/flatout_2
@@ -40,6 +40,7 @@ Recommends:     muvm
 %else
 Requires:       (umu-launcher or wine)
 %endif
+Conflicts:      flatout2-wine-steam
 
 %description
 FlatOut 2 using Wine with data via GOG
@@ -59,6 +60,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/flatout2.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2-5
 - Switch to gamelaunch (umu/Proton default, system wine fallback)
 - Update to GOG's current installer (build 26697, game at its root)
+- Conflict with flatout2-wine-steam

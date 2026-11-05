@@ -2,7 +2,7 @@ name = "broforce-gog"
 family = "native-gog"
 id = "broforce"
 version = "3148"
-release = 1
+release = 2
 summary = "Broforce (native Linux) with data via GOG"
 url = "https://www.gog.com/game/broforce"
 provides = ["broforce"]
@@ -11,6 +11,7 @@ remove_files = ["broforce.sh"]
 changelog = [
   "Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce",
   "Update to GOG's Forever HF Linux installer (build 71321, game 1.0.3148)",
+  "Declare glib2, which the Unity player links",
 ]
 
 [[source.files]]
@@ -32,6 +33,6 @@ name = "Broforce"
 categories = "Game;ActionGame;"
 
 [deps]
-arch = ["libgl", "libx11", "libxext"]
-fedora = ["mesa-libGL", "libX11", "libXext"]
-debian = ["libgl1", "libx11-6", "libxext6"]
+arch = ["glib2", "libgl", "libx11", "libxext"]
+fedora = ["glib2", "mesa-libGL", "libX11", "libXext"]
+debian = ["libglib2.0-0t64", "libgl1", "libx11-6", "libxext6"]

@@ -1,0 +1,17 @@
+Source: rvgl-soundtrack
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://rvgl.org
+Rules-Requires-Root: no
+
+Package: rvgl-soundtrack
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: rvgl-bin
+Description: Original Re-Volt soundtrack for RVGL
+ The original Re-Volt soundtrack (based on the Dreamcast version) as Ogg
+ Vorbis files, installed as RVGL's soundtrack pack in
+ /opt/rvgl/packs/soundtrack and downloaded at build time from Re-Volt I/O.

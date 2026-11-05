@@ -26,10 +26,8 @@ Source3:       README.md
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
-BuildRequires:  gbe-fork-bin
 BuildRequires:  python3
 Requires:       gamelaunch
-Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
 Requires:       knockoutcity-server
 %ifarch aarch64

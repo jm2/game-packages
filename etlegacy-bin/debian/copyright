@@ -1,0 +1,19 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ET: Legacy
+Source: https://www.etlegacy.com/
+
+Files: *
+Copyright: 1999-2010 id Software LLC, a ZeniMax Media company
+ 2012-2026 ET: Legacy team <mail@etlegacy.com>
+License: GPL-3+
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-3.
+
+Files: opt/etlegacy/legacy/omni-bot/*
+Copyright: Omni-Bot developers
+License: LicenseRef-Omni-bot
+ Freely distributable bot library and scripts shipped with ET: Legacy; no
+ licence text is provided upstream.
+
+Files: debian/* install.sh etl.sh etlegacy.desktop etlegacy-server.service etlegacy.xml README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

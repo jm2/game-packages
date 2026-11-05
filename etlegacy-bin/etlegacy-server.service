@@ -1,0 +1,19 @@
+[Unit]
+Description=ET: Legacy dedicated server
+Documentation=man:etlded(6) https://github.com/etlegacy/etlegacy/wiki/Set-up-Features
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Configs, downloads and logs go to /var/lib/etlegacy-server (fs_homepath);
+# put your own etmain/etl_server.cfg (a copy of /opt/etlegacy/etmain/etl_server.cfg)
+# or legacy/legacy.cfg there, or change the command line through a drop-in
+# (systemctl edit etlegacy-server).
+DynamicUser=yes
+StateDirectory=etlegacy-server
+Environment=HOME=%S/etlegacy-server
+ExecStart=/usr/bin/etlded +set fs_homepath %S/etlegacy-server +exec etl_server.cfg
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -10,5 +10,6 @@ Rules-Requires-Root: no
 Package: flatout2-wine-gog
 Architecture: amd64 arm64
 Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Conflicts: flatout2-wine-steam
 Description: FlatOut 2 using Wine with data via GOG
  FlatOut 2 using Wine with data via GOG

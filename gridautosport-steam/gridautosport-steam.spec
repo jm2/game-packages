@@ -14,7 +14,7 @@
 Name:           gridautosport-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GRID Autosport (native Linux, Feral) with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://steamdb.info/app/255220/
@@ -30,6 +30,39 @@ BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
+Requires:       alsa-lib
+Requires:       cairo
+Requires:       cups-libs
+Requires:       dbus-libs
+Requires:       expat
+Requires:       fontconfig
+Requires:       freetype
+Requires:       GConf2
+Requires:       glib2
+Requires:       krb5-libs
+Requires:       libcap
+Requires:       libgcc
+Requires:       libstdc++
+Requires:       libuuid
+Requires:       libvorbis
+Requires:       libX11
+Requires:       libXcomposite
+Requires:       libXcursor
+Requires:       libXdamage
+Requires:       libXext
+Requires:       libXfixes
+Requires:       libXi
+Requires:       libXrandr
+Requires:       libXrender
+Requires:       libXtst
+Requires:       nspr
+Requires:       nss
+Requires:       nss-util
+Requires:       openldap-compat
+Requires:       pango
+Requires:       sdl2-compat
+Requires:       SDL2_image
+Requires:       zlib-ng-compat
 
 %description
 GRID Autosport (native Linux, Feral) with data via Steam
@@ -53,3 +86,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/gridautosport.desktop
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch and gbe-fork-bin
+- Declare the system libraries the game, its CEF browser and Feral helpers link (from readelf)

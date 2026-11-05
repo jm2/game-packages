@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=FlatOut 2
+Comment=FlatOut 2 (Wine)
+Exec=flatout2
+Icon=flatout2
+Terminal=false
+Categories=Game;SportsGame;
+Keywords=racing;derby;

@@ -1,0 +1,51 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+#
+# The release archives are only published on etlegacy.com (the GitHub tags
+# have no assets); each download/file/<id> is one archive of the release, and
+# the checksums are those listed on https://www.etlegacy.com/download.
+
+pkgname=etlegacy-bin
+_pkgname=etlegacy
+pkgver=2.86.2
+pkgrel=1
+pkgdesc="Open-source Wolfenstein: Enemy Territory 2.60b compatible client and server with the Legacy mod (binary release)"
+arch=('x86_64' 'aarch64')
+url="https://www.etlegacy.com/"
+license=('GPL-3.0-or-later' 'LicenseRef-Omni-bot')
+depends=('enemy-territory-data' 'gcc-libs' 'glibc' 'hicolor-icon-theme' 'libglvnd')
+optdepends=('libx11: X11 video (with libxcursor, libxext, libxfixes, libxi, libxrandr, libxss)'
+            'libxcursor: X11 video'
+            'libxext: X11 video'
+            'libxfixes: X11 video'
+            'libxi: X11 video'
+            'libxrandr: X11 video'
+            'libxss: X11 video'
+            'wayland: native Wayland video'
+            'libxkbcommon: native Wayland keyboard input'
+            'libpulse: PulseAudio/PipeWire audio output'
+            'alsa-lib: ALSA audio output'
+            'openal: OpenAL sound backend (s_useOpenAL 1)')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}" "${_pkgname}-git")
+options=('!strip' '!debug' 'emptydirs')
+source=("etl.sh"
+        "install.sh"
+        "etlegacy.desktop"
+        "etlegacy-server.service"
+        "etlegacy.xml"
+        "README.md")
+source_x86_64=("${_pkgname}-v${pkgver}-x86_64.tar.gz::https://www.etlegacy.com/download/file/785")
+source_aarch64=("${_pkgname}-v${pkgver}-aarch64.tar.gz::https://www.etlegacy.com/download/file/796")
+sha256sums=('021765345efea9623cfa4d4f635a25275901604c42823a4c374075bda0ac04ea'
+            '5e87c4916032bf9f458e4d702808f77f9b4cd7ed3a80b53507e981616a04b371'
+            '7f3e4a47762d7d7f1057e1df48c1adadd4be3887f3e035c443bfc56cb9e27ccf'
+            'eca3b301761be5c1e6566392af39e08ab81c4c0c009827a39427af59bff97d23'
+            '512850e00917725c9067875e81f3359a5ef0c8f2107b9b68467115aa3d1befd2'
+            'bf64b7c090a352955939d88e5afc4bc2329f754c295eb479f8905f20017fa94a')
+sha256sums_x86_64=('7f0d5aa3f630cbe6574592d1f41b2feb5542c5e7decada30f84251b3f8908018')
+sha256sums_aarch64=('478e47f73f2494dd7e38f7794d716b3fe6c41711ea5195cb754eac501e152c25')
+
+package() {
+    sh "${srcdir}/install.sh" "${srcdir}/${_pkgname}-v${pkgver}-${CARCH}" "${pkgdir}" \
+        "${CARCH}" "${pkgname}" "${pkgdir}/usr/share/licenses/${pkgname}"
+}

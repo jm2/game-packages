@@ -1,0 +1,47 @@
+name = "rvgl-dcpack"
+family = "data-url"
+version = "23.0501a1"
+summary = "Dreamcast content pack for RVGL (Rooftops and 14 cars)"
+description = """
+The content of the Dreamcast version of Re-Volt for RVGL: the Rooftops track
+and 14 additional cars (including BigVolt and BossVolt), with the Dreamcast
+car selection layout. Installed as RVGL's rvgl_dcpack pack in
+/opt/rvgl/packs/rvgl_dcpack, downloaded at build time from Re-Volt I/O."""
+url = "https://rvgl.org"
+target = "/opt/rvgl/packs/rvgl_dcpack"
+changelog = ["Initial package: rvgl_dcpack 23.0501a1"]
+notes = """
+The pack is loaded after the game data, so its car selection layout
+(levels/frontend/frontend.fob, with BigVolt and BossVolt) replaces the
+original one, as with RVGL Launcher. The alternative Dreamcast car box
+layout is in levels/frontend/custom/dc; to use it, copy its two files to
+~/.local/share/RVGL/packs/local/levels/frontend/custom/.
+
+Like the game data, this content comes from Acclaim's Re-Volt and is hosted
+by Re-Volt I/O without a license to redistribute it. The download URL is not
+versioned: when a new rvgl_dcpack is published the checksum stops matching."""
+
+[install]
+extra_paths = ["%dir /opt/rvgl", "%dir /opt/rvgl/packs"]
+
+[[source.files]]
+name = "rvgl_dcpack-23.0501a1.zip"
+url = "https://distribute.re-volt.io/packs/rvgl_dcpack.zip"
+sha256 = "db2414cd14c44adae24021beb3f00dfe8605833255291aa43062f68916544d36"
+extract = "zip"
+
+[deps]
+optional_arch = ["rvgl-bin: the RVGL engine to play the game"]
+recommends_fedora = ["rvgl-bin"]
+
+[deb]
+recommends = ["rvgl-bin"]
+
+[hooks]
+post_prepare = '''
+bad=$(find . -name '*[[:upper:]]*' | head -n 5)
+[ -z "$bad" ] || pt_die "upper-case file names in rvgl_dcpack.zip: $bad"
+[ -d levels/roof ] || pt_die "rvgl_dcpack.zip has no levels/roof"
+# Plain data: the archive marks many files executable.
+find . -type f -exec chmod 644 {} +
+'''

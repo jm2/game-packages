@@ -15,7 +15,7 @@ source=("build.sh"
         "README.md"
         "setup_wreckfest_-_season_pass_2_1.0o_(79627).exe::gogdownloader://wreckfest/wreckfest_season_pass_2/en1installer0")
 noextract=("setup_wreckfest_-_season_pass_2_1.0o_(79627).exe")
-sha256sums=('bc7c0b168ca9f1447551d26260d900e66e2f8c359c61168b3e19e280f5deeb2e'
+sha256sums=('d8152caad20d1015d283b6d04b643d9b976192fb3e10c890f8d2caa93f64569a'
             '9c8e2a3d763e7febd2ea31aa8ca3d0f2cc65d83b292d613db7003ea5d487d45e'
             '0a0ee95fbd0d2c33a3b6035be2424711625dd5fb055498d527ec421babe8d3c1')
 

@@ -362,8 +362,14 @@ pt_install() {
         declare -F pt_post_install >/dev/null && (cd "$root" && D=$d pt_post_install)
         # Normalise permissions: the tree is read-only shared data.
         find "$root" -type d -exec chmod 755 {} +
+        # Only ELF files and #! scripts stay executable: steamcmd marks every
+        # file +x, and Wine does not need the bit on .exe/.dll.
         find "$root" -type f ! -perm -u+x -exec chmod 644 {} +
-        find "$root" -type f -perm -u+x -exec chmod 755 {} +
+        local f magic
+        find "$root" -type f -perm -u+x -print0 | while IFS= read -r -d '' f; do
+            magic=$(head -c4 -- "$f" | tr -d '\0')
+            case $magic in $'\x7fELF'|'#!'*) chmod 755 -- "$f" ;; *) chmod 644 -- "$f" ;; esac
+        done
         [ -n "${PT_ID:-}" ] && date -u +%s > "$root/.gamelaunch-stamp"
     fi
     [ -n "${PT_ID:-}" ] && pt_launcher "$d"

@@ -1,0 +1,79 @@
+name = "enemy-territory-data-etlegacy"
+family = "data-url"
+version = "2.60b"
+release = 1
+summary = "Wolfenstein: Enemy Territory 2.60b data (pak0-pak2.pk3, ET: Legacy mirror)"
+description = """
+The original data files of Wolfenstein: Enemy Territory 2.60b (pak0.pk3,
+pak1.pk3 and pak2.pk3), the free stand-alone game by Splash Damage and id
+Software, installed to /usr/share/enemy-territory/etmain. They are downloaded
+from mirror.etlegacy.com/etmain, the copy the ET: Legacy client itself
+downloads them from, and are identical to those in the 2.60b Linux full
+installer. Play them with ET: Legacy (etlegacy-bin)."""
+url = "https://mirror.etlegacy.com/etmain/"
+license = "LicenseRef-Wolfenstein-ET-EULA"
+target = "/usr/share/enemy-territory"
+provides = ["enemy-territory-data=2.60b"]
+conflicts = ["enemy-territory-data"]
+changelog = ["Generated package (tools/gen.py); builds for Arch, Fedora and Debian"]
+notes = """
+pak0.pk3 is about 218 MiB. Splash Damage's EULA
+(EULA_Wolfenstein_Enemy_Territory.txt) comes from the official 2.60b patch
+archive (ET-2.60b.zip, about 4 MB) on the same mirror and is installed to
+/usr/share/licenses/enemy-territory-data-etlegacy/.
+
+mp_bin.pk3 (the original 2.60b cgame/ui modules) and the intro video are not
+included: ET: Legacy does not use them; it skips the intro when the video is
+missing. The install location is the one the AUR's enemy-territory-data uses,
+so this package also works with the AUR etlegacy and enemy-territory
+packages."""
+
+[[source.files]]
+name = "pak0.pk3"
+url = "https://mirror.etlegacy.com/etmain/pak0.pk3"
+sha256 = "712966b20e06523fe81419516500e499c86b2b4fec823856ddbd333fcb3d26e5"
+extract = "copy"
+to = "etmain/pak0.pk3"
+
+[[source.files]]
+name = "pak1.pk3"
+url = "https://mirror.etlegacy.com/etmain/pak1.pk3"
+sha256 = "5610fd749024405b4425a7ce6397e58187b941d22092ef11d4844b427df53e5d"
+extract = "copy"
+to = "etmain/pak1.pk3"
+
+[[source.files]]
+name = "pak2.pk3"
+url = "https://mirror.etlegacy.com/etmain/pak2.pk3"
+sha256 = "a48ab749a1a12ab4d9137286b1f23d642c29da59845b2bafc8f64e052cf06f3e"
+extract = "copy"
+to = "etmain/pak2.pk3"
+
+[[source.files]]
+name = "ET-2.60b.zip"
+url = "https://mirror.etlegacy.com/ET-2.60b.zip"
+sha256 = "6fb77e1ed0314b2da5c2a28807392ac638204faec8ef86361893937f182b22f8"
+extract = "zip"
+subdir = "Enemy Territory 2.60b"
+copy = ["EULA_Wolfenstein_Enemy_Territory.txt"]
+
+[deps]
+optional_arch = ["etlegacy-bin: ET: Legacy engine to play the game"]
+recommends_fedora = ["etlegacy-bin"]
+
+[deb]
+recommends = ["etlegacy-bin"]
+copyright_note = """
+Wolfenstein: Enemy Territory 2.60b is freeware; the paks are downloaded from
+the ET: Legacy mirror and used under the EULA in
+/usr/share/licenses/enemy-territory-data-etlegacy/."""
+
+[install]
+extra_paths = ["/usr/share/licenses/enemy-territory-data-etlegacy/"]
+
+[hooks]
+post_install = '''
+# The EULA is the licence of the data; keep it out of the game tree.
+install -Dm644 EULA_Wolfenstein_Enemy_Territory.txt "$D/usr/share/licenses/$PT_NAME/EULA_Wolfenstein_Enemy_Territory.txt"
+rm -f EULA_Wolfenstein_Enemy_Territory.txt
+'''

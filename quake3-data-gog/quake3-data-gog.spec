@@ -13,7 +13,7 @@
 
 Name:           quake3-data-gog
 Version:        1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Quake III Arena and Team Arena data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/quake_iii_gold
@@ -25,6 +25,7 @@ BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  innoextract
 Provides:       quake3-data
+Provides:       quake3-ta-data
 Conflicts:      quake3-data-steam
 Conflicts:      quake3-ta-data-steam
 
@@ -43,5 +44,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-4
 - Generated from package.toml
+- Also provide quake3-ta-data (Team Arena is included)

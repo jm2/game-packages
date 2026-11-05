@@ -18,7 +18,7 @@ source=("build.sh"
         "README.md"
         "gog_torchlight_2_2.0.0.2.sh::gogdownloader://torchlight_ii/en3installer2")
 noextract=("gog_torchlight_2_2.0.0.2.sh")
-sha256sums=('e514abf6b384be0f942b00af079f4012c196da8a95d8fdcd87238691ad97e762'
+sha256sums=('f028b5212415b8d52f41216c65d1adc7a965cd659c797b14267c34bb88344399'
             '96f3af91b01549cf71a8701cb551f0ca9fed8c4b0d2b54fda2130c6a94f4806d'
             '1fb4197a3029889aadf403b8aef72a26be3bd04299f714ae048e61199f5bc3bb'
             'e851d8dd35fc796ddbc12925e0747e81c6ba01e61d448f101775d010abcc60fa'

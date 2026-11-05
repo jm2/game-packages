@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+include /usr/share/dpkg/architecture.mk
+CPU := $(if $(filter arm64,$(DEB_HOST_ARCH)),aarch64,x86_64)
+D := debian/rvgl-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf rvgl && mkdir rvgl
+	bsdtar -xf rvgl_23.1030a1_linux.7z -C rvgl
+
+override_dh_auto_install:
+	sh install.sh rvgl . $(D) $(CPU)
+	desktop-file-validate $(D)/usr/share/applications/rvgl.desktop
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs:
+
+override_dh_auto_clean:
+	rm -rf rvgl

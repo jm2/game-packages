@@ -17,7 +17,7 @@ source=("build.sh"
         "ut3.desktop"
         "README.md"
         "ut3.png")
-sha256sums=('97a35ddde3ceb8bf29d4dcbc894eaba877295c60d41e28bffb42b28957dc724c'
+sha256sums=('25442c62a20ad7ea306cc7d7a88ff51572b81b239ea0b814fef8ef5137bc840f'
             'e39d887866554070b5a3b55d8aab5fbfc0c3f085997e7d38c1c3c95b2948dc8f'
             '79968e7a85358eefabaf9a63de2463759758b3872f82e5b906104804c7e193f4'
             'b1a3f1aa4e779c2b632fe8705359d3245169223a290da672fc268b314a9306fd'

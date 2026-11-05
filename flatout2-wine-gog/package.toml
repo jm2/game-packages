@@ -2,13 +2,15 @@ name = "flatout2-wine-gog"
 family = "wine-gog"
 id = "flatout2"
 version = "1.2"
-release = 4
+release = 5
 summary = "FlatOut 2 using Wine with data via GOG"
 url = "https://www.gog.com/game/flatout_2"
+conflicts = ["flatout2-wine-steam"]
 remove_files = ["flatout2.sh", "flatout2.install"]
 changelog = [
   "Switch to gamelaunch (umu/Proton default, system wine fallback)",
   "Update to GOG's current installer (build 26697, game at its root)",
+  "Conflict with flatout2-wine-steam",
 ]
 
 [[source.files]]

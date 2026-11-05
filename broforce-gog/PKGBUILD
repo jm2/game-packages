@@ -3,12 +3,12 @@
 
 pkgname=broforce-gog
 pkgver=3148
-pkgrel=1
+pkgrel=2
 pkgdesc='Broforce (native Linux) with data via GOG'
 arch=('x86_64')
 url='https://www.gog.com/game/broforce'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'hicolor-icon-theme' 'libgl' 'libx11' 'libxext')
+depends=('gamelaunch' 'hicolor-icon-theme' 'glib2' 'libgl' 'libx11' 'libxext')
 makedepends=('unzip')
 provides=('broforce')
 conflicts=('broforce-steam')
@@ -19,7 +19,7 @@ source=("build.sh"
         "README.md"
         "broforce_forver_hf_linux_71321.sh::gogdownloader://broforce/en3installer0")
 noextract=("broforce_forver_hf_linux_71321.sh")
-sha256sums=('53d7178934f6a0b64e15afe5ee87d9ae9aaf95e8dba144e2d06358bcff3528d4'
+sha256sums=('fdc4a3c9b1451f1b490f0ef89dc78e72bea38e7e63b4f43e604641dea56d7c19'
             '881018cb397aea7be9b0cbb145d1f4a9c589d33da1c27e03cceacda6b49395b9'
             'b20f3e2d63f2a23ee500b7b4695ac03ff7090498543db8f297725c51532cab7d'
             '3f186372c448d3b9d9ff59a9df25bc0942255cb8763f20263c0688f8e157c1e3'

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>RVGL (Re-Volt)</short>
+  <description>RVGL multiplayer host: incoming player connections and LAN session search on UDP 2310 (the default -serverport). Clients connect from a random UDP port unless LocalPort is set in rvgl.ini.</description>
+  <port protocol="udp" port="2310"/>
+</service>

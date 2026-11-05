@@ -23,7 +23,7 @@ source=("build.sh"
         "gbe.configs.main.ini"
         "aom-retold-lan.desktop"
         "aom-retold.agelan")
-sha256sums=('b099244d79e639deb6c258bf2068892df92096cba7ceff7900c9f7a6780adc7a'
+sha256sums=('2c7b73d2d5badac1f9e9236303c30c70c9076e5aa9f8f418051335b541b8055e'
             '5c74f744e6269fe0c461c6da268d7fb945730ce77cfe20e7069b8e3c0774058d'
             'a776ecb98b45a725f6e3a69d1f3e620f2d8fd4df572d0badb44c297b5c17a53f'
             '014065443feeedca66ae8c5eb55b48de00e4f8270348efe183e9c221ab3c9e93'

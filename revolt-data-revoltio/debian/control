@@ -1,0 +1,20 @@
+Source: revolt-data-revoltio
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://re-volt.io/downloads/game
+Rules-Requires-Root: no
+
+Package: revolt-data-revoltio
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: rvgl-bin
+Provides: revolt-data
+Conflicts: revolt-data, revolt-data-steam
+Description: Re-Volt game data for RVGL from Re-Volt I/O
+ The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
+ downloaded at build time from Re-Volt I/O, the community site that hosts them
+ for RVGL Launcher, and installed as RVGL's game_files pack in
+ /opt/rvgl/packs/game_files. Play it with rvgl-bin.

@@ -14,7 +14,7 @@
 Name:           broforce-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Broforce (native Linux) with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/274190/Broforce/
@@ -35,6 +35,7 @@ Recommends:     fex-emu-rootfs-fedora
 Recommends:     fex-emu-thunks
 Recommends:     muvm
 %else
+Requires:       glib2
 Requires:       mesa-libGL
 Requires:       libX11
 Requires:       libXext
@@ -64,3 +65,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/broforce.desktop
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce
+- Declare glib2, which the Unity player links

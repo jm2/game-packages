@@ -1,0 +1,16 @@
+Source: quake3-ta-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, python3
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/2350/Quake_III_Team_Arena/
+Rules-Requires-Root: no
+
+Package: quake3-ta-data-steam
+Architecture: all
+Depends: quake3-data, ${misc:Depends}
+Provides: quake3-ta-data
+Conflicts: quake3-data-gog
+Description: Quake III: Team Arena data via Steam
+ Quake III: Team Arena data via Steam

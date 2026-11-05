@@ -1,0 +1,5 @@
+rvgl-bin (23.1030a1-1) unstable; urgency=medium
+
+  * Initial Debian package: RVGL 23.1030a1 with RVGL Launcher's pack layout.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 05 Nov 2026 12:00:00 -0500

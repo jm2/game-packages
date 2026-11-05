@@ -3,19 +3,19 @@
 
 pkgname=gridautosport-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='GRID Autosport (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/255220/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'openssl-1.0' 'libidn11' 'librtmp0' 'gconf')
+depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'alsa-lib' 'cairo' 'dbus' 'expat' 'fontconfig' 'freetype2' 'gconf' 'glib2' 'krb5' 'libcap' 'libcups' 'libgcc' 'libidn11' 'libldap24' 'librtmp0' 'libstdc++' 'libvorbis' 'libx11' 'libxcomposite' 'libxcursor' 'libxdamage' 'libxext' 'libxfixes' 'libxi' 'libxrandr' 'libxrender' 'libxtst' 'nspr' 'nss' 'pango' 'sdl2-compat' 'sdl2_image' 'util-linux-libs' 'zlib')
 makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "gridautosport.conf"
         "gridautosport.desktop"
         "README.md")
-sha256sums=('0e73e01aafb53f05eff369180e512ca4118eb3536a5611db5abe09a5383ce84f'
+sha256sums=('d08b744aa6780e22eb896ef7a29969397770f0fdd877f56a30efbf99b1971695'
             '86016ee48c67728dbb580b7354d76bfff0d597d24dca0f546856eda62958c65d'
             '68f4ec0329b321461856b4572bcf20641417d922f048c5bf1e8064404d29348c'
             'cdaf97019065b24b5bfd69bb2d60d3c5b97e706d741d5d46279e4f14ba313421')

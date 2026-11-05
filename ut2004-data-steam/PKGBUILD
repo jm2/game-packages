@@ -15,7 +15,7 @@ conflicts=('ut2004-data' 'ut2004-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('7c86b9da994f5c55388a210901ff80a565378fe13ff076f1181dbf71f945ee80'
+sha256sums=('47de7ef4395a8bb2a596594ad1c6511d6e1543477df790a5c7485967c46cc11c'
             '58edfdf08a585f48f3579490e70cde4510610b343a93ca49dbe2a5684c43b04c')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

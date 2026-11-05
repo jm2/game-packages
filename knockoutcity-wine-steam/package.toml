@@ -20,9 +20,6 @@ deb = { disabled = "data-gen2.zip (13.2 GB) and data-shared.zip (10.2 GB) are ea
 appid = 2915930
 subdir = "KnockoutCity/"
 
-[gbe]
-libs = ["?steam_api64.dll"]
-
 [hooks]
 post_install = """
 # `knockoutcity` is the host/join launcher from knockoutcity-server.

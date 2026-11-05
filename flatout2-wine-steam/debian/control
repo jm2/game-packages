@@ -1,0 +1,15 @@
+Source: flatout2-wine-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, gbe-fork-bin, python3
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/2990/FlatOut_2/
+Rules-Requires-Root: no
+
+Package: flatout2-wine-steam
+Architecture: amd64 arm64
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Conflicts: flatout2-wine-gog
+Description: FlatOut 2 using Wine with data via Steam
+ FlatOut 2 using Wine with data via Steam

@@ -3,20 +3,20 @@
 
 pkgname=quake3-data-gog
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='Quake III Arena and Team Arena data via GOG'
 arch=('any')
 url='https://www.gog.com/game/quake_iii_gold'
 license=('LicenseRef-Proprietary')
 makedepends=('innoextract')
-provides=('quake3-data')
+provides=('quake3-data' 'quake3-ta-data')
 conflicts=('quake3-data-steam' 'quake3-ta-data-steam')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"
         "setup_quake3_2.0.0.2.exe::gogdownloader://quake_iii_arena_and_team_arena/en1installer1")
 noextract=("setup_quake3_2.0.0.2.exe")
-sha256sums=('329987d5c860c0f5053f5987a4be73c0652d880e00b396572a717d14aa15dfbc'
+sha256sums=('b4e5883005ce786989a78e3a277bd26483355aea6817af1d3c823db70dc68c34'
             '07783bc8cdc866aeee95e40da8012e48c6f0b4c05fa04d1d76bd179f1033514a'
             'f5471b4b29ea9a10cf5d1a8af2bedeedd4a8cfe1c60b1d52878f80a13bf4d5d6')
 

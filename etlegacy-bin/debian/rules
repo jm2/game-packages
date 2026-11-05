@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+VER := 2.86.2
+ETLARCH := $(if $(filter arm64,$(DEB_HOST_ARCH)),aarch64,x86_64)
+D := $(CURDIR)/debian/etlegacy-bin
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	debian/fetch-sources
+	rm -rf etl && mkdir etl
+	tar -xf etlegacy-v$(VER)-$(ETLARCH).tar.gz -C etl --strip-components=1
+
+override_dh_auto_install:
+	sh install.sh etl $(D) $(ETLARCH) etlegacy-bin
+	desktop-file-validate $(D)/usr/share/applications/etlegacy.desktop
+
+# The unit is installed by install.sh; leave it disabled (like the RPM).
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
+
+override_dh_auto_clean:
+	rm -rf etl

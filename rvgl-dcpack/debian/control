@@ -1,0 +1,18 @@
+Source: rvgl-dcpack
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://rvgl.org
+Rules-Requires-Root: no
+
+Package: rvgl-dcpack
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: rvgl-bin
+Description: Dreamcast content pack for RVGL (Rooftops and 14 cars)
+ The content of the Dreamcast version of Re-Volt for RVGL: the Rooftops track
+ and 14 additional cars (including BigVolt and BossVolt), with the Dreamcast
+ car selection layout. Installed as RVGL's rvgl_dcpack pack in
+ /opt/rvgl/packs/rvgl_dcpack, downloaded at build time from Re-Volt I/O.

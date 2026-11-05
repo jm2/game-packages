@@ -13,7 +13,7 @@
 
 Name:           broforce-gog
 Version:        3148
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Broforce (native Linux) with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/broforce
@@ -35,6 +35,7 @@ Recommends:     fex-emu-rootfs-fedora
 Recommends:     fex-emu-thunks
 Recommends:     muvm
 %else
+Requires:       glib2
 Requires:       mesa-libGL
 Requires:       libX11
 Requires:       libXext
@@ -60,6 +61,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/broforce.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3148-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3148-2
 - Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce
 - Update to GOG's Forever HF Linux installer (build 71321, game 1.0.3148)
+- Declare glib2, which the Unity player links

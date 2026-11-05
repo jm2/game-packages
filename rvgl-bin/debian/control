@@ -1,0 +1,26 @@
+Source: rvgl-bin
+Section: non-free/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), libarchive-tools, desktop-file-utils,
+ curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://rvgl.org
+Rules-Requires-Root: no
+
+Package: rvgl-bin
+Architecture: amd64 arm64
+Depends: revolt-data-revoltio | revolt-data, libsdl2-2.0-0, libsdl2-image-2.0-0,
+ libopenal1, libenet7, libvorbisfile3, libgl1, libgcc-s1, libc6,
+ hicolor-icon-theme, ${misc:Depends}
+Recommends: rvgl-dcpack, rvgl-soundtrack
+Suggests: libsndfile1, libmpg123-0t64 | libmpg123-0, libflac14 | libflac12t64,
+ libfluidsynth3, firewalld
+Provides: rvgl
+Conflicts: rvgl
+Description: rewrite of the Re-Volt R/C car racing game (engine and assets)
+ RVGL is the RV Team's cross-platform rewrite of Acclaim's Re-Volt (1999),
+ the radio-controlled car racing game. This package installs the engine and
+ RVGL's asset pack to /opt/rvgl and a launcher that keeps settings, saves and
+ custom content in ~/.local/share/RVGL. The original game data comes from a
+ separate revolt-data-revoltio or revolt-data-steam package.

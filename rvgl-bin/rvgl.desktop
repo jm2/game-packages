@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=RVGL
+GenericName=Racing game
+Comment=Re-Volt, the radio-controlled car racer, on the RVGL engine
+Exec=rvgl
+Icon=rvgl
+Terminal=false
+Categories=Game;ArcadeGame;
+Keywords=Re-Volt;Revolt;racing;RC;cars;

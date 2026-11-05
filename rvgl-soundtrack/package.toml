@@ -1,0 +1,43 @@
+name = "rvgl-soundtrack"
+family = "data-url"
+version = "20.1008"
+summary = "Original Re-Volt soundtrack for RVGL"
+description = """
+The original Re-Volt soundtrack (based on the Dreamcast version) as Ogg
+Vorbis files, installed as RVGL's soundtrack pack in
+/opt/rvgl/packs/soundtrack and downloaded at build time from Re-Volt I/O."""
+url = "https://rvgl.org"
+target = "/opt/rvgl/packs/soundtrack"
+changelog = ["Initial package: soundtrack 20.1008"]
+notes = """
+The music is part of Acclaim's Re-Volt and is hosted by Re-Volt I/O without
+a license to redistribute it. The download URL is not versioned: when a new
+soundtrack pack is published the checksum stops matching.
+
+The soundtrack pack is loaded after the game data, so it also replaces any
+music that came with revolt-data-steam."""
+
+[install]
+extra_paths = ["%dir /opt/rvgl", "%dir /opt/rvgl/packs"]
+
+[[source.files]]
+name = "soundtrack-20.1008.zip"
+url = "https://distribute.re-volt.io/packs/soundtrack.zip"
+sha256 = "472259107349e7af549ff859cc7ffcf347f56786e5e63ecf7e1ffa761a152bf8"
+extract = "zip"
+
+[deps]
+optional_arch = ["rvgl-bin: the RVGL engine to play the game"]
+recommends_fedora = ["rvgl-bin"]
+
+[deb]
+recommends = ["rvgl-bin"]
+
+[hooks]
+post_prepare = '''
+bad=$(find . -name '*[[:upper:]]*' | head -n 5)
+[ -z "$bad" ] || pt_die "upper-case file names in soundtrack.zip: $bad"
+[ -f redbook/track02.ogg ] || pt_die "soundtrack.zip has no redbook/track02.ogg"
+# Plain data: the archive marks many files executable.
+find . -type f -exec chmod 644 {} +
+'''

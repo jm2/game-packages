@@ -1,0 +1,22 @@
+Source: enemy-territory-data-etlegacy
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, unzip
+Standards-Version: 4.7.0
+Homepage: https://mirror.etlegacy.com/etmain/
+Rules-Requires-Root: no
+
+Package: enemy-territory-data-etlegacy
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: etlegacy-bin
+Provides: enemy-territory-data
+Conflicts: enemy-territory-data
+Description: Wolfenstein: Enemy Territory 2.60b data (pak0-pak2.pk3, ET: Legacy mirror)
+ The original data files of Wolfenstein: Enemy Territory 2.60b (pak0.pk3,
+ pak1.pk3 and pak2.pk3), the free stand-alone game by Splash Damage and id
+ Software, installed to /usr/share/enemy-territory/etmain. They are downloaded
+ from mirror.etlegacy.com/etmain, the copy the ET: Legacy client itself
+ downloads them from, and are identical to those in the 2.60b Linux full
+ installer. Play them with ET: Legacy (etlegacy-bin).

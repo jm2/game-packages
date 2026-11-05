@@ -673,8 +673,9 @@ def gen_debian(p: Pkg) -> dict[str, str]:
                   f"Upstream-Name: {p.name}", f"Source: {p.url}", "",
                   "Files: *", "Copyright: see the game's own license terms",
                   f"License: {p.license}",
-                  " The game data is not redistributable; this package is built locally from",
-                  " files you own.", "",
+                  *[" " + l for l in p.deb.get("copyright_note",
+                    "The game data is not redistributable; this package is built locally from\n"
+                    "files you own.").strip().splitlines()], "",
                   "Files: debian/* build.sh package.toml", "Copyright: 2026 John-Michael Mulesa",
                   "License: 0BSD", ""]
     return {

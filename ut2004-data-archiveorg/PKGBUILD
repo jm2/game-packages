@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "UT2004.ISO::https://files.oldunreal.net/UT2004.ISO")
 noextract=("UT2004.ISO")
-sha256sums=('5e1f556c6372be9c183a6b02b42e133434582a1d4ec852b8e5b672444b53ccc1'
+sha256sums=('9f016ee1b31daacd0b73aeef7698e46bae3872923be6fb1706c454800e97421f'
             'aed16f2d21d9212d07aa83c4ac14649bd365a260fa61f3f1348cbab5d25c9cfe'
             '43e9182ae20bcbc0f6f4588fee6c1b336c261f1465403118a1973b09b1a22541')
 

@@ -1,0 +1,31 @@
+name = "flatout2-wine-steam"
+family = "wine-steam"
+id = "flatout2"
+release = 1
+summary = "FlatOut 2 using Wine with data via Steam"
+url = "https://store.steampowered.com/app/2990/FlatOut_2/"
+conflicts = ["flatout2-wine-gog"]
+changelog = ["Initial package"]
+notes = """
+Steam's current FlatOut 2 (the re-release with fo2_launcher.exe, dxwrapper and
+SDL3); its steam_api.dll is replaced by gbe-fork's. FlatOut2.exe has no version
+resource, so the version is the Steam build ID. LAN play between this and the
+older GOG build has not been tested."""
+
+[source.steam]
+appid = 2990
+
+[gbe]
+libs = ["?steam_api.dll"]
+
+[icon]
+exe = "FlatOut2.exe"
+
+[launcher]
+exe = "FlatOut2.exe"
+
+[desktop]
+name = "FlatOut 2"
+comment = "FlatOut 2 (Wine)"
+categories = "Game;SportsGame;"
+keywords = "racing;derby"

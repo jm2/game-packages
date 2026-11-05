@@ -16,7 +16,7 @@ source=("build.sh"
         "codww2.conf"
         "codww2.desktop"
         "README.md")
-sha256sums=('41fce14c79db5e7a53efa1f19644436073d176c09dc83d82fbf59c0a6f82a028'
+sha256sums=('8c048d8fb3f4f3fc5b882fcdf8c9e0bc3a4f35254c3db4e94b4543ebfbc6e039'
             '98d7b1a5786df0813465bb7a6733d48032c4d758b06160745c7679775eb16d5a'
             'c4f1587cccd05540232be600885d3b1145c5971970ebc708a8b2502a1aa038de'
             '5ff427c8bb06311d69579a0029a7d3c5a247c1b16ba8b269f9e5449380fe92a6')

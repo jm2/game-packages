@@ -1,0 +1,14 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: enemy-territory-data-etlegacy
+Source: https://mirror.etlegacy.com/etmain/
+
+Files: *
+Copyright: see the game's own license terms
+License: LicenseRef-Wolfenstein-ET-EULA
+ Wolfenstein: Enemy Territory 2.60b is freeware; the paks are downloaded from
+ the ET: Legacy mirror and used under the EULA in
+ /usr/share/licenses/enemy-territory-data-etlegacy/.
+
+Files: debian/* build.sh package.toml
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

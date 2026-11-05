@@ -15,7 +15,7 @@ conflicts=('unreal-tournament-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('d1a3dd0bd16c28f289c43d30b89be4e09436aee207d741dc9ce3317c697d8675'
+sha256sums=('2acfc32673a63b8f1b2c37fac6b78382f8776c3898c93542f83657b92d3c60df'
             '06f76ba34886b6b1ab05b830a20ad82ce94337f9a15cd7a17a6ffa2bdbfa53e3')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

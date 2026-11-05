@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# Both architectures are listed; debian/rules unpacks the host's.
+7f0d5aa3f630cbe6574592d1f41b2feb5542c5e7decada30f84251b3f8908018 etlegacy-v2.86.2-x86_64.tar.gz https://www.etlegacy.com/download/file/785
+478e47f73f2494dd7e38f7794d716b3fe6c41711ea5195cb754eac501e152c25 etlegacy-v2.86.2-aarch64.tar.gz https://www.etlegacy.com/download/file/796

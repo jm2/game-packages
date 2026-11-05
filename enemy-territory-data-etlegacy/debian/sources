@@ -1,0 +1,5 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+712966b20e06523fe81419516500e499c86b2b4fec823856ddbd333fcb3d26e5 pak0.pk3 https://mirror.etlegacy.com/etmain/pak0.pk3
+5610fd749024405b4425a7ce6397e58187b941d22092ef11d4844b427df53e5d pak1.pk3 https://mirror.etlegacy.com/etmain/pak1.pk3
+a48ab749a1a12ab4d9137286b1f23d642c29da59845b2bafc8f64e052cf06f3e pak2.pk3 https://mirror.etlegacy.com/etmain/pak2.pk3
+6fb77e1ed0314b2da5c2a28807392ac638204faec8ef86361893937f182b22f8 ET-2.60b.zip https://mirror.etlegacy.com/ET-2.60b.zip

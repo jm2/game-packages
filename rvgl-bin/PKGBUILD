@@ -1,0 +1,46 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: Huki <gk7huki@gmail.com>
+# Contributor: Svitozar Cherepii <razotivs@gmail.com>
+
+pkgname=rvgl-bin
+pkgver=23.1030a1
+pkgrel=1
+pkgdesc="RVGL, the cross-platform rewrite of the Re-Volt R/C car racing game (engine and assets)"
+arch=('x86_64' 'aarch64')
+url="https://rvgl.org"
+license=('CC-BY-NC-SA-4.0' 'LGPL-3.0-or-later OR GPL-2.0-or-later')
+depends=('revolt-data' 'sdl2' 'sdl2_image' 'openal' 'enet' 'libvorbis'
+         'glibc' 'gcc-libs' 'libgl' 'hicolor-icon-theme')
+makedepends=('libarchive')
+optdepends=('rvgl-dcpack: Dreamcast content pack (Rooftops and 14 cars)'
+            'rvgl-soundtrack: original soundtrack'
+            'libsndfile: uncompressed (WAV) custom music'
+            'mpg123: custom music in MP3'
+            'flac: custom music in FLAC'
+            'fluidsynth: custom music in MIDI (SoundFont 2)'
+            'firewalld: open UDP 2310 for hosting with the rvgl service')
+provides=('rvgl')
+conflicts=('rvgl')
+options=('!strip' '!debug')
+source=("https://rvgl.org/downloads/rvgl_${pkgver}_linux.7z"
+        "install.sh"
+        "rvgl.sh"
+        "rvgl.desktop"
+        "rvgl.xml"
+        "README.md")
+noextract=("rvgl_${pkgver}_linux.7z")
+sha256sums=('d15fd1a4cb2dd3bedb8394d1b11929badb281f56d7db7566637c2f4c142dca5e'
+            'fbce52f7c1c8512cf33b0a89b59093cba06893e09368304d599b15565644ce5a'
+            'fb7460c1b43f7e015476aaf93df8c447fe5748499a5614b45333bff9d60ed44a'
+            '4c9f8c2000578bc699f3b0d4d2e8645eb0d4683dd6e7eed015247804e4d091a6'
+            '86c80abe227c14331404a1beafccfe507c0250e899aeebc8022b56a1a6ebb365'
+            '2fc146329a9a2469f321510279b21cb0d1baed5e0d97eb8e05fe1c56f7ea6e8f')
+
+prepare() {
+    rm -rf rvgl && mkdir rvgl
+    bsdtar -xf "rvgl_${pkgver}_linux.7z" -C rvgl
+}
+
+package() {
+    sh install.sh "${srcdir}/rvgl" "${srcdir}" "${pkgdir}" "${CARCH}"
+}

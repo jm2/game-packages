@@ -1,0 +1,19 @@
+Source: revolt-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, python3
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/287310/ReVolt/
+Rules-Requires-Root: no
+
+Package: revolt-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: rvgl-bin
+Provides: revolt-data
+Conflicts: revolt-data, revolt-data-revoltio
+Description: Re-Volt game data for RVGL from Steam
+ The game files of Re-Volt (1999) from your Steam copy (app 287310), downloaded
+ with steamcmd, converted to lower-case names and installed as RVGL's
+ game_files pack in /opt/rvgl/packs/game_files. Play it with rvgl-bin.

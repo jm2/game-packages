@@ -1,0 +1,21 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: RVGL
+Source: https://rvgl.org
+
+Files: *
+Copyright: 2010-2025 RV Team
+License: CC-BY-NC-SA-4.0
+ RVGL redistributables are covered by the Creative Commons
+ Attribution-NonCommercial-ShareAlike 4.0 International license. The full
+ text, and the licenses of the libraries RVGL is built with, are in
+ /usr/share/licenses/rvgl-bin/.
+
+Files: opt/rvgl/lib/libunistring.so.*
+Copyright: Free Software Foundation, Inc.
+License: LGPL-3.0-or-later or GPL-2.0-or-later
+ See /usr/share/licenses/rvgl-bin/LICENSE.unistring.txt and
+ /usr/share/common-licenses/LGPL-3 and /usr/share/common-licenses/GPL-2.
+
+Files: debian/* install.sh rvgl.sh rvgl.desktop rvgl.xml README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

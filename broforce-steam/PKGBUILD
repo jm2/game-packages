@@ -3,12 +3,12 @@
 
 pkgname=broforce-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Broforce (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/274190/Broforce/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'hicolor-icon-theme' 'libgl' 'libx11' 'libxext')
+depends=('gamelaunch' 'hicolor-icon-theme' 'glib2' 'libgl' 'libx11' 'libxext')
 makedepends=('steamcmd' 'python')
 provides=('broforce')
 conflicts=('broforce-gog')
@@ -17,7 +17,7 @@ source=("build.sh"
         "broforce.conf"
         "broforce.desktop"
         "README.md")
-sha256sums=('4f585519c856ee2d96da63748e1a625f7be6c83c4a4d993eba6df2d6211bbcbf'
+sha256sums=('47d1889879dfdecf21143f9422a0044430f1f760d36ab961335ab68942d4926c'
             '19e65990f69d8ccf7572c9abe08039d910cdcc5858e6b45c422a0d3ebc71833d'
             'c65e3ececb87ea4fbe44f78d427170e04c23926ab5492847ffa90fec1e2b60ae'
             'c3918b726fe1cc66876779de55b9bae41d1a38845b56dc64285fbe35520e7578')

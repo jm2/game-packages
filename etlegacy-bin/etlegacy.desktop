@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=ET: Legacy
+GenericName=World War II first-person shooter
+Comment=Team-based multiplayer shooter compatible with Wolfenstein: Enemy Territory
+Icon=etlegacy
+Exec=etl %u
+Terminal=false
+MimeType=x-scheme-handler/et;
+Categories=Game;ActionGame;
+Keywords=team-based;multiplayer;tactical;WWII;enemy;territory;wolfenstein;etl;etlegacy;
+StartupNotify=false
+PrefersNonDefaultGPU=true

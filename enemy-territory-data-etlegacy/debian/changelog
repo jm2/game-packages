@@ -1,0 +1,5 @@
+enemy-territory-data-etlegacy (2.60b-1) unstable; urgency=medium
+
+  * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

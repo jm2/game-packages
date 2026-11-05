@@ -1,13 +1,13 @@
 name = "quake3-data-gog"
 family = "data-gog"
 version = "1"
-release = 3
+release = 4
 summary = "Quake III Arena and Team Arena data via GOG"
 url = "https://www.gog.com/game/quake_iii_gold"
 target = "/opt/quake3"
-provides = ["quake3-data"]
+provides = ["quake3-data", "quake3-ta-data"]
 conflicts = ["quake3-data-steam", "quake3-ta-data-steam"]
-changelog = ["Generated from package.toml"]
+changelog = ["Generated from package.toml", "Also provide quake3-ta-data (Team Arena is included)"]
 
 [[source.files]]
 name = "setup_quake3_2.0.0.2.exe"

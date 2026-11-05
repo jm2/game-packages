@@ -1,0 +1,51 @@
+name = "revolt-data-revoltio"
+family = "data-url"
+version = "22.0909"
+summary = "Re-Volt game data for RVGL from Re-Volt I/O"
+description = """
+The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
+downloaded at build time from Re-Volt I/O, the community site that hosts them
+for RVGL Launcher, and installed as RVGL's game_files pack in
+/opt/rvgl/packs/game_files. Play it with rvgl-bin."""
+url = "https://re-volt.io/downloads/game"
+target = "/opt/rvgl/packs/game_files"
+provides = ["revolt-data"]
+conflicts = ["revolt-data", "revolt-data-steam"]
+changelog = ["Initial package: Re-Volt I/O game_files 22.0909"]
+notes = """
+Re-Volt I/O hosts these files "for the sake of game preservation": the game
+is abandonware, its rights belong to WeGo Interactive, and there is no
+license to redistribute it. This package is built locally from their
+download, as RVGL Launcher does; if you own the game on Steam,
+revolt-data-steam builds the same pack from your copy.
+
+The download URL is not versioned: when Re-Volt I/O publishes a new
+game_files version (see https://distribute.re-volt.io/packages.json) the
+checksum stops matching and this package needs an update."""
+
+[install]
+# The RPM also owns the shared pack folders, so they go away with the last package.
+extra_paths = ["%dir /opt/rvgl", "%dir /opt/rvgl/packs"]
+
+[[source.files]]
+name = "game_files-22.0909.zip"
+url = "https://distribute.re-volt.io/packs/game_files.zip"
+sha256 = "6ce4033dd436e37fdd37f02991ae5f5c4427a40f58e87a8ff0cb787ebb667f9f"
+extract = "zip"
+
+[deps]
+optional_arch = ["rvgl-bin: the RVGL engine to play the game"]
+recommends_fedora = ["rvgl-bin"]
+
+[deb]
+recommends = ["rvgl-bin"]
+
+[hooks]
+post_prepare = '''
+# RVGL needs lower-case file names; the pack is published that way.
+bad=$(find . -name '*[[:upper:]]*' | head -n 5)
+[ -z "$bad" ] || pt_die "upper-case file names in game_files.zip: $bad"
+[ -f levels/frontend/frontend.inf ] || pt_die "game_files.zip has no levels/frontend"
+# Plain data: the archive marks many files executable.
+find . -type f -exec chmod 644 {} +
+'''

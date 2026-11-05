@@ -1,0 +1,29 @@
+Source: etlegacy-bin
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), desktop-file-utils, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://www.etlegacy.com/
+Rules-Requires-Root: no
+
+Package: etlegacy-bin
+Architecture: amd64 arm64
+Depends: libc6 (>= 2.17), libstdc++6, libgcc-s1, libgl1, enemy-territory-data,
+ hicolor-icon-theme, ${misc:Depends}
+Recommends: libx11-6, libxcursor1, libxext6, libxfixes3, libxi6, libxrandr2,
+ libxss1, libwayland-client0, libwayland-cursor0, libwayland-egl1,
+ libxkbcommon0, libpulse0 | libasound2t64
+Suggests: libopenal1
+Provides: etlegacy
+Conflicts: etlegacy
+Description: Open-source Wolfenstein: Enemy Territory compatible engine (binary release)
+ ET: Legacy is an open-source engine for Wolfenstein: Enemy Territory 2.60b
+ with its own Legacy mod (Omni-Bot, WolfAdmin, ETTV). This is upstream's
+ prebuilt release in /opt/etlegacy, with the etl client, the etlded dedicated
+ server (and a systemd unit and firewalld service for it). The original game
+ data (pak0-pak2.pk3) comes from enemy-territory-data in
+ /usr/share/enemy-territory/etmain.
+ .
+ The 64-bit engine only joins servers whose mod has a 64-bit build (ETrun,
+ ETJump, N!tmod, Legacy, ...).
