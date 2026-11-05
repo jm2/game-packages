@@ -1,0 +1,63 @@
+name = "knockoutcity-wine"
+family = "wine-local"
+id = "knockoutcity"
+version = "10.0.269701"
+release = 1
+summary = "Knockout City Private Server Edition (high-res client) using Wine"
+url = "https://www.velanstudios.com/games?game=knockout-city"
+conflicts = ["knockoutcity-wine-steam"]
+provides = ["knockoutcity-client"]
+changelog = ["Initial package"]
+notes = """
+The high-resolution client from Velan's original download
+(KnockoutCity-HighRes-10.0-269701.zip, 24 GB), which Velan no longer hosts;
+the build fetches the Internet Archive's byte-identical capture and checks its
+sha256. The Archive is slow for a file this size: if the download fails, put
+the zip next to the build files (or in the fetch cache) and build again.
+
+Run `knockoutcity` to host a game on this PC or join a server announced on
+the LAN (see knockoutcity-server for options, ports and settings). There is
+no Debian package: two data files are each larger than a .deb can hold."""
+deb = { disabled = "data-gen2.zip (13.2 GB) and data-shared.zip (10.2 GB) are each over the ~9.3 GiB size limit of a .deb member" }
+
+[[source.files]]
+name = "KnockoutCity-HighRes-10.0-269701.zip"
+url = "https://web.archive.org/web/20230630025014id_/https://chonky-delivery-network.akamaized.net/KnockoutCity-HighRes-10.0-269701.zip"
+sha256 = "61f10fc0774b2491bcceaede41dd6bd0df3aab32dc04d36d8f6657534a904415"
+extract = "zip"
+
+[hooks]
+post_prepare = """
+# The zip holds the client (KnockoutCity/) and a copy of the server, which
+# knockoutcity-server packages from Velan's server download.
+cp -a KnockoutCity/. . && rm -rf KnockoutCity KnockoutCityServer
+"""
+post_install = """
+install -Dm644 eula.txt "$D/usr/share/licenses/$PT_NAME/eula.txt"
+# `knockoutcity` is the host/join launcher from knockoutcity-server.
+install -d "$D/usr/bin"
+printf '#!/bin/sh\\nexec /usr/lib/knockoutcity-server/koc client "$@"\\n' > "$D/usr/bin/knockoutcity"
+chmod 755 "$D/usr/bin/knockoutcity"
+"""
+
+[install]
+extra_paths = ["/usr/share/licenses/knockoutcity-wine/"]
+
+[icon]
+exe = "KnockoutCity.exe"
+
+[launcher]
+exe = "KnockoutCity.exe"
+umu_id = "umu-2915930"
+legacy_dirs = []
+
+[desktop]
+name = "Knockout City"
+comment = "Dodgeball brawler: host or join a LAN game (Wine)"
+categories = "Game;ActionGame;SportsGame;"
+keywords = "dodgeball;multiplayer;lan"
+
+[deps]
+arch = ["knockoutcity-server"]
+fedora = ["knockoutcity-server"]
+debian = ["knockoutcity-server"]

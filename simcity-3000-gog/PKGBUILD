@@ -25,7 +25,7 @@ noextract=("setup_simcity_3000_unlimited_2.0.949(a)_ddrawfix_(77026).exe"
            "sc3-lnx-support.tar.bz2"
            "loki_compat_libs-1.5.tar.bz2"
            "sc3u_2.0a-multilingual_x86-836250321b03ae4ef2496cc86aed22d479873473.zip")
-sha256sums=('a8aed3cfd57cbbe7955cba8c5b88574ac31a0a469c12e80c7cbfcf3fe9e99c51'
+sha256sums=('26c3b32727406bd1f49b5e5cc434f5cc5cc519ba22f0dd4eb5755d323f4e63be'
             '26f693045eda6da324561a5b07eb4089161a74625cc44e4108902b5664faa2a8'
             '437cc990ad98a0bc223fe65e6de10686b5568ad603bf3ca1370d34f44013ba20'
             'f7f530c9a39050a3259e0709140b181c796f6cbb65d6bda2a7902789abe460bc'

@@ -1,0 +1,18 @@
+Source: knockoutcity-server
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, icoutils, unzip
+Standards-Version: 4.7.0
+Homepage: https://www.velanstudios.com/games?game=knockout-city
+Rules-Requires-Root: no
+
+Package: knockoutcity-server
+Architecture: amd64 arm64
+Depends: gamelaunch, hicolor-icon-theme, postgresql, valkey-server | redis-server, python3, ${pt:Depends}, ${misc:Depends}
+Description: Knockout City Private Server Edition dedicated server, using Wine
+ Velan Studios' Private Hosted Server for Knockout City (version 10.0), run
+ through gamelaunch with a private per-user PostgreSQL and Valkey/Redis. Also
+ provides the `knockoutcity` launcher used by the knockoutcity-wine and
+ knockoutcity-wine-steam client packages: host a game on this PC, or pick a
+ server announced on the LAN.

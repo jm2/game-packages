@@ -16,7 +16,7 @@ source=("build.sh"
         "codaw.conf"
         "codaw.desktop"
         "README.md")
-sha256sums=('cb164b10948c11d8d8b6933f44fc7e99a36d0eec9db7b1ebcf6fb5e34eceb0d2'
+sha256sums=('d81070b4bf308dcb56e1e868bcc705693d081dc3a35089473832cc3cff644348'
             '7329f3b5550bb76ba790070fe3c22cc6e6a1dfafd8164de77fe188cae331faa1'
             '8c805250812d047c7de5229c20c88598fb1e77d1c21be459012f1cbf9f3de0d6'
             '3a0b61d8297f31378121d61286ded805b0c9c142dc0a03dca17fa2b02b76026b')

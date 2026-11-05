@@ -1,0 +1,287 @@
+#!/bin/bash
+# koc - Knockout City Private Server Edition launcher (jm2/linux-packages).
+#
+#   knockoutcity [--host | --join ADDR[:PORT] | --scan] [options] [game args]
+#   knockoutcity-server [options]
+#
+# The server is Velan's Windows KnockoutCityServer.exe under gamelaunch. It
+# needs PostgreSQL and Redis; since a Windows program under Wine can only reach
+# them over TCP, koc runs a private per-user PostgreSQL and Valkey/Redis on
+# 127.0.0.1 for as long as the server runs. While it runs, the server is
+# announced on the LAN (UDP broadcast, port 23599) so clients can list it.
+#
+# Client modes (default: ask, with a dialog or a terminal menu):
+#   --host           start a local server, then play on it
+#   --join ADDR      join a server (host[:port], default port 23600)
+#   --scan           list servers announced on the LAN and exit
+# Options (client and server):
+#   --name NAME      player name (default: short host name; saved)
+#   --secret S       server password (saved)
+# Server options:
+#   --port P         backend TCP port (default 23600; game UDP P..P+99)
+#   --max-players N  refuse logins beyond N players
+#   --no-announce    do not announce the server on the LAN
+#
+# Settings: ${XDG_CONFIG_HOME:-~/.config}/knockoutcity/launcher.conf
+# Server state (database): ${XDG_DATA_HOME:-~/.local/share}/knockoutcity-server/
+
+set -o pipefail
+shopt -s nullglob
+
+readonly ANNOUNCE_PORT=23599
+CONF_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/knockoutcity
+CONF=$CONF_DIR/launcher.conf
+STATE=${XDG_DATA_HOME:-$HOME/.local/share}/knockoutcity-server
+
+die()  { printf 'knockoutcity: %s\n' "$*" >&2; gui_error "$*"; exit 1; }
+msg()  { printf 'knockoutcity: %s\n' "$*" >&2; }
+
+have_gui() { [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ] && { command -v zenity || command -v kdialog; } >/dev/null 2>&1; }
+gui_error() {
+    [ -t 2 ] && return 0
+    have_gui || return 0
+    if command -v zenity >/dev/null 2>&1; then zenity --error --title="Knockout City" --text="$1" 2>/dev/null
+    else kdialog --title "Knockout City" --error "$1" 2>/dev/null; fi
+}
+
+# ------------------------------------------------------------- settings ----
+NAME='' SECRET='' PORT=23600 MAXP='' ANNOUNCE=1
+load_conf() {
+    [ -f "$CONF" ] || return 0
+    local k v
+    while IFS='=' read -r k v; do
+        case $k in NAME) NAME=$v ;; SECRET) SECRET=$v ;; esac
+    done < "$CONF"
+}
+save_conf() {
+    mkdir -p "$CONF_DIR"
+    printf 'NAME=%s\nSECRET=%s\n' "$NAME" "$SECRET" > "$CONF.tmp" && mv "$CONF.tmp" "$CONF"
+}
+sanitize() { printf '%s' "$1" | tr -cd 'A-Za-z0-9._-' | cut -c1-20; }
+default_name() {
+    local h; h=$(uname -n); h=${h%%.*}
+    case ${h,,} in ''|localhost*|archiso) h=player-$(od -An -N2 -tx1 /dev/urandom | tr -d ' \n') ;; esac
+    sanitize "$h"
+}
+
+# ------------------------------------------------------------- services ----
+pg_bindir() {
+    local d
+    if command -v pg_ctl >/dev/null 2>&1; then dirname "$(command -v pg_ctl)"; return; fi
+    # Debian keeps the server binaries in a versioned directory.
+    for d in $(printf '%s\n' /usr/lib/postgresql/*/bin | sort -V -r); do
+        [ -x "$d/pg_ctl" ] && { echo "$d"; return; }
+    done
+    return 1
+}
+redis_bin() {
+    local b
+    for b in valkey-server redis-server; do command -v "$b" >/dev/null 2>&1 && { command -v "$b"; return; }; done
+    return 1
+}
+port_open() { (exec 3<>"/dev/tcp/127.0.0.1/$1") 2>/dev/null; }
+
+PGB='' PGPORT='' RPORT='' RPID='' APID='' SPID='' GPID=''
+services_start() {
+    PGB=$(pg_bindir) || die "PostgreSQL is not installed (Arch: postgresql, Fedora: postgresql-server, Debian: postgresql)"
+    local rb; rb=$(redis_bin) || die "Valkey or Redis is not installed (valkey / redis)"
+    PGPORT=$((PORT + 51)) RPORT=$((PORT + 52))
+    mkdir -p "$STATE/redis"; chmod 700 "$STATE"
+    exec 9>"$STATE/lock"
+    flock -n 9 || die "a Knockout City server is already running for this user"
+
+    local pg=$STATE/postgresql major
+    major=$("$PGB/pg_ctl" --version | sed -E 's/.* ([0-9]+).*/\1/')
+    if [ -f "$pg/PG_VERSION" ] && [ "$(cat "$pg/PG_VERSION")" != "$major" ]; then
+        local old; old=$pg.$(cat "$pg/PG_VERSION").$(date +%Y%m%d%H%M%S)
+        msg "PostgreSQL went from $(cat "$pg/PG_VERSION") to $major; starting a new server database (old one kept in $old)"
+        mv "$pg" "$old"
+    fi
+    if [ ! -f "$pg/PG_VERSION" ]; then
+        msg "creating the server database in $pg"
+        (umask 077; od -An -N16 -tx1 /dev/urandom | tr -d ' \n' > "$STATE/pgpass")
+        "$PGB/initdb" -D "$pg" -U koc -E UTF8 --auth-local=scram-sha-256 --auth-host=scram-sha-256 \
+            --pwfile="$STATE/pgpass" >"$STATE/initdb.log" 2>&1 || die "initdb failed, see $STATE/initdb.log"
+    fi
+    "$PGB/pg_ctl" -D "$pg" -l "$STATE/postgresql.log" -w -t 60 \
+        -o "-c listen_addresses=127.0.0.1 -p $PGPORT -k $STATE" start >/dev/null 9>&- ||
+        die "PostgreSQL did not start, see $STATE/postgresql.log"
+    PGPASSWORD=$(cat "$STATE/pgpass") "$PGB/psql" -h 127.0.0.1 -p "$PGPORT" -U koc -d postgres -tAc \
+        "SELECT 1 FROM pg_database WHERE datname='koc'" | grep -q 1 ||
+        PGPASSWORD=$(cat "$STATE/pgpass") "$PGB/createdb" -h 127.0.0.1 -p "$PGPORT" -U koc koc ||
+        die "could not create the koc database"
+
+    "$rb" --bind 127.0.0.1 --port "$RPORT" --dir "$STATE/redis" --appendonly no \
+        --daemonize yes --pidfile "$STATE/redis.pid" --logfile "$STATE/redis.log" >/dev/null 9>&- ||
+        die "Valkey/Redis did not start, see $STATE/redis.log"
+    local i; for i in $(seq 50); do port_open "$RPORT" && break; sleep 0.2; done
+    RPID=$(cat "$STATE/redis.pid" 2>/dev/null)
+}
+services_stop() {
+    if [ -n "$GPID" ] && kill -0 "$GPID" 2>/dev/null; then
+        # The server runs in its own process group (gamelaunch -> umu/wine -> exe).
+        kill -TERM -- -"$GPID" 2>/dev/null
+        local i; for i in $(seq 20); do kill -0 "$GPID" 2>/dev/null || break; sleep 0.5; done
+        kill -KILL -- -"$GPID" 2>/dev/null
+    fi
+    [ -n "$APID" ] && kill "$APID" 2>/dev/null
+    [ -n "$RPID" ] && kill "$RPID" 2>/dev/null
+    [ -n "$PGB" ] && "$PGB/pg_ctl" -D "$STATE/postgresql" -m fast -w stop >/dev/null 2>&1
+    GPID='' APID='' RPID='' PGB=''
+}
+
+# ---------------------------------------------------------- LAN discovery ----
+announce() { # broadcast "KOCITY1 <port> <locked 0|1> <name>" every 2 s
+    python3 -I - "$ANNOUNCE_PORT" "$PORT" "$([ -n "$SECRET" ] && echo 1 || echo 0)" "$NAME" 9>&- <<'PY' &
+import socket, sys, time
+aport, port, locked, name = int(sys.argv[1]), sys.argv[2], sys.argv[3], sys.argv[4]
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+msg = f"KOCITY1 {port} {locked} {name}".encode()
+while True:
+    try: s.sendto(msg, ("255.255.255.255", aport))
+    except OSError: pass
+    time.sleep(2)
+PY
+    APID=$!
+}
+scan() { # prints "<ip>:<port> <locked> <name>" per server heard within 3 s
+    python3 -I - "$ANNOUNCE_PORT" <<'PY'
+import socket, sys, time
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+if hasattr(socket, "SO_REUSEPORT"): s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+s.bind(("", int(sys.argv[1]))); s.settimeout(0.3)
+seen, end = {}, time.time() + 3
+while time.time() < end:
+    try: data, (ip, _) = s.recvfrom(512)
+    except (TimeoutError, socket.timeout): continue
+    f = data.decode(errors="replace").split(" ", 3)
+    if len(f) == 4 and f[0] == "KOCITY1" and f[1].isdigit():
+        seen[f"{ip}:{f[1]}"] = (f[2], f[3])
+for k, (locked, name) in seen.items(): print(k, locked, name)
+PY
+}
+
+# ---------------------------------------------------------------- server ----
+server_args() {
+    SARGS=(-backend_port="$PORT" -server_min_port="$PORT" -server_max_port="$((PORT + 99))"
+           -backend_db="postgres://koc:$(cat "$STATE/pgpass")@127.0.0.1:$PGPORT/koc"
+           -backend_redis_db_host=127.0.0.1 -backend_redis_db_port="$RPORT")
+    [ -n "$SECRET" ] && SARGS+=(-secret="$SECRET")
+    [ -n "$MAXP" ] && SARGS+=(-backend_tunable_user_connections_max_per_backend="$MAXP")
+}
+run_server() { # foreground; stops the services when the server exits
+    trap services_stop EXIT
+    trap 'exit 130' INT TERM
+    services_start
+    [ "$ANNOUNCE" = 1 ] && announce
+    server_args
+    msg "server \"$NAME\" on TCP $PORT, UDP $PORT-$((PORT + 99))${SECRET:+ (password set)}"
+    # Background + wait, so a TERM from the client launcher is handled at once.
+    # 9>&-: Wine's helper processes outlive the server; they must not keep the lock.
+    setsid gamelaunch knockoutcity-server "${SARGS[@]}" 9>&- &
+    GPID=$!
+    wait "$GPID"
+}
+
+# ---------------------------------------------------------------- client ----
+choose() { # sets MODE (host|join) and ADDR
+    local servers; servers=$(scan 2>/dev/null)
+    local -a rows=()
+    local addr locked name
+    while read -r addr locked name; do
+        [ -n "$addr" ] && rows+=("join:$addr" "Join $name ($addr)$([ "$locked" = 1 ] && echo ', password')")
+    done <<<"$servers"
+    rows+=("host" "Host a game on this PC" "other" "Join another address…")
+    local pick=''
+    if have_gui; then
+        if command -v zenity >/dev/null 2>&1; then
+            local -a zrows=(); local i
+            for ((i = 0; i < ${#rows[@]}; i += 2)); do zrows+=("${rows[i]}" "${rows[i+1]}"); done
+            pick=$(zenity --list --title="Knockout City" --text="Player: $NAME" --width=460 --height=320 \
+                   --column=id --column="Server" --hide-column=1 --print-column=1 "${zrows[@]}" 2>/dev/null) || exit 0
+            [ "$pick" = other ] && { ADDR=$(zenity --entry --title="Knockout City" --text="Server address (host[:port])" 2>/dev/null) || exit 0; }
+        else
+            pick=$(kdialog --title "Knockout City" --menu "Player: $NAME" "${rows[@]}" 2>/dev/null) || exit 0
+            [ "$pick" = other ] && { ADDR=$(kdialog --title "Knockout City" --inputbox "Server address (host[:port])" 2>/dev/null) || exit 0; }
+        fi
+    elif [ -t 0 ]; then
+        local i n=0
+        printf 'Knockout City (player %s)\n' "$NAME"
+        for ((i = 0; i < ${#rows[@]}; i += 2)); do n=$((n + 1)); printf '  %d) %s\n' "$n" "${rows[i+1]}"; done
+        read -r -p "Choice [1]: " n; n=${n:-1}
+        [[ $n =~ ^[0-9]+$ ]] && [ "$n" -ge 1 ] && [ "$((n * 2))" -le "${#rows[@]}" ] || die "invalid choice"
+        pick=${rows[(n - 1) * 2]}
+        [ "$pick" = other ] && read -r -p "Server address (host[:port]): " ADDR
+    else
+        # No way to ask: join the first LAN server, else host.
+        pick=${rows[0]}
+    fi
+    case $pick in
+        host)   MODE=host ;;
+        join:*) MODE=join ADDR=${pick#join:} ;;
+        other)  MODE="join"; [ -n "$ADDR" ] || exit 0 ;;
+        *)      exit 0 ;;
+    esac
+}
+
+run_client() {
+    local MODE=$1 ADDR=$2
+    [ -n "$MODE" ] || choose
+    local -a cargs=(-username="$NAME")
+    [ -n "$SECRET" ] && cargs+=(-secret="$SECRET")
+    if [ "$MODE" = host ]; then
+        msg "starting a local server (log: $STATE/server.log)"
+        mkdir -p "$STATE"
+        local -a sopts=(--server-mode --name "$NAME" --port "$PORT")
+        [ -n "$SECRET" ] && sopts+=(--secret "$SECRET")
+        [ -n "$MAXP" ] && sopts+=(--max-players "$MAXP")
+        [ "$ANNOUNCE" = 1 ] || sopts+=(--no-announce)
+        "$0" "${sopts[@]}" >"$STATE/server.log" 2>&1 &
+        SPID=$!
+        trap '[ -n "$SPID" ] && kill "$SPID" 2>/dev/null; wait "$SPID" 2>/dev/null' EXIT
+        local i
+        for i in $(seq 300); do
+            port_open "$PORT" && break
+            kill -0 "$SPID" 2>/dev/null || die "the local server stopped, see $STATE/server.log"
+            sleep 1
+        done
+        port_open "$PORT" || die "the local server did not come up within 5 minutes, see $STATE/server.log"
+        ADDR=127.0.0.1:$PORT
+    fi
+    case $ADDR in *:*) ;; *) ADDR=$ADDR:23600 ;; esac
+    msg "joining $ADDR as $NAME"
+    gamelaunch knockoutcity -backend="$ADDR" "${cargs[@]}" "${EXTRA[@]}"
+}
+
+# ------------------------------------------------------------------ main ----
+load_conf
+ROLE=client MODE='' ADDR='' EXTRA=() SET_NAME='' SET_SECRET=''
+[ "${1:-}" = server ] && { ROLE=server; shift; }
+[ "${1:-}" = client ] && shift
+while [ $# -gt 0 ]; do
+    case $1 in
+        --server-mode) ROLE=server; shift ;;
+        --host)        MODE=host; shift ;;
+        --join)        MODE=join ADDR=${2:?--join needs an address}; shift 2 ;;
+        --scan)        scan | while read -r a l n; do printf '%-21s %s%s\n' "$a" "$n" "$([ "$l" = 1 ] && echo ' (password)')"; done; exit 0 ;;
+        --name)        SET_NAME=${2:?--name needs a value}; shift 2 ;;
+        --secret)      SET_SECRET=${2-}; SECRET=$SET_SECRET; shift 2 ;;
+        --port)        PORT=${2:?--port needs a value}; shift 2 ;;
+        --max-players) MAXP=${2:?--max-players needs a value}; shift 2 ;;
+        --no-announce) ANNOUNCE=0; shift ;;
+        -h|--help)     sed -n '2,28s/^# \{0,1\}//p' "$0"; exit 0 ;;
+        --)            shift; EXTRA+=("$@"); break ;;
+        *)             EXTRA+=("$1"); shift ;;
+    esac
+done
+[[ $PORT =~ ^[0-9]+$ ]] && [ "$PORT" -ge 1024 ] && [ "$PORT" -le 65000 ] || die "invalid --port $PORT"
+[ -z "$MAXP" ] || [[ $MAXP =~ ^[0-9]+$ ]] || die "invalid --max-players $MAXP"
+[ -n "$SET_NAME" ] && NAME=$(sanitize "$SET_NAME")
+[ -n "$NAME" ] || NAME=${GAMELAUNCH_USER:+$(sanitize "$GAMELAUNCH_USER")}
+[ -n "$NAME" ] || NAME=$(default_name)
+# Persist explicitly given settings (and the generated name).
+{ [ -n "$SET_NAME" ] || [ -n "$SET_SECRET" ] || [ ! -f "$CONF" ]; } && save_conf
+
+if [ "$ROLE" = server ]; then run_server; else run_client "$MODE" "$ADDR"; fi

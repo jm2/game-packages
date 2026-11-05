@@ -52,7 +52,7 @@ noextract=("setup_doom_(2016)_20240321-110145-gentle-wolf_(80244).exe"
            "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-14.bin"
            "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-15.bin"
            "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-16.bin")
-sha256sums=('1eefddd933ed24df85db008e0dfcbc272fb7e9bf051e82e2ac183d26a51dbfdf'
+sha256sums=('76eea775ef20deaf321a40ab1f4a1dc99e93f5786353dfad308023ff5aea7560'
             '9dcfb4d888ce68c92ab9ec33b870f953c0165ba07989d96aafcf52feaa925b93'
             '77e2abc05c11b6451a14cd465b77cdabe5fe98401f7b362d0b22f1cf5aa6a1dc'
             'cc25a6aea0315bf97f2e4fa80f47207648b63a9c1b7250cce55886d1d008c248'

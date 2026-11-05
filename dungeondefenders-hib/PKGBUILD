@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "dundef-linux-03052013.mojo.run::hib://dundef-linux-03052013.mojo.run")
 noextract=("dundef-linux-03052013.mojo.run")
-sha256sums=('979088c1ce172c6496768aa3cff806e196ecbcb7a1f3e69495f5f1a425ead6ae'
+sha256sums=('535fbdac5f3426250951125069323b0089f4b76ec9636a684f6f9d92be0cc422'
             '291aec59a562dacd94f191d581a6b0e3c8742505d53ff95c716a996086c00867'
             '248bda235661c734638ddc5615fc30a6547f9d9b48488a6cf874ecfb91210222'
             'ecfb7a0a025697d62ea54e5b5137281f428cb4de9adf0698566b53e4f8640348'

@@ -20,7 +20,7 @@ source=("build.sh"
 noextract=("setup_doom3_bfg_edition_1.14_20230201_(62122).exe"
            "setup_doom3_bfg_edition_1.14_20230201_(62122)-1.bin"
            "setup_doom3_bfg_edition_1.14_20230201_(62122)-2.bin")
-sha256sums=('f6af0f959df953753686e8f999ed22df6011a9b11facd48816e03a769e4e9069'
+sha256sums=('e98a2533a1785d7e4c02dfe063829eba155bc33002f88beb7e8ff01faaed0d23'
             '3c8fc04076f7d8a2cfafebfd2bc9091a6e602ce872cf0046c2daf1dfc31a0517'
             '67370f9a83bccc2cd06c82bb2e08fbe4be36172578f290e7705c530a06ed80d4'
             'caa7f6e5458bacbe63dd42279142f72e2be4f8b36c9d74166cc09c1e793dfd0d'

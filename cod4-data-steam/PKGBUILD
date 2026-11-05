@@ -13,7 +13,7 @@ provides=('cod4-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('b11148aedcdddd74384aaba9ba58490985222dc5c7a9b4bd2fcf44172374bff9'
+sha256sums=('0ca05d1fd3555e09d6527007bb4285493bacfd72a3056ae5433a391eb85101ba'
             'f7a4d47ffdcaf43adfd7be8045005fb6808c249921e1ab873ca50573d483aa2a')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

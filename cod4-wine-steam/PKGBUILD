@@ -16,7 +16,7 @@ source=("build.sh"
         "cod4.desktop"
         "README.md"
         "cod4.png")
-sha256sums=('d51728714b38f19436d14ee2ba631f8ccae07fa5a14cd88ef043ec7cf71a55b7'
+sha256sums=('0398217cbcbe66b8f20c8ceecd3476d19f87e6e76acfce2c269eda01384e32cc'
             'b2fc4ecf2444df08447349cf6cc67414ebff322b4a185efc40685a2d33a9257b'
             '2d91b0b473167c7ef90c3bdccbb3dde22564fd8755fca0ace3dfe5c0ba07c29d'
             'd9c2d2e1a4031241331f920403cc41f0338d9fe008872a9658a0b6826e8457d0'

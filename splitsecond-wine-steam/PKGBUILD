@@ -17,7 +17,7 @@ source=("build.sh"
         "splitsecond.desktop"
         "README.md"
         "splitsecond.png")
-sha256sums=('50c3938e0420d809c6d810079443424aeabb8b4c313b2dbcbe4e60b922f4dfd2'
+sha256sums=('a27719ea7505b937b127a2bf807aa10c81a0c7ee707e48bf0c104e2ebc32df0c'
             '37c7117142a5f703a48635241cb6c40574243fb30a1b1341be9a58bb07d36737'
             'a76eeb1e062b90758b0acb65ca38d7b25a5720b0253fbd61d710e7d9f29ed649'
             'c59b08819a869e20b58504e1be567e31c019bb2d2317033e662989871084186a'

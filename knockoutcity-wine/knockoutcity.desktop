@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Knockout City
+Comment=Dodgeball brawler: host or join a LAN game (Wine)
+Exec=knockoutcity
+Icon=knockoutcity
+Terminal=false
+Categories=Game;ActionGame;SportsGame;
+Keywords=dodgeball;multiplayer;lan;

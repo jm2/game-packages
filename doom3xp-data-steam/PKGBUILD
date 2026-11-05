@@ -13,7 +13,7 @@ provides=('doom3xp-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('1a697577776a97fd2826ed02a69400490895fa2df15a7246c6dfc350912a092d'
+sha256sums=('51a93ada6e97e32b09ef9c01e82594224a9e77b080872b5027965661b42b6e46'
             'f62baa339d48f8e2130a8d45a992a4106bc9d9c0cd34f62a2d3121fe9b0e4504')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

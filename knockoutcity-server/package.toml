@@ -1,0 +1,74 @@
+name = "knockoutcity-server"
+family = "wine-local"
+id = "knockoutcity-server"
+version = "10.0.269701"
+release = 1
+summary = "Knockout City Private Server Edition dedicated server, using Wine"
+url = "https://www.velanstudios.com/games?game=knockout-city"
+changelog = ["Initial package"]
+extra_files = ["koc", "knockoutcity-server.xml"]
+description = """
+Velan Studios' Private Hosted Server for Knockout City (version 10.0), run
+through gamelaunch with a private per-user PostgreSQL and Valkey/Redis. Also
+provides the `knockoutcity` launcher used by the knockoutcity-wine and
+knockoutcity-wine-steam client packages: host a game on this PC, or pick a
+server announced on the LAN."""
+notes = """
+The server comes from Velan's original download (KnockoutCity-Server-10.0-269701.zip),
+which Velan no longer hosts; the build fetches the Internet Archive's
+byte-identical capture of it and checks its sha256.
+
+`knockoutcity-server [--name NAME] [--secret PASSWORD] [--max-players N] [--port 23600]`
+runs a dedicated server in the foreground. While it runs it holds a private
+PostgreSQL and Valkey/Redis on 127.0.0.1 (ports 23651/23652), with their data
+in `~/.local/share/knockoutcity-server/`, and announces itself on the LAN.
+Players need TCP 23600, UDP 23600-23699 and UDP 23599 (LAN announcements)
+open; on firewalld: `firewall-cmd --add-service=knockoutcity --permanent`.
+
+`knockoutcity` (from a client package) asks whether to host on this PC or
+join a server found on the LAN; `--host`, `--join ADDR[:PORT]` and `--scan`
+skip the question. The player name defaults to the machine's short host name;
+`--name` and `--secret` are remembered in `~/.config/knockoutcity/launcher.conf`.
+Every server keeps its own player database, so use the same name each time."""
+
+[[source.files]]
+name = "KnockoutCity-Server-10.0-269701.zip"
+url = "https://web.archive.org/web/20230630034555id_/https://chonky-delivery-network.akamaized.net/KnockoutCity-Server-10.0-269701.zip"
+sha256 = "edbbf6a2a1ff57f3583ee3aed0214d80340b9afe36c97eff6af8759a8431bda5"
+extract = "zip"
+
+[hooks]
+post_prepare = """
+# The zip holds KnockoutCityServer/ plus readme.txt and eula.txt; flatten it.
+# Its bundled Windows PostgreSQL and Redis are replaced by the distro's.
+cp -a KnockoutCityServer/. . && rm -rf KnockoutCityServer tools
+"""
+post_install = """
+install -Dm644 eula.txt "$D/usr/share/licenses/$PT_NAME/eula.txt"
+install -Dm755 "$PT_SRCDIR/koc" "$D/usr/lib/knockoutcity-server/koc"
+install -Dm644 "$PT_SRCDIR/knockoutcity-server.xml" "$D/usr/lib/firewalld/services/knockoutcity.xml"
+install -d "$D/usr/bin"
+printf '#!/bin/sh\\nexec /usr/lib/knockoutcity-server/koc server "$@"\\n' > "$D/usr/bin/knockoutcity-server"
+chmod 755 "$D/usr/bin/knockoutcity-server"
+"""
+
+[install]
+extra_paths = ["/usr/share/licenses/knockoutcity-server/", "/usr/lib/knockoutcity-server/", "/usr/lib/firewalld/services/knockoutcity.xml"]
+
+[icon]
+exe = "KnockoutCityServer.exe"
+
+[launcher]
+exe = "KnockoutCityServer.exe"
+legacy_dirs = []
+
+[desktop]
+name = "Knockout City Server"
+comment = "Host a Knockout City Private Server (Wine)"
+categories = "Game;ActionGame;"
+terminal = true
+
+[deps]
+arch = ["postgresql", "valkey", "python", "util-linux"]
+fedora = ["postgresql-server", "postgresql", "valkey", "python3", "util-linux"]
+debian = ["postgresql", "valkey-server | redis-server", "python3"]

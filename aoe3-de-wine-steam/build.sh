@@ -303,8 +303,11 @@ pt_launcher() { # <destdir>: /usr/bin/<id> + gamelaunch config
     local d=$1
     install -Dm644 "$PT_SRCDIR/$PT_ID.conf" "$d/usr/share/gamelaunch/games/$PT_ID.conf"
     install -d "$d/usr/bin"
-    printf '#!/bin/sh\nexec gamelaunch %s "$@"\n' "$PT_ID" > "$d/usr/bin/$PT_ID"
-    chmod 755 "$d/usr/bin/$PT_ID"
+    # A package's post_install hook may provide its own /usr/bin/<id> wrapper.
+    if [ ! -e "$d/usr/bin/$PT_ID" ]; then
+        printf '#!/bin/sh\nexec gamelaunch %s "$@"\n' "$PT_ID" > "$d/usr/bin/$PT_ID"
+        chmod 755 "$d/usr/bin/$PT_ID"
+    fi
     local alias
     for alias in "${PT_ALIASES[@]}"; do ln -s "$PT_ID" "$d/usr/bin/$alias"; done
     install -Dm644 "$PT_SRCDIR/$PT_ID.desktop" "$d/usr/share/applications/$PT_ID.desktop"

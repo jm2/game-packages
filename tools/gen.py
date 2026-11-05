@@ -397,7 +397,7 @@ def gen_desktop(p: Pkg) -> str:
         cats += ";"
     lines = ["[Desktop Entry]", "Type=Application", f"Name={name}", f"Comment={comment}",
              f"Exec={p.id} %U" if d.get("urls") else f"Exec={p.id}", f"Icon={p.id}",
-             "Terminal=false", f"Categories={cats}"]
+             f"Terminal={'true' if d.get('terminal') else 'false'}", f"Categories={cats}"]
     if d.get("keywords"):
         lines.append(f"Keywords={d['keywords'].rstrip(';')};")
     return "\n".join(lines) + "\n"

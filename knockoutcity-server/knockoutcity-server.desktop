@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Knockout City Server
+Comment=Host a Knockout City Private Server (Wine)
+Exec=knockoutcity-server
+Icon=knockoutcity-server
+Terminal=true
+Categories=Game;ActionGame;

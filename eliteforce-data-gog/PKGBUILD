@@ -15,7 +15,7 @@ source=("build.sh"
         "README.md"
         "setup_star_trek_voyagertm_elite_force_1.2_(34378).exe::gogdownloader://star_trek_voyager_elite_force/en1installer0")
 noextract=("setup_star_trek_voyagertm_elite_force_1.2_(34378).exe")
-sha256sums=('e3ccc6949901b0319bc4068b3c7d40d44484fb78c84425c117fc24d1038355d3'
+sha256sums=('421518e1799580681aefb3e728d8dde54bee6306aa7a3ab6fad2a50579fad398'
             '068a52cda11cd5bf4b0930307614b1f5daaceddbc1a5c05594ca841066917b72'
             '2adb604a8916688689b700a9be3083903d036e1633e1fe675a97776891ac2ae8')
 

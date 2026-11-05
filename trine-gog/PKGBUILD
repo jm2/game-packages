@@ -18,7 +18,7 @@ source=("build.sh"
         "README.md"
         "gog_trine_enchanted_edition_2.0.0.2.sh::gogdownloader://trine_enchanted_edition/en3installer1")
 noextract=("gog_trine_enchanted_edition_2.0.0.2.sh")
-sha256sums=('8dcbad8ccead06808629a1503ea2db38f83043555664ae41b1a41c571f8d29e4'
+sha256sums=('cf5c4fb6398d216f8bfeaf6518ea76cb197a879b258704267d05040cbf9db6b2'
             'dacfa8500586d376ac73bb935a68f2935ebc0ee557388d7beaf520f9c41ef7e0'
             '04207c95af345426c5c461bf4f355ebf2ddfcc54adffebfbd42f639376f4aea9'
             'd496364dea628ab7df976903153a7fde929eb26150e933a53da91cbf13dc4f82'
