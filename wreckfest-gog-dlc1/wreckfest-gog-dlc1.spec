@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/wreckfest\-gog/.*$
 %global __requires_exclude_from ^/opt/wreckfest\-gog/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -11,13 +13,13 @@
 
 Name:           wreckfest-gog-dlc1
 Version:        1.0o
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Wreckfest (GOG) - Season Pass 1
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/en/game/wreckfest
 Source0:       build.sh
 Source1:       README.md
-Source2:       setup_wreckfest_season_pass_1_1.0o_(79627).exe
+Source2:       setup_wreckfest_-_season_pass_1_1.0o_(79627).exe
 
 BuildArch:      noarch
 BuildRequires:  desktop-file-utils
@@ -39,5 +41,7 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-2
-- Install into /opt/wreckfest-gog so the game finds the DLC; fix checksums
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-3
+- Install into /opt/wreckfest-gog so the game finds the DLC
+- Use GOG's file name and DLC path for the installer and pin its sha256
+- Ship GOG's DLC marker files instead of webcache.zip (which conflicted)

@@ -377,6 +377,8 @@ def gen_conf(p: Pkg) -> str:
             out.append(f"PREREQS={sh_array(l['prereqs'])}")
         if p.xlln:
             out.append("XLLN=1")
+        if l.get("wine_user"):
+            out.append(f"WINE_USER={sh(l['wine_user'])}")
         legacy = l.get("legacy_dirs", [f"~/.{p.id}/wine"])
         out.append(f"LEGACY_DIRS={sh_array(legacy)}")
     elif l.get("env"):
@@ -514,6 +516,8 @@ def gen_spec(p: Pkg) -> str:
          "# Proprietary game data and prebuilt binaries: no debuginfo, no stripping,",
          "# no automatic library provides/requires from the game tree.",
          "%global debug_package %{nil}", "%global __strip /bin/true", "%global _build_id_links none",
+         "# Prebuilt game libraries carry their vendors' build-tree RPATHs.",
+         "%global __brp_check_rpaths %{nil}",
          f"%global __provides_exclude_from ^{re.escape(p.target)}/.*$",
          f"%global __requires_exclude_from ^{re.escape(p.target)}/.*$",
          "# Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.",
@@ -711,8 +715,16 @@ def generate(d: Path, check: bool = False) -> bool:
         local_sums[n] = hashlib.sha256(content.encode()).hexdigest()
     out["PKGBUILD"] = (gen_pkgbuild(p, local_sums), 0o644)
     out[f"{p.name}.spec"] = (gen_spec(p), 0o644)
-    for n, c in gen_debian(p).items():
-        out[n] = (c, 0o755 if n in ("debian/rules", "debian/fetch-sources") else 0o644)
+    # deb = { disabled = "<why>" }: no Debian packaging (e.g. a file too big for a .deb).
+    if not p.deb.get("disabled"):
+        for n, c in gen_debian(p).items():
+            out[n] = (c, 0o755 if n in ("debian/rules", "debian/fetch-sources") else 0o644)
+    elif (d / "debian").exists():
+        if check:
+            print(f"{d.name}: debian/ exists but deb.disabled is set", file=sys.stderr)
+        else:
+            shutil.rmtree(d / "debian")
+        changed = True
     for n, (content, mode) in out.items():
         changed |= write(d / n, content, mode, check)
     if not check:

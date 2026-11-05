@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=DOOM Eternal
+Comment=DOOM Eternal (Wine)
+Exec=doom-eternal
+Icon=doom-eternal
+Terminal=false
+Categories=Game;ActionGame;Shooter;

@@ -14,5 +14,5 @@ live in `~/.local/share/gamelaunch/flatout2/`; the first start takes a while.
 Place these files next to the build files or in
 `${TMPDIR:-/var/tmp}/linux-packages-cache/flatout2-wine-gog/` before building:
 
-- `setup_flatout2_2.1.0.9.exe` - GOG (lgogdownloader: flatout_2/en1installer1)
-- `setup_flatout2_2.1.0.9.bin` - GOG (lgogdownloader: flatout_2/en1installer2)
+- `setup_flatout_2_1.0_(26697).exe` - GOG (lgogdownloader: flatout_2/en1installer0)
+- `setup_flatout_2_1.0_(26697)-1.bin` - GOG (lgogdownloader: flatout_2/en1installer1)

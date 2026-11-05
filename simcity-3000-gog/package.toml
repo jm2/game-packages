@@ -3,13 +3,14 @@ family = "native-gog"
 id = "simcity3000"
 version = "2.0"
 native32 = true   # 32-bit x86: FEX on aarch64, box64 cannot run it
-release = 3
+release = 4
 summary = "SimCity 3000 Unlimited (Loki Linux port) with data via GOG"
 url = "https://www.gog.com/game/simcity_3000"
 remove_files = ["simcity3000.sh", "simcity3000.install"]
 changelog = [
   "Generated package; launcher via gamelaunch",
   "Pin the liflg 2.0a patch archive to a commit instead of a branch",
+  "Update to GOG's 2.0.949(A) ddrawfix installer (build 77026)",
 ]
 notes = """
 Runs Loki's native SimCity 3000 Unlimited 2.0a with the GOG data. Sound uses
@@ -20,11 +21,10 @@ libSimBABld.so is removed because it breaks startup; the building architect
 tool may not work."""
 
 [[source.files]]
-name = "setup_simcity3k_unlimited_2.0.0.3.exe"
-url = "gogdownloader://simcity_3000/en1installer1"
-sha256 = "84a73753d9aa6e8e4e8097adec18fc4ea8d897dd9a2dc67d23463cf6338be280"
+name = "setup_simcity_3000_unlimited_2.0.949(a)_ddrawfix_(77026).exe"
+url = "gogdownloader://simcity_3000/en1installer0"
+sha256 = "3114106862113c1a0a9fb642e9c0c44507ec509b383b596546be4f2e99e127d0"
 extract = "inno"
-subdir = "app"
 
 [[source.files]]
 name = "SC3U.zip"
@@ -60,6 +60,8 @@ ico = "goggame-*.ico"
 
 [hooks]
 post_prepare = """
+# GOG installer support files and the Windows language switcher.
+rm -rf app __redist commonappdata tmp language_setup.*
 lc() { # lowercase the last path component
     local b=${1##*/} d=${1%/*} l
     l=$(printf '%s' "$b" | tr 'A-Z' 'a-z')

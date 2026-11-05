@@ -2,8 +2,8 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=broforce-gog
-pkgver=1130_20201008
-pkgrel=4
+pkgver=3148
+pkgrel=1
 pkgdesc='Broforce (native Linux) with data via GOG'
 arch=('x86_64')
 url='https://www.gog.com/game/broforce'
@@ -17,13 +17,13 @@ source=("build.sh"
         "broforce.conf"
         "broforce.desktop"
         "README.md"
-        "broforce_1130_20201008_41824.sh::gogdownloader://broforce/en3installer0")
-noextract=("broforce_1130_20201008_41824.sh")
-sha256sums=('bb6cfdbba93ea5a5f8440ac163a0eb47080e1eef0559c48e036e61669830855c'
+        "broforce_forver_hf_linux_71321.sh::gogdownloader://broforce/en3installer0")
+noextract=("broforce_forver_hf_linux_71321.sh")
+sha256sums=('f30f921ecdb58b6a6bfab91fa668d411eff2f341fb2a966c685f0e5e71003bef'
             '881018cb397aea7be9b0cbb145d1f4a9c589d33da1c27e03cceacda6b49395b9'
             'b20f3e2d63f2a23ee500b7b4695ac03ff7090498543db8f297725c51532cab7d'
-            '01e56cdb65d81c9ebd4f7ed5dba2ccb00eb0a69869bd5bd8044f6cc85a5795f8'
-            '405793776eda4d2fb54dcf20652021bc994070be60db2964395b79b61fbdae7f')
+            '3f186372c448d3b9d9ff59a9df25bc0942255cb8763f20263c0688f8e157c1e3'
+            '0bc99baeaacab2b74991af5f3fafca0ebf2b99df11f61a214df537df044b5744')
 
 # GOG installers: download them yourself (lgogdownloader or the website) and put
 # them next to this PKGBUILD, or enable lgogdownloader in /etc/makepkg.conf:

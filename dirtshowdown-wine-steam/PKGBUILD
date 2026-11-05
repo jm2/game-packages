@@ -20,7 +20,7 @@ source=("build.sh"
         "showdown_avx.exe::https://github.com/jm2/archlinux-package-dirtshowdown-wine-steam/raw/master/showdown_avx.exe")
 noextract=("showdown.exe"
            "showdown_avx.exe")
-sha256sums=('8f2a83e675afd07ed9fd09c2b2e49a8e51ca154042bbd239bf6c82164ddf324a'
+sha256sums=('b5caf4888fb3a216ffdf7ad8ac7abcbe5093c5880944637c0b243aef1b3f6694'
             '68d193287a265d999fe5b4b5e1e5a499a6427ee5bf0469cb462fc4af7013e0e8'
             '2411c96e0502b30ad331003ccb1039ec574738d90db72cd44a745be80da6f7cc'
             '8b02ccd22efe4c7470ed3d925236a0ce8dea9d5607376966beef5fc4c5181a59'

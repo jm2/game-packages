@@ -11,13 +11,13 @@ PT_EXTRA_PATHS=()
 PT_ICON_NAME=''
 PT_NO_DATA=
 PT_VERSION_EXE=''
-PT_VERSION_STATIC=1130_20201008
+PT_VERSION_STATIC=3148
 PT_GBE_LIBS=()
 
 pt_fetch() {
-    f=$(pt_need_source broforce_1130_20201008_41824.sh )
-    rm -rf "$PT_WORK/x-broforce_1130_20201008_41824.sh"; pt_extract mojo "$f" "$PT_WORK/x-broforce_1130_20201008_41824.sh"
-    install -d "$PT_GAME/"; cp -a "$PT_WORK/x-broforce_1130_20201008_41824.sh/data/noarch/." "$PT_GAME/"
+    f=$(pt_need_source broforce_forver_hf_linux_71321.sh )
+    rm -rf "$PT_WORK/x-broforce_forver_hf_linux_71321.sh"; pt_extract mojo "$f" "$PT_WORK/x-broforce_forver_hf_linux_71321.sh"
+    install -d "$PT_GAME/"; cp -a "$PT_WORK/x-broforce_forver_hf_linux_71321.sh/data/noarch/." "$PT_GAME/"
 }
 
 pt_icon() {
@@ -95,6 +95,7 @@ pt_steam_fetch() { # <appid> <platform> <depot specs...> -> prints install dir
         for p in "$dir/steamapps/content/app_$app/depot_$depot" \
                  "$HOME/.steam/steamcmd/linux32/steamapps/content/app_$app/depot_$depot" \
                  "$HOME/.local/share/Steam/steamcmd/linux32/steamapps/content/app_$app/depot_$depot" \
+                 "$HOME/.local/share/steamcmd/linux32/steamapps/content/app_$app/depot_$depot" \
                  "$HOME/.steam/steam/steamapps/content/app_$app/depot_$depot" \
                  "$HOME/Steam/steamapps/content/app_$app/depot_$depot"; do
             [ -d "$p" ] && { cp -rn "$p/." "$dir/"; found=1; break; }
@@ -222,7 +223,7 @@ pt_gbe_present() { # "?lib" entries are optional; prints the libs that exist
     local rel
     for rel in "${PT_GBE_LIBS[@]}"; do
         if [ "${rel#\?}" != "$rel" ]; then
-            [ -f "$PT_GAME/${rel#\?}" ] && printf '%s\n' "${rel#\?}"
+            if [ -f "$PT_GAME/${rel#\?}" ]; then printf '%s\n' "${rel#\?}"; fi
         else
             [ -f "$PT_GAME/$rel" ] || pt_die "Goldberg: $rel not found in the game files"
             printf '%s\n' "$rel"
@@ -350,13 +351,15 @@ pt_install() {
 }
 
 # Move files into N Debian part packages so no .deb exceeds the ar member
-# size limit (~9.3 GiB). Greedy by size, largest first.
+# size limit (~9.3 GiB). Greedy by size, largest first. ELF files stay in the
+# architecture-specific main package (the parts are Architecture: all).
 pt_deb_split() { # <main destdir> <part dir prefix> <parts>
     local main=$1 prefix=$2 n=$3 limit=$(( 9 * 1024 * 1024 * 1024 ))
     local -a used; local i
     for (( i=1; i<=n; i++ )); do used[i]=0; done
     (cd "$main" && find ".${PT_TARGET}" -type f -printf '%s %p\n') | sort -rn |
     while read -r size path; do
+        [ "$(head -c4 -- "$main/$path")" = $'\x7fELF' ] && continue
         local best=1
         for (( i=2; i<=n; i++ )); do [ "${used[i]}" -lt "${used[best]}" ] && best=$i; done
         [ $(( used[best] + size )) -le "$limit" ] || pt_die "data does not fit in $n Debian parts; raise [deb] parts in package.toml"

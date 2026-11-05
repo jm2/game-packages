@@ -1,0 +1,127 @@
+name = "doom2016-wine-gog"
+family = "wine-gog"
+id = "doom2016"
+version = "20240321.110145"
+release = 1
+summary = "DOOM (2016) using Wine with data via GOG"
+url = "https://www.gog.com/en/game/doom_2016"
+conflicts = ["doom2016-wine-steam"]
+replaces = ["doom2016-wine-steam"]
+changelog = ["Initial GOG package (replaces doom2016-wine-steam, which needed DRM-free executables)"]
+notes = """
+The GOG build is DRM-free (campaign only; GOG does not include multiplayer or
+SnapMap). `doom2016 -o` starts the OpenGL renderer; the default is Vulkan."""
+deb = { parts = 9 }
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244).exe"
+url = "gogdownloader://doom_2016/en1installer0"
+sha256 = "1b46699cbbc6e6c7e09e1cdda85716b039eb37f3fbb404065dee123d0a1c5aa1"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-1.bin"
+url = "gogdownloader://doom_2016/en1installer1"
+sha256 = "0f789f053c6b7f8996d189507035f6ecec080f662d5174f7098415ce90f29179"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-2.bin"
+url = "gogdownloader://doom_2016/en1installer2"
+sha256 = "fedd130d5561375c625bf341a292245855d420beadf84e4c64903cd372bf275a"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-3.bin"
+url = "gogdownloader://doom_2016/en1installer3"
+sha256 = "c88f65eec2cfd772873fbad566293b13bbf218e927b42b1d4a4ef01d8fd4116b"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-4.bin"
+url = "gogdownloader://doom_2016/en1installer4"
+sha256 = "c4ef558efcbfd8743b652527db05393fe9024524be065e1876309ecf752e5330"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-5.bin"
+url = "gogdownloader://doom_2016/en1installer5"
+sha256 = "1c0adc39ef6987882b246ec92f0cb95d91bf325bfd7e8925fa7af8e11108835c"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-6.bin"
+url = "gogdownloader://doom_2016/en1installer6"
+sha256 = "63914681661cb0b00bcb6fe8d0bd072d79c7bf9565c9673643839841d5e83528"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-7.bin"
+url = "gogdownloader://doom_2016/en1installer7"
+sha256 = "d379f4aa842b9a1b9136ee3a389f984f87884d0c642356142ebcc76f998121a9"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-8.bin"
+url = "gogdownloader://doom_2016/en1installer8"
+sha256 = "086db7098a8dd74f7c81fa99d97dc3231c6aae3f42ff2f8c9c8d3e54db34f1b1"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-9.bin"
+url = "gogdownloader://doom_2016/en1installer9"
+sha256 = "8d9f4cf5127f636121298568da09346aaa3ce1ab966e197c59a8689980cad61a"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-10.bin"
+url = "gogdownloader://doom_2016/en1installer10"
+sha256 = "78a1a0b3fef5ff39b07d326f71003d1a6e37b56cadb5e4037a8da01f674cc52d"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-11.bin"
+url = "gogdownloader://doom_2016/en1installer11"
+sha256 = "8d3feda074cdd557e81cd52453e90d1840e701e693ca0818e9fe95245222cf78"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-12.bin"
+url = "gogdownloader://doom_2016/en1installer12"
+sha256 = "864bdf7ee138276a2f3d10da98ca30ccd9284bdbad457a30f5bb9641b671da10"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-13.bin"
+url = "gogdownloader://doom_2016/en1installer13"
+sha256 = "94409a1ed68aad0ac7ad3c61f237c4e70bfdc372c078b015b2912da2bc15133a"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-14.bin"
+url = "gogdownloader://doom_2016/en1installer14"
+sha256 = "fe8e7c541b963acc0a69b983839645cedc189cd1d148c701e30ed9312bf2c806"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-15.bin"
+url = "gogdownloader://doom_2016/en1installer15"
+sha256 = "6dec8bd34d6eab879e468371aa17dfccf2036fd176cd5f695a65f6edc1c5ab98"
+
+[[source.files]]
+name = "setup_doom_(2016)_20240321-110145-gentle-wolf_(80244)-16.bin"
+url = "gogdownloader://doom_2016/en1installer16"
+sha256 = "698cda1939cdd7948ade20f86dc4401067c8f486ed1d4aa84c42961d38d29a12"
+[icon]
+ico = "goggame-*.ico"
+
+[hooks]
+post_prepare = """
+# The game is at the installer root, but app/ holds a game video
+# (base/video/modbot/) and the GOG icon; merge it.
+if [ -d app ]; then cp -a app/. .; rm -rf app; fi
+rm -rf __redist commonappdata tmp
+"""
+
+[launcher]
+exe = "DOOMx64vk.exe"
+umu_id = "umu-379720"
+dxvk = false
+legacy_dirs = ["~/.doom2016/wine"]
+prereqs = ["vcrun2015|winetricks:mfc140"]
+variants = [
+  { flag = "v", exe = "DOOMx64vk.exe", description = "Vulkan renderer" },
+  { flag = "o", exe = "DOOMx64.exe", description = "OpenGL renderer" },
+]
+default_variant = "v"
+
+[desktop]
+name = "DOOM (2016)"
+comment = "DOOM (2016) (Wine)"
+categories = "Game;ActionGame;Shooter;"

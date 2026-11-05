@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "setup_ut_goty_2.0.0.5.exe::gogdownloader://unreal_tournament_goty/en1installer0")
 noextract=("setup_ut_goty_2.0.0.5.exe")
-sha256sums=('ee847adac4465d1b67625cd87102ec5a25116832f4afedf527738d5bdd428eeb'
+sha256sums=('743f0264ac0c8c82886622e6c29ae8c6193bf26a76a04ec3527cab7b3ea15ed0'
             'de695f7d601b66414d8834a61ba76ff43ae329f0f6b70dfe48b129de8b912359'
             '4cc257d54d97659c5062f2bf186d0a8c6959561d11e42d8fcf2eac07f1926803')
 

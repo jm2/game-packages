@@ -1,3 +1,3 @@
 # Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
-b13e87de2e7386a120cd6dfc194e6e9a6bd522fe51fb8a7ad3faad6ab0475df9 setup_flatout2_2.1.0.9.exe local
-9d488e515d6e529127a695998c92fdbfd6d94f4cb35919776116ff4ab073e683 setup_flatout2_2.1.0.9.bin local
+8656ccc6997ed6b1e0e0dace7c6a7fb48dad569f63f66244352ddb2303c8d01b setup_flatout_2_1.0_(26697).exe local
+a078dfc184ec6b39942fb3613b946eb247206b095cdbe4dd7ca30906bc466872 setup_flatout_2_1.0_(26697)-1.bin local

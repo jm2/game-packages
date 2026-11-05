@@ -1,0 +1,238 @@
+name = "doom-eternal-wine-gog"
+family = "wine-gog"
+id = "doom-eternal"
+version = "20260414.233123"
+release = 1
+summary = "DOOM Eternal using Wine with data via GOG"
+url = "https://www.gog.com/en/game/doom_eternal"
+changelog = ["Initial package"]
+notes = """
+The GOG build is DRM-free (campaign and The Ancient Gods; GOG does not include
+BATTLEMODE). Vulkan only.
+
+There is no working Debian build: base/gameresources_0_1.streamdb is a single
+11.77 GiB file, larger than the ~9.3 GiB a .deb archive member can hold, so the
+data can't be split into deb parts. Use the Arch or Fedora package."""
+deb = { disabled = "base/gameresources_0_1.streamdb is one 11.77 GiB file, over the ~9.3 GiB size limit of a .deb member" }
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/en1installer0"
+sha256 = "faa5a04726ef95878d54a1972054f8f4dee8fd7ed0514d0f414b6378050eb24b"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_cosplay_slayer_master_collection_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_cosplay_slayer_master_collection_cosmetic_pack/en1installer0"
+sha256 = "e84a4c87d1d5a82dac060db3a4dafb12a36146c18a0cdbfaa858d91f07b9e6a5"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_one_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_one_cosmetic_pack/en1installer0"
+sha256 = "c27bdfc0cb837a2d029a49f34b0811298618143ee565f942f751af53be190fb2"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_three_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_three_cosmetic_pack/en1installer0"
+sha256 = "88b17a7df443a50bf973bc9c31efcf335148de5fe22c1ec243b8a25096598d23"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_mullet_slayer_master_collection_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_mullet_slayer_master_collection_cosmetic_pack/en1installer0"
+sha256 = "fd24373eb703dcff5c3937311013e8436eaee6af32d3665e58bdeb4a98516c42"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_six_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_six_cosmetic_pack/en1installer0"
+sha256 = "e8c4f52c0cb2e9557cccfc28fe0af3a2121fb5e97bc2af060113cba8c785de76"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_two_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_two_cosmetic_pack/en1installer0"
+sha256 = "27d0c531bc06ce8df96ebbb30035ec11a50e8786dabdd8fe7680b1deaedd121a"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_the_ancient_gods_-_part_two_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_the_ancient_gods_part_two/en1installer0"
+sha256 = "26f92ad3b008337798fe06496eed1304946fa64bc173171e78715a700fd0f682"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_four_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_four_cosmetic_pack/en1installer0"
+sha256 = "08ca71c49d37f4595eb2dcfec7915e3871ab3831d6913035c77639b7cd6b3490"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_doomicorn_master_collection_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_doomicorn_master_collection_cosmetic_pack/en1installer0"
+sha256 = "de9034c13908da4f99389c89350352dc924fae9d3a17e10cf778c25d37c544a8"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_the_ancient_gods_-_part_one_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_the_ancient_gods_part_one/en1installer0"
+sha256 = "0c39ef305717e431b5bd76955d3eed34b74c35c23e8a989be3415f8fcc33159e"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_deluxe_edition_content_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_deluxe_edition_content/en1installer0"
+sha256 = "984879bc9d3c631d38b8edf18f98176ae8b6c3fe0e12cab80cd124ff3c0f3a6b"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_seven_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_seven_cosmetic_pack/en1installer0"
+sha256 = "399b98329b3ba7adc6176117efaaf7724934b60dcdb9dc19c37364a323140c60"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_rip_and_tear_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_rip_and_tear_pack/en1installer0"
+sha256 = "efb2da6188d01240bcf58ddfff35c027a0140182ec13dc7582be1f9fca0d114e"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_series_five_cosmetic_pack_20260414-233123-rotten-tiger_(90172).exe"
+url = "gogdownloader://doom_eternal/doom_eternal_series_five_cosmetic_pack/en1installer0"
+sha256 = "adcc0833654e850cebc596c3042df3e2b02264bca657c6cff25be72720a42183"
+extract = "inno"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-1.bin"
+url = "gogdownloader://doom_eternal/en1installer1"
+sha256 = "dfbfe18535fadb73266cae40d09fa03ca597f1cb34e450774511a08deee324f4"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-2.bin"
+url = "gogdownloader://doom_eternal/en1installer2"
+sha256 = "1900534e1289de542b5e19d1ef529a66370973e65dc8b9ca6066c7459728a4b9"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-3.bin"
+url = "gogdownloader://doom_eternal/en1installer3"
+sha256 = "b29715697db530e87382dd021b3eb2c9b416d39b74a5c84beaf22f42a929bc56"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-4.bin"
+url = "gogdownloader://doom_eternal/en1installer4"
+sha256 = "357a05a7f2e9890e32c8b944f69ce521dd12c23623e1b63ecec3ccb4a56379dd"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-5.bin"
+url = "gogdownloader://doom_eternal/en1installer5"
+sha256 = "5a3120787c2356ea21578f2e4c402ff64c5e6d18d3e1053dff6708bc26904695"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-6.bin"
+url = "gogdownloader://doom_eternal/en1installer6"
+sha256 = "ac7a555593bd5ff3abfe9fa68960c3a6b812230d05e2907744aeea3f06e60d90"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-7.bin"
+url = "gogdownloader://doom_eternal/en1installer7"
+sha256 = "511f38d6c7c6b1b90dd828a798e95a5347701fc35b6b5762c8ce55d38c811a19"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-8.bin"
+url = "gogdownloader://doom_eternal/en1installer8"
+sha256 = "35b26750fd3cf64fa83889d3c271be8ae5842956df41eb8eea065911ca468b3a"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-9.bin"
+url = "gogdownloader://doom_eternal/en1installer9"
+sha256 = "f6829f2772a92d03751ff15c13cabeddd60180689caab5160d95d21249ae434b"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-10.bin"
+url = "gogdownloader://doom_eternal/en1installer10"
+sha256 = "12116b8807521add4805477a81572b19425e3a9309a66ab840899602ef5ec566"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-11.bin"
+url = "gogdownloader://doom_eternal/en1installer11"
+sha256 = "8a2fbc696b98b11881469ebb991ee9d469b26f6fa5e55ca40521d9e469719705"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-12.bin"
+url = "gogdownloader://doom_eternal/en1installer12"
+sha256 = "66a11d47f09deee97adc056f423638b56a67a7fe2b282535be95d1ccd8a179e6"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-13.bin"
+url = "gogdownloader://doom_eternal/en1installer13"
+sha256 = "4f158e8461bf2a1fcde1d29d2767891d7b772332e71032c0446821c5d9bd3670"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-14.bin"
+url = "gogdownloader://doom_eternal/en1installer14"
+sha256 = "1d445fd7c706f41133c9d6da92bb6a3d406016bc194e9cb588ec6ac4dd878d37"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-15.bin"
+url = "gogdownloader://doom_eternal/en1installer15"
+sha256 = "78fae99629435647b109d6d012a9f45dab6ca23739e5113a143d4f4b46b21f30"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-16.bin"
+url = "gogdownloader://doom_eternal/en1installer16"
+sha256 = "c6b2e2a8b35881958879295f725a51b295a95a8edfdc39b91c9bbc9a180cfcd6"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-17.bin"
+url = "gogdownloader://doom_eternal/en1installer17"
+sha256 = "5b991958cd3993ce26e7e42a04c8ab6dc2e143e4ddcdbb388e3e807c64fe0d65"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-18.bin"
+url = "gogdownloader://doom_eternal/en1installer18"
+sha256 = "d1eb23ec63b7faad95333a37f0ae9cb809f77c83c609ec879835f0cb3e3145b0"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-19.bin"
+url = "gogdownloader://doom_eternal/en1installer19"
+sha256 = "b56bb9006a13f020a1021abba8c69ada2df6a46a1da94825964f8200ac07bd80"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-20.bin"
+url = "gogdownloader://doom_eternal/en1installer20"
+sha256 = "966bee1d5951ac9cbf5897a68af9086bad793b8a76c9214fd4617c1743e39e6d"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-21.bin"
+url = "gogdownloader://doom_eternal/en1installer21"
+sha256 = "20f97bc4b970fdee8d2899fa3f21eb8787ac9af0aa09128d8cb95973d73b7901"
+
+[[source.files]]
+name = "setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-22.bin"
+url = "gogdownloader://doom_eternal/en1installer22"
+sha256 = "1622a9d7ed8383b4ecc6fb5397d0d2af94936c525324735a119ac63ef23c71ad"
+[icon]
+ico = "goggame-*.ico"
+
+[hooks]
+post_prepare = """
+# The game is at the installer root. app/ only holds GOG's icon and web cache
+# (every DLC installer adds its own); keep the game's icon. The DLC installers
+# only add GOG's DLC markers (goggame-<dlc id>.info/.hashdb).
+mv app/goggame-1344230395.ico .
+rm -rf app __redist commonappdata tmp
+"""
+
+[launcher]
+exe = "DOOMEternalx64vk.exe"
+umu_id = "umu-782330"
+dxvk = false
+legacy_dirs = []
+
+[desktop]
+name = "DOOM Eternal"
+comment = "DOOM Eternal (Wine)"
+categories = "Game;ActionGame;Shooter;"

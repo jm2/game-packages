@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/flatout2/.*$
 %global __requires_exclude_from ^/opt/flatout2/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -11,7 +13,7 @@
 
 Name:           flatout2-wine-gog
 Version:        1.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        FlatOut 2 using Wine with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/flatout_2
@@ -19,8 +21,8 @@ Source0:       build.sh
 Source1:       flatout2.conf
 Source2:       flatout2.desktop
 Source3:       README.md
-Source4:       setup_flatout2_2.1.0.9.exe
-Source5:       setup_flatout2_2.1.0.9.bin
+Source4:       setup_flatout_2_1.0_(26697).exe
+Source5:       setup_flatout_2_1.0_(26697)-1.bin
 
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
@@ -57,5 +59,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/flatout2.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2-4
 - Switch to gamelaunch (umu/Proton default, system wine fallback)
+- Update to GOG's current installer (build 26697, game at its root)

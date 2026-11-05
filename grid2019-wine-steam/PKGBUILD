@@ -16,7 +16,7 @@ source=("build.sh"
         "grid2019.conf"
         "grid2019.desktop"
         "README.md")
-sha256sums=('8a4636f9bb712c4cf4ea29cc531102d1759b0e10d290e7e2f4bc1d53a4175f4b'
+sha256sums=('1836585a7feec1ce31fc56778991d71351a963050768f80f7cda497ce5176b75'
             '366e82781d785883dfb6820cfed90feb82c53c67afb17826d5311c1c6559b343'
             '11dc271e37988cd34ce334d61930512de6a3f33652bae373fbb374f95fb49d7f'
             'fa24d6fd54a83292b16aca5fd9a7ad408032a64ffcbbfed316bca3422f105425')

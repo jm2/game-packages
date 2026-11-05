@@ -1,19 +1,22 @@
 name = "broforce-gog"
 family = "native-gog"
 id = "broforce"
-version = "1130_20201008"
-release = 4
+version = "3148"
+release = 1
 summary = "Broforce (native Linux) with data via GOG"
 url = "https://www.gog.com/game/broforce"
 provides = ["broforce"]
 conflicts = ["broforce-steam"]
 remove_files = ["broforce.sh"]
-changelog = ["Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce"]
+changelog = [
+  "Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce",
+  "Update to GOG's Forever HF Linux installer (build 71321, game 1.0.3148)",
+]
 
 [[source.files]]
-name = "broforce_1130_20201008_41824.sh"
+name = "broforce_forver_hf_linux_71321.sh"
 url = "gogdownloader://broforce/en3installer0"
-sha256 = "405793776eda4d2fb54dcf20652021bc994070be60db2964395b79b61fbdae7f"
+sha256 = "0bc99baeaacab2b74991af5f3fafca0ebf2b99df11f61a214df537df044b5744"
 extract = "mojo"
 subdir = "data/noarch"
 

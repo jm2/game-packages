@@ -9,4 +9,4 @@ Run it with `broforce` or from the desktop menu.
 Place these files next to the build files or in
 `${TMPDIR:-/var/tmp}/linux-packages-cache/broforce-gog/` before building:
 
-- `broforce_1130_20201008_41824.sh` - GOG (lgogdownloader: broforce/en3installer0)
+- `broforce_forver_hf_linux_71321.sh` - GOG (lgogdownloader: broforce/en3installer0)

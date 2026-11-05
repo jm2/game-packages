@@ -1,5 +1,6 @@
-doom3bfg-data-gog (1-3) unstable; urgency=medium
+doom3bfg-data-gog (1-4) unstable; urgency=medium
 
   * Generated from package.toml
+  * Update to GOG's 1.14 20230201 installer (build 62122)
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

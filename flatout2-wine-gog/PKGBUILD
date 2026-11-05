@@ -3,7 +3,7 @@
 
 pkgname=flatout2-wine-gog
 pkgver=1.2
-pkgrel=3
+pkgrel=4
 pkgdesc='FlatOut 2 using Wine with data via GOG'
 arch=('x86_64')
 url='https://www.gog.com/game/flatout_2'
@@ -16,16 +16,16 @@ source=("build.sh"
         "flatout2.conf"
         "flatout2.desktop"
         "README.md"
-        "setup_flatout2_2.1.0.9.exe::gogdownloader://flatout_2/en1installer1"
-        "setup_flatout2_2.1.0.9.bin::gogdownloader://flatout_2/en1installer2")
-noextract=("setup_flatout2_2.1.0.9.exe"
-           "setup_flatout2_2.1.0.9.bin")
-sha256sums=('76594ed504600e8c9e44b8aa3d11471577209629fe1b13afff1a93a5dbe2d916'
+        "setup_flatout_2_1.0_(26697).exe::gogdownloader://flatout_2/en1installer0"
+        "setup_flatout_2_1.0_(26697)-1.bin::gogdownloader://flatout_2/en1installer1")
+noextract=("setup_flatout_2_1.0_(26697).exe"
+           "setup_flatout_2_1.0_(26697)-1.bin")
+sha256sums=('b54c5e94fb0263c883f39a29de71f09de0f2113b33b11aa64135d3e3ace1904e'
             '4f73101e9a9aedfa6045d0daccaab45c255df61c25d6aae561ecd9e058637612'
             'de7c758a7f1295d6f23bb77d9622d634fdaa5bf318213a245167c43e0a7c28f0'
-            'c855c16260784e0d3152d2a22ed0fca63fb6113f5a656da46fa84a3054ed9bb6'
-            'b13e87de2e7386a120cd6dfc194e6e9a6bd522fe51fb8a7ad3faad6ab0475df9'
-            '9d488e515d6e529127a695998c92fdbfd6d94f4cb35919776116ff4ab073e683')
+            'b889652d028db36b062d2a2b766f1c4cd24ab6a11fbd4ea25be6bd53c9612041'
+            '8656ccc6997ed6b1e0e0dace7c6a7fb48dad569f63f66244352ddb2303c8d01b'
+            'a078dfc184ec6b39942fb3613b946eb247206b095cdbe4dd7ca30906bc466872')
 
 # GOG installers: download them yourself (lgogdownloader or the website) and put
 # them next to this PKGBUILD, or enable lgogdownloader in /etc/makepkg.conf:

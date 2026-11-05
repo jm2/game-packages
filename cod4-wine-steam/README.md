@@ -1,6 +1,8 @@
 # cod4-wine-steam
 
-Call of Duty 4: Modern Warfare using Wine (game data from cod4-data-steam)
+Call of Duty 4: Modern Warfare (1.8), run through gamelaunch (umu/Proton or
+system wine). This package is only the launcher: the game data comes from
+cod4-data-steam, installed to /opt/cod4.
 
 Run it with `cod4` or from the desktop menu.
 

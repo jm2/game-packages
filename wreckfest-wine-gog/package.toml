@@ -2,7 +2,7 @@ name = "wreckfest-wine-gog"
 family = "wine-gog"
 id = "wreckfest-gog"
 version = "1.0o"
-release = 3
+release = 4
 summary = "Wreckfest using Wine with data via GOG"
 url = "https://www.gog.com/en/game/wreckfest"
 remove_files = ["wreckfest.sh", "wreckfest.desktop"]
@@ -10,11 +10,27 @@ changelog = [
   "Switch to gamelaunch (umu/Proton default, system wine fallback)",
   "Fix the launcher looking in /opt/wreckfest instead of /opt/wreckfest-gog",
   "Own prefix, no longer shared with wreckfest-wine-steam",
+  "LAN: run as a Windows user named after the host (unique SteamID per machine); dedicated server variant",
 ]
 notes = """
 Season Pass DLC: install wreckfest-gog-dlc1 / wreckfest-gog-dlc2, which add
-their files to /opt/wreckfest-gog."""
-deb = { parts = 4 }
+their files to /opt/wreckfest-gog.
+
+LAN play (from jm2/lan-ipxe wreckfest-lan): GOG's 2024+ build derives each
+player's SteamID from a hash of the Windows username, so machines with the
+same username kick each other ("Already Logged In"). The launcher runs the
+game as a Windows user named after the machine's short host name, which needs
+the system wine backend: Proton always reports "steamuser", so with only
+umu-launcher installed every machine collides. Give each LAN machine its own
+host name, or set `GAMELAUNCH_USER=<name>` for a run. Generic host names
+(localhost*, archiso) get a random `player-<hex>` name instead.
+
+`wreckfest-gog -s` starts a dedicated LAN server with
+`~/.local/share/gamelaunch/wreckfest-gog/game/server_config.cfg` (copied from
+the game's initial_server_config.cfg on first start). The server still signs
+in to THQ Nordic's online service, so the host needs internet; clients do
+not."""
+deb = { parts = 4, recommends = ["wine"] }
 
 [[source.files]]
 name = "setup_wreckfest_1.0o_(79627).exe"
@@ -67,17 +83,24 @@ ico = "goggame-*.ico"
 
 [hooks]
 post_prepare = """
-# Newer GOG installers keep the game under app/; flatten it.
-if [ -e app/Wreckfest_x64.exe ]; then cp -a app/. .; rm -rf app; fi
+# The game is at the installer root; app/ holds GOG's icon (and crash/db).
+if [ -d app ]; then cp -a app/. .; rm -rf app; fi
 rm -rf __redist commonappdata tmp
+# Dedicated server bootstrap (as start_server.bat does).
+printf '228380\n' > steam_appid.txt
+[ -f initial_server_config.cfg ] && cp initial_server_config.cfg server_config.cfg
 """
 
 [launcher]
 exe = "Wreckfest_x64.exe"
 legacy_dirs = []
+wine_user = "hostname"
+writable = true
+writable_copy = ["server_config.cfg"]
 variants = [
   { flag = "m", exe = "Wreckfest_x64.exe", description = "64-bit Wreckfest_x64.exe" },
   { flag = "l", exe = "Wreckfest.exe", description = "legacy 32-bit Wreckfest.exe" },
+  { flag = "s", exe = "Wreckfest_x64.exe", args = ["-s", "server_config=server_config.cfg"], description = "dedicated LAN server (server_config.cfg)" },
 ]
 default_variant = "m"
 
@@ -86,3 +109,6 @@ name = "Wreckfest (GOG)"
 comment = "Wreckfest (Wine)"
 categories = "Game;SportsGame;"
 keywords = "racing;derby"
+
+[deps]
+recommends_fedora = ["wine"]

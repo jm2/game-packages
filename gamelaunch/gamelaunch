@@ -20,6 +20,8 @@
 #
 # Environment overrides:
 #   GAMELAUNCH_RUNNER=umu|wine   force a backend (default: umu if installed)
+#   GAMELAUNCH_USER=<name>       Windows username for this run (wine backend
+#                                only: Proton always reports "steamuser")
 #   GAMELAUNCH_DEBUG=1           trace and keep wine/umu logging
 #   PROTONPATH, GAMEID           passed through to umu-run
 #   WINE                         wine binary for the wine backend
@@ -60,7 +62,7 @@ gl_load() {
     VARIANTS=() DEFAULT_VARIANT=''
     WRITABLE=0 WRITABLE_COPY=()
     DXVK=1 UMU_ID='' WINE_ARCH=win64 WINE_DLL_OVERRIDES='' WINE_ENV=() PREREQS=()
-    XLLN=0 XLLN_DIR='' LEGACY_DIRS=() NATIVE_ENV=() NEEDS_X86_32=0
+    XLLN=0 XLLN_DIR='' LEGACY_DIRS=() NATIVE_ENV=() NEEDS_X86_32=0 WINE_USER=''
     # shellcheck source=/dev/null
     . "$conf" || die "failed to read $conf"
 
@@ -178,7 +180,7 @@ gl_envarr() {
     GL_ENVA=()
     local v
     for v in WINEPREFIX WINEARCH WINEDEBUG WINEDLLOVERRIDES WINE GAMEID PROTONPATH PROTON_VERB \
-             STORE LD_LIBRARY_PATH ${GL_ENV_NAMES:-}; do
+             STORE LD_LIBRARY_PATH ${GL_WUSER:+USER} ${GL_ENV_NAMES:-}; do
         [ -n "${!v+x}" ] && GL_ENVA+=("$v=${!v}")
     done
 }
@@ -195,10 +197,32 @@ gl_exec() {
 
 # ------------------------------------------------------------ wine prefix ----
 
+# Windows username for the game. Wine takes it from $USER when a process
+# starts; Proton hardcodes "steamuser", so a custom name needs the wine
+# backend. WINE_USER=hostname (games whose LAN identity derives from the
+# username, e.g. GOG Wreckfest) uses the short host name; GAMELAUNCH_USER
+# overrides it for one run.
+gl_wine_user() {
+    GL_WUSER=${GAMELAUNCH_USER:-}
+    if [ -z "$GL_WUSER" ] && [ "$WINE_USER" = hostname ]; then
+        GL_WUSER=$(uname -n); GL_WUSER=${GL_WUSER%%.*}
+        case ${GL_WUSER,,} in
+            ''|localhost*|archiso)   # generic names collide between machines
+                [ -s "$GL_DATA/user-suffix" ] ||
+                    od -An -N2 -tx1 /dev/urandom | tr -d ' \n' > "$GL_DATA/user-suffix"
+                GL_WUSER=player-$(cat "$GL_DATA/user-suffix") ;;
+        esac
+    fi
+    # Characters valid in a Windows account name; at most 20 of them.
+    GL_WUSER=$(printf '%s' "$GL_WUSER" | tr -cd 'A-Za-z0-9._-' | cut -c1-20)
+}
+
 gl_pick_runner() {
     local r=${GAMELAUNCH_RUNNER:-}
+    gl_wine_user
     if [ -z "$r" ]; then
-        if command -v umu-run >/dev/null 2>&1; then r=umu; else r=wine; fi
+        if [ -n "$GL_WUSER" ] && command -v "${WINE:-wine}" >/dev/null 2>&1; then r=wine
+        elif command -v umu-run >/dev/null 2>&1; then r=umu; else r=wine; fi
     fi
     case $r in
         umu)  command -v umu-run >/dev/null 2>&1 || die "GAMELAUNCH_RUNNER=umu but umu-run is not installed" ;;
@@ -208,6 +232,14 @@ gl_pick_runner() {
     esac
     GL_RUNNER=$r
     export WINEPREFIX=$GL_DATA/prefix-$r
+    if [ -n "$GL_WUSER" ]; then
+        if [ "$r" = umu ]; then
+            warn "umu/Proton always runs as \"steamuser\"; install wine (or set GAMELAUNCH_RUNNER=wine) to run as \"$GL_WUSER\""
+            GL_WUSER=
+        else
+            export USER=$GL_WUSER
+        fi
+    fi
     if [ "$r" = umu ]; then
         export GAMEID=${GAMEID:-${UMU_ID:-umu-default}}
     else
@@ -330,6 +362,10 @@ gl_prefix_ready() {
         fi
         gl_link_userdata
         printf '%s\n' "$GL_VERSION" > "$stamp"
+    fi
+    if [ -n "${GL_WUSER:-}" ] && [ ! -d "$WINEPREFIX/drive_c/users/$GL_WUSER/Documents" ]; then
+        # Pre-create the custom user's profile so saves land in userdata/.
+        mkdir -p "$WINEPREFIX/drive_c/users/$GL_WUSER" && gl_link_userdata
     fi
     gl_dxvk_link
     gl_prereqs
@@ -461,6 +497,7 @@ gl_info() {
         "$GL_ID" "$GAME_NAME" "$GAME_TYPE" "$GAME_DIR" "$GL_DATA" "$WRITABLE"
     if [ "$GAME_TYPE" = wine ]; then
         gl_pick_runner
+        printf 'user:      %s\n' "${GL_WUSER:-${USER:-?} (unchanged)}"
         printf 'backend:   %s\nprefix:    %s\numu id:    %s\ndxvk:      %s\n' \
             "$GL_RUNNER" "$WINEPREFIX" "${UMU_ID:-umu-default}" \
             "$([ "$GL_RUNNER" = umu ] && echo 'bundled with Proton' || { d=$(gl_dxvk_dirs); echo "${d:-wine builtin / distro alternatives}"; })"

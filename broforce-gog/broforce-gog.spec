@@ -4,14 +4,16 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/broforce/.*$
 %global __requires_exclude_from ^/opt/broforce/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
 %global _binary_payload w3.zstdio
 
 Name:           broforce-gog
-Version:        1130_20201008
-Release:        4%{?dist}
+Version:        3148
+Release:        1%{?dist}
 Summary:        Broforce (native Linux) with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/broforce
@@ -19,7 +21,7 @@ Source0:       build.sh
 Source1:       broforce.conf
 Source2:       broforce.desktop
 Source3:       README.md
-Source4:       broforce_1130_20201008_41824.sh
+Source4:       broforce_forver_hf_linux_71321.sh
 
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
@@ -58,5 +60,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/broforce.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1130_20201008-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3148-1
 - Switch to gamelaunch; saves go to a per-user overlay instead of a world-writable /opt/broforce
+- Update to GOG's Forever HF Linux installer (build 71321, game 1.0.3148)

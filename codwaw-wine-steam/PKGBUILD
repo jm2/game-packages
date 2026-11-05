@@ -22,7 +22,7 @@ source=("build.sh"
 noextract=("CoDWaW.exe"
            "CoDWaWlf.exe"
            "CoDWaWmp.exe")
-sha256sums=('4496ff1fb3f398397a98163817a16ea38c83de2415d6544fd5990eab52aacd3e'
+sha256sums=('4ec7ddf73d448b2e0f679731e758ec27148edeb9e0c8c189a01ec49115c3574c'
             '4557d7994bca5fcad3f5b3f82894a5ed5118a2788e31c01028e2966997f43d89'
             '6e554624f8e2a2f72ba821f3ecc04d90a527ad4c7a88777b8820b1fb61f1421c'
             '7dc1bda48425abfb97cbfdfc41e9ef61dc62cdbafb22722023707ee42d292e64'

@@ -2,11 +2,14 @@ name = "simcity4-wine-gog"
 family = "wine-gog"
 id = "simcity4"
 version = "1.1.641"
-release = 2
+release = 3
 summary = "SimCity 4 Deluxe Edition using Wine with data via GOG"
 url = "https://www.gog.com/game/simcity_4_deluxe_edition"
 remove_files = ["simcity4.sh", "simcity4.install"]
-changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+changelog = [
+  "Switch to gamelaunch (umu/Proton default, system wine fallback)",
+  "Drop the GOG installer's tmp/ slideshow images",
+]
 notes = """
 The launcher passes `-CustomResolution:enabled -r1920x1080x32`; to use another
 resolution run `simcity4 -r<width>x<height>x32` (later arguments win)."""
@@ -26,7 +29,7 @@ post_prepare = """
 for d in __support app; do
     [ -d "$d" ] && { cp -a "$d/." .; rm -rf "$d"; }
 done
-rm -rf __redist commonappdata
+rm -rf __redist commonappdata tmp
 """
 
 [launcher]

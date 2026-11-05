@@ -20,7 +20,7 @@ source=("build.sh"
         "README.md"
         "MiniMetro-release-56-linux.tar.gz::hib://MiniMetro-release-56-linux.tar.gz")
 noextract=("MiniMetro-release-56-linux.tar.gz")
-sha256sums=('31e75b7fa96ea5f7af6889f527bf4b7130a4f7a4f0d0427df623a20603e232a0'
+sha256sums=('50519c85d50b6610b052ef27f688da98c97443ef0f0d7518d6ac01db258ec89a'
             'da17b9e115e1f258ad88f61478fccd1d40da560c2f99bd25639df6beb9310cb8'
             '8df97f0651a864e31a0358d2fb341a36c99e396458495cc4298bad5407c1dabc'
             '9e640d25cf534154c2ed96c87ac51f26ba981fe42056b147d212d5954f91a380'

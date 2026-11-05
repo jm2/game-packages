@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/simcity4/.*$
 %global __requires_exclude_from ^/opt/simcity4/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -11,7 +13,7 @@
 
 Name:           simcity4-wine-gog
 Version:        1.1.641
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        SimCity 4 Deluxe Edition using Wine with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/simcity_4_deluxe_edition
@@ -56,5 +58,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/simcity4.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.1.641-2
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.1.641-3
 - Switch to gamelaunch (umu/Proton default, system wine fallback)
+- Drop the GOG installer's tmp/ slideshow images

@@ -3,7 +3,7 @@
 
 pkgname=doom3bfg-data-gog
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='Doom 3 BFG Edition data via GOG'
 arch=('any')
 url='https://www.gog.com/game/doom_3_bfg_edition'
@@ -14,14 +14,17 @@ conflicts=('doom3bfg-data-steam')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"
-        "setup_doom_3_bfg_1.14_(13452).exe::gogdownloader://doom_3_bfg_edition_game/en1installer0"
-        "setup_doom_3_bfg_1.14_(13452)-1.bin::gogdownloader://doom_3_bfg_edition_game/en1installer1")
-noextract=("setup_doom_3_bfg_1.14_(13452).exe"
-           "setup_doom_3_bfg_1.14_(13452)-1.bin")
-sha256sums=('8252314b54f6528faa03df5446cc13f81c57903f3bbe0883079e4501a3d83f2f'
-            'd2d8b1a1b3808290bca7b3e5802cf5b092cf515f73b0d25b0d05507bc570699a'
-            '8e6796c0f81e90de726e57978858ebdc8e162366060736bb080a51c73151936f'
-            'e71a1f1cf2674748046b677b88015a4807a624a14831a2e7ce1e084c82bd0952')
+        "setup_doom3_bfg_edition_1.14_20230201_(62122).exe::gogdownloader://doom_3_bfg_edition_game/en1installer0"
+        "setup_doom3_bfg_edition_1.14_20230201_(62122)-1.bin::gogdownloader://doom_3_bfg_edition_game/en1installer1"
+        "setup_doom3_bfg_edition_1.14_20230201_(62122)-2.bin::gogdownloader://doom_3_bfg_edition_game/en1installer2")
+noextract=("setup_doom3_bfg_edition_1.14_20230201_(62122).exe"
+           "setup_doom3_bfg_edition_1.14_20230201_(62122)-1.bin"
+           "setup_doom3_bfg_edition_1.14_20230201_(62122)-2.bin")
+sha256sums=('8c89abacb85d3b70d71f253d0332f57fa2b3ac2df75b9f527a5a2b200c102e1f'
+            '3c8fc04076f7d8a2cfafebfd2bc9091a6e602ce872cf0046c2daf1dfc31a0517'
+            '67370f9a83bccc2cd06c82bb2e08fbe4be36172578f290e7705c530a06ed80d4'
+            'caa7f6e5458bacbe63dd42279142f72e2be4f8b36c9d74166cc09c1e793dfd0d'
+            '85d2527ac1319a655d915b681d3f0d52dcfa2dd1d8c5ec324707d588e67aab30')
 
 # GOG installers: download them yourself (lgogdownloader or the website) and put
 # them next to this PKGBUILD, or enable lgogdownloader in /etc/makepkg.conf:

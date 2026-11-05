@@ -1,5 +1,5 @@
 # Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
-84a73753d9aa6e8e4e8097adec18fc4ea8d897dd9a2dc67d23463cf6338be280 setup_simcity3k_unlimited_2.0.0.3.exe local
+3114106862113c1a0a9fb642e9c0c44507ec509b383b596546be4f2e99e127d0 setup_simcity_3000_unlimited_2.0.949(a)_ddrawfix_(77026).exe local
 122fd83f099c80929cbdc3602a3155d448b7f8879f632583060e61144c553b33 SC3U.zip https://files.gog.com/support/SC3U.zip
 c55292c7bd183b8fc54b6c7e0ec9c53fc3657e759603cc5a174d83803b288de0 sc3-lnx-support.tar.bz2 https://github.com/jm2/archlinux-package-simcity-3000-gog/raw/master/sc3-lnx-support.tar.bz2
 60932597d4ee94f0b629d7194774c2b9ce867f9519887d85e98eea84577c0e46 loki_compat_libs-1.5.tar.bz2 http://www.improbability.net/loki/loki_compat_libs-1.5.tar.bz2

@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/simcity3000/.*$
 %global __requires_exclude_from ^/opt/simcity3000/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -11,7 +13,7 @@
 
 Name:           simcity-3000-gog
 Version:        2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        SimCity 3000 Unlimited (Loki Linux port) with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/simcity_3000
@@ -19,7 +21,7 @@ Source0:       build.sh
 Source1:       simcity3000.conf
 Source2:       simcity3000.desktop
 Source3:       README.md
-Source4:       setup_simcity3k_unlimited_2.0.0.3.exe
+Source4:       setup_simcity_3000_unlimited_2.0.949(a)_ddrawfix_(77026).exe
 Source5:       https://files.gog.com/support/SC3U.zip#/SC3U.zip
 Source6:       https://github.com/jm2/archlinux-package-simcity-3000-gog/raw/master/sc3-lnx-support.tar.bz2#/sc3-lnx-support.tar.bz2
 Source7:       http://www.improbability.net/loki/loki_compat_libs-1.5.tar.bz2#/loki_compat_libs-1.5.tar.bz2
@@ -61,6 +63,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/simcity3000.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2.0-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2.0-4
 - Generated package; launcher via gamelaunch
 - Pin the liflg 2.0a patch archive to a commit instead of a branch
+- Update to GOG's 2.0.949(A) ddrawfix installer (build 77026)

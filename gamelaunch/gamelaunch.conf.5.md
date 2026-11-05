@@ -24,6 +24,7 @@ A bash fragment of plain assignments, sourced by `gamelaunch`. A copy in
 | `PREREQS=( "name\|exe args" )` | – | Run once per prefix from the game root (bundled redistributables, offline). `name\|winetricks:verb...` runs winetricks (umu's bundled copy under umu, system winetricks under wine). |
 | `XLLN` | `0` | Game uses XLiveLessNess (`xlive.dll` from xlln-bin); forces `xlive=n`. Combine with `WRITABLE=1` and `WRITABLE_COPY=("XLiveLessNess/*.ini")`. |
 | `NEEDS_X86_32` | `0` | `1`: a 32-bit x86 native program; on non-x86 hosts it needs FEX (box64 can't run it). |
+| `WINE_USER` | – | `hostname`: run as a Windows user named after the machine's short host name (generic names such as `localhost` get `player-<random hex>`), for games that derive a LAN identity from the username. Needs the wine backend, which is then preferred; Proton always reports `steamuser`. `GAMELAUNCH_USER=<name>` overrides the name for one run, for any Wine game. |
 | `LEGACY_DIRS=( paths )` | – | Old prefix locations (e.g. `~/.dirt2/wine`) adopted once by the wine backend. |
 
 Per-user state: `${XDG_DATA_HOME:-~/.local/share}/gamelaunch/<id>/` with

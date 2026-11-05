@@ -3,7 +3,7 @@
 
 pkgname=wreckfest-wine-gog
 pkgver=1.0o
-pkgrel=3
+pkgrel=4
 pkgdesc='Wreckfest using Wine with data via GOG'
 arch=('x86_64')
 url='https://www.gog.com/en/game/wreckfest'
@@ -34,10 +34,10 @@ noextract=("setup_wreckfest_1.0o_(79627).exe"
            "setup_wreckfest_1.0o_(79627)-6.bin"
            "setup_wreckfest_1.0o_(79627)-7.bin"
            "setup_wreckfest_1.0o_(79627)-8.bin")
-sha256sums=('30c36450287baf6f4198e161be1a14bfad68b87a7d2be401699abee673a5ac6d'
-            'eaa0e9a84d344fb3295f64637a149f7e415040a531a7d1604d8abe5bed7b32c6'
+sha256sums=('b602cabe08271bbfb1edabca1975c9879e3c5e5f1e1504b09a91bc617824d6fb'
+            '398b3a2b55e9e85d4919da72ff1f1b542fe78d4f5b9df3699d249ef7a1845d71'
             '348ed013a2ef56926f96dde5a76a7bbe72b8ddec2aee2feedcf7552ca4faf70f'
-            'fb524a4ea947b95a57464df439f825e54a13427569bc33ec554e69c247319429'
+            '50584433944d3505d17a386f246ff84fbc5baae3f441170a41ef61f4add8b76d'
             '2b5272be9064d553070b3de70249fef0161387c5fcb9c2719cecfba0a7cadc0a'
             'd895e4171f92406bd390a67e7c169bdec9466a39211ee6b2ca2fc2a3d4ea7bb2'
             '9a7df92aa45800f26db2860d659c09b99a18432362a5aebd63c3acd24ca85f11'

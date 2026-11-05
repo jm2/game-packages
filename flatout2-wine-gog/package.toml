@@ -2,26 +2,34 @@ name = "flatout2-wine-gog"
 family = "wine-gog"
 id = "flatout2"
 version = "1.2"
-release = 3
+release = 4
 summary = "FlatOut 2 using Wine with data via GOG"
 url = "https://www.gog.com/game/flatout_2"
 remove_files = ["flatout2.sh", "flatout2.install"]
-changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+changelog = [
+  "Switch to gamelaunch (umu/Proton default, system wine fallback)",
+  "Update to GOG's current installer (build 26697, game at its root)",
+]
 
 [[source.files]]
-name = "setup_flatout2_2.1.0.9.exe"
-url = "gogdownloader://flatout_2/en1installer1"
-sha256 = "b13e87de2e7386a120cd6dfc194e6e9a6bd522fe51fb8a7ad3faad6ab0475df9"
+name = "setup_flatout_2_1.0_(26697).exe"
+url = "gogdownloader://flatout_2/en1installer0"
+sha256 = "8656ccc6997ed6b1e0e0dace7c6a7fb48dad569f63f66244352ddb2303c8d01b"
 extract = "inno"
-subdir = "game"
 
 [[source.files]]
-name = "setup_flatout2_2.1.0.9.bin"
-url = "gogdownloader://flatout_2/en1installer2"
-sha256 = "9d488e515d6e529127a695998c92fdbfd6d94f4cb35919776116ff4ab073e683"
+name = "setup_flatout_2_1.0_(26697)-1.bin"
+url = "gogdownloader://flatout_2/en1installer1"
+sha256 = "a078dfc184ec6b39942fb3613b946eb247206b095cdbe4dd7ca30906bc466872"
 
 [icon]
 ico = "goggame-*.ico"
+
+[hooks]
+post_prepare = """
+# GOG installer support files (the game itself is at the installer root).
+rm -rf app __redist commonappdata tmp
+"""
 
 [launcher]
 exe = "FlatOut2.exe"

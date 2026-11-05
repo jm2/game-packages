@@ -51,6 +51,7 @@ def main() -> int:
     for app, depot in depots:
         for base in (dest / "steamapps/content", home / ".steam/steamcmd/linux32/steamapps/content",
                      home / ".local/share/Steam/steamcmd/linux32/steamapps/content",
+                     home / ".local/share/steamcmd/linux32/steamapps/content",
                      home / ".steam/steam/steamapps/content", home / "Steam/steamapps/content"):
             src = base / f"app_{app}" / f"depot_{depot}"
             if src.is_dir():

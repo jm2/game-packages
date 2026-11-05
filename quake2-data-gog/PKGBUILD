@@ -16,7 +16,7 @@ source=("build.sh"
         "README.md"
         "setup_quake2_quad_damage_2.0.0.3.exe::gogdownloader://quake_ii_quad_damage_game/en1installer1")
 noextract=("setup_quake2_quad_damage_2.0.0.3.exe")
-sha256sums=('0009de657b2c1f05e546b154157dc42b9419200ef3c2d2587bf008d9093c1a36'
+sha256sums=('bc5e9b2651c13576665ce216ec9794affaf99d25045b1bb8d718e387f0b31428'
             'f705dcc75d2d3f16ae177d7570cf485c6d89bb9b3ab0c1533f0ea87fe9c6995b'
             '08b6addf4a33ab09a7846e95a879a33017410f8ddb80152cd4759336747f7fa7')
 

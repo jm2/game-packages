@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/usr/share/games/doom3bfg/.*$
 %global __requires_exclude_from ^/usr/share/games/doom3bfg/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -11,14 +13,15 @@
 
 Name:           doom3bfg-data-gog
 Version:        1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Doom 3 BFG Edition data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/doom_3_bfg_edition
 Source0:       build.sh
 Source1:       README.md
-Source2:       setup_doom_3_bfg_1.14_(13452).exe
-Source3:       setup_doom_3_bfg_1.14_(13452)-1.bin
+Source2:       setup_doom3_bfg_edition_1.14_20230201_(62122).exe
+Source3:       setup_doom3_bfg_edition_1.14_20230201_(62122)-1.bin
+Source4:       setup_doom3_bfg_edition_1.14_20230201_(62122)-2.bin
 
 BuildArch:      noarch
 BuildRequires:  desktop-file-utils
@@ -41,5 +44,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-4
 - Generated from package.toml
+- Update to GOG's 1.14 20230201 installer (build 62122)

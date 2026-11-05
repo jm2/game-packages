@@ -9,7 +9,7 @@ Run it with `simcity3000` or from the desktop menu.
 Place these files next to the build files or in
 `${TMPDIR:-/var/tmp}/linux-packages-cache/simcity-3000-gog/` before building:
 
-- `setup_simcity3k_unlimited_2.0.0.3.exe` - GOG (lgogdownloader: simcity_3000/en1installer1)
+- `setup_simcity_3000_unlimited_2.0.949(a)_ddrawfix_(77026).exe` - GOG (lgogdownloader: simcity_3000/en1installer0)
 
 ## Notes
 

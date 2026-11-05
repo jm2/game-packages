@@ -16,10 +16,10 @@ source=("build.sh"
         "cod4.desktop"
         "README.md"
         "cod4.png")
-sha256sums=('afe17fee40ac3dd8dd645e002d6af087e88a030f5895f12f22ab33f5697ae590'
+sha256sums=('576d5cc03aa7b59ca231df8f74ce563d12f58d0581e98bebf093449ebcc26aa9'
             'b2fc4ecf2444df08447349cf6cc67414ebff322b4a185efc40685a2d33a9257b'
             '2d91b0b473167c7ef90c3bdccbb3dde22564fd8755fca0ace3dfe5c0ba07c29d'
-            '4aa3b74530f1037464e6d59a1ce228f2197993112ea7ea71c7814e15cdf8ab57'
+            'd9c2d2e1a4031241331f920403cc41f0338d9fe008872a9658a0b6826e8457d0'
             'a9f40a206d1b93869f874afa54d8f45ac76bb2d3ea8491c17f6ec6072564619c')
 
 prepare() {

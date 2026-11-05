@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/splitsecond/.*$
 %global __requires_exclude_from ^/opt/splitsecond/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.

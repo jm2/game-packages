@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/wreckfest\-gog/.*$
 %global __requires_exclude_from ^/opt/wreckfest\-gog/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -11,7 +13,7 @@
 
 Name:           wreckfest-wine-gog
 Version:        1.0o
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Wreckfest using Wine with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/en/game/wreckfest
@@ -45,6 +47,7 @@ Recommends:     muvm
 %else
 Requires:       (umu-launcher or wine)
 %endif
+Recommends:     wine
 
 %description
 Wreckfest using Wine with data via GOG
@@ -64,7 +67,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/wreckfest-gog.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-4
 - Switch to gamelaunch (umu/Proton default, system wine fallback)
 - Fix the launcher looking in /opt/wreckfest instead of /opt/wreckfest-gog
 - Own prefix, no longer shared with wreckfest-wine-steam
+- LAN: run as a Windows user named after the host (unique SteamID per machine); dedicated server variant

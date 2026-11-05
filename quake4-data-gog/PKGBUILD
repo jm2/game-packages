@@ -18,7 +18,7 @@ source=("build.sh"
         "setup_quake_iv_1.4.3_lang_update_(63131)-1.bin::gogdownloader://quake_4_game/en1installer1")
 noextract=("setup_quake_iv_1.4.3_lang_update_(63131).exe"
            "setup_quake_iv_1.4.3_lang_update_(63131)-1.bin")
-sha256sums=('c419a82146732eae00e9246196fc08e05427695ca28f2f00934b411d095fd49f'
+sha256sums=('d450d9fe6c7429cb854a8d289157a9b23747a0bc35307d8cc6af9d28d080fb5f'
             'a75c86a06864f896950c4784b6c67d4460fc0f55ccd4bde76a4071e7e6b61ba1'
             'b0602978c112116377094c45aa26eb51753bcad4bda8fe3f1016118c154bc8f5'
             'd3870c9dd56a5189acda1330b76d21897a5dcd515880a888586380f4ea2e5ea7')

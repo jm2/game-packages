@@ -17,7 +17,7 @@ source=("build.sh"
         "broforce.conf"
         "broforce.desktop"
         "README.md")
-sha256sums=('5104d537d3098efbbbbdbef8dd814bfb8b60f7e33418cce72f2451f0a9edd344'
+sha256sums=('21f2fc027507b02ae0b4a6b65d5fe729aa425ce609e3f8224141b39ed12913ea'
             '19e65990f69d8ccf7572c9abe08039d910cdcc5858e6b45c422a0d3ebc71833d'
             'c65e3ececb87ea4fbe44f78d427170e04c23926ab5492847ffa90fec1e2b60ae'
             'c3918b726fe1cc66876779de55b9bae41d1a38845b56dc64285fbe35520e7578')

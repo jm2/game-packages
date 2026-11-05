@@ -1,7 +1,7 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=gamelaunch
-pkgver=1.0.1
+pkgver=1.0.2
 pkgrel=1
 pkgdesc="Shared launcher for wine (umu/Proton or system wine + DXVK) and native game packages"
 arch=('any')
@@ -12,8 +12,8 @@ optdepends=('umu-launcher: run Windows games through Proton (default backend)'
             'wine: system wine backend (GAMELAUNCH_RUNNER=wine)'
             'dxvk-bin: Direct3D 8-11 over Vulkan for the system wine backend')
 source=("gamelaunch" "gamelaunch.conf.5.md" "LICENSE")
-sha256sums=('ac4fef5457ab2f2c64445ec586eb34540ebcbfb876f56c109e6368d57a7aa1f4'
-            'df7c4bb06ab81467f433a4b06b3443d62857d1e1fc397a64c5f7de5f51494a10'
+sha256sums=('4b52a512958899531084aa3db2f63d3795fab0f38f79e3b21335822b8aed582a'
+            'c9ae9cf806dd59b5c23735aa844dfd88fcf351d4d3f17fe10ce53d439f508e0a'
             '6d3b473b559ad3816a3ca62bd6f59dc66a06eb89a0b237e79f3f8217a8a6a467')
 
 package() {

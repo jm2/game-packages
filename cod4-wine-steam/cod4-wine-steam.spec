@@ -4,6 +4,8 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# Prebuilt game libraries carry their vendors' build-tree RPATHs.
+%global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/cod4/.*$
 %global __requires_exclude_from ^/opt/cod4/.*$
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -38,7 +40,9 @@ Requires:       (umu-launcher or wine)
 %endif
 
 %description
-Call of Duty 4: Modern Warfare using Wine (game data from cod4-data-steam)
+Call of Duty 4: Modern Warfare (1.8), run through gamelaunch (umu/Proton or
+system wine). This package is only the launcher: the game data comes from
+cod4-data-steam, installed to /opt/cod4.
 
 %prep
 %setup -q -c -T

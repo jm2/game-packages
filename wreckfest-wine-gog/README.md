@@ -13,6 +13,7 @@ live in `~/.local/share/gamelaunch/wreckfest-gog/`; the first start takes a whil
 
 - `-m`: 64-bit Wreckfest_x64.exe (default)
 - `-l`: legacy 32-bit Wreckfest.exe
+- `-s`: dedicated LAN server (server_config.cfg)
 
 ## Building
 
@@ -33,3 +34,18 @@ Place these files next to the build files or in
 
 Season Pass DLC: install wreckfest-gog-dlc1 / wreckfest-gog-dlc2, which add
 their files to /opt/wreckfest-gog.
+
+LAN play (from jm2/lan-ipxe wreckfest-lan): GOG's 2024+ build derives each
+player's SteamID from a hash of the Windows username, so machines with the
+same username kick each other ("Already Logged In"). The launcher runs the
+game as a Windows user named after the machine's short host name, which needs
+the system wine backend: Proton always reports "steamuser", so with only
+umu-launcher installed every machine collides. Give each LAN machine its own
+host name, or set `GAMELAUNCH_USER=<name>` for a run. Generic host names
+(localhost*, archiso) get a random `player-<hex>` name instead.
+
+`wreckfest-gog -s` starts a dedicated LAN server with
+`~/.local/share/gamelaunch/wreckfest-gog/game/server_config.cfg` (copied from
+the game's initial_server_config.cfg on first start). The server still signs
+in to THQ Nordic's online service, so the host needs internet; clients do
+not.
