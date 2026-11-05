@@ -19,7 +19,7 @@ source=("build.sh"
         "README.md"
         "mini_metro_202609291145_release_57_94756.sh::gogdownloader://mini_metro/en3installer0")
 noextract=("mini_metro_202609291145_release_57_94756.sh")
-sha256sums=('9496496474432ed8329a730647c5e1ec5ba074fecd7010ac114a4c012b427d58'
+sha256sums=('78c5c50f66051e6c0289b34b939344d4865c6d660b4e808fd3016dc8467b6447'
             '9f8299d9b48cb24007871999df1fbd8db9d5e6e4b8685b9219541f60129ba9e2'
             '8df97f0651a864e31a0358d2fb341a36c99e396458495cc4298bad5407c1dabc'
             '84033b24a776b74de8b642e5dc4bd8200c9abdc515da9f97fe2e330a62e29acd'

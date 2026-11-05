@@ -39,6 +39,8 @@ remove = ["*.vdf"]
 
 [launcher]
 exe = "CoDWaWlf.exe"
+# CoDWaWlf.exe is a patched exe from GitHub, not in the Steam download.
+version_exe = "CoDWaW.exe"
 writable = true
 variants = [
   { flag = "z", exe = "CoDWaWlf.exe", description = "campaign and zombies (large-address-aware build)" },

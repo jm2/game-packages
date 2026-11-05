@@ -20,7 +20,7 @@ source=("build.sh"
         "knockoutcity-server.xml"
         "KnockoutCity-Server-10.0-269701.zip::https://web.archive.org/web/20230630034555id_/https://chonky-delivery-network.akamaized.net/KnockoutCity-Server-10.0-269701.zip")
 noextract=("KnockoutCity-Server-10.0-269701.zip")
-sha256sums=('b4745ca12cc78bc6f2cbb20aed8f66e4acd2c76f3005d6bd25f73766a42cbf0c'
+sha256sums=('63a7ac2adc3ff2a12ceb42823fae86999a78e002ed8162da855485c841268d60'
             '854b4f05db713304d04c291c52d2f1b7936c7d981284367324b93aec50e7ffc1'
             'e4f797f0135049ef0091d62f7be600fc511f8ce2ec56ac9ab79f79b6d061485f'
             '1fe93e634a09603e3d62c622376416b0b5b83f5dc82b9af39d588c2f7689db74'

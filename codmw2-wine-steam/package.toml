@@ -5,6 +5,7 @@ release = 1
 summary = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam"
 url = "https://iw4x.dev/"
 remove_files = ["codmw2.sh"]
+deb = { parts = 2 }   # ~12 GiB of data
 changelog = [
   "Switch to gamelaunch and gbe-fork-bin",
   "Move from the dead XLabs IW4x to the maintained iw4x project (client r5292, rawfiles v0.2.40)",
@@ -16,6 +17,8 @@ iw4mp.exe instead."""
 
 [source.steam]
 appid = 10190
+# Keeps the version above the AUR package's "1.2" (no epoch).
+version_base = "1.2"
 
 [[source.files]]
 name = "iw4x-r5292.dll"
@@ -31,7 +34,9 @@ sha256 = "e878a9c3d4d09591adec46a10a3545499ee03b385e4f12b7643de0ad5d484455"
 extract = "zip"
 
 [gbe]
-libs = ["steam_api.dll"]
+# The Steam MP build is 64-bit now (iw4mp.exe + steam_api64.dll); IW4x itself
+# (32-bit iw4x.exe from the rawfiles zip) does not load steam_api at all.
+libs = ["steam_api64.dll", "?steam_api.dll"]
 
 [icon]
 exe = "iw4mp.exe"

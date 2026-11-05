@@ -34,6 +34,8 @@ remove = ["*.vdf"]
 
 [launcher]
 exe = "showdown_avx.exe"
+# Steam's showdown_avx.exe reports the Valve CEG library version.
+version_exe = "showdown.exe"
 prereqs = ["openal|winetricks:openal"]
 variants = [
   { flag = "a", exe = "showdown_avx.exe", description = "AVX build" },

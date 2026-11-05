@@ -16,7 +16,7 @@ source=("build.sh"
         "wreckfest.conf"
         "wreckfest.desktop"
         "README.md")
-sha256sums=('bdf688346c813a5961f544216182ccd2997f6a2591842d2edf7bcccf84a9bc55'
+sha256sums=('0230993f8cd21cbac6d2bd993341209b049df0ab3410f740c08f79338fe40686'
             'e8e1e530438ea994a46107c6b1a11efc3e68046dc44c0bf076474bfcf565bc86'
             '36810cbaac457fad873c6b7465f36ee274de594661d4a8978afadad66f9f58b3'
             '1b38661029bd8c858579838c31858617369354477fda22f03052d6df8cd47ea4')

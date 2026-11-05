@@ -21,7 +21,7 @@ platform = "linux"
 libs = ["lib/x86_64/libsteam_api.so"]
 
 [icon]
-png = "share/GameIcons/icon_512x512.png"
+png = "share/icons/GameIcon_512x512x32.png"
 
 [hooks]
 post_install = """

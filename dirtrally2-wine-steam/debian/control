@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: dirtrally2-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, dirtrally2-wine-steam-data1 (= ${binary:Version}), dirtrally2-wine-steam-data2 (= ${binary:Version}), dirtrally2-wine-steam-data3 (= ${binary:Version}), dirtrally2-wine-steam-data4 (= ${binary:Version}), dirtrally2-wine-steam-data5 (= ${binary:Version}), dirtrally2-wine-steam-data6 (= ${binary:Version}), dirtrally2-wine-steam-data7 (= ${binary:Version}), dirtrally2-wine-steam-data8 (= ${binary:Version}), dirtrally2-wine-steam-data9 (= ${binary:Version}), dirtrally2-wine-steam-data10 (= ${binary:Version}), dirtrally2-wine-steam-data11 (= ${binary:Version}), dirtrally2-wine-steam-data12 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, dirtrally2-wine-steam-data1 (= ${binary:Version}), dirtrally2-wine-steam-data2 (= ${binary:Version}), dirtrally2-wine-steam-data3 (= ${binary:Version}), dirtrally2-wine-steam-data4 (= ${binary:Version}), dirtrally2-wine-steam-data5 (= ${binary:Version}), dirtrally2-wine-steam-data6 (= ${binary:Version}), dirtrally2-wine-steam-data7 (= ${binary:Version}), dirtrally2-wine-steam-data8 (= ${binary:Version}), dirtrally2-wine-steam-data9 (= ${binary:Version}), dirtrally2-wine-steam-data10 (= ${binary:Version}), dirtrally2-wine-steam-data11 (= ${binary:Version}), dirtrally2-wine-steam-data12 (= ${binary:Version}), dirtrally2-wine-steam-data13 (= ${binary:Version}), dirtrally2-wine-steam-data14 (= ${binary:Version}), ${misc:Depends}
 Description: DiRT Rally 2.0 using Wine with data via Steam
  DiRT Rally 2.0 using Wine with data via Steam
 
@@ -95,4 +95,18 @@ Architecture: all
 Depends: ${misc:Depends}
 Description: DiRT Rally 2.0 using Wine with data via Steam (data part 12)
  Part 12 of the game data for dirtrally2-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirtrally2-wine-steam-data13
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT Rally 2.0 using Wine with data via Steam (data part 13)
+ Part 13 of the game data for dirtrally2-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirtrally2-wine-steam-data14
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT Rally 2.0 using Wine with data via Steam (data part 14)
+ Part 14 of the game data for dirtrally2-wine-steam, split so no package exceeds
  the .deb size limit. Install the main package instead.

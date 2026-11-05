@@ -6,10 +6,13 @@ summary = "Call of Duty: WWII using Wine with data via Steam"
 url = "https://store.steampowered.com/app/476600/Call_of_Duty_WWII/"
 remove_files = ["codww2.sh"]
 changelog = ["Switch to gamelaunch and gbe-fork-bin"]
-deb = { parts = 14 }
+deb = { disabled = "imagefile67.pak (22.3 GiB) and imagefile73.pak (13.7 GiB) are each over the ~9.3 GiB size limit of a .deb member" }
 
 [source.steam]
 appid = 476620
+# The multiplayer app; the campaign (s2_sp64_ship.exe and its data) is the
+# separate app 476600, whose own depots are added here.
+depots = [[476600, 476601], [476600, 476602]]
 
 [gbe]
 libs = ["steam_api64.dll"]

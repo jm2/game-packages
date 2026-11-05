@@ -9,6 +9,20 @@ Rules-Requires-Root: no
 
 Package: ut3-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ut3-wine-steam-data1 (= ${binary:Version}), ut3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: Unreal Tournament 3 Black using Wine with data via Steam
  Unreal Tournament 3 Black using Wine with data via Steam
+
+Package: ut3-wine-steam-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: Unreal Tournament 3 Black using Wine with data via Steam (data part 1)
+ Part 1 of the game data for ut3-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: ut3-wine-steam-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: Unreal Tournament 3 Black using Wine with data via Steam (data part 2)
+ Part 2 of the game data for ut3-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.

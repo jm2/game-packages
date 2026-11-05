@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "gog_trine_3_the_artifacts_of_power_2.2.0.4.sh::gogdownloader://trine_3_the_artifacts_of_power/en3installer4")
 noextract=("gog_trine_3_the_artifacts_of_power_2.2.0.4.sh")
-sha256sums=('4b678f4037fc79d79ea629739a1602bf0618622ba6c4b4aab457f65284bc73a0'
+sha256sums=('4d61e0cf26820deda32e6d6ab73bfc5bcee979d89589830569281e2cc094735b'
             '895ae1ef88e4c25b69e972ac348681a7e7e136d70ce1f2bf9ff86f4ae2fda5ae'
             'fee535ffd55595116f033c83a307317470af9e709222fcf855fda3165eef9630'
             'f0aa5dc09ff67cdc61b99e74349758b261a3a6451feaa9654d7855a853303153'

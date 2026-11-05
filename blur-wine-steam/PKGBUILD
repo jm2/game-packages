@@ -19,7 +19,7 @@ source=("build.sh"
         "blur.png"
         "Blur.exe.unpacked.exe")
 noextract=("Blur.exe.unpacked.exe")
-sha256sums=('d14b2906f7835387c21b790c7ebac20d773902179e5295c5ce5ad2844d1cb48b'
+sha256sums=('7a0ed839e12cecbebaeae9ba63b6508bcda0b806af8fa2357ac3cd1da959ec69'
             'f3dba76786108e5c1857fd3ea5c7a93ec49dbf491ab8aa64aee5f242c9ef6b28'
             '0b58c376b781b8f91029a10d1f263329a3ce94b221159df92c0c6728c4ee4305'
             '4212e3cebb30f87d1f65400c97f5086ee4dc175faa549c81279c2d0e7de0a4d8'

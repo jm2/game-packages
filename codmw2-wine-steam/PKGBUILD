@@ -20,7 +20,7 @@ source=("build.sh"
         "iw4x-rawfiles-v0.2.40.zip::https://github.com/iw4x/iw4x-rawfiles/releases/download/v0.2.40/release.zip")
 noextract=("iw4x-r5292.dll"
            "iw4x-rawfiles-v0.2.40.zip")
-sha256sums=('2992ed5ad2fc03a1381955bef4b36d076fbe18038b302d507cb2182b7f13e772'
+sha256sums=('ee702de8af5e84d98d17e76b3a745d2a8f33fbec26a3eece82396d7ec3cc755e'
             '6d735929fa282f50da53e2b17d74378b44f039e691f69f691d8835965c70a74d'
             '6d12a9727419470d5f1afa06ae3a78de0d22bb092c17116a0d72b1eb3b738b57'
             '8c19a133f0a710ad32e81ce1309b0a810205f6e85cf87b135c5a752c70235132'

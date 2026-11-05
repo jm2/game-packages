@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "flibitSam2_2070b.tar.gz::http://www.flibitijibibo.com/fedora/installers/flibitSam2_2070b.tar.gz")
 noextract=("flibitSam2_2070b.tar.gz")
-sha256sums=('66c1cfadc4f7dbbfd17cc692ee4ddc2bf2259b6d55e6f519f12be92e5541b7db'
+sha256sums=('6ed846d1f2c00a861f3c86dc8c62c5732e97cb6443c692ee0347ffede7da3125'
             '59a011b2066278c474bd3c2399ef25f9260f1798a50e7421564354e2685c75ab'
             'ca5698797c62ac59285b532bbf21a885b269ef1bef6ab581ac7a0c89b2c09828'
             'dd16b7874095ca1185d37e2a842a5bd7a06f77b8f3bee7566e4b73d68d80478d'

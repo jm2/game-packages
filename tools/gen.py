@@ -255,6 +255,7 @@ def gen_build_sh(p: Pkg) -> str:
              f"PT_ICON_NAME={sh(p.t.get('icon', {}).get('name', ''))}",
              f"PT_NO_DATA={'1' if p.datasrc == 'none' else ''}",
              f"PT_VERSION_EXE={sh(version_exe(p))}",
+             f"PT_STEAM_VERSION_BASE={sh(str((p.steam or {}).get('version_base', '')))}",
              f"PT_VERSION_STATIC={sh(p.version)}"]
     if p.gbe:
         libs = p.gbe["libs"]

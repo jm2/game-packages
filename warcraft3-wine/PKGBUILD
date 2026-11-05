@@ -19,7 +19,7 @@ source=("build.sh"
         "warcraft3.png"
         "warcraft3.zip")
 noextract=("warcraft3.zip")
-sha256sums=('9bc88ae6dfba077d8a4c8e3bb0f491cc40c00d594ce8094953b2e5775cb49631'
+sha256sums=('226231bd4550fc75a32c385ebaf7779724792f84a01ff250ab855c8356223f49'
             'd06e064d01ceffed6b7ee51e5e1aa0f071912dccc1f8c1b6a460b8514550215d'
             '299575a321271336c89fcd68acaf15719208630bb617871fe956015ebb89ca44'
             '4eac4f29f8c6d7c073dd6a094b9e52b9455332058f9e6cdd31bdfdfefde211fd'

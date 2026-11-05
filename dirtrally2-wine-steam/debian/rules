@@ -13,7 +13,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	bash build.sh install debian/dirtrally2-wine-steam
-	bash build.sh deb-split debian/dirtrally2-wine-steam debian/dirtrally2-wine-steam-data 12
+	bash build.sh deb-split debian/dirtrally2-wine-steam debian/dirtrally2-wine-steam-data 14
 
 # Prebuilt game files: leave them exactly as shipped.
 override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:

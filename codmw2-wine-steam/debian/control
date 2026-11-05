@@ -9,6 +9,20 @@ Rules-Requires-Root: no
 
 Package: codmw2-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, codmw2-wine-steam-data1 (= ${binary:Version}), codmw2-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
  Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
+
+Package: codmw2-wine-steam-data1
+Architecture: all
+Depends: ${misc:Depends}
+Description: Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam (data part 1)
+ Part 1 of the game data for codmw2-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: codmw2-wine-steam-data2
+Architecture: all
+Depends: ${misc:Depends}
+Description: Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam (data part 2)
+ Part 2 of the game data for codmw2-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.

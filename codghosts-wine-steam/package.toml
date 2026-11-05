@@ -16,6 +16,11 @@ deb = { parts = 6 }
 
 [source.steam]
 appid = 209170
+# Keeps the version above the AUR package's "1.18" (no epoch).
+version_base = "1.18"
+# The multiplayer app; the campaign (iw6sp64_ship.exe and its data) is the separate
+# app 209160, whose own depots are added here.
+depots = [[209160, 209161], [209160, 209163]]
 
 [gbe]
 libs = ["steam_api64.dll"]

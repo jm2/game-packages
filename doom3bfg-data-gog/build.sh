@@ -11,6 +11,7 @@ PT_EXTRA_PATHS=()
 PT_ICON_NAME=''
 PT_NO_DATA=
 PT_VERSION_EXE=''
+PT_STEAM_VERSION_BASE=''
 PT_VERSION_STATIC=1
 PT_GBE_LIBS=()
 
@@ -182,6 +183,11 @@ pt_steam_version() { # <steam download dir> -> prints the package version
     [ -f "$acf" ] || pt_die "no Steam manifest in $dir (download it with steamcmd / tools/fetch-steam)"
     buildid=$(sed -n -E 's/^\s*"buildid"\s+"([0-9]+)".*/\1/p' "$acf" | head -n1)
     [ -n "$buildid" ] || pt_die "no build ID in $acf"
+    # A fixed base (package.toml [source.steam] version_base) keeps the version
+    # above an older non-Steam-build scheme, e.g. an existing AUR package.
+    if [ -n "${PT_STEAM_VERSION_BASE:-}" ]; then
+        printf '%s.b%s\n' "$PT_STEAM_VERSION_BASE" "$buildid"; return
+    fi
     bin=$(pt_binary_version "$dir" "${PT_VERSION_EXE:-}")
     printf '%s.b%s\n' "${bin:-0}" "$buildid"
 }
@@ -359,10 +365,11 @@ pt_install() {
 }
 
 # Move files into N Debian part packages so no .deb exceeds the ar member
-# size limit (~9.3 GiB). Greedy by size, largest first. ELF files stay in the
+# size limit (10 decimal digits: 9,999,999,999 bytes, ~9.3 GiB). Each part is
+# capped at 9.9e9 bytes of file data, leaving room for tar and zstd overhead. Greedy by size, largest first. ELF files stay in the
 # architecture-specific main package (the parts are Architecture: all).
 pt_deb_split() { # <main destdir> <part dir prefix> <parts>
-    local main=$1 prefix=$2 n=$3 limit=$(( 9 * 1024 * 1024 * 1024 ))
+    local main=$1 prefix=$2 n=$3 limit=9900000000
     local -a used; local i
     for (( i=1; i<=n; i++ )); do used[i]=0; done
     (cd "$main" && find ".${PT_TARGET}" -type f -printf '%s %p\n') | sort -rn |

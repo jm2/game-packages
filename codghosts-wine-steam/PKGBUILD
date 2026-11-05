@@ -16,7 +16,7 @@ source=("build.sh"
         "codghosts.conf"
         "codghosts.desktop"
         "README.md")
-sha256sums=('80413b399248018796fdfdf4cb2403113a55d95413d153a436df3070f0cbc045'
+sha256sums=('3aadb79f61db4c6946b27c3d44f71d4c0c6d1335d7f65a377c66fb31c3affe1c'
             '33712fb2682db5a6cbafd27eab587d003f6c657f69851da05e9822b8e5307559'
             '03d08194086286ce8aabe894b532ed7b5558298b4024de7d2fa512572b12c6ce'
             'f84eb00a37eaee6dfa4f0f02838d0f71c3e1bacc7d8dd7a79a980848f574f6a0')

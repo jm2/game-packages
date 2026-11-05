@@ -18,6 +18,8 @@ changelog = [
 
 [source.steam]
 appid = 13240
+# Keeps the version above the AUR package's "436" (no epoch).
+version_base = "436"
 
 [deps]
 optional_arch = ["unreal-tournament-bin: native binaries to play the game"]

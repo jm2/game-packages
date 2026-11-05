@@ -11,6 +11,8 @@ deb = { parts = 3 }
 
 [source.steam]
 appid = 564310
+# Keeps the version above the AUR package's "1.0" (no epoch).
+version_base = "1.0"
 platform = "linux"
 
 [gbe]

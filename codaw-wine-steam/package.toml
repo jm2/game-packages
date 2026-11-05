@@ -14,10 +14,13 @@ The XLabs s1x client this package used is no longer available, so the stock
 executables are used. Multiplayer is the stock client against the Goldberg
 emulator (LAN only); AlterWare's s1-mod has no public source release to
 package."""
-deb = { parts = 7 }
+deb = { parts = 10 }   # ~79 GiB with the campaign
 
 [source.steam]
 appid = 209660
+# The multiplayer app; the campaign (s1_sp64_ship.exe and its data) is the separate
+# app 209650, whose own depots are added here.
+depots = [[209650, 209651], [209650, 209652]]
 
 [gbe]
 libs = ["steam_api64.dll"]

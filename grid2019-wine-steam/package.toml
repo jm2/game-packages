@@ -6,7 +6,7 @@ summary = "GRID (2019) using Wine with data via Steam"
 url = "https://store.steampowered.com/app/703860/GRID/"
 remove_files = ["grid2019.sh", "grid2019.install"]
 changelog = ["Switch to gamelaunch and gbe-fork-bin"]
-deb = { parts = 5 }
+deb = { parts = 10 }   # ~77 GiB of data
 
 [source.steam]
 appid = 703860

@@ -10,4 +10,6 @@ changelog = ["Generated from package.toml; non-interactive Steam download via ST
 
 [source.steam]
 appid = 208200
+# Keeps the version above the AUR package's "1" (no epoch).
+version_base = "1"
 copy = ["base"]

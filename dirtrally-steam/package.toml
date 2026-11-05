@@ -11,7 +11,7 @@ notes = """
 Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
 that only the AUR still provides; on Fedora/Debian install equivalents
 yourself."""
-deb = { parts = 4 }
+deb = { parts = 5 }   # ~40 GiB of data
 
 [source.steam]
 appid = 310560

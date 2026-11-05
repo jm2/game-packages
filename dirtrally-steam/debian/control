@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: dirtrally-steam
 Architecture: amd64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, dirtrally-steam-data1 (= ${binary:Version}), dirtrally-steam-data2 (= ${binary:Version}), dirtrally-steam-data3 (= ${binary:Version}), dirtrally-steam-data4 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, dirtrally-steam-data1 (= ${binary:Version}), dirtrally-steam-data2 (= ${binary:Version}), dirtrally-steam-data3 (= ${binary:Version}), dirtrally-steam-data4 (= ${binary:Version}), dirtrally-steam-data5 (= ${binary:Version}), ${misc:Depends}
 Description: DiRT Rally (native Linux, Feral) with data via Steam
  DiRT Rally (native Linux, Feral) with data via Steam
 
@@ -39,4 +39,11 @@ Architecture: all
 Depends: ${misc:Depends}
 Description: DiRT Rally (native Linux, Feral) with data via Steam (data part 4)
  Part 4 of the game data for dirtrally-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: dirtrally-steam-data5
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiRT Rally (native Linux, Feral) with data via Steam (data part 5)
+ Part 5 of the game data for dirtrally-steam, split so no package exceeds
  the .deb size limit. Install the main package instead.

@@ -10,6 +10,8 @@ deb = { parts = 4 }
 
 [source.steam]
 appid = 228380
+# Keeps the version above the AUR package's "1.27" (no epoch).
+version_base = "1.27"
 
 [gbe]
 libs = ["steam_api64.dll", "?steam_api.dll"]

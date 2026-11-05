@@ -18,6 +18,8 @@ changelog = [
 
 [source.steam]
 appid = 13230
+# Keeps the version above the AUR package's "3369" (no epoch).
+version_base = "3369"
 
 [deps]
 optional_arch = ["ut2004-bin: native binaries to play the game"]

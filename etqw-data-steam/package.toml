@@ -12,4 +12,6 @@ Used by the native openETQW engine (openetqw-bin) and the AUR etqw package."""
 
 [source.steam]
 appid = 10000
+# Keeps the version above the AUR package's "1" (no epoch).
+version_base = "1"
 copy = ["base/pak00[0-4].pk4", "base/zpak*000.pk4", "base/megatextures", "base/video"]

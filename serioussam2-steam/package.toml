@@ -18,6 +18,8 @@ it is lib32-libxxf86misc in the AUR)."""
 
 [source.steam]
 appid = 204340
+# Keeps the version above the AUR package's "2.07" (no epoch).
+version_base = "2.07"
 platform = "windows"
 copy = ["All_PC_0[1-3].gro", "Movies_PC_0[12].gro", "Patch_02_068.gro"]
 
@@ -48,9 +50,14 @@ chmod 755 serioussam2 serioussam2-editor
 post_install = """
 install -Dm644 serious.sam.2.xpm "$D/usr/share/pixmaps/serioussam2.xpm"
 # The game wants libopenal.so.0; point it at the distro's 32-bit OpenAL.
-for lib in /usr/lib32/libopenal.so.1 /usr/lib/i386-linux-gnu/libopenal.so.1 /usr/lib/libopenal.so.1; do
-    [ -e "$lib" ] && break
-done
+# 32-bit OpenAL is a runtime dependency only, so pick the path by the
+# distro being built for, not by what exists in the build environment.
+. /etc/os-release
+case " ${ID:-} ${ID_LIKE:-} " in
+    *" arch "*)   lib=/usr/lib32/libopenal.so.1 ;;
+    *" debian "*) lib=/usr/lib/i386-linux-gnu/libopenal.so.1 ;;
+    *)            lib=/usr/lib/libopenal.so.1 ;;   # Fedora: /usr/lib is 32-bit
+esac
 ln -sf "$lib" libopenal.so.0
 """
 

@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: grid2019-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, grid2019-wine-steam-data1 (= ${binary:Version}), grid2019-wine-steam-data2 (= ${binary:Version}), grid2019-wine-steam-data3 (= ${binary:Version}), grid2019-wine-steam-data4 (= ${binary:Version}), grid2019-wine-steam-data5 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, grid2019-wine-steam-data1 (= ${binary:Version}), grid2019-wine-steam-data2 (= ${binary:Version}), grid2019-wine-steam-data3 (= ${binary:Version}), grid2019-wine-steam-data4 (= ${binary:Version}), grid2019-wine-steam-data5 (= ${binary:Version}), grid2019-wine-steam-data6 (= ${binary:Version}), grid2019-wine-steam-data7 (= ${binary:Version}), grid2019-wine-steam-data8 (= ${binary:Version}), grid2019-wine-steam-data9 (= ${binary:Version}), grid2019-wine-steam-data10 (= ${binary:Version}), ${misc:Depends}
 Description: GRID (2019) using Wine with data via Steam
  GRID (2019) using Wine with data via Steam
 
@@ -46,4 +46,39 @@ Architecture: all
 Depends: ${misc:Depends}
 Description: GRID (2019) using Wine with data via Steam (data part 5)
  Part 5 of the game data for grid2019-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: grid2019-wine-steam-data6
+Architecture: all
+Depends: ${misc:Depends}
+Description: GRID (2019) using Wine with data via Steam (data part 6)
+ Part 6 of the game data for grid2019-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: grid2019-wine-steam-data7
+Architecture: all
+Depends: ${misc:Depends}
+Description: GRID (2019) using Wine with data via Steam (data part 7)
+ Part 7 of the game data for grid2019-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: grid2019-wine-steam-data8
+Architecture: all
+Depends: ${misc:Depends}
+Description: GRID (2019) using Wine with data via Steam (data part 8)
+ Part 8 of the game data for grid2019-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: grid2019-wine-steam-data9
+Architecture: all
+Depends: ${misc:Depends}
+Description: GRID (2019) using Wine with data via Steam (data part 9)
+ Part 9 of the game data for grid2019-wine-steam, split so no package exceeds
+ the .deb size limit. Install the main package instead.
+
+Package: grid2019-wine-steam-data10
+Architecture: all
+Depends: ${misc:Depends}
+Description: GRID (2019) using Wine with data via Steam (data part 10)
+ Part 10 of the game data for grid2019-wine-steam, split so no package exceeds
  the .deb size limit. Install the main package instead.

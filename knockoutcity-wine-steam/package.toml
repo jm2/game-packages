@@ -1,0 +1,51 @@
+name = "knockoutcity-wine-steam"
+family = "wine-steam"
+id = "knockoutcity"
+release = 1
+summary = "Knockout City Private Server Edition using Wine with data via Steam"
+url = "https://store.steampowered.com/app/2915930/Knockout_City__Private_Server_Edition/"
+conflicts = ["knockoutcity-wine"]
+provides = ["knockoutcity-client"]
+changelog = ["Initial package"]
+notes = """
+The free Steam release (app 2915930) ships only the client; the server comes
+from knockoutcity-server.
+
+Run `knockoutcity` to host a game on this PC or join a server announced on
+the LAN (see knockoutcity-server for options, ports and settings). There is
+no Debian package: two data files are each larger than a .deb can hold."""
+deb = { disabled = "data-gen2.zip (13.2 GB) and data-shared.zip (10.2 GB) are each over the ~9.3 GiB size limit of a .deb member" }
+
+[source.steam]
+appid = 2915930
+subdir = "KnockoutCity/"
+
+[gbe]
+libs = ["?steam_api64.dll"]
+
+[hooks]
+post_install = """
+# `knockoutcity` is the host/join launcher from knockoutcity-server.
+install -d "$D/usr/bin"
+printf '#!/bin/sh\\nexec /usr/lib/knockoutcity-server/koc client "$@"\\n' > "$D/usr/bin/knockoutcity"
+chmod 755 "$D/usr/bin/knockoutcity"
+"""
+
+[icon]
+exe = "KnockoutCity.exe"
+
+[launcher]
+exe = "KnockoutCity.exe"
+umu_id = "umu-2915930"
+legacy_dirs = []
+
+[desktop]
+name = "Knockout City"
+comment = "Dodgeball brawler: host or join a LAN game (Wine)"
+categories = "Game;ActionGame;SportsGame;"
+keywords = "dodgeball;multiplayer;lan"
+
+[deps]
+arch = ["knockoutcity-server"]
+fedora = ["knockoutcity-server"]
+debian = ["knockoutcity-server"]

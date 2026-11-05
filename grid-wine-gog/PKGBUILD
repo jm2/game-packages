@@ -23,7 +23,7 @@ source=("build.sh"
 noextract=("setup_race_driver_grid_1.0_(18584).exe"
            "setup_race_driver_grid_1.0_(18584)-1.bin"
            "setup_race_driver_grid_1.0_(18584)-2.bin")
-sha256sums=('5fcb8a6677fcf872d0f2eb6dc046c5557e8bec406d03a244fab272315979effe'
+sha256sums=('92ccc9c5b4081a9fd1ec8e432293aaab359a1e9094c6bafb3f390ff1b2503d95'
             '018cc98bcb0e9f84d22f9bf5d1d6b0589ce1602fb9d89530d18369d064dd2334'
             'be2b2aa5af545e6defbd964b2882218c90023cd53b145e5197d3f41d48278be6'
             '29934f6d07cceb37b6472f6e2a66b4876194aa646939590be24d86120700fbfc'

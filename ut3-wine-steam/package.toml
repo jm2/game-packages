@@ -6,10 +6,13 @@ summary = "Unreal Tournament 3 Black using Wine with data via Steam"
 url = "https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/"
 extra_files = ["ut3.png"]
 remove_files = ["ut3.sh"]
+deb = { parts = 2 }   # ~9.3 GiB of data, at the .deb size limit
 changelog = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
 
 [source.steam]
 appid = 13210
+# Keeps the version above the AUR package's "2.1" (no epoch).
+version_base = "2.1"
 
 [icon]
 file = "ut3.png"

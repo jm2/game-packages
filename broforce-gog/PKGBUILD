@@ -19,7 +19,7 @@ source=("build.sh"
         "README.md"
         "broforce_forver_hf_linux_71321.sh::gogdownloader://broforce/en3installer0")
 noextract=("broforce_forver_hf_linux_71321.sh")
-sha256sums=('47fca81df2d5d2d66651283bd048dcde3eb2d10f37ab1893fce589cd5a77e883'
+sha256sums=('53d7178934f6a0b64e15afe5ee87d9ae9aaf95e8dba144e2d06358bcff3528d4'
             '881018cb397aea7be9b0cbb145d1f4a9c589d33da1c27e03cceacda6b49395b9'
             'b20f3e2d63f2a23ee500b7b4695ac03ff7090498543db8f297725c51532cab7d'
             '3f186372c448d3b9d9ff59a9df25bc0942255cb8763f20263c0688f8e157c1e3'

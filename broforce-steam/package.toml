@@ -11,6 +11,8 @@ changelog = ["Switch to gamelaunch; saves go to a per-user overlay instead of a 
 
 [source.steam]
 appid = 274190
+# Keeps the version above the AUR package's "1130_20201008" (no epoch).
+version_base = "1130.20201008"
 platform = "linux"
 
 [icon]
