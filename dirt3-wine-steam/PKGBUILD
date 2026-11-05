@@ -16,7 +16,7 @@ source=("build.sh"
         "dirt3.conf"
         "dirt3.desktop"
         "README.md")
-sha256sums=('079fa8c458c215c73ffe4cf8bc3ef0ce7e0760822b8a9f4effcf545bc2d04e65'
+sha256sums=('6b0f12af794265ce05751012d1e8d2be2e333f2bab90b8bb5bfca365d6773f82'
             'd25dca630564fde2ed15e2719e6436dfe7d2fd134c3a86bf4642f050a2b3ec1a'
             '5fb763661193b21913a54dd5ca3cea8d3301efc952c3a7d137a4b55460517e73'
             '46260d860dca7d7de72f23129a32dbb87660b6670145e51515aa046560d1c14a')

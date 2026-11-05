@@ -16,7 +16,7 @@ source=("build.sh"
         "dirt2.conf"
         "dirt2.desktop"
         "README.md")
-sha256sums=('6e44f477375f19c05d749e0e4bafdbead499fe3aa71dba35d1e12e6cd2a606bb'
+sha256sums=('d142cd8169604e350ccab1d8d80ee4f157be6de8cb60d3d1e4909d39bc766bba'
             '9ecf51f3ee176423c32279c5d5523bc0d9dc3e7478f49db063684f197896c774'
             'c15820bc4315dbde47aef351c67ddc1d34bbcf1f5227af8092f0804a247f41de'
             '04eaa1acf0c38ebb58362cbc2cabfa45f1dfcd9168ad3d0bebb8c9e2f5ef280f')

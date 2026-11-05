@@ -17,7 +17,7 @@ source=("build.sh"
         "aoe3.desktop"
         "README.md"
         "aoe3.png")
-sha256sums=('4603f45cadd592309ddf2f145953265f0259759c39ddfb81187c90f50e8d004e'
+sha256sums=('98e120867f2085a0e29a67c09dd5e52bb75edfbf67502459e80421c8e64a8a30'
             'b97c3479173b606fed31dba0c6624e0926b31750622a320a09aea819f17b2870'
             'a8eb5902bde9bed5542876c7bdd02a2055799d9f8ee7e92e371fc844b0cf3e6d'
             'b425a1f3e5f0ed225dd28e7ebff9360825421e1a10413723bd10456bafda8196'

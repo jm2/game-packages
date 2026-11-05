@@ -34,7 +34,7 @@ noextract=("setup_wreckfest_1.0o_(79627).exe"
            "setup_wreckfest_1.0o_(79627)-6.bin"
            "setup_wreckfest_1.0o_(79627)-7.bin"
            "setup_wreckfest_1.0o_(79627)-8.bin")
-sha256sums=('b602cabe08271bbfb1edabca1975c9879e3c5e5f1e1504b09a91bc617824d6fb'
+sha256sums=('92b2d07dbe8e302957c168337a9aa1fa75aec117d0927fdef976598fee395b5e'
             '398b3a2b55e9e85d4919da72ff1f1b542fe78d4f5b9df3699d249ef7a1845d71'
             '348ed013a2ef56926f96dde5a76a7bbe72b8ddec2aee2feedcf7552ca4faf70f'
             '50584433944d3505d17a386f246ff84fbc5baae3f441170a41ef61f4add8b76d'

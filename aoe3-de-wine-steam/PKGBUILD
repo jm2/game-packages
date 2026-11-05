@@ -22,7 +22,7 @@ source=("build.sh"
         "gbe.supported_languages.txt"
         "aoe3-de-lan.desktop"
         "aoe3-de.agelan")
-sha256sums=('6545a55c0cf8083efa419623a0d9cc45c316f34e3ef088211c804919df0ec644'
+sha256sums=('4c8a7eb2a401799978ef80cd2154c5b374eab75d174d84866af955a8193efb80'
             '39c5d4d9995c278b5bbd5252bedf8e670fd55058808d8ebad40d8505a6604429'
             '47cd4ad792703dcaeee2f472c3a323fb03224a7e7e5cadd6de65be09164bd4e1'
             'a36c34e2cdf2e66901da6235ab035edee7867d1c6078b388d2552ce967fcb7cd'

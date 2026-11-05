@@ -15,7 +15,7 @@ source=("build.sh"
         "gridautosport.conf"
         "gridautosport.desktop"
         "README.md")
-sha256sums=('faaefcef395b949c5ad1b506345246499143390dfc7a9ef8085b637a2d0124d9'
+sha256sums=('b7fc8cae2d8a145e895cd6eadfb179177e2f0f43002bdb1d56c3eebb48ba8387'
             '86016ee48c67728dbb580b7354d76bfff0d597d24dca0f546856eda62958c65d'
             '68f4ec0329b321461856b4572bcf20641417d922f048c5bf1e8064404d29348c'
             'cdaf97019065b24b5bfd69bb2d60d3c5b97e706d741d5d46279e4f14ba313421')

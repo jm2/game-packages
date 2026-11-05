@@ -18,7 +18,7 @@ source=("build.sh"
         "README.md"
         "setup_simcity_4_deluxe_edition_1.1.641_hotfix_(25621).exe::gogdownloader://simcity_4_deluxe_edition/en1installer0")
 noextract=("setup_simcity_4_deluxe_edition_1.1.641_hotfix_(25621).exe")
-sha256sums=('557defd29691f531042425a2f70108c056b250a533359bcce8ac1df5a7724dc0'
+sha256sums=('3a02edb6527570e827456b27c4f3cd03ed9ef3e00e6400b2a225562079551533'
             '651bbbafe15bfd8fdb11b6cc99d8b9ed2bdda91935413e5fc727c273cb10ced1'
             '6af304ae836bff944958b70b572b115642adba7cfc955f0d175194e8856a6598'
             '62da618f19e25b3fa1c2da82187a7c28d4d030d4264541ce4b4706ebc1d8fbcf'

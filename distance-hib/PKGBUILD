@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "distance_6895_linux.tar.gz::hib://distance_6895_linux.tar.gz")
 noextract=("distance_6895_linux.tar.gz")
-sha256sums=('18dc3f1230abeca37b8606048ff75412b04bf946e9252eb98e9e6ede9e6f6b78'
+sha256sums=('57e9a9cceb64a7e80b20cac09fb7f8d8d30d0daf5400f0a69aa18a23afda20db'
             '8d05dfdbca9c3faaf350e1aa62e6d38175ede5bb1ad9c69603902ae44f2786e1'
             '9e8dc85fbd105b9518b5fb3f60766103ad8f95f5876dba24e44887178edf4bec'
             'ab2d0ab1862f226ad515f73d413d57c57055dae05ab72f8cd99ec9c67a15a363'

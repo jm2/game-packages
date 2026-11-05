@@ -15,7 +15,7 @@ source=("build.sh"
         "dirtrally.conf"
         "dirtrally.desktop"
         "README.md")
-sha256sums=('d58e40c7f557fa78f2b02358809d4863b6b074fd8f60ba78617c0dfe111dfbb8'
+sha256sums=('4e990651a70c694f9a640bf9401bae9367e3558d92db32d9c33a4f56ad9ccb82'
             'cc771d7702cfb622d6610eb201b64cabc783fa26ac5d8f4e3ac97e0760dc1b62'
             '58739b2b054e2686acc55c2857653b745ff8d977e96fcba3b287d354452a7074'
             '56c29062a671dfb4f45228c0b540a451bd6086b569314ddf4f461bd9e3746fb0')

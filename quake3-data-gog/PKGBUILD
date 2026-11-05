@@ -16,7 +16,7 @@ source=("build.sh"
         "README.md"
         "setup_quake3_2.0.0.2.exe::gogdownloader://quake_iii_arena_and_team_arena/en1installer1")
 noextract=("setup_quake3_2.0.0.2.exe")
-sha256sums=('75911c46a832227a380abd1a43ec306bed7fc5b6b5516b214e5df4129ccc0784'
+sha256sums=('0d980a0fe480afdcb685f6d46e3007f470a77d6bbd8839b045b14cbfe10201f3'
             '07783bc8cdc866aeee95e40da8012e48c6f0b4c05fa04d1d76bd179f1033514a'
             'f5471b4b29ea9a10cf5d1a8af2bedeedd4a8cfe1c60b1d52878f80a13bf4d5d6')
 

@@ -163,7 +163,12 @@ pt_extract() { # <kind> <file> <dest>
     local kind=$1 f=$2 dest=$3
     mkdir -p "$dest"
     case $kind in
-        inno)    innoextract -q -s --gog -d "$dest" "$f" ;;
+        inno)    # Multi-language installers: take the English files (only language-tagged
+                 # files are affected); installers without English extract everything.
+                 local lang
+                 lang=$(innoextract -s --gog --list-languages "$f" 2>/dev/null | awk '{print $1}' |
+                        grep -m1 -i -x -E 'en-US|en_US|en|english') || lang=
+                 innoextract -q -s --gog ${lang:+--language "$lang"} -d "$dest" "$f" ;;
         mojo)    # GOG Linux installers: makeself stub + zip; unzip warns about the stub.
                  unzip -qo "$f" -d "$dest" || [ $? -eq 1 ] ;;
         zip)     unzip -qo "$f" -d "$dest" ;;

@@ -13,7 +13,7 @@ provides=('etqw-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('23ef8044fe4b62b31eced9a701bb29ed2df3210419bc9b0c3dd6b4857fe3785d'
+sha256sums=('7f9ede5542b5a218db3b259b3f3d3877a38cb7ee965daccecdf397c32bdb4a58'
             '76801cb77965c1f005cc4c23efc7de6e87392068520e7c7b3d1a916f54fc3772')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
