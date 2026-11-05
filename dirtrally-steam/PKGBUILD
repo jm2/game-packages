@@ -3,7 +3,7 @@
 
 pkgname=dirtrally-steam
 pkgver=0
-pkgrel=3
+pkgrel=4
 pkgdesc='DiRT Rally (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/310560/'
@@ -18,7 +18,7 @@ source=("build.sh"
 sha256sums=('c0f1f8f93ab343aca0256574aca021a8e2853e44fad8ad26265902086f2deb88'
             'cc771d7702cfb622d6610eb201b64cabc783fa26ac5d8f4e3ac97e0760dc1b62'
             '58739b2b054e2686acc55c2857653b745ff8d977e96fcba3b287d354452a7074'
-            '56c29062a671dfb4f45228c0b540a451bd6086b569314ddf4f461bd9e3746fb0')
+            '8ff2866a1647fa208353f6b1dbcf59d1fc06d12965550801b40eeb2ec8a70a35')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
 pkgver() {

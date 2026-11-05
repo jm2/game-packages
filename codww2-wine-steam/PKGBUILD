@@ -19,7 +19,7 @@ source=("build.sh"
 sha256sums=('8c048d8fb3f4f3fc5b882fcdf8c9e0bc3a4f35254c3db4e94b4543ebfbc6e039'
             '98d7b1a5786df0813465bb7a6733d48032c4d758b06160745c7679775eb16d5a'
             'c4f1587cccd05540232be600885d3b1145c5971970ebc708a8b2502a1aa038de'
-            '5ff427c8bb06311d69579a0029a7d3c5a247c1b16ba8b269f9e5449380fe92a6')
+            'e4198e26c93f4b915d77c7620872c4892a3eb4b81aecd3dbf126fe40809e483f')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
 pkgver() {

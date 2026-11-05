@@ -2,7 +2,7 @@ name = "gridautosport-steam"
 family = "native-steam"
 id = "gridautosport"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
-release = 3
+release = 4
 summary = "GRID Autosport (native Linux, Feral) with data via Steam"
 url = "https://steamdb.info/app/255220/"
 remove_files = ["gridautosport.sh"]
@@ -14,7 +14,8 @@ notes = """
 Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
 that only the AUR still provides; on Fedora/Debian install equivalents
 yourself."""
-deb = { parts = 4 }
+deb = { disabled = "the game needs libidn11, librtmp0, OpenLDAP 2.4 and GConf, which current Fedora and Debian do not ship" }
+rpm = { disabled = "the game needs libidn11, librtmp0, OpenLDAP 2.4 and GConf, which current Fedora and Debian do not ship" }
 
 [source.steam]
 appid = 255220
@@ -41,5 +42,3 @@ keywords = "racing;codemasters"
 
 [deps]
 arch = ["alsa-lib", "cairo", "dbus", "expat", "fontconfig", "freetype2", "gconf", "glib2", "krb5", "libcap", "libcups", "libgcc", "libidn11", "libldap24", "librtmp0", "libstdc++", "libvorbis", "libx11", "libxcomposite", "libxcursor", "libxdamage", "libxext", "libxfixes", "libxi", "libxrandr", "libxrender", "libxtst", "nspr", "nss", "pango", "sdl2-compat", "sdl2_image", "util-linux-libs", "zlib"]
-fedora = ["alsa-lib", "cairo", "cups-libs", "dbus-libs", "expat", "fontconfig", "freetype", "GConf2", "glib2", "krb5-libs", "libcap", "libgcc", "libstdc++", "libuuid", "libvorbis", "libX11", "libXcomposite", "libXcursor", "libXdamage", "libXext", "libXfixes", "libXi", "libXrandr", "libXrender", "libXtst", "nspr", "nss", "nss-util", "openldap-compat", "pango", "sdl2-compat", "SDL2_image", "zlib-ng-compat"]
-debian = ["libasound2t64", "libcairo2", "libcap2", "libcups2t64", "libdbus-1-3", "libexpat1", "libfontconfig1", "libfreetype6", "libgcc-s1", "libglib2.0-0t64", "libgssapi-krb5-2", "libnspr4", "libnss3", "libpango-1.0-0", "libpangocairo-1.0-0", "libsdl2-2.0-0", "libsdl2-image-2.0-0", "libstdc++6", "libuuid1", "libvorbis0a", "libx11-6", "libxcomposite1", "libxcursor1", "libxdamage1", "libxext6", "libxfixes3", "libxi6", "libxrandr2", "libxrender1", "libxtst6", "zlib1g"]

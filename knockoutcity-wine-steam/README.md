@@ -16,6 +16,12 @@ game. Either set `STEAM_USER` (steamcmd asks for the password and Steam Guard
 code), or download once with `tools/fetch-steam knockoutcity-wine-steam` and build offline from
 the cache.
 
+## Formats
+
+Not built for:
+
+- Debian (.deb): data-gen2.zip (13.2 GB) and data-shared.zip (10.2 GB) are each over the ~9.3 GiB size limit of a .deb member
+
 ## Notes
 
 The free Steam release (app 2915930) ships only the client; the server comes

@@ -9,6 +9,12 @@ it is installed, otherwise system wine with your distribution's DXVK. Use
 `GAMELAUNCH_RUNNER=wine knockoutcity` to force system wine. Prefixes and saves
 live in `~/.local/share/gamelaunch/knockoutcity/`; the first start takes a while.
 
+## Formats
+
+Not built for:
+
+- Debian (.deb): data-gen2.zip (13.2 GB) and data-shared.zip (10.2 GB) are each over the ~9.3 GiB size limit of a .deb member
+
 ## Notes
 
 The high-resolution client from Velan's original download

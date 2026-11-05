@@ -20,3 +20,9 @@ Game data comes from Steam via steamcmd, using an account that owns the
 game. Either set `STEAM_USER` (steamcmd asks for the password and Steam Guard
 code), or download once with `tools/fetch-steam codww2-wine-steam` and build offline from
 the cache.
+
+## Formats
+
+Not built for:
+
+- Debian (.deb): imagefile67.pak (22.3 GiB) and imagefile73.pak (13.7 GiB) are each over the ~9.3 GiB size limit of a .deb member

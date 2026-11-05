@@ -52,6 +52,12 @@ Place these files next to the build files or in
 - `setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-21.bin` - GOG (lgogdownloader: doom_eternal/en1installer21)
 - `setup_doom_eternal_20260414-233123-rotten-tiger_(90172)-22.bin` - GOG (lgogdownloader: doom_eternal/en1installer22)
 
+## Formats
+
+Not built for:
+
+- Debian (.deb): base/gameresources_0_1.streamdb is one 11.77 GiB file, over the ~9.3 GiB size limit of a .deb member
+
 ## Notes
 
 The GOG build is DRM-free (campaign and The Ancient Gods; GOG does not include

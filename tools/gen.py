@@ -148,6 +148,7 @@ class Pkg:
         self.hooks = t.get("hooks", {})
         self.install = t.get("install", {})
         self.deb = t.get("deb", {})
+        self.rpm = t.get("rpm", {})
         self.notes = t.get("notes", "").strip()
         self.extra_files = t.get("extra_files", [])   # hand-kept files shipped as sources
         self.provides = t.get("provides", [])
@@ -434,6 +435,12 @@ def gen_readme(p: Pkg) -> str:
                          "hib": "Humble Bundle"}.get(u.split(":", 1)[0], f.get("hint", "provided by you"))
                 out.append(f"- `{f['name']}` - {where}")
         out.append("")
+    skipped = [(fmt, why) for fmt, why in (("Fedora (RPM)", p.rpm.get("disabled")),
+                                           ("Debian (.deb)", p.deb.get("disabled"))) if why]
+    if skipped:
+        out += ["## Formats", "", "Not built for:", ""]
+        out += [f"- {fmt}: {why}" for fmt, why in skipped]
+        out.append("")
     if p.notes:
         out += ["## Notes", "", p.notes, ""]
     return "\n".join(out)
@@ -716,7 +723,16 @@ def generate(d: Path, check: bool = False) -> bool:
     for n, (content, _) in out.items():
         local_sums[n] = hashlib.sha256(content.encode()).hexdigest()
     out["PKGBUILD"] = (gen_pkgbuild(p, local_sums), 0o644)
-    out[f"{p.name}.spec"] = (gen_spec(p), 0o644)
+    # rpm = { disabled = "<why>" }: no Fedora packaging (e.g. libraries Fedora lacks).
+    spec = d / f"{p.name}.spec"
+    if not p.rpm.get("disabled"):
+        out[spec.name] = (gen_spec(p), 0o644)
+    elif spec.exists():
+        if check:
+            print(f"{d.name}: {spec.name} exists but rpm.disabled is set", file=sys.stderr)
+        else:
+            spec.unlink()
+        changed = True
     # deb = { disabled = "<why>" }: no Debian packaging (e.g. a file too big for a .deb).
     if not p.deb.get("disabled"):
         for n, c in gen_debian(p).items():
