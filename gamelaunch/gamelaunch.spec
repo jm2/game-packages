@@ -1,5 +1,5 @@
 Name:           gamelaunch
-Version:        1.0.2
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        Shared launcher for wine/Proton and native game packages
 License:        0BSD
@@ -43,6 +43,10 @@ install -dm755 %{buildroot}%{_datadir}/gamelaunch/games %{buildroot}%{_sysconfdi
 %dir %{_sysconfdir}/gamelaunch/games
 
 %changelog
+* Fri Nov 06 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.1.0-1
+- GAME_DIR=@prefix and BOOTSTRAP_URL: self-updating clients installed into the prefix
+- umu: judge prefix creation by the prefix, not umu-run's exit status
+
 * Wed Nov 04 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0.2-1
 - WINE_USER=hostname and GAMELAUNCH_USER: run a Wine game under a chosen Windows username
 

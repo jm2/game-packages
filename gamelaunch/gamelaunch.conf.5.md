@@ -7,7 +7,7 @@ A bash fragment of plain assignments, sourced by `gamelaunch`. A copy in
 |---|---|---|
 | `GAME_NAME` | id | Human-readable name for messages. |
 | `GAME_TYPE` | `wine` | `wine` or `native`. |
-| `GAME_DIR` | – | Install directory, e.g. `/opt/dirt2`. Required. |
+| `GAME_DIR` | – | Install directory, e.g. `/opt/dirt2`. Required. `@prefix`: the program lives inside the Wine prefix (a self-updating client such as Battle.net), and `GAME_EXE` and `GAME_WORKDIR` are relative to the prefix's `drive_c`. |
 | `GAME_EXE` | – | Program relative to `GAME_DIR`. |
 | `GAME_WORKDIR` | dir of exe | Working directory relative to `GAME_DIR`. |
 | `GAME_ARGS=( )` | – | Arguments always passed. |
@@ -25,6 +25,9 @@ A bash fragment of plain assignments, sourced by `gamelaunch`. A copy in
 | `XLLN` | `0` | Game uses XLiveLessNess (`xlive.dll` from xlln-bin); forces `xlive=n`. Combine with `WRITABLE=1` and `WRITABLE_COPY=("XLiveLessNess/*.ini")`. |
 | `NEEDS_X86_32` | `0` | `1`: a 32-bit x86 native program; on non-x86 hosts it needs FEX (box64 can't run it). |
 | `WINE_USER` | – | `hostname`: run as a Windows user named after the machine's short host name (generic names such as `localhost` get `player-<random hex>`), for games that derive a LAN identity from the username. Needs the wine backend, which is then preferred; Proton always reports `steamuser`. `GAMELAUNCH_USER=<name>` overrides the name for one run, for any Wine game. |
+| `BOOTSTRAP_URL` | – | With `GAME_DIR=@prefix`: if `GAME_EXE` is missing from the prefix, download this installer (with curl or wget) and run it once. The client then updates itself. Each backend has its own prefix, so switching backend installs the client again. |
+| `BOOTSTRAP_FILE` | last URL component | File name to save the installer as. |
+| `BOOTSTRAP_ARGS=( )` | – | Arguments for the installer. |
 | `LEGACY_DIRS=( paths )` | – | Old prefix locations (e.g. `~/.dirt2/wine`) adopted once by the wine backend. |
 
 Per-user state: `${XDG_DATA_HOME:-~/.local/share}/gamelaunch/<id>/` with

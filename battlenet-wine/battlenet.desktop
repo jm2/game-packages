@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Battle.net
+Comment=Blizzard Battle.net client (Wine)
+Exec=battlenet
+Icon=battlenet
+Terminal=false
+Categories=Game;

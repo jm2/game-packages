@@ -1,3 +1,11 @@
+gamelaunch (1.1.0) unstable; urgency=medium
+
+  * GAME_DIR=@prefix and BOOTSTRAP_URL: self-updating clients installed into
+    the prefix.
+  * umu: judge prefix creation by the prefix, not umu-run's exit status.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Fri, 06 Nov 2026 10:00:00 -0500
+
 gamelaunch (1.0.2) unstable; urgency=medium
 
   * WINE_USER=hostname and GAMELAUNCH_USER: run a Wine game under a chosen

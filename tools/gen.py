@@ -137,6 +137,8 @@ class Pkg:
         self.native32 = bool(t.get("native32", False))
         if not self.target:
             die(f"{self.name}: data packages need an explicit target")
+        if self.target == "@prefix" and (self.datasrc != "none" or not self.wine):
+            die(f"{self.name}: target = \"@prefix\" is only for wine-launcher packages")
         src = t.get("source", {})
         self.steam = src.get("steam")
         self.files = src.get("files", [])        # [{name, url?, sha256?, extract?, to?}]
@@ -180,9 +182,17 @@ class Pkg:
         out += self.deps.get(f"build_{fmt}", [])
         return out
 
+    def gamelaunch_dep(self, fmt: str) -> str:
+        # gamelaunch_min: the oldest gamelaunch with the features the config uses.
+        v = self.t.get("gamelaunch_min", "1.1.0" if self.target == "@prefix" else "")
+        if not v:
+            return "gamelaunch"
+        return {"arch": f"gamelaunch>={v}", "fedora": f"gamelaunch >= {v}",
+                "debian": f"gamelaunch (>= {v})"}[fmt]
+
     def runtime_deps(self, fmt: str) -> list[str]:
         """Dependencies that are the same on every architecture."""
-        out: list[str] = ["gamelaunch"] if self.game else []
+        out: list[str] = [self.gamelaunch_dep(fmt)] if self.game else []
         if self.gbe:
             out.append("gbe-fork-bin")
         if self.xlln:
@@ -381,6 +391,13 @@ def gen_conf(p: Pkg) -> str:
             out.append("XLLN=1")
         if l.get("wine_user"):
             out.append(f"WINE_USER={sh(l['wine_user'])}")
+        if l.get("bootstrap_url"):
+            # A client that installs and updates itself in the prefix (target = "@prefix").
+            out.append(f"BOOTSTRAP_URL={sh(l['bootstrap_url'])}")
+            if l.get("bootstrap_file"):
+                out.append(f"BOOTSTRAP_FILE={sh(l['bootstrap_file'])}")
+            if l.get("bootstrap_args"):
+                out.append(f"BOOTSTRAP_ARGS={sh_array(l['bootstrap_args'])}")
         legacy = l.get("legacy_dirs", [f"~/.{p.id}/wine"])
         out.append(f"LEGACY_DIRS={sh_array(legacy)}")
     elif l.get("env"):
@@ -526,8 +543,9 @@ def gen_spec(p: Pkg) -> str:
          "%global debug_package %{nil}", "%global __strip /bin/true", "%global _build_id_links none",
          "# Prebuilt game libraries carry their vendors' build-tree RPATHs.",
          "%global __brp_check_rpaths %{nil}",
-         f"%global __provides_exclude_from ^{re.escape(p.target)}/.*$",
-         f"%global __requires_exclude_from ^{re.escape(p.target)}/.*$",
+         *([f"%global __provides_exclude_from ^{re.escape(p.target)}/.*$",
+            f"%global __requires_exclude_from ^{re.escape(p.target)}/.*$"]
+           if p.target.startswith("/") else []),
          "# Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.",
          "%global _binary_payload w3.zstdio", "",
          f"Name:           {p.name}",

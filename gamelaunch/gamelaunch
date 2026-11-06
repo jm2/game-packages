@@ -63,10 +63,17 @@ gl_load() {
     WRITABLE=0 WRITABLE_COPY=()
     DXVK=1 UMU_ID='' WINE_ARCH=win64 WINE_DLL_OVERRIDES='' WINE_ENV=() PREREQS=()
     XLLN=0 XLLN_DIR='' LEGACY_DIRS=() NATIVE_ENV=() NEEDS_X86_32=0 WINE_USER=''
+    BOOTSTRAP_URL='' BOOTSTRAP_FILE='' BOOTSTRAP_ARGS=()
     # shellcheck source=/dev/null
     . "$conf" || die "failed to read $conf"
 
-    [ -n "$GAME_DIR" ] && [ -d "$GAME_DIR" ] || die "$GAME_NAME: game directory '$GAME_DIR' is missing"
+    if [ "$GAME_DIR" = @prefix ]; then
+        # A self-updating client that installs itself into the prefix.
+        [ "$GAME_TYPE" = wine ] || die "$GAME_NAME: GAME_DIR=@prefix needs GAME_TYPE=wine"
+        WRITABLE=0 XLLN=0
+    else
+        [ -n "$GAME_DIR" ] && [ -d "$GAME_DIR" ] || die "$GAME_NAME: game directory '$GAME_DIR' is missing"
+    fi
     GL_DATA=${XDG_DATA_HOME:-$HOME/.local/share}/gamelaunch/$GL_ID
     mkdir -p "$GL_DATA" || die "cannot create $GL_DATA"
 }
@@ -140,7 +147,9 @@ gl_overlay_sync() {
 }
 
 gl_game_root() {
-    if [ "$WRITABLE" = 1 ] || [ "$XLLN" = 1 ]; then
+    if [ "$GAME_DIR" = @prefix ]; then
+        printf '%s\n' "$WINEPREFIX/drive_c"
+    elif [ "$WRITABLE" = 1 ] || [ "$XLLN" = 1 ]; then
         gl_overlay_sync
         printf '%s\n' "$GL_DATA/game"
     else
@@ -357,7 +366,11 @@ gl_prefix_ready() {
             "${GL_WINE%/*}/wineserver" -w 2>/dev/null || wineserver -w 2>/dev/null
         else
             # An empty program makes umu create/update the prefix and exit.
-            gl_run umu-run "" >/dev/null 2>&1 ||
+            # Newer umu/Proton then report "File not found" for the empty
+            # program and exit 1, so judge by the prefix rather than the status.
+            if [ -n "${GAMELAUNCH_DEBUG:-}" ]; then gl_run umu-run ""
+            else gl_run umu-run "" >/dev/null 2>&1; fi
+            [ -f "$WINEPREFIX/system.reg" ] ||
                 die "umu-run could not initialise $WINEPREFIX (run with GAMELAUNCH_DEBUG=1)"
         fi
         gl_link_userdata
@@ -398,6 +411,32 @@ gl_prereqs() {
         esac || { warn "prerequisite '$name' failed; will retry next start"; continue; }
         : > "$WINEPREFIX/.gamelaunch-prereq-$name"
     done
+}
+
+# BOOTSTRAP_URL: a client that installs and updates itself (GAME_DIR=@prefix).
+# If GAME_EXE is not in the prefix yet, download the vendor's current installer
+# and run it once; from then on the client keeps itself up to date.
+gl_bootstrap() {
+    local root=$1 dir f
+    [ -n "$BOOTSTRAP_URL" ] && [ ! -f "$root/$GL_EXE" ] || return 0
+    dir=$GL_DATA/bootstrap
+    f=$dir/${BOOTSTRAP_FILE:-${BOOTSTRAP_URL##*/}}
+    mkdir -p "$dir" || die "cannot create $dir"
+    note "$GAME_NAME is not installed in $WINEPREFIX yet; downloading the installer"
+    if command -v curl >/dev/null 2>&1; then
+        curl -fL --retry 3 -o "$f.part" "$BOOTSTRAP_URL"
+    elif command -v wget >/dev/null 2>&1; then
+        wget -O "$f.part" "$BOOTSTRAP_URL"
+    else
+        die "downloading the $GAME_NAME installer needs curl or wget"
+    fi || { rm -f "$f.part"; die "could not download $BOOTSTRAP_URL"; }
+    mv -f "$f.part" "$f"
+    note "running the $GAME_NAME installer"
+    (cd "$dir" && gl_wine "$f" "${BOOTSTRAP_ARGS[@]}") ||
+        warn "the $GAME_NAME installer exited with an error"
+    rm -f "$f"
+    [ -f "$root/$GL_EXE" ] ||
+        die "$GAME_NAME is still not installed ($root/$GL_EXE is missing); start it again to retry"
 }
 
 # ------------------------------------------------------------------ main ----
@@ -442,10 +481,10 @@ gl_run_game() {
     [ -n "$GL_EXE" ] || die "$GAME_NAME: no GAME_EXE configured"
 
     local root workdir
-    root=$(gl_game_root) || exit 1
-    workdir=$root/${GAME_WORKDIR:-$(dirname "$GL_EXE")}
 
     if [ "$GAME_TYPE" = native ]; then
+        root=$(gl_game_root) || exit 1
+        workdir=$root/${GAME_WORKDIR:-$(dirname "$GL_EXE")}
         local e
         for e in "${NATIVE_ENV[@]}"; do export "${e?}"; done
         cd "$workdir" || die "cannot enter $workdir"
@@ -461,8 +500,11 @@ gl_run_game() {
     GL_OVERRIDES=$WINE_DLL_OVERRIDES
     [ "$XLLN" = 1 ] && GL_OVERRIDES+="${GL_OVERRIDES:+;}xlive=n"
     gl_prefix_ready
+    root=$(gl_game_root) || exit 1
+    workdir=$root/${GAME_WORKDIR:-$(dirname "$GL_EXE")}
     local e
     for e in "${WINE_ENV[@]}"; do export "${e?}"; done
+    gl_bootstrap "$root"
     [ -n "$GL_OVERRIDES" ] && export WINEDLLOVERRIDES="$GL_OVERRIDES${WINEDLLOVERRIDES:+;$WINEDLLOVERRIDES}"
     [ -n "${GAMELAUNCH_DEBUG:-}" ] || export WINEDEBUG=${WINEDEBUG:--all}
     cd "$workdir" || die "cannot enter $workdir"
