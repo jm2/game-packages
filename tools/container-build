@@ -60,6 +60,7 @@ rc=0
 if [[ $which == arch || $which == all ]] && [ -f "$pkgdir/PKGBUILD" ]; then
 run arch docker.io/library/archlinux:latest '
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp  # rpmlint and namcap unpack packages here
+printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
 pacman -Syu --noconfirm --needed base-devel git namcap $EXTRA >/dev/null
 for l in $LOCAL; do pacman -U --noconfirm /local/$l/arch/*.pkg.tar.zst >/dev/null; done
 useradd -m b; cp -a /src /build/p; chown -R b /build; chmod 755 /build
@@ -69,11 +70,12 @@ su b -c "makepkg --printsrcinfo" > /tmp/srcinfo
 deps=$(sed -n -E "s/^\s*(check|make)?depends(_x86_64)? = ([^<>=]+).*/\3/p" /tmp/srcinfo | sort -u)
 avail=$(for d in $deps; do pacman -Sp "$d" >/dev/null 2>&1 && echo "$d"; done; true)  # -Sp also resolves provides (java-runtime-headless)
 [ -z "$avail" ] || pacman -S --noconfirm --needed $avail >/dev/null
-su b -c "makepkg --verifysource --noconfirm" || { echo "ERROR: source checksum verification failed"; exit 1; }
+# The checksums pin every source; these containers have no PGP keyring.
+su b -c "makepkg --verifysource --skippgpcheck --noconfirm" || { echo "ERROR: source checksum verification failed"; exit 1; }
 # PKGDEST keeps built packages apart from sources or stale files named *.pkg.tar.zst.
 mkdir /build/pkgs; chown b /build/pkgs
-if [ -n "$NODEPS" ]; then su b -c "PKGDEST=/build/pkgs makepkg -d --noconfirm 2>&1" || exit 1
-else su b -c "PKGDEST=/build/pkgs makepkg -s --noconfirm 2>&1" || exit 1; fi
+if [ -n "$NODEPS" ]; then su b -c "PKGDEST=/build/pkgs makepkg -d --skippgpcheck --noconfirm 2>&1" || exit 1
+else su b -c "PKGDEST=/build/pkgs makepkg -s --skippgpcheck --noconfirm 2>&1" || exit 1; fi
 namcap PKGBUILD /build/pkgs/*.pkg.tar.zst || true
 cp /build/pkgs/*.pkg.tar.zst /out/' || rc=1
 fi

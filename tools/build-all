@@ -7,9 +7,10 @@
     --formats LIST    comma-separated: arch,fedora (default both)
     --keep-cache      keep each package's download after building it
     --force           rebuild packages already marked as done
+    --skip LIST       comma-separated packages to leave out
 
-Packages build one at a time: shared runtime packages first, then packages
-with anonymous downloads, GOG, and Steam. A package that fails is logged and
+Packages build one at a time: shared runtime packages first, then imported
+AUR dependencies, packages with anonymous downloads, GOG, and Steam. A package that fails is logged and
 skipped, and a rerun picks up where this one stopped. A package rebuilds when
 its committed source changes; progress is kept in $OUT/.build-all/. Packages
 that need your own files (local or Humble sources) are skipped until those
@@ -19,7 +20,7 @@ your own files are kept.
 TMPDIR, PT_CACHE and OUT must be set, and should be on a disk with room for
 the largest game several times over, since the defaults are on the system disk.
 """
-import argparse, os, subprocess, sys, tomllib
+import argparse, os, re, subprocess, sys, tomllib
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -27,13 +28,22 @@ TOOLS = REPO / "tools"
 RUNTIME = ["gamelaunch", "gbe-fork-bin", "xlln-bin", "agelanserver-bin", "agelanserver-companion-bin"]
 # Preinstalled in every build that isn't one of them (see docs/PACKAGING.md).
 LOCAL = ["gamelaunch", "xlln-bin", "gbe-fork-bin"]
-ORDER = {"runtime": 0, "anonymous": 1, "gog": 2, "steam": 3}
+# Imported from the AUR, as games depend on them. Those listed in AUR_LOCAL are
+# preinstalled to build the package named; they build first.
+AUR = ["gtk2", "lib32-portaudio", "xf86miscproto", "gconf", "lib32-gtk2", "lib32-libpng12", "lib32-libxxf86misc",
+       "lib32-openal", "libidn11", "libldap24", "libpng12", "librtmp0", "openssl-1.0", "steamcmd"]
+AUR_LOCAL = {"lib32-gtk2": ["gtk2"], "lib32-openal": ["lib32-portaudio"], "lib32-libxxf86misc": ["xf86miscproto"]}
+KEEP = set(LOCAL) | {d for deps in AUR_LOCAL.values() for d in deps}
+ORDER = {"runtime": 0, "aur": 1, "anonymous": 2, "gog": 3, "steam": 4}
 FETCHED = ".fetched"
+DEBUG = re.compile(r"-debug(info|source)?-")
 
 def classify(d: Path):
     """Return (build group, files needed from the user, downloaded file names)."""
     if d.name in RUNTIME:
         return "runtime", [], []
+    if d.name in AUR:
+        return "aur", [], []
     toml = d / "package.toml"
     if not toml.exists():
         return "anonymous", [], []
@@ -52,7 +62,7 @@ def packages(only):
         if only and d.name not in only:
             continue
         group, manual, gog = classify(d)
-        rank = RUNTIME.index(d.name) if d.name in RUNTIME else 0
+        rank = (RUNTIME + AUR).index(d.name) if d.name in RUNTIME + AUR else 0
         out.append((ORDER[group], rank, d.name, group, manual, gog))
     return sorted(out, key=lambda x: x[:3])
 
@@ -102,7 +112,9 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         (cache / name).mkdir(parents=True, exist_ok=True)
         (cache / name / FETCHED).touch()
     env = dict(os.environ)
-    if name not in RUNTIME:
+    if name in AUR:
+        env["LOCAL"] = " ".join(AUR_LOCAL.get(name, []))
+    elif name not in RUNTIME:
         env["LOCAL"] = " ".join(LOCAL)
     for fmt in todo:
         fmt_env = dict(env)
@@ -114,13 +126,19 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
             old.unlink()
         if not run([TOOLS / "container-build", REPO / name, fmt], env=fmt_env):
             return f"failed: {fmt} build, see {fmt_out / 'build.log'}"
-        pkgs = built(fmt, fmt_out)
+        # Debug packages stay out of the repo, and out of $OUT.
+        pkgs = []
+        for p in built(fmt, fmt_out):
+            if DEBUG.search(p.name):
+                p.unlink()
+            else:
+                pkgs.append(p)
         if not pkgs:
             return f"failed: {fmt} build produced no packages"
         dest = args.arch_dest if fmt == "arch" else args.rpm_dest
         if not run([TOOLS / "promote", dest, *pkgs]):
             return f"failed: promoting {fmt}"
-        if name not in LOCAL:  # other builds preinstall LOCAL packages from $OUT
+        if name not in KEEP:  # other builds preinstall these from $OUT
             for p in pkgs:
                 p.unlink()
         if sid:
@@ -137,6 +155,7 @@ def main() -> int:
     ap.add_argument("--plan", action="store_true")
     ap.add_argument("--keep-cache", action="store_true")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--skip", default="")
     ap.add_argument("packages", nargs="*")
     args = ap.parse_args()
     fmts = args.formats.split(",")
@@ -144,9 +163,12 @@ def main() -> int:
         ap.error("--formats takes arch and fedora")
     # Every build preinstalls the LOCAL packages, so they always come along.
     only = set(args.packages)
-    todo = packages(only | set(LOCAL) if only else only)
-    if only - {t[2] for t in todo}:
-        ap.error("unknown package: " + ", ".join(only - {t[2] for t in todo}))
+    wanted = only | set(LOCAL) if only else only
+    wanted |= {d for n in only for d in AUR_LOCAL.get(n, [])}
+    skip = set(filter(None, args.skip.split(",")))
+    todo = [t for t in packages(wanted) if t[2] not in skip]
+    if (only | skip) - {t[2] for t in packages(wanted | skip)}:
+        ap.error("unknown package: " + ", ".join((only | skip) - {t[2] for t in packages(wanted | skip)}))
     if args.plan:
         for _, _, name, group, manual, _ in todo:
             print(f"{group:10} {name}" + (f"  (needs {', '.join(manual)})" if manual else ""))
