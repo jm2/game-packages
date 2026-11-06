@@ -100,6 +100,8 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
     sid = source_id(name)
     def done(fmt):
         stamp = state / f"{name}.{fmt}"
+        if name in KEEP and not built(fmt, out / name / fmt):
+            return False  # other builds preinstall it, so it must be in $OUT
         return not args.force and sid and stamp.exists() and stamp.read_text() == sid
     todo = [f for f in fmts if has_format(name, f) and not done(f)]
     if not todo:
