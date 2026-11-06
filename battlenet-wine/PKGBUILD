@@ -3,22 +3,26 @@
 
 pkgname=battlenet-wine
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Blizzard Battle.net client using Wine (installs and updates itself)'
 arch=('x86_64')
 url='https://www.blizzard.com/apps/battle.net/desktop'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch>=1.1.0' 'curl' 'umu-launcher')
+depends=('gamelaunch>=1.1.0' 'hicolor-icon-theme' 'curl' 'umu-launcher')
+makedepends=('icoutils')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "battlenet.conf"
         "battlenet.desktop"
-        "README.md")
-sha256sums=('7959e7bc6eee7fb2d471f7d80abe048d1fe73463e3968941b4eb0ae6a96c880d'
+        "README.md"
+        "Battle.net-Setup.exe::https://www.battle.net/download/getInstallerForGame?os=win&version=LIVE&gameProgram=BATTLENET_APP")
+noextract=("Battle.net-Setup.exe")
+sha256sums=('870cc072aa0eb7c42b7b80e20200fabbb88a5bc6da8568d366c26f0e8297af9a'
             '0778800318fec05242dc3db0da2f6d8ad0e1ccd4d75a22b9c38b8a8b5e0d9de9'
             '48cba054754fa4600eb739ce0132d68e5eeb693eb35a7a15cc2adb1c69146a86'
-            '6bf5b47c4149164d63ce6846f14d74be76d3722503874926531ac0470ba3ca09')
+            '6edfa37c2313c047df51cbbb4383c98c1fa7665b65fbb41654592a3204160632'
+            'SKIP')
 
 prepare() {
     PT_SRCDIR="${srcdir}" PT_WORK="${srcdir}/work" bash build.sh prepare

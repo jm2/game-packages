@@ -1,1 +1,2 @@
 # Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+- Battle.net-Setup.exe https://www.battle.net/download/getInstallerForGame?os=win&version=LIVE&gameProgram=BATTLENET_APP

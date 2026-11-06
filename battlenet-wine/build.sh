@@ -20,7 +20,7 @@ pt_fetch() {
 }
 
 pt_icon() {
-    :
+    pt_icon_from_exe "$(pt_need_source Battle.net-Setup.exe)"
 }
 
 # pkgtool.sh - shared build logic for generated game/data packages.

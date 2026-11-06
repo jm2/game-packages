@@ -11,7 +11,7 @@
 
 Name:           battlenet-wine
 Version:        1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Blizzard Battle.net client using Wine (installs and updates itself)
 License:        LicenseRef-Proprietary
 URL:            https://www.blizzard.com/apps/battle.net/desktop
@@ -19,10 +19,13 @@ Source0:       build.sh
 Source1:       battlenet.conf
 Source2:       battlenet.desktop
 Source3:       README.md
+Source4:       https://www.battle.net/download/getInstallerForGame?os=win&version=LIVE&gameProgram=BATTLENET_APP#/Battle.net-Setup.exe
 
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
+BuildRequires:  icoutils
 Requires:       gamelaunch >= 1.1.0
+Requires:       hicolor-icon-theme
 Requires:       curl
 %ifarch aarch64
 Requires:       umu-launcher
@@ -40,8 +43,8 @@ The Blizzard Battle.net desktop client, run through gamelaunch (umu/Proton
 by default, system wine as a fallback). Like distributions' Steam packages,
 this package is only a bootstrap: the first start downloads Blizzard's
 current installer into your own Wine prefix, and from then on Battle.net
-keeps itself and its games up to date. Nothing from Blizzard is downloaded
-when the package is built.
+keeps itself and its games up to date. The build downloads Blizzard's installer
+only to take the menu icon from it; the installer is not packaged.
 
 %prep
 %setup -q -c -T
@@ -58,5 +61,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/battlenet.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0-2
 - Initial package
+- Menu icon taken from Blizzard's installer at build time

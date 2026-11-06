@@ -163,7 +163,7 @@ class Pkg:
     def tools_needed(self) -> list[str]:
         need = ["always"]
         icon = self.t.get("icon", {})
-        if icon.get("exe") or icon.get("ico"):
+        if icon.get("exe") or icon.get("ico") or icon.get("source_exe"):
             need.append("icon_exe")
         for f in self.files:
             tool = EXTRACT_TOOL.get(f.get("extract", "none"))
@@ -325,6 +325,9 @@ def gen_build_sh(p: Pkg) -> str:
     lines.append("pt_icon() {")
     if icon.get("exe"):
         lines.append(f"    pt_icon_from_exe \"$PT_GAME/{icon['exe']}\"")
+    elif icon.get("source_exe"):
+        # An exe among the package's sources (e.g. a vendor installer).
+        lines.append(f"    pt_icon_from_exe \"$(pt_need_source {sh(icon['source_exe'])})\"")
     elif icon.get("ico"):
         lines.append(f"    local i; for i in \"$PT_GAME\"/{icon['ico']}; do pt_icon_from_ico \"$i\"; break; done")
     elif icon.get("png"):

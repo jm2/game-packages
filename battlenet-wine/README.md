@@ -4,8 +4,8 @@ The Blizzard Battle.net desktop client, run through gamelaunch (umu/Proton
 by default, system wine as a fallback). Like distributions' Steam packages,
 this package is only a bootstrap: the first start downloads Blizzard's
 current installer into your own Wine prefix, and from then on Battle.net
-keeps itself and its games up to date. Nothing from Blizzard is downloaded
-when the package is built.
+keeps itself and its games up to date. The build downloads Blizzard's installer
+only to take the menu icon from it; the installer is not packaged.
 
 Run it with `battlenet` or from the desktop menu.
 
