@@ -16,12 +16,16 @@ ARCH = re.compile(r"^(?P<name>.+)-[^-]+-[^-]+-[^-]+\.pkg\.tar(\.\w+)?$")
 RPM = re.compile(r"^(?P<name>.+)-[^-]+-[^-]+\.[^.]+\.rpm$")
 
 def identity(filename: str):
-    """Return (package name, architecture tail), which stay the same between versions."""
-    for pat in (ARCH, RPM):
-        if m := pat.match(filename):
-            tail = filename.rsplit("-", 1)[1] if pat is ARCH else filename.rsplit(".", 2)[1]
-            return m["name"], tail
+    """Return (package name, architecture), which stay the same between versions."""
+    if m := ARCH.match(filename):
+        return m["name"], filename.rsplit("-", 1)[1].split(".", 1)[0]
+    if m := RPM.match(filename):
+        return m["name"], filename.rsplit(".", 2)[1]
     return None
+
+def same_package(a, b) -> bool:
+    """A package can become, or stop being, architecture-independent."""
+    return a[0] == b[0] and (a[1] == b[1] or {a[1], b[1]} & {"any", "noarch"} != set())
 
 def promote(dest: Path, pkg: Path) -> None:
     ident = identity(pkg.name)
@@ -32,7 +36,9 @@ def promote(dest: Path, pkg: Path) -> None:
     os.chmod(tmp, 0o664)
     os.rename(tmp, final)
     for other in dest.iterdir():
-        if other != final and not other.name.startswith(".") and identity(other.name) == ident:
+        if other == final or other.name.startswith("."):
+            continue
+        if (theirs := identity(other.name)) and same_package(ident, theirs):
             other.unlink()
             print(f"promote: removed {other.name}")
     print(f"promote: {pkg.name}")

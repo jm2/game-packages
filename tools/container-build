@@ -23,7 +23,11 @@ out=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/$pkg
 work=$(mktemp -d -p "${TMPDIR:-/var/tmp}" "cb-$pkg.XXXXXX")
 # Builds leave files owned by the container's unprivileged user, which only
 # the user namespace can delete.
-trap 'podman unshare rm -rf "$work"' EXIT
+wipe() {
+    rm -rf "$1" 2>/dev/null || podman unshare rm -rf "$1" ||
+        echo "container-build: couldn't remove $1" >&2
+}
+trap 'wipe "$work"' EXIT
 cp -a "$pkgdir" "$work/$pkg"
 # Store downloads (GOG/Humble installers) cached by tools/fetch-* go next to
 # the build files in the scratch copy, where makepkg/rpmbuild/dpkg expect them.
@@ -46,13 +50,16 @@ run() { # distro image script
         echo "    ok: $(cd "$out/$d" && ls -- *.pkg.tar* *.rpm *.deb 2>/dev/null | tr '\n' ' ')"
     else
         echo "    FAILED, see $out/$d/build.log"; tail -n 25 "$out/$d/build.log" | sed 's/^/    | /'
+        wipe "$work/build-$d"
         return 1
     fi
+    wipe "$work/build-$d"
 }
 
 rc=0
 if [[ $which == arch || $which == all ]] && [ -f "$pkgdir/PKGBUILD" ]; then
 run arch docker.io/library/archlinux:latest '
+mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp  # rpmlint and namcap unpack packages here
 pacman -Syu --noconfirm --needed base-devel git namcap $EXTRA >/dev/null
 for l in $LOCAL; do pacman -U --noconfirm /local/$l/arch/*.pkg.tar.zst >/dev/null; done
 useradd -m b; cp -a /src /build/p; chown -R b /build; chmod 755 /build
@@ -73,13 +80,14 @@ fi
 
 if [[ $which == fedora || $which == all ]] && compgen -G "$pkgdir/*.spec" >/dev/null; then
 run fedora "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" '
+mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 dnf -yq install rpm-build rpmdevtools rpmlint dnf-plugins-core $EXTRA >/dev/null
 for l in $LOCAL; do dnf -yq install /local/$l/fedora/*.rpm >/dev/null; done
 mkdir -p /build/SOURCES; cp -a /src/. /build/SOURCES/; cd /build/SOURCES
 spec=$(ls *.spec)
 spectool -g -C /build/SOURCES "$spec" >/dev/null || true
 dnf -yq builddep "$spec" >/dev/null
-rpmbuild -bb --define "_topdir /build" --define "_sourcedir /build/SOURCES" "$spec"
+rpmbuild -bb --define "_topdir /build" --define "_sourcedir /build/SOURCES" --define "_tmppath /build/tmp" "$spec"
 rpmlint "$spec" /build/RPMS/*/*.rpm || true
 cp /build/RPMS/*/*.rpm /out/' || rc=1
 fi
@@ -87,6 +95,7 @@ fi
 if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
 run debian docker.io/library/debian:sid '
 export DEBIAN_FRONTEND=noninteractive
+mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs lintian fakeroot $EXTRA >/dev/null
 for l in $LOCAL; do apt-get -qq install -y /local/$l/debian/*.deb >/dev/null; done
 cp -a /src /build/p; cd /build/p

@@ -10,9 +10,11 @@
 
 Packages build one at a time: shared runtime packages first, then packages
 with anonymous downloads, GOG, and Steam. A package that fails is logged and
-skipped, and a rerun picks up where this one stopped; progress is kept in
-$OUT/.build-all/. Packages that need your own files (local or Humble sources)
-build once those files are in $PT_CACHE/<package>/, and are skipped until then.
+skipped, and a rerun picks up where this one stopped. A package rebuilds when
+its committed source changes; progress is kept in $OUT/.build-all/. Packages
+that need your own files (local or Humble sources) are skipped until those
+files are in $PT_CACHE/<package>/. After a build, downloads are deleted, but
+your own files are kept.
 
 TMPDIR, PT_CACHE and OUT must be set, and should be on a disk with room for
 the largest game several times over, since the defaults are on the system disk.
@@ -26,68 +28,105 @@ RUNTIME = ["gamelaunch", "gbe-fork-bin", "xlln-bin", "agelanserver-bin", "agelan
 # Preinstalled in every build that isn't one of them (see docs/PACKAGING.md).
 LOCAL = ["gamelaunch", "xlln-bin", "gbe-fork-bin"]
 ORDER = {"runtime": 0, "anonymous": 1, "gog": 2, "steam": 3}
+FETCHED = ".fetched"
 
 def classify(d: Path):
-    """Return (build group, files needed from the user)."""
+    """Return (build group, files needed from the user, downloaded file names)."""
     if d.name in RUNTIME:
-        return "runtime", []
+        return "runtime", [], []
     toml = d / "package.toml"
     if not toml.exists():
-        return "anonymous", []
+        return "anonymous", [], []
     t = tomllib.loads(toml.read_text())
     src = t.get("source", {})
     files = src.get("files", [])
     manual = [f["name"] for f in files if f.get("url", "") == "local" or f.get("url", "").startswith("hib")]
+    gog = [f["name"] for f in files if f.get("url", "").startswith("gogdownloader")]
     if "steam" in src:
-        return "steam", manual
-    if any(f.get("url", "").startswith("gogdownloader") for f in files):
-        return "gog", manual
-    return "anonymous", manual
+        return "steam", manual, gog
+    return ("gog" if gog else "anonymous"), manual, gog
 
 def packages(only):
     out = []
     for d in sorted(p.parent for p in REPO.glob("*/PKGBUILD")):
         if only and d.name not in only:
             continue
-        group, manual = classify(d)
-        out.append((ORDER[group], d.name not in RUNTIME or RUNTIME.index(d.name), d.name, group, manual))
+        group, manual, gog = classify(d)
+        rank = RUNTIME.index(d.name) if d.name in RUNTIME else 0
+        out.append((ORDER[group], rank, d.name, group, manual, gog))
     return sorted(out, key=lambda x: x[:3])
 
-def run(cmd, env=None, log=None) -> bool:
+def run(cmd, env=None) -> bool:
     print("  $", " ".join(map(str, cmd)), flush=True)
     return subprocess.run(list(map(str, cmd)), env=env).returncode == 0
 
-def build(name, group, manual, fmts, args, cache: Path, out: Path, state: Path) -> str:
+def has_format(name: str, fmt: str) -> bool:
+    d = REPO / name
+    return (d / "PKGBUILD").exists() if fmt == "arch" else any(d.glob("*.spec"))
+
+def source_id(name: str):
+    """Identify the package's committed source, or None if it has local changes."""
+    git = ["git", "-C", str(REPO)]
+    if subprocess.run(git + ["status", "--porcelain", "--", name], capture_output=True, text=True).stdout:
+        return None
+    r = subprocess.run(git + ["rev-parse", f"HEAD:{name}"], capture_output=True, text=True)
+    return r.stdout.strip() if r.returncode == 0 else None
+
+def built(fmt: str, out: Path):
+    return sorted(out.glob("*.pkg.tar*" if fmt == "arch" else "*.rpm"))
+
+def clear_download(cache: Path, gog) -> None:
+    """Remove what fetch-* downloaded. Files the user supplied are kept."""
+    for d in cache.glob("steam-*"):
+        subprocess.run(["rm", "-rf", str(d)], check=True)
+    for name in gog:
+        (cache / name).unlink(missing_ok=True)
+    (cache / FETCHED).unlink(missing_ok=True)
+
+def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: Path) -> str:
     missing = [m for m in manual if not (cache / name / m).exists()]
     if missing:
         return f"skipped: needs {', '.join(missing)} in {cache / name}"
-    # A cache directory means an earlier fetch got this far.
-    if group in ("steam", "gog") and not (cache / name).exists():
+    sid = source_id(name)
+    def done(fmt):
+        stamp = state / f"{name}.{fmt}"
+        return not args.force and sid and stamp.exists() and stamp.read_text() == sid
+    todo = [f for f in fmts if has_format(name, f) and not done(f)]
+    if not todo:
+        return "ok"
+    # The marker is only written once a download has finished: a directory
+    # alone may hold a partial download, or just the user's files.
+    if group in ("steam", "gog") and not (cache / name / FETCHED).exists():
         if not run([TOOLS / f"fetch-{group}", name]):
             return "failed: download"
+        (cache / name).mkdir(parents=True, exist_ok=True)
+        (cache / name / FETCHED).touch()
     env = dict(os.environ)
     if name not in RUNTIME:
         env["LOCAL"] = " ".join(LOCAL)
-    for fmt in fmts:
-        stamp = state / f"{name}.{fmt}"
-        if stamp.exists() and not args.force:
-            continue
-        distro_env = dict(env)
+    for fmt in todo:
+        fmt_env = dict(env)
         if fmt == "arch":
-            distro_env["NODEPS"] = "1"  # some makedepends are AUR-only
-        if not run([TOOLS / "container-build", REPO / name, fmt], env=distro_env):
-            return f"failed: {fmt} build, see {out / name / fmt / 'build.log'}"
-        built = sorted((out / name / fmt).glob("*.pkg.tar*" if fmt == "arch" else "*.rpm"))
-        if built:  # none: the format is disabled for this package
-            dest = args.arch_dest if fmt == "arch" else args.rpm_dest
-            if not run([TOOLS / "promote", dest, *built]):
-                return f"failed: promoting {fmt}"
-            if name not in LOCAL:  # LOCAL builds are read from $OUT
-                for p in built:
-                    p.unlink()
-        stamp.touch()
-    if not args.keep_cache and (cache / name).exists():
-        subprocess.run(["rm", "-rf", str(cache / name)], check=True)
+            fmt_env["NODEPS"] = "1"  # some makedepends are AUR-only
+        fmt_out = out / name / fmt
+        # Anything left here is an older build, which must not be promoted.
+        for old in built(fmt, fmt_out):
+            old.unlink()
+        if not run([TOOLS / "container-build", REPO / name, fmt], env=fmt_env):
+            return f"failed: {fmt} build, see {fmt_out / 'build.log'}"
+        pkgs = built(fmt, fmt_out)
+        if not pkgs:
+            return f"failed: {fmt} build produced no packages"
+        dest = args.arch_dest if fmt == "arch" else args.rpm_dest
+        if not run([TOOLS / "promote", dest, *pkgs]):
+            return f"failed: promoting {fmt}"
+        if name not in LOCAL:  # other builds preinstall LOCAL packages from $OUT
+            for p in pkgs:
+                p.unlink()
+        if sid:
+            (state / f"{name}.{fmt}").write_text(sid)
+    if not args.keep_cache and all(not has_format(name, f) or done(f) for f in fmts):
+        clear_download(cache / name, gog)
     return "ok"
 
 def main() -> int:
@@ -103,11 +142,13 @@ def main() -> int:
     fmts = args.formats.split(",")
     if set(fmts) - {"arch", "fedora"}:
         ap.error("--formats takes arch and fedora")
-    todo = packages(set(args.packages))
-    if args.packages and len(todo) != len(set(args.packages)):
-        ap.error("unknown package: " + ", ".join(set(args.packages) - {t[2] for t in todo}))
+    # Every build preinstalls the LOCAL packages, so they always come along.
+    only = set(args.packages)
+    todo = packages(only | set(LOCAL) if only else only)
+    if only - {t[2] for t in todo}:
+        ap.error("unknown package: " + ", ".join(only - {t[2] for t in todo}))
     if args.plan:
-        for _, _, name, group, manual in todo:
+        for _, _, name, group, manual, _ in todo:
             print(f"{group:10} {name}" + (f"  (needs {', '.join(manual)})" if manual else ""))
         return 0
     if ("arch" in fmts and not args.arch_dest) or ("fedora" in fmts and not args.rpm_dest):
@@ -115,14 +156,23 @@ def main() -> int:
     for var in ("TMPDIR", "PT_CACHE", "OUT"):
         if not os.environ.get(var):
             sys.exit(f"build-all: set {var}; the default is on the system disk, too small for these builds")
+    for dest, fmt in ((args.arch_dest, "arch"), (args.rpm_dest, "fedora")):
+        if fmt in fmts and not (dest.is_dir() and os.access(dest, os.W_OK)):
+            sys.exit(f"build-all: {dest} isn't a writable directory")
     cache, out = Path(os.environ["PT_CACHE"]), Path(os.environ["OUT"])
     state = out / ".build-all"
     state.mkdir(parents=True, exist_ok=True)
     results = {}
-    for _, _, name, group, manual in todo:
+    for _, _, name, group, manual, gog in todo:
         print(f"==> {name} ({group})", flush=True)
-        results[name] = build(name, group, manual, fmts, args, cache, out, state)
+        results[name] = build(name, group, manual, gog, fmts, args, cache, out, state)
         print(f"<== {name}: {results[name]}", flush=True)
+        # Without these every other build would fail, after downloading.
+        if name in LOCAL and (results[name] != "ok" or
+                              any(has_format(name, f) and not built(f, out / name / f) for f in fmts)):
+            print(f"build-all: stopping: everything needs {name}", file=sys.stderr)
+            results[name] = results[name] if results[name] != "ok" else "failed: no build output in $OUT"
+            break
     bad = {n: r for n, r in results.items() if r != "ok"}
     print(f"\n{len(results) - len(bad)} of {len(results)} packages ok")
     for n, r in bad.items():
