@@ -95,11 +95,12 @@ fi
 if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
 run debian docker.io/library/debian:sid '
 export DEBIAN_FRONTEND=noninteractive
-mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs lintian fakeroot $EXTRA >/dev/null
 for l in $LOCAL; do apt-get -qq install -y /local/$l/debian/*.deb >/dev/null; done
 cp -a /src /build/p; cd /build/p
 mk-build-deps -i -r -t "apt-get -y -qq --no-install-recommends" debian/control >/dev/null
+# After mk-build-deps, which loses its output with TMPDIR set.
+mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 [ -x debian/fetch-sources ] && debian/fetch-sources
 dpkg-buildpackage -b -us -uc
 lintian --suppress-tags bad-distribution-in-changes-file ../*.deb || true
