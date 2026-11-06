@@ -47,7 +47,9 @@ def main() -> int:
         cmd.append(f"+download_depot {app} {depot}")
     cmd.append("+quit")
     print("fetch-steam:", " ".join(cmd[:-1]), flush=True)
-    lock = (cache / ".steam.lock").open("w")
+    # Under the home directory, not the cache: the limit is per account, and
+    # fetches can use different caches.
+    lock = (Path.home() / ".fetch-steam.lock").open("w")
     fcntl.flock(lock, fcntl.LOCK_EX)
     subprocess.run(cmd, check=True)
     home = Path.home()
