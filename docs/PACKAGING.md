@@ -103,3 +103,15 @@ need their data: point `PT_CACHE` at a cache directory (real data from
 `tools/fetch-steam`, or a fake tree for build-logic tests), set
 `LOCAL="gamelaunch xlln-bin gbe-fork-bin"` to preinstall locally built
 dependencies, and `NODEPS=1` on Arch where makedepends are AUR-only (steamcmd).
+
+## Building the repos
+
+`tools/build-all` builds every package for Arch and Fedora, one at a time,
+and hands them to `tools/promote`, which moves them into crossdock's incoming
+directories and removes the old versions. It can be rerun after a failure.
+Fedora builds target one release (`FEDORA_RELEASE`, default 45), and a single
+repo serves them all: only native packages depend on the release at all.
+
+Set `TMPDIR`, `PT_CACHE` and `OUT` first, on a disk with room for the largest
+game several times over. podman needs `/etc/subuid` and `/etc/subgid` entries
+for the user.

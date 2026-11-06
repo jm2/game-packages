@@ -15,6 +15,8 @@ Place these files next to the build files or in
 
 Runs Loki's native SimCity 3000 Unlimited 2.0a with the GOG data. Sound uses
 OSS: enable the OSS proxy daemon with `sudo systemctl enable --now osspd`.
+Fedora doesn't package osspd, so there the game has no sound unless you
+provide OSS emulation yourself.
 `apps/sc3u.exe` is GOG's patched Windows executable (unused by the Linux
 binary, but it allows higher resolutions if you run the game under Wine).
 libSimBABld.so is removed because it breaks startup; the building architect

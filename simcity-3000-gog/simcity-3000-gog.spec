@@ -42,7 +42,6 @@ Recommends:     fex-emu-rootfs-fedora
 Recommends:     fex-emu-thunks
 Recommends:     muvm
 %else
-Requires:       osspd
 %endif
 
 %description

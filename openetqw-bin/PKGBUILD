@@ -20,6 +20,7 @@ url="https://github.com/jm2/openETQW"
 license=('GPL-3.0-or-later' 'LicenseRef-ETQW-SDK-EULA' 'LicenseRef-ETQW-EULA' 'LicenseRef-ETQW-Retail'
          'Zlib' 'MIT' 'BSD-3-Clause' 'BSD-2-Clause' 'Apache-2.0')
 depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'libgl' 'zlib')
+replaces=('etqw')
 optdepends=('etqw-data: retail ET:QW data in /opt/etqw (otherwise a Steam/retail/Wine install is detected)'
             'vulkan-icd-loader: Vulkan renderer (the default; OpenGL is the fallback)'
             'libx11: X11 video (with libxcursor, libxext, libxfixes, libxi, libxrandr, libxss)'
