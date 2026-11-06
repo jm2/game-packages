@@ -3,13 +3,15 @@
 
 pkgname=doom3xp-data-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Doom 3: Resurrection of Evil data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/'
 license=('LicenseRef-Proprietary')
+depends=('doom3-data')
 makedepends=('steamcmd' 'python')
 provides=('doom3xp-data')
+conflicts=('doom3-data-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")

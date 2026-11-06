@@ -9,7 +9,8 @@ Rules-Requires-Root: no
 
 Package: doom3xp-data-steam
 Architecture: all
-Depends: ${misc:Depends}
+Depends: doom3-data, ${misc:Depends}
 Provides: doom3xp-data
+Conflicts: doom3-data-gog
 Description: Doom 3: Resurrection of Evil data via Steam
  Doom 3: Resurrection of Evil data via Steam

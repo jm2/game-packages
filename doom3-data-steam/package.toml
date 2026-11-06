@@ -1,0 +1,18 @@
+name = "doom3-data-steam"
+family = "data-steam"
+release = 1
+summary = "Doom 3 data via Steam"
+url = "https://store.steampowered.com/app/9050/DOOM_3/"
+target = "/opt/doom3"
+provides = ["doom3-data"]
+conflicts = ["doom3-data-gog"]
+changelog = ["Initial package"]
+notes = """
+base/*.pk4 for dhewm3 and other Doom 3 engines. Resurrection of Evil is
+doom3xp-data-steam."""
+
+[source.steam]
+appid = 9050
+# Keeps the version above the AUR package's "1" (no epoch).
+version_base = "1"
+copy = ["base/*.pk4"]
