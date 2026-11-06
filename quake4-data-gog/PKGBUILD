@@ -3,7 +3,7 @@
 
 pkgname=quake4-data-gog
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='Quake 4 data via GOG'
 arch=('any')
 url='https://www.gog.com/game/quake_4'

@@ -3,10 +3,12 @@
 #
 #   tools/container-build <pkgdir> [arch|fedora|debian|all] [extra deps...]
 #
-# Uses podman with archlinux:latest, fedora:44 and debian:sid. The package
-# directory is copied into a scratch dir under ${TMPDIR:-/var/tmp}, so build
-# output never lands in the repo. Results (packages + logs) are written to
-# ${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/<pkg>/<distro>/.
+# Uses podman with archlinux:latest, fedora:45 (FEDORA_RELEASE overrides it)
+# and debian:sid. The package directory is copied into a scratch dir under
+# ${TMPDIR:-/var/tmp}, and each build runs in a mounted directory there, not in
+# the container's own layer, so point TMPDIR at a disk with room for the
+# game: a build needs about twice its installed size. Results (packages +
+# logs) are written to ${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/<pkg>/<distro>/.
 #
 # Only for packages whose sources can be fetched non-interactively. Game
 # packages that need Steam/GOG data must be given a pre-filled cache via
@@ -19,12 +21,16 @@ extra=("$@")
 pkg=$(basename "$pkgdir")
 out=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/$pkg
 work=$(mktemp -d -p "${TMPDIR:-/var/tmp}" "cb-$pkg.XXXXXX")
-trap 'rm -rf "$work"' EXIT
+# Builds leave files owned by the container's unprivileged user, which only
+# the user namespace can delete.
+trap 'podman unshare rm -rf "$work"' EXIT
 cp -a "$pkgdir" "$work/$pkg"
 # Store downloads (GOG/Humble installers) cached by tools/fetch-* go next to
 # the build files in the scratch copy, where makepkg/rpmbuild/dpkg expect them.
 if [ -n "${PT_CACHE:-}" ] && [ -d "$PT_CACHE/$pkg" ]; then
-    find "$PT_CACHE/$pkg" -maxdepth 1 -type f -exec cp -n {} "$work/$pkg/" \;
+    # Hardlinked if possible: a GOG installer can be tens of GB.
+    find "$PT_CACHE/$pkg" -maxdepth 1 -type f -exec sh -c \
+        'cp -ln "$1" "$2/" 2>/dev/null || cp -n "$1" "$2/"' _ {} "$work/$pkg" \;
 fi
 mkdir -p "$out"
 local_root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
@@ -33,9 +39,9 @@ cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NOD
 
 run() { # distro image script
     local d=$1 img=$2 script=$3
-    mkdir -p "$out/$d"
+    mkdir -p "$out/$d" "$work/build-$d"
     echo "==> $pkg: $d ($img)"
-    if podman run --rm -v "$work/$pkg:/src:ro,Z" -v "$out/$d:/out:Z" "${cache_mount[@]}" \
+    if podman run --rm -v "$work/$pkg:/src:ro,Z" -v "$out/$d:/out:Z" -v "$work/build-$d:/build:Z" "${cache_mount[@]}" \
         -e EXTRA="${extra[*]}" "$img" bash -euo pipefail -c "$script" > "$out/$d/build.log" 2>&1; then
         echo "    ok: $(cd "$out/$d" && ls -- *.pkg.tar* *.rpm *.deb 2>/dev/null | tr '\n' ' ')"
     else
@@ -49,8 +55,8 @@ if [[ $which == arch || $which == all ]] && [ -f "$pkgdir/PKGBUILD" ]; then
 run arch docker.io/library/archlinux:latest '
 pacman -Syu --noconfirm --needed base-devel git namcap $EXTRA >/dev/null
 for l in $LOCAL; do pacman -U --noconfirm /local/$l/arch/*.pkg.tar.zst >/dev/null; done
-useradd -m b; cp -a /src /home/b/p; chown -R b /home/b/p
-cd /home/b/p
+useradd -m b; cp -a /src /build/p; chown -R b /build; chmod 755 /build
+cd /build/p
 su b -c "makepkg --printsrcinfo" > /tmp/srcinfo
 # makepkg -s would need sudo; install the repo-available deps as root instead.
 deps=$(sed -n -E "s/^\s*(check|make)?depends(_x86_64)? = ([^<>=]+).*/\3/p" /tmp/srcinfo | sort -u)
@@ -58,24 +64,24 @@ avail=$(for d in $deps; do pacman -Sp "$d" >/dev/null 2>&1 && echo "$d"; done; t
 [ -z "$avail" ] || pacman -S --noconfirm --needed $avail >/dev/null
 su b -c "makepkg --verifysource --noconfirm" || { echo "ERROR: source checksum verification failed"; exit 1; }
 # PKGDEST keeps built packages apart from sources or stale files named *.pkg.tar.zst.
-mkdir /home/b/pkgs; chown b /home/b/pkgs
-if [ -n "$NODEPS" ]; then su b -c "PKGDEST=/home/b/pkgs makepkg -d --noconfirm 2>&1" || exit 1
-else su b -c "PKGDEST=/home/b/pkgs makepkg -s --noconfirm 2>&1" || exit 1; fi
-namcap PKGBUILD /home/b/pkgs/*.pkg.tar.zst || true
-cp /home/b/pkgs/*.pkg.tar.zst /out/' || rc=1
+mkdir /build/pkgs; chown b /build/pkgs
+if [ -n "$NODEPS" ]; then su b -c "PKGDEST=/build/pkgs makepkg -d --noconfirm 2>&1" || exit 1
+else su b -c "PKGDEST=/build/pkgs makepkg -s --noconfirm 2>&1" || exit 1; fi
+namcap PKGBUILD /build/pkgs/*.pkg.tar.zst || true
+cp /build/pkgs/*.pkg.tar.zst /out/' || rc=1
 fi
 
 if [[ $which == fedora || $which == all ]] && compgen -G "$pkgdir/*.spec" >/dev/null; then
-run fedora registry.fedoraproject.org/fedora:44 '
+run fedora "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" '
 dnf -yq install rpm-build rpmdevtools rpmlint dnf-plugins-core $EXTRA >/dev/null
 for l in $LOCAL; do dnf -yq install /local/$l/fedora/*.rpm >/dev/null; done
-mkdir -p /b/SOURCES; cp -a /src/. /b/SOURCES/; cd /b/SOURCES
+mkdir -p /build/SOURCES; cp -a /src/. /build/SOURCES/; cd /build/SOURCES
 spec=$(ls *.spec)
-spectool -g -C /b/SOURCES "$spec" >/dev/null || true
+spectool -g -C /build/SOURCES "$spec" >/dev/null || true
 dnf -yq builddep "$spec" >/dev/null
-rpmbuild -bb --define "_topdir /b" --define "_sourcedir /b/SOURCES" "$spec"
-rpmlint "$spec" /b/RPMS/*/*.rpm || true
-cp /b/RPMS/*/*.rpm /out/' || rc=1
+rpmbuild -bb --define "_topdir /build" --define "_sourcedir /build/SOURCES" "$spec"
+rpmlint "$spec" /build/RPMS/*/*.rpm || true
+cp /build/RPMS/*/*.rpm /out/' || rc=1
 fi
 
 if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
@@ -83,7 +89,7 @@ run debian docker.io/library/debian:sid '
 export DEBIAN_FRONTEND=noninteractive
 apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs lintian fakeroot $EXTRA >/dev/null
 for l in $LOCAL; do apt-get -qq install -y /local/$l/debian/*.deb >/dev/null; done
-cp -a /src /b; cd /b
+cp -a /src /build/p; cd /build/p
 mk-build-deps -i -r -t "apt-get -y -qq --no-install-recommends" debian/control >/dev/null
 [ -x debian/fetch-sources ] && debian/fetch-sources
 dpkg-buildpackage -b -us -uc

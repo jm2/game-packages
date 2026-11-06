@@ -13,6 +13,7 @@ arch=('x86_64' 'aarch64')
 url="https://www.etlegacy.com/"
 license=('GPL-3.0-or-later' 'LicenseRef-Omni-bot')
 depends=('enemy-territory-data' 'gcc-libs' 'glibc' 'hicolor-icon-theme' 'libglvnd')
+replaces=('enemy-territory' 'etlegacy32-bin')
 optdepends=('libx11: X11 video (with libxcursor, libxext, libxfixes, libxi, libxrandr, libxss)'
             'libxcursor: X11 video'
             'libxext: X11 video'

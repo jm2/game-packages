@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+"""Move built packages into a crossdock incoming directory.
+
+    tools/promote <dest> <package file>...
+
+Each package is copied to a dotfile in <dest>, which crossdock ignores, then
+renamed into place, so publishing never reads a half-written file and a
+source can be hardlinked into crossdock's store. It's left group-writable,
+which crossdock needs to hardlink it. Afterwards, every other version of
+that package in <dest> is removed: a repo holds one version per package.
+"""
+import os, re, shutil, sys
+from pathlib import Path
+
+ARCH = re.compile(r"^(?P<name>.+)-[^-]+-[^-]+-[^-]+\.pkg\.tar(\.\w+)?$")
+RPM = re.compile(r"^(?P<name>.+)-[^-]+-[^-]+\.[^.]+\.rpm$")
+
+def identity(filename: str):
+    """Return (package name, architecture tail), which stay the same between versions."""
+    for pat in (ARCH, RPM):
+        if m := pat.match(filename):
+            tail = filename.rsplit("-", 1)[1] if pat is ARCH else filename.rsplit(".", 2)[1]
+            return m["name"], tail
+    return None
+
+def promote(dest: Path, pkg: Path) -> None:
+    ident = identity(pkg.name)
+    if ident is None:
+        sys.exit(f"promote: {pkg.name} isn't a package file")
+    final, tmp = dest / pkg.name, dest / f".{pkg.name}.part"
+    shutil.copyfile(pkg, tmp)
+    os.chmod(tmp, 0o664)
+    os.rename(tmp, final)
+    for other in dest.iterdir():
+        if other != final and not other.name.startswith(".") and identity(other.name) == ident:
+            other.unlink()
+            print(f"promote: removed {other.name}")
+    print(f"promote: {pkg.name}")
+
+def main() -> int:
+    if len(sys.argv) < 3 or sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip()); return 0 if len(sys.argv) > 1 else 2
+    dest = Path(sys.argv[1])
+    if not dest.is_dir():
+        sys.exit(f"promote: {dest} is not a directory")
+    for p in sys.argv[2:]:
+        promote(dest, Path(p))
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

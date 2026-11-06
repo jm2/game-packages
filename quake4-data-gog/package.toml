@@ -1,7 +1,7 @@
 name = "quake4-data-gog"
 family = "data-gog"
 version = "1"
-release = 3
+release = 4
 summary = "Quake 4 data via GOG"
 url = "https://www.gog.com/game/quake_4"
 target = "/opt/quake4"
