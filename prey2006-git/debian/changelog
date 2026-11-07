@@ -1,0 +1,5 @@
+prey2006-git (0~git20261101.1d9d18d7-1) unstable; urgency=medium
+
+  * Initial Debian package, built from commit 1d9d18d of glKarin/Prey2006.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Fri, 06 Nov 2026 20:00:00 -0500

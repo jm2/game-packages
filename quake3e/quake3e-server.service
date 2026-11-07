@@ -1,0 +1,19 @@
+[Unit]
+Description=Quake3e (Quake III Arena) dedicated server
+Documentation=https://github.com/ec-/Quake3e
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Configs and logs go to /var/lib/quake3e-server/.q3a. Put the server
+# settings and a map (for example "map q3dm17") in
+# /var/lib/quake3e-server/.q3a/baseq3/server.cfg, or override ExecStart
+# through a drop-in.
+DynamicUser=yes
+StateDirectory=quake3e-server
+Environment=HOME=%S/quake3e-server
+ExecStart=/opt/quake3/quake3e.ded +set dedicated 2 +exec server.cfg
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

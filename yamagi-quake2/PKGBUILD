@@ -1,0 +1,41 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: carstene1ns (AUR), Yamashiro (AUR), Frederic Bezies (AUR), Ronan Rabouin (AUR)
+#
+# Arch and Fedora only: Debian ships the same release (with the mission
+# packs) as yamagi-quake2/yamagi-quake2-core.
+
+pkgname=yamagi-quake2
+pkgver=8.70
+pkgrel=1
+pkgdesc="Enhanced Quake II engine optimized for modern systems"
+arch=('x86_64' 'aarch64')
+url="https://www.yamagi.org/quake2/"
+license=('GPL-2.0-or-later' 'Info-ZIP' 'Zlib' 'MIT' 'MIT OR Unlicense')
+depends=('glibc' 'hicolor-icon-theme' 'libglvnd' 'quake2-data' 'sdl3')
+makedepends=('curl' 'mesa' 'openal')
+optdepends=('curl: HTTP downloads from servers'
+            'openal: OpenAL audio backend (the default; SDL audio otherwise)'
+            'yamagi-quake2-ref_vk: Vulkan renderer'
+            'yamagi-quake2-xatrix: Mission Pack 1, The Reckoning'
+            'yamagi-quake2-rogue: Mission Pack 2, Ground Zero'
+            'yamagi-quake2-ctf: Threewave Capture the Flag')
+provides=('yquake2')
+source=("https://deponie.yamagi.org/quake2/quake2-${pkgver}.tar.xz"
+        "install.sh"
+        "yamagi-quake2.desktop"
+        "yamagi-q2ded.service"
+        "README.md")
+sha256sums=('37e4143e4d362d7b93ba7a8d2c36a945fbcae82aef386512032200233b1750c8'
+            'ae23233d429ddef934ae751ca63d11bca4d3af4768161766b3d5cd32b5308b8b'
+            '6864cf03ca879e303d1579fd831bea0442a5e62f4d71a8ad5536a92eaaab0056'
+            '08efdf492f3a91978370c030966cd4fa6dc4d3129f58eed6bad948175fa04a34'
+            'dcae29b03004cf256295efb60f71ad2a38cf70f0c4a90bd03e68235c4c5607be')
+
+build() {
+    sh "${srcdir}/install.sh" build "${srcdir}/quake2-${pkgver}"
+}
+
+package() {
+    sh "${srcdir}/install.sh" install "${srcdir}/quake2-${pkgver}" "${pkgdir}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}"
+}

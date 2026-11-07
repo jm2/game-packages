@@ -1,0 +1,21 @@
+Source: quake3e
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), pkgconf, libsdl2-dev, libcurl4-gnutls-dev | libcurl-dev,
+ libjpeg-dev, libogg-dev, libvorbis-dev, desktop-file-utils, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/ec-/Quake3e
+Rules-Requires-Root: no
+
+Package: quake3e
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, libgl1, quake3-data, ${shlibs:Depends}, ${misc:Depends}
+Recommends: libvulkan1
+Suggests: quake3-ta-data
+Description: improved Quake III Arena engine with OpenGL and Vulkan renderers
+ Quake3e is an improved Quake III Arena engine based on the id Software source
+ release, with OpenGL and Vulkan renderers, a faster QVM compiler, better
+ network code and many fixes, while staying compatible with the original game
+ and mods. It runs from /opt/quake3, where the quake3-data packages install
+ the retail baseq3 and missionpack paks.

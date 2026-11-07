@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+# Built from the v1.6.0 tag plus archives of the nvrhi and ShaderMake commits
+# it records (the tag's archive has empty submodule directories). The shaders
+# are compiled to SPIR-V with Microsoft's Linux DXC release (a build tool
+# only; Debian doesn't package DXC, and Microsoft builds it for amd64 only).
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+VER := 1.6.0
+NVRHI := fc4cfe69b9f65c7a0ba6509a52303efaba0a0e8c
+SHADERMAKE := 13867771f6142f35690a5e2103c1e1efdd90cb0e
+DXC := linux_dxc_2026_09_28.x86_x64.tar.gz
+D := $(CURDIR)/debian/rbdoom-3-bfg
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=src/neo --builddirectory=build
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src dxc && mkdir src dxc
+	tar -xzf RBDOOM-3-BFG-$(VER).tar.gz -C src --strip-components=1
+	tar -xzf nvrhi-$(NVRHI).tar.gz -C src/neo/extern/nvrhi --strip-components=1
+	tar -xzf ShaderMake-$(SHADERMAKE).tar.gz -C src/neo/extern/ShaderMake --strip-components=1
+	tar -xzf $(DXC) -C dxc
+	patch -d src -p1 < rbdmap-gcc-link.patch
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_RPATH=ON -DFFMPEG=OFF -DBINKDEC=ON \
+	    -DUSE_DX12=OFF -DUSE_VULKAN=ON -DWINDOWS10=OFF -DUSE_PRECOMPILED_HEADERS=OFF \
+	    -DUSE_SYSTEM_ZLIB=ON -DUSE_SYSTEM_RAPIDJSON=OFF -DNVRHI_INSTALL=OFF \
+	    -DDXC_SPIRV_PATH=$(CURDIR)/dxc/bin/dxc -Wno-dev
+
+override_dh_auto_install:
+	sh install.sh src build $(D) rbdoom-3-bfg $(D)/usr/share/doc/rbdoom-3-bfg rbdoom-3-bfg.png
+	desktop-file-validate $(D)/usr/share/applications/rbdoom-3-bfg.desktop
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf src build dxc

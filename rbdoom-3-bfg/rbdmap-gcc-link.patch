@@ -1,0 +1,23 @@
+Hide idSndWindow from rbdmap (built with -DDMAP), which has no cinematic
+code. GCC speculatively devirtualizes the cinematic destructor call in
+Material.cpp to this class and the link fails with an undefined vtable.
+
+--- a/neo/renderer/Cinematic.h
++++ b/neo/renderer/Cinematic.h
+@@ -118,6 +118,9 @@
+ ===============================================
+ */
+ 
++// rbdmap (DMAP) doesn't build the cinematic code; GCC's speculative
++// devirtualization would otherwise reference this class's vtable there.
++#if !defined( DMAP )
+ class idSndWindow : public idCinematic
+ {
+ public:
+@@ -135,5 +138,6 @@
+ private:
+ 	bool				showWaveform;
+ };
++#endif
+ 
+ #endif /* !__CINEMATIC_H__ */

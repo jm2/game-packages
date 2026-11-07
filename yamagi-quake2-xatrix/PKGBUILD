@@ -1,0 +1,33 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: Yamashiro (AUR), carstene1ns (AUR), Frederic Bezies (AUR), Ronan Rabouin (AUR)
+#
+# Arch and Fedora only: Debian's yamagi-quake2-core already contains this
+# game library.
+
+pkgname=yamagi-quake2-xatrix
+pkgver=2.17
+pkgrel=1
+pkgdesc="Quake II Mission Pack 1 (The Reckoning) for Yamagi Quake II"
+arch=('x86_64' 'aarch64')
+url="https://www.yamagi.org/quake2/"
+license=('GPL-2.0-or-later')
+depends=('bash' 'glibc' 'yamagi-quake2')
+source=("https://deponie.yamagi.org/quake2/quake2-xatrix-${pkgver}.tar.xz"
+        "install.sh"
+        "yamagi-quake2-xatrix.sh"
+        "yamagi-quake2-xatrix.desktop"
+        "README.md")
+sha256sums=('2ae54d1d3115c48b3ba9cd4c697b8ae37c5780f32ff7fc3ebbdfa2f725505c75'
+            '7c0381b2a40b7b73d64c6187bf0f60b8d8663aa14ed5f394e08d1ed95203405b'
+            '94128171fa9a80ecab738e080f22c244aabf2e255d163a9be47accf094867719'
+            '19406b48e172641e6e2c76ece76503bd26536c7e13da484516ec694f0c621934'
+            'b1e92d13b9183c498bac52910d33c688a75874fe788487c530897185024ccc29')
+
+build() {
+    sh "${srcdir}/install.sh" build "${srcdir}/quake2-xatrix-${pkgver}"
+}
+
+package() {
+    sh "${srcdir}/install.sh" install "${srcdir}/quake2-xatrix-${pkgver}" "${pkgdir}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}"
+}

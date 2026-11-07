@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Yamagi Quake II: Capture the Flag
+Comment=Threewave Capture the Flag for Quake II
+Exec=yamagi-quake2-ctf
+Icon=yamagi-quake2
+Terminal=false
+StartupNotify=false
+Categories=Game;ActionGame;Shooter;
+Keywords=quake;quake2;yquake2;ctf;

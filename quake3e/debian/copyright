@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Quake3e
+Source: https://github.com/ec-/Quake3e
+
+Files: *
+Copyright: 1999-2005 Id Software, Inc.; ioquake3 contributors; Quake3e contributors
+License: GPL-2+
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-2.
+
+Files: debian/* q3emake.sh quake3e.desktop quake3e-teamarena.desktop quake3e-server.service README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

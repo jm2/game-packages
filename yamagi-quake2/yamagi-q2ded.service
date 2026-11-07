@@ -1,0 +1,21 @@
+[Unit]
+Description=Yamagi Quake II dedicated server
+Documentation=https://www.yamagi.org/quake2/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Configs and logs go to /var/lib/yamagi-q2ded/YamagiQ2 (the engine does not
+# create missing parent directories, hence XDG_DATA_HOME). Add the
+# server settings and a map through a drop-in (systemctl edit yamagi-q2ded),
+# for example
+#   ExecStart=
+#   ExecStart=/usr/lib/yamagi-quake2/q2ded +set deathmatch 1 +map q2dm1
+DynamicUser=yes
+StateDirectory=yamagi-q2ded
+Environment=HOME=%S/yamagi-q2ded XDG_DATA_HOME=%S/yamagi-q2ded
+ExecStart=/usr/lib/yamagi-quake2/q2ded
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

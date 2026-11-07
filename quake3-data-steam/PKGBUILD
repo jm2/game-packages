@@ -3,11 +3,12 @@
 
 pkgname=quake3-data-steam
 pkgver=0
-pkgrel=1
+pkgrel=2
 pkgdesc='Quake III Arena data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2200/Quake_III_Arena/'
 license=('LicenseRef-Proprietary')
+depends=('quake3-pointrelease-data')
 makedepends=('steamcmd' 'python')
 provides=('quake3-data')
 conflicts=('quake3-data-gog')
@@ -15,7 +16,7 @@ options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
 sha256sums=('bacd2efbb61e5c9f4fef6b2b69a3218fb1d5b702eacc881cfd6cf988d3f01092'
-            '7777918e8bf77bcabc31da7195f822c48e18e1918676880033571135f949a5c3')
+            '2db187b1aa4444c5b8712aa3ad08fc05053ee88b5098e67bda8eee098ef5d293')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
 pkgver() {

@@ -1,0 +1,30 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: carstene1ns (AUR), Yamashiro (AUR)
+
+pkgname=yamagi-quake2-ref_vk
+_name=ref_vk
+pkgver=1.0.12
+pkgrel=1
+pkgdesc="Vulkan renderer for Yamagi Quake II"
+arch=('x86_64' 'aarch64')
+url="https://github.com/yquake2/ref_vk"
+license=('GPL-2.0-or-later' 'MIT' 'MIT OR Unlicense')
+depends=('glibc' 'sdl3' 'vulkan-driver' 'vulkan-icd-loader' 'yamagi-quake2>=8.70')
+makedepends=('vulkan-headers')
+optdepends=('vulkan-validation-layers: r_validation debugging')
+source=("${_name}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        "README.md")
+sha256sums=('a328d424d9976f67e01a3fc88714e6f0f7706f840f8e91460741b3b67ac101d9'
+            '8048ee4f3d92679b66caf35e7ee43df1b099b158bc8513e53f798203985b4afd')
+
+build() {
+    make -C "${_name}-${pkgver}" VERBOSE=1
+}
+
+package() {
+    cd "${_name}-${pkgver}"
+    install -Dm755 release/ref_vk.so "${pkgdir}/usr/lib/yamagi-quake2/ref_vk.so"
+    install -Dm644 "${srcdir}/README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+    install -m644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.ref_vk.md"
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

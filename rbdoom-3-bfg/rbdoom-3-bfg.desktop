@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=RBDOOM 3 BFG
+GenericName=First-person shooter
+Comment=Doom 3 BFG Edition with modern engine features
+Exec=rbdoom-3-bfg
+Icon=rbdoom-3-bfg
+Terminal=false
+StartupNotify=true
+Categories=Game;ActionGame;Shooter;
+Keywords=doom;doom3;bfg;id;

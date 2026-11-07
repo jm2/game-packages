@@ -1,0 +1,33 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: Yamashiro (AUR), carstene1ns (AUR), Frederic Bezies (AUR), Ronan Rabouin (AUR)
+#
+# Arch and Fedora only: Debian's yamagi-quake2-core already contains this
+# game library.
+
+pkgname=yamagi-quake2-rogue
+pkgver=2.16
+pkgrel=1
+pkgdesc="Quake II Mission Pack 2 (Ground Zero) for Yamagi Quake II"
+arch=('x86_64' 'aarch64')
+url="https://www.yamagi.org/quake2/"
+license=('GPL-2.0-or-later')
+depends=('bash' 'glibc' 'yamagi-quake2')
+source=("https://deponie.yamagi.org/quake2/quake2-rogue-${pkgver}.tar.xz"
+        "install.sh"
+        "yamagi-quake2-rogue.sh"
+        "yamagi-quake2-rogue.desktop"
+        "README.md")
+sha256sums=('e686f4d770d3e4a39799a333c71f72ee63a81199e95a271f03a7f23f0dc1a21b'
+            'a67ce5fe44250e3f781009fff0918223f24fc1c05359bab69da58d162bdfda94'
+            '9f97df9df9134a5c9286bac1a3e5d149715fb98ee7c3dbfc612780e6bf06cef6'
+            'e3bb5a58df4b29689c4e1b6a089f702d9bfa5a3633dad611ec5c1047694bddc4'
+            '183aea304e1ec90fdd5fea4a27257066340dce786dd92589c07595f421a57487')
+
+build() {
+    sh "${srcdir}/install.sh" build "${srcdir}/quake2-rogue-${pkgver}"
+}
+
+package() {
+    sh "${srcdir}/install.sh" install "${srcdir}/quake2-rogue-${pkgver}" "${pkgdir}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}"
+}

@@ -1,0 +1,15 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: quake3-pointrelease-data
+Source: https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/
+
+Files: *
+Copyright: see the game's own license terms
+License: LicenseRef-Quake3-PointRelease-EULA
+ The Quake III Arena 1.32 point release is freely redistributable for
+ non-commercial use; the paks are downloaded from id Software's installer
+ and used under the licence in
+ /usr/share/licenses/quake3-pointrelease-data/Q3A_EULA.txt.
+
+Files: debian/* build.sh package.toml
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

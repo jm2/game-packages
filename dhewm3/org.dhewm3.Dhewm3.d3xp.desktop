@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Doom 3: Resurrection of Evil
+GenericName=First-person shooter
+Comment=Play the Resurrection of Evil expansion with the dhewm3 source port
+Exec=dhewm3 +set fs_game d3xp
+Icon=org.dhewm3.Dhewm3
+StartupNotify=true
+Terminal=false
+Categories=Game;ActionGame;Shooter;
+Keywords=doom;doom3;d3xp;roe;dhewm3;first;person;shooter;

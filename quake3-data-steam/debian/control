@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: quake3-data-steam
 Architecture: all
-Depends: ${misc:Depends}
+Depends: quake3-pointrelease-data, ${misc:Depends}
 Provides: quake3-data
 Conflicts: quake3-data-gog
 Description: Quake III Arena data via Steam

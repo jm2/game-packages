@@ -1,13 +1,22 @@
 name = "quake3-data-gog"
 family = "data-gog"
 version = "1"
-release = 4
+release = 5
 summary = "Quake III Arena and Team Arena data via GOG"
 url = "https://www.gog.com/game/quake_iii_gold"
 target = "/opt/quake3"
 provides = ["quake3-data", "quake3-ta-data"]
 conflicts = ["quake3-data-steam", "quake3-ta-data-steam"]
-changelog = ["Generated from package.toml", "Also provide quake3-ta-data (Team Arena is included)"]
+changelog = [
+  "Generated from package.toml",
+  "Also provide quake3-ta-data (Team Arena is included)",
+  "Depend on quake3-pointrelease-data for the 1.32 point release paks",
+]
+notes = """
+baseq3/pak0.pk3 and missionpack/pak0.pk3 for ioquake3-based engines such as
+quake3e. The 1.32 point release paks (baseq3/pak1-8.pk3,
+missionpack/pak1-3.pk3) come from quake3-pointrelease-data, which this
+package depends on."""
 
 [[source.files]]
 name = "setup_quake3_2.0.0.2.exe"
@@ -16,3 +25,8 @@ sha256 = "f5471b4b29ea9a10cf5d1a8af2bedeedd4a8cfe1c60b1d52878f80a13bf4d5d6"
 extract = "inno"
 subdir = "app"
 copy = ["baseq3/pak0.pk3", "missionpack/pak0.pk3"]
+
+[deps]
+arch = ["quake3-pointrelease-data"]
+fedora = ["quake3-pointrelease-data"]
+debian = ["quake3-pointrelease-data"]

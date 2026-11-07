@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Yamagi Quake II: The Reckoning
+Comment=Quake II Mission Pack 1
+Exec=yamagi-quake2-xatrix
+Icon=yamagi-quake2
+Terminal=false
+StartupNotify=false
+Categories=Game;ActionGame;Shooter;
+Keywords=quake;quake2;yquake2;xatrix;

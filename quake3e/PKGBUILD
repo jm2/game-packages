@@ -1,0 +1,41 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: zoidby (AUR quake3e-git)
+#
+# Upstream publishes dated stable releases (tags like 2026-10-14) next to a
+# rolling "latest" build; this builds the newest dated release from source,
+# with both renderers (OpenGL, the default, and Vulkan) and the system curl,
+# libjpeg, libogg and libvorbis instead of the bundled copies.
+
+pkgname=quake3e
+_tag=2026-10-14
+pkgver=${_tag//-/.}
+pkgrel=1
+pkgdesc="Improved Quake III Arena engine with OpenGL and Vulkan renderers"
+url="https://github.com/ec-/Quake3e"
+license=('GPL-2.0-or-later')
+arch=('x86_64' 'aarch64')
+depends=('curl' 'glibc' 'hicolor-icon-theme' 'libgl' 'libjpeg-turbo' 'libogg' 'libvorbis'
+         'quake3-data' 'sdl2')
+optdepends=('quake3-ta-data: Quake III: Team Arena data'
+            'vulkan-icd-loader: Vulkan renderer (cl_renderer vulkan)')
+conflicts=('quake3e-git')
+source=("Quake3e-${_tag}.tar.gz::${url}/archive/refs/tags/${_tag}.tar.gz"
+        'q3emake.sh'
+        'quake3e.desktop'
+        'quake3e-teamarena.desktop'
+        'quake3e-server.service'
+        'README.md')
+sha256sums=('f5ab82fc998239b262d6448e1ef3a0956dad8e6be7628411b14e0c6d6cb8fe4c'
+            '30e4b7d5149fb40575b0124fb087af631bd1280faa67db654b25261ffcb28e4f'
+            '3fc8f85dc45096255435ee4e70a140f1bccb081c8594d2467cef552b0a064a01'
+            'd0c0791b679d0dae6019c9780c9f8ef3b99a53fbf42ccbd67d0792c5838803ec'
+            'c8ea71ec1fe0dac725bd3a4db8d9d271e614d8a584cbe52e3652c4c89fcc961e'
+            'd61609c9dd19863bc63827ae321f973688162dd8de2cd52f0c293d7d0a00689e')
+
+build() {
+    sh "${srcdir}/q3emake.sh" build "${srcdir}/Quake3e-${_tag}"
+}
+
+package() {
+    sh "${srcdir}/q3emake.sh" install "${srcdir}/Quake3e-${_tag}" "${pkgdir}" "${pkgname}"
+}

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Quake III: Team Arena
+GenericName=First-person shooter
+Comment=Play the Team Arena expansion with the Quake3e engine (needs quake3-ta-data)
+Exec=quake3e +set fs_game missionpack
+Icon=quake3e
+StartupNotify=true
+Terminal=false
+Categories=Game;ActionGame;
+Keywords=quake;q3a;missionpack;quake3e;

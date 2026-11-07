@@ -1,0 +1,15 @@
+Prey2006 (https://github.com/glKarin/Prey2006) combines two bodies of work:
+
+- The Doom 3 GPL source release and dhewm3 (GPL-3.0-or-later with id
+  Software's additional terms; see COPYING.txt).
+
+- Game code (neo/Prey, neo/preyengine and HUMANHEAD-marked changes elsewhere)
+  and assets (base/: GUIs, materials, models, scripts, tutorial maps, logo
+  videos) from the Prey (2006) SDK and the Prey game, (C) Human Head Studios,
+  Inc. and 3D Realms Entertainment. The Prey SDK was distributed under its own
+  end-user licence agreement, not the GPL.
+
+The upstream repository contains no licence text for the second part. This
+package marks it LicenseRef-Prey-SDK, treats it as not redistributable, and is
+built only for local use. It is only useful together with a retail copy of
+Prey (2006).

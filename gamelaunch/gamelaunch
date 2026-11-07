@@ -337,12 +337,25 @@ gl_dxvk_dirs() {
 }
 
 gl_dxvk_link() {
-    # Wine backend only: umu/Proton ships its own DXVK. Fedora's wine-dxvk is
-    # wired into wine itself via alternatives, so finding nothing is fine.
+    # Wine backend only: umu/Proton ships its own DXVK.
     [ "$GL_RUNNER" = wine ] && [ "$DXVK" = 1 ] || return 0
-    local dirs x64 x32 dll
+    local dirs x64 x32 dll w
     dirs=$(gl_dxvk_dirs)
-    [ -n "$dirs" ] || return 0
+    if [ -z "$dirs" ]; then
+        # Fedora's wine-dxvk is wired into Wine itself via alternatives. It
+        # only becomes the default if vulkaninfo worked when it was installed
+        # (not in image builds or chroots), and as builtin DLLs it can't be
+        # selected per prefix, so point out the system-wide switch.
+        for w in /usr/lib64/wine-wow64/wine /usr/lib64/wine; do
+            [ -f "$w/x86_64-windows/dxvk-d3d11.dll" ] || continue
+            case $(readlink -f "$w/x86_64-windows/d3d11.dll") in */wine-d3d11.dll)
+                warn "Wine is set to use wined3d, not DXVK, for Direct3D 10/11; to switch, run as root:"
+                warn "  for d in d3d11 dxgi d3d10core d3d9; do alternatives --set \"wine-\$d(x86-64)\" $w/x86_64-windows/dxvk-\$d.dll; done"
+            esac
+            break
+        done
+        return 0
+    fi
     read -r x64 x32 <<<"$dirs"
     for dll in "${GL_DXVK_DLLS[@]}"; do
         [ "$x64" != - ] && [ -f "$x64/$dll.dll" ] && [ -d "$WINEPREFIX/drive_c/windows/system32" ] &&

@@ -1,0 +1,9 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The v1.6.0 tag, the nvrhi and ShaderMake commits it records, upstream's
+# icon (added after the tag on the flatpak branch) and the DXC shader
+# compiler used at build time.
+05c7e824429d0b485eeb38567e67cc173a36c73aae403f6e76b5587e9ba06f65 RBDOOM-3-BFG-1.6.0.tar.gz https://github.com/RobertBeckebans/RBDOOM-3-BFG/archive/refs/tags/v1.6.0.tar.gz
+5a28ef7feda1d287be826f364c2f299692fd0a99a1503dbdfecde24e33594e30 nvrhi-fc4cfe69b9f65c7a0ba6509a52303efaba0a0e8c.tar.gz https://github.com/RobertBeckebans/nvrhi/archive/fc4cfe69b9f65c7a0ba6509a52303efaba0a0e8c.tar.gz
+1e0fc177da6ee933223a7977b7d25b9ebb2a5acf664ba7045a6a8401b721a296 ShaderMake-13867771f6142f35690a5e2103c1e1efdd90cb0e.tar.gz https://github.com/RobertBeckebans/ShaderMake/archive/13867771f6142f35690a5e2103c1e1efdd90cb0e.tar.gz
+5888584ec9e066e0df9f4504e9282c6a9caa5a24db9e92e1095af4b38b72c7d2 rbdoom-3-bfg.png https://raw.githubusercontent.com/RobertBeckebans/RBDOOM-3-BFG/0fc10ab97b26c0db0900b403e26d7e6b8f8baee1/install/desktop/RBDOOM-3-BFG.png
+96faadc7f5c282d2ffda49804beb4c3ee38127bc252b723234e3c5cdf7aa39a1 linux_dxc_2026_09_28.x86_x64.tar.gz https://github.com/microsoft/DirectXShaderCompiler/releases/download/v1.9.2609/linux_dxc_2026_09_28.x86_x64.tar.gz

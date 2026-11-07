@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Yamagi Quake II
+GenericName=Quake II engine
+Comment=Enhanced Quake II engine
+Exec=yamagi-quake2
+Icon=yamagi-quake2
+Terminal=false
+StartupNotify=false
+Categories=Game;ActionGame;Shooter;
+Keywords=quake;quake2;yquake2;

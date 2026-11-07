@@ -1,0 +1,3 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The PKGBUILD follows the main branch; Debian builds this pinned commit.
+ee4af39d77e2909151fd377e9faa8b20a3822652f4c4a711c58be02c4aef0af5 Prey2006-1d9d18d733946d2315886410d6642f4977f0971b.tar.gz https://github.com/glKarin/Prey2006/archive/1d9d18d733946d2315886410d6642f4977f0971b/Prey2006-1d9d18d733946d2315886410d6642f4977f0971b.tar.gz

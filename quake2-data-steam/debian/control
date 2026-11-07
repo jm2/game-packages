@@ -1,0 +1,16 @@
+Source: quake2-data-steam
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, python3
+Standards-Version: 4.7.0
+Homepage: https://store.steampowered.com/app/2320/Quake_II/
+Rules-Requires-Root: no
+
+Package: quake2-data-steam
+Architecture: all
+Depends: ${misc:Depends}
+Provides: quake2-data, quake2-full-data
+Conflicts: quake2-data-gog
+Description: Quake II data via Steam
+ Quake II data via Steam

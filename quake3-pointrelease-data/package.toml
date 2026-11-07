@@ -1,0 +1,67 @@
+name = "quake3-pointrelease-data"
+family = "data-url"
+version = "1.32b"
+summary = "Quake III Arena 1.32 point release paks (pak1-8, Team Arena pak1-3)"
+description = """
+The data files of id Software's Quake III Arena 1.32 point release:
+baseq3/pak1.pk3 to pak8.pk3 and missionpack/pak1.pk3 to pak3.pk3, installed
+to /opt/quake3 next to the retail pak0.pk3 files of the quake3-data packages.
+Pure servers require them. They are unpacked from id's Linux point release
+installer (linuxq3apoint-1.32b-3.x86.run) without running it."""
+url = "https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/"
+license = "LicenseRef-Quake3-PointRelease-EULA"
+target = "/opt/quake3"
+changelog = ["Initial package: 1.32 point release paks from id's Linux installer"]
+notes = """
+The paks come from id Software's last Linux point release installer,
+linuxq3apoint-1.32b-3.x86.run (2003), as mirrored from ftp.idsoftware.com
+by ftp.gwdg.de; the AUR quake3 package uses the same file. The build reads
+the installer's gzip tar payload directly and never runs it. The same paks
+are in ioquake3's quake3-latest-pk3s.zip.
+
+id's point release licence (Q3A_EULA.txt from the installer, a limited use
+licence that allows free non-commercial redistribution of the patch) is
+installed to /usr/share/licenses/quake3-pointrelease-data/.
+
+The AUR quake3 package installs the same files to /opt/quake3, so the two
+can't be installed together. The missionpack paks are only used together
+with Team Arena's missionpack/pak0.pk3 (quake3-ta-data)."""
+
+[[source.files]]
+name = "linuxq3apoint-1.32b-3.x86.run"
+url = "https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/linuxq3apoint-1.32b-3.x86.run"
+sha256 = "c36132c5556b35e01950f1e9c646235033a5130f87ad776ba2bc7becf4f4f186"
+
+[deps]
+build_fedora = ["tar", "gzip"]
+optional_arch = ["quake3e: Quake3e engine to play the game"]
+recommends_fedora = ["quake3e"]
+
+[deb]
+recommends = ["quake3e"]
+copyright_note = """
+The Quake III Arena 1.32 point release is freely redistributable for
+non-commercial use; the paks are downloaded from id Software's installer
+and used under the licence in
+/usr/share/licenses/quake3-pointrelease-data/Q3A_EULA.txt."""
+
+[install]
+extra_paths = ["/usr/share/licenses/quake3-pointrelease-data/"]
+
+[hooks]
+post_prepare = '''
+# The installer is a Makeself 2.1.3 archive: a 355-line shell header followed
+# by a gzip tar (the rest of the file). Extract that without running the script.
+run=$(pt_need_source linuxq3apoint-1.32b-3.x86.run)
+off=$(head -n 355 "$run" | wc -c)
+tail -c +"$((off + 1))" "$run" | tar -xzf - --no-same-owner \
+    baseq3/pak1.pk3 baseq3/pak2.pk3 baseq3/pak3.pk3 baseq3/pak4.pk3 \
+    baseq3/pak5.pk3 baseq3/pak6.pk3 baseq3/pak7.pk3 baseq3/pak8.pk3 \
+    missionpack/pak1.pk3 missionpack/pak2.pk3 missionpack/pak3.pk3 \
+    Q3A_EULA.txt
+'''
+post_install = '''
+# The EULA is the licence of the data; keep it out of the game tree.
+install -Dm644 Q3A_EULA.txt "$D/usr/share/licenses/$PT_NAME/Q3A_EULA.txt"
+rm -f Q3A_EULA.txt
+'''

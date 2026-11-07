@@ -1,0 +1,19 @@
+Source: quake3-pointrelease-data
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/
+Rules-Requires-Root: no
+
+Package: quake3-pointrelease-data
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: quake3e
+Description: Quake III Arena 1.32 point release paks (pak1-8, Team Arena pak1-3)
+ The data files of id Software's Quake III Arena 1.32 point release:
+ baseq3/pak1.pk3 to pak8.pk3 and missionpack/pak1.pk3 to pak3.pk3, installed
+ to /opt/quake3 next to the retail pak0.pk3 files of the quake3-data packages.
+ Pure servers require them. They are unpacked from id's Linux point release
+ installer (linuxq3apoint-1.32b-3.x86.run) without running it.

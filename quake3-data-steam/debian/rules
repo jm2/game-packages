@@ -27,7 +27,7 @@ else
 PT_DEPENDS := 
 endif
 override_dh_gencontrol:
-	dh_gencontrol -- -v$$(cat work/meta/version)-1 '-Vpt:Depends=$(PT_DEPENDS)'
+	dh_gencontrol -- -v$$(cat work/meta/version)-2 '-Vpt:Depends=$(PT_DEPENDS)'
 
 override_dh_auto_clean:
 	rm -rf work

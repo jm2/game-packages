@@ -1,0 +1,43 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+#
+# Prey (2006) source port: the Prey SDK game code on a dhewm3-based Doom 3
+# GPL engine. Follows the main branch (the RPM/Debian packages pin a commit).
+# The engine's base path is /opt/prey, where prey-data-steam installs the
+# retail .pk4 files. Licence: see README.md.
+
+pkgname=prey2006-git
+pkgver=20261101.g1d9d18d7
+pkgrel=1
+pkgdesc="Prey (2006) source port based on dhewm3 and the Prey SDK"
+arch=('x86_64' 'aarch64')
+url="https://github.com/glKarin/Prey2006"
+license=('GPL-3.0-or-later' 'LicenseRef-Prey-SDK' 'MIT' 'Zlib')
+depends=('curl' 'gcc-libs' 'glibc' 'hicolor-icon-theme' 'openal' 'sdl2' 'prey-data')
+makedepends=('cmake' 'git')
+provides=('prey2006')
+conflicts=('prey2006')
+source=('Prey2006::git+https://github.com/glKarin/Prey2006.git'
+        'preymake.sh'
+        'README.md'
+        'LicenseRef-Prey-SDK.txt')
+sha256sums=('SKIP'
+            '68c879f016045bfb18c993f231f1fb09d431718b84deab6290e373b83f4cf57c'
+            'd6396e2e6703f92966e6e67f229d52af97f0b34ad0a38f0b3f16a6fb83570204'
+            'd33dbf94e849189e214526aeb841e30e98591ac8fd79652ba3361b0f27616650')
+
+pkgver() {
+    cd "${srcdir}/Prey2006"
+    git log -1 --format="%cd.g%h" --date=short --abbrev=8 | sed 's/-//g'
+}
+
+build() {
+    sh "${srcdir}/preymake.sh" build "${srcdir}/Prey2006" "${srcdir}/build"
+}
+
+package() {
+    sh "${srcdir}/preymake.sh" install "${srcdir}/Prey2006" "${srcdir}/build" "${pkgdir}" "${pkgname}"
+    install -Dm644 "${srcdir}/Prey2006/.github/COPYING.txt" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+    install -Dm644 "${srcdir}/Prey2006/neo/libs/imgui/LICENSE.txt" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.imgui.txt"
+    install -Dm644 "${srcdir}/LicenseRef-Prey-SDK.txt" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

@@ -1,18 +1,27 @@
 name = "quake3-data-steam"
 family = "data-steam"
-release = 1
+release = 2
 summary = "Quake III Arena data via Steam"
 url = "https://store.steampowered.com/app/2200/Quake_III_Arena/"
 target = "/opt/quake3"
 provides = ["quake3-data"]
 conflicts = ["quake3-data-gog"]
-changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+changelog = [
+  "Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam",
+  "Depend on quake3-pointrelease-data for the 1.32 point release paks",
+]
 notes = """
-baseq3/pak0.pk3 for ioquake3-based engines (the patch paks pak1-8 come with
-the engine package, e.g. the AUR quake3). Team Arena is quake3-ta-data-steam."""
+baseq3/pak0.pk3 for ioquake3-based engines such as quake3e. The 1.32 point
+release paks (baseq3/pak1-8.pk3) come from quake3-pointrelease-data, which
+this package depends on. Team Arena is quake3-ta-data-steam."""
 
 [source.steam]
 appid = 2200
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
 copy = ["baseq3/pak0.pk3"]
+
+[deps]
+arch = ["quake3-pointrelease-data"]
+fedora = ["quake3-pointrelease-data"]
+debian = ["quake3-pointrelease-data"]

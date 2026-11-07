@@ -1,0 +1,21 @@
+Source: prey2006-git
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, pkgconf, libsdl2-dev,
+ libcurl4-gnutls-dev | libcurl-dev, libopenal-dev, zlib1g-dev,
+ desktop-file-utils, appstream, git, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/glKarin/Prey2006
+Rules-Requires-Root: no
+
+Package: prey2006-git
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, prey-data, ${shlibs:Depends}, ${misc:Depends}
+Provides: prey2006
+Conflicts: prey2006
+Description: Prey (2006) source port based on dhewm3 and the Prey SDK
+ Prey2006 integrates the Prey (2006) SDK game code with a dhewm3-based Doom 3
+ GPL engine. It is unfinished: upstream lists known blockers and multiplayer
+ is untested. It needs the retail base/pak000.pk4 to pak004.pk4 files in
+ /opt/prey/base (prey-data-steam installs them).

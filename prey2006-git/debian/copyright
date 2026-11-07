@@ -1,0 +1,33 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Prey2006
+Source: https://github.com/glKarin/Prey2006
+
+Files: *
+Copyright: 1999-2011 id Software LLC, a ZeniMax Media company;
+ 2011-2026 dhewm3 contributors; Prey2006 contributors
+License: GPL-3+ with id Software additional terms
+ On Debian systems the full text of the GPL is in
+ /usr/share/common-licenses/GPL-3. id Software's additional terms follow the
+ GPL in /usr/share/doc/prey2006-git/COPYING.txt.
+
+Files: neo/Prey/* neo/preyengine/* base/*
+Copyright: 2006 Human Head Studios, Inc.; 3D Realms Entertainment
+License: LicenseRef-Prey-SDK
+ Game code and assets from the Prey SDK and the Prey game. The SDK was
+ released under its own end-user licence agreement, not the GPL; the upstream
+ repository contains no licence text for these files, so treat them as not
+ redistributable. They are only useful with a retail copy of Prey.
+
+Files: neo/libs/imgui/* neo/framework/miniz/*
+Copyright: 2014-2025 Omar Cornut; 2013-2014 RAD Game Tools and Valve Software;
+ 2010-2014 Rich Geldreich and Tenacious Software LLC
+License: MIT
+
+Files: neo/framework/minizip/* neo/libs/mikktspace/*
+Copyright: 1998-2010 Gilles Vollant; 2007-2008 Even Rouault;
+ 2009-2010 Mathias Svensson; 2011 Morten S. Mikkelsen
+License: Zlib
+
+Files: debian/* preymake.sh README.md LicenseRef-Prey-SDK.txt
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

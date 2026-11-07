@@ -1,0 +1,81 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: loathingkernel (AUR rbdoom-3-bfg), Mike Swanson (AUR),
+#               M0Rf30 (AUR rbdoom3-bfg-git)
+#
+# Built from the v1.6.0 tag. The tag's archive has empty nvrhi and ShaderMake
+# submodule directories, so they are fetched as archives of the commits the
+# tag records (nvrhi's own Vulkan-Headers and RTXMU submodules aren't needed:
+# the system Vulkan headers are used and RTXMU is off). The HLSL shaders are
+# compiled to SPIR-V with DXC at build time. Bink videos use the bundled
+# libbinkdec, as in upstream's release build. On aarch64 (Arch Linux ARM has
+# no ispc) NEON intrinsics are turned off, which drops the ISPC texture
+# compressor for the generic C encoder. rbdmap-gcc-link.patch fixes linking
+# the rbdmap map compiler with GCC (the AUR package builds with clang).
+
+pkgname=rbdoom-3-bfg
+pkgver=1.6.0
+pkgrel=1
+_nvrhi=fc4cfe69b9f65c7a0ba6509a52303efaba0a0e8c
+_shadermake=13867771f6142f35690a5e2103c1e1efdd90cb0e
+# Upstream's icon, added after the tag on the flatpak branch.
+_iconcommit=0fc10ab97b26c0db0900b403e26d7e6b8f8baee1
+pkgdesc="Doom 3 BFG Edition with modern engine features like PBR, baked global illumination and soft shadows"
+arch=('x86_64' 'aarch64')
+url="https://github.com/RobertBeckebans/RBDOOM-3-BFG"
+license=('GPL-3.0-or-later' 'MIT' 'Apache-2.0' 'LGPL-2.1-or-later' 'Zlib' 'BSD-3-Clause')
+depends=('bash' 'doom3bfg-data' 'glibc' 'hicolor-icon-theme' 'libgcc' 'libstdc++' 'ncurses' 'openal'
+         'sdl2' 'vulkan-driver' 'vulkan-icd-loader' 'zlib')
+makedepends=('cmake' 'directx-shader-compiler' 'ninja' 'vulkan-headers')
+makedepends_x86_64=('ispc')
+options=('!lto')
+source=("RBDOOM-3-BFG-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        "nvrhi-${_nvrhi}.tar.gz::https://github.com/RobertBeckebans/nvrhi/archive/${_nvrhi}.tar.gz"
+        "ShaderMake-${_shadermake}.tar.gz::https://github.com/RobertBeckebans/ShaderMake/archive/${_shadermake}.tar.gz"
+        "rbdoom-3-bfg-${_iconcommit:0:7}.png::https://raw.githubusercontent.com/RobertBeckebans/RBDOOM-3-BFG/${_iconcommit}/install/desktop/RBDOOM-3-BFG.png"
+        "rbdmap-gcc-link.patch"
+        "install.sh"
+        "rbdoom-3-bfg.sh"
+        "rbdoom-3-bfg.desktop"
+        "README.md")
+sha256sums=('05c7e824429d0b485eeb38567e67cc173a36c73aae403f6e76b5587e9ba06f65'
+            '5a28ef7feda1d287be826f364c2f299692fd0a99a1503dbdfecde24e33594e30'
+            '1e0fc177da6ee933223a7977b7d25b9ebb2a5acf664ba7045a6a8401b721a296'
+            '5888584ec9e066e0df9f4504e9282c6a9caa5a24db9e92e1095af4b38b72c7d2'
+            '490cf555e507d7f26be0b707608775f0abe83f8528a2001f1e21644d60575a2e'
+            '4f78f30678aed77f6dfe4cc7c3c76e23117623058030ebca20a29f5149091a2c'
+            'fcd2676c04ff3ac2884599a1d039451d1d2db50d16bfe645312877b1c87488e8'
+            'cac2eab78debeca04272e7d2265ce98124f5ee4e78846d8c96c76d16c674282a'
+            '665615b9f076b9fddced1838b9ebd7eacf27cc916e69e58abafaa6be09dbaf24')
+
+prepare() {
+    local _src="RBDOOM-3-BFG-${pkgver}/neo/extern"
+    rmdir "${_src}/nvrhi" "${_src}/ShaderMake"
+    mv "nvrhi-${_nvrhi}" "${_src}/nvrhi"
+    mv "ShaderMake-${_shadermake}" "${_src}/ShaderMake"
+    patch -d "RBDOOM-3-BFG-${pkgver}" -p1 < rbdmap-gcc-link.patch
+}
+
+build() {
+    local _arch=()
+    [[ ${CARCH} == aarch64 ]] && _arch=(-DUSE_INTRINSICS_NEON=OFF)
+    cmake -S "RBDOOM-3-BFG-${pkgver}/neo" -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_SKIP_RPATH=ON \
+        -DFFMPEG=OFF \
+        -DBINKDEC=ON \
+        -DUSE_DX12=OFF \
+        -DUSE_VULKAN=ON \
+        -DWINDOWS10=OFF \
+        -DUSE_PRECOMPILED_HEADERS=OFF \
+        -DUSE_SYSTEM_ZLIB=ON \
+        -DUSE_SYSTEM_RAPIDJSON=OFF \
+        -DNVRHI_INSTALL=OFF \
+        "${_arch[@]}" \
+        -Wno-dev
+    cmake --build build
+}
+
+package() {
+    sh "${srcdir}/install.sh" "${srcdir}/RBDOOM-3-BFG-${pkgver}" "${srcdir}/build" "${pkgdir}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}" "${srcdir}/rbdoom-3-bfg-${_iconcommit:0:7}.png"
+}

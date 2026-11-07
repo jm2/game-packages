@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+export CFLAGS += $(CPPFLAGS)
+VER := 1.0.12
+D := $(CURDIR)/debian/yamagi-quake2-ref-vk
+
+%:
+	dh $@ --sourcedirectory=src
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xzf ref_vk-$(VER).tar.gz -C src --strip-components=1
+
+override_dh_auto_build:
+	$(MAKE) -C src VERBOSE=1 PKG_CONFIG=pkgconf
+
+override_dh_auto_install:
+	install -Dm644 src/release/ref_vk.so $(D)/usr/lib/yamagi-quake2/ref_vk.so
+	install -Dm644 README.md $(D)/usr/share/doc/yamagi-quake2-ref-vk/README.md
+	install -m644 src/README.md $(D)/usr/share/doc/yamagi-quake2-ref-vk/README.ref_vk.md
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf src

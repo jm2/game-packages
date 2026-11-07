@@ -1,0 +1,16 @@
+Source: yamagi-quake2-ref-vk
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), pkgconf, libsdl3-dev, libvulkan-dev, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/yquake2/ref_vk
+Rules-Requires-Root: no
+
+Package: yamagi-quake2-ref-vk
+Architecture: amd64 arm64
+Depends: yamagi-quake2 (>= 8.70~), libvulkan1, ${shlibs:Depends}, ${misc:Depends}
+Description: Vulkan renderer for Yamagi Quake II
+ The vkQuake2 Vulkan renderer ported to Yamagi Quake II, installed next to
+ the engine in /usr/lib/yamagi-quake2. Select it in the video menu or with
+ "+set vid_renderer vk".

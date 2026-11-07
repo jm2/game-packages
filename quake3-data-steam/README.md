@@ -11,5 +11,6 @@ the cache.
 
 ## Notes
 
-baseq3/pak0.pk3 for ioquake3-based engines (the patch paks pak1-8 come with
-the engine package, e.g. the AUR quake3). Team Arena is quake3-ta-data-steam.
+baseq3/pak0.pk3 for ioquake3-based engines such as quake3e. The 1.32 point
+release paks (baseq3/pak1-8.pk3) come from quake3-pointrelease-data, which
+this package depends on. Team Arena is quake3-ta-data-steam.

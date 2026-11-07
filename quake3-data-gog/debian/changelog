@@ -1,6 +1,7 @@
-quake3-data-gog (1-4) unstable; urgency=medium
+quake3-data-gog (1-5) unstable; urgency=medium
 
   * Generated from package.toml
   * Also provide quake3-ta-data (Team Arena is included)
+  * Depend on quake3-pointrelease-data for the 1.32 point release paks
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

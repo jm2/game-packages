@@ -1,0 +1,41 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: robertfoster (AUR), Gianluca Boiano (AUR), Mike Swanson (AUR),
+#               Alexandre Bouvier (AUR dhewm3-git)
+#
+# Builds the base and d3xp (Resurrection of Evil) game libraries and the
+# dedicated server, against SDL3. The engine's base path is /opt/doom3, where
+# the doom3-data-* and doom3xp-data-* packages install the retail .pk4 files.
+
+pkgname=dhewm3
+pkgver=1.5.5
+pkgrel=1
+pkgdesc="Doom 3 source port with SDL3, OpenAL and 64-bit support"
+arch=('x86_64' 'aarch64')
+url="https://dhewm3.org/"
+license=('GPL-3.0-or-later' 'MIT' 'Zlib')
+depends=('curl' 'gcc-libs' 'glibc' 'hicolor-icon-theme' 'libbacktrace' 'openal' 'sdl3'
+         'doom3-data')
+makedepends=('cmake')
+optdepends=('doom3xp-data: Resurrection of Evil expansion data')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/dhewm/dhewm3/archive/${pkgver}.tar.gz"
+        'd3make.sh'
+        'org.dhewm3.Dhewm3.desktop'
+        'org.dhewm3.Dhewm3.d3xp.desktop'
+        'README.md')
+sha256sums=('7e12a41cbf837eb2b7543b623f6d2a28a8a108a9ce55a221233e50a71d781c36'
+            '6e2f5975066a68c7be43537b4cf6cdbd5619d6a37c5f7d5ac9fb72a895035389'
+            '553bd184b2900a82d09b28ca680a2130832a7b65bb3acd938933fa6be1793608'
+            '278c1612e3b3d41b60a94820bfe788bcd475ecdcf7155df3a06da55213792e0a'
+            '17cf89e305a504021004293b55f92948f13af0e63464a9dc8c7a2c9a9d1b652c')
+
+build() {
+    sh "${srcdir}/d3make.sh" build "${srcdir}/${pkgname}-${pkgver}" "${srcdir}/build" lib
+}
+
+package() {
+    sh "${srcdir}/d3make.sh" install "${srcdir}/${pkgname}-${pkgver}" "${srcdir}/build" \
+        "${pkgdir}" "${pkgname}"
+    install -Dm644 "${srcdir}/${pkgname}-${pkgver}/COPYING.txt" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+    install -Dm644 "${srcdir}/${pkgname}-${pkgver}/neo/libs/imgui/LICENSE.txt" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.imgui.txt"
+}

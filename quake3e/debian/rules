@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+TAG := 2026-10-14
+D := $(CURDIR)/debian/quake3e
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf Quake3e-$(TAG).tar.gz -C src --strip-components=1
+
+override_dh_auto_build:
+	sh q3emake.sh build src
+
+override_dh_auto_install:
+	sh q3emake.sh install src $(D) quake3e
+	desktop-file-validate $(D)/usr/share/applications/quake3e.desktop
+	desktop-file-validate $(D)/usr/share/applications/quake3e-teamarena.desktop
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf src

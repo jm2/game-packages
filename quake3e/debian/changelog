@@ -1,0 +1,5 @@
+quake3e (2026.10.14-1) unstable; urgency=medium
+
+  * Initial Debian package, built from the 2026-10-14 release.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Fri, 06 Nov 2026 20:00:00 -0500

@@ -1,13 +1,13 @@
 name = "quake2-data-gog"
 family = "data-gog"
 version = "1"
-release = 3
+release = 4
 summary = "Quake II data via GOG"
 url = "https://www.gog.com/game/quake_ii_quad_damage"
 target = "/usr/share/games/quake2"
-provides = ["quake2-data"]
-conflicts = ["quake2-data-steam", "quake2-rogue-data-steam", "quake2-xatrix-data-steam"]
-changelog = ["Generated from package.toml"]
+provides = ["quake2-data", "quake2-full-data"]
+conflicts = ["quake2-data-steam"]
+changelog = ["Generated from package.toml", "Drop conflicts with Steam packages that never existed (the mission packs ship with quake2-data-steam); provide quake2-full-data for Debian's quake2 launcher"]
 
 [hooks]
 post_prepare = """

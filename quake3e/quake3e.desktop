@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Quake III Arena
+GenericName=First-person shooter
+Comment=Play Quake III Arena with the Quake3e engine
+Exec=quake3e
+Icon=quake3e
+StartupNotify=true
+Terminal=false
+Categories=Game;ActionGame;
+Keywords=quake;q3a;quake3e;

@@ -1,0 +1,33 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributors: Yamashiro (AUR), carstene1ns (AUR), Frederic Bezies (AUR), Ronan Rabouin (AUR)
+#
+# Arch and Fedora only: Debian's yamagi-quake2-core already contains this
+# game library.
+
+pkgname=yamagi-quake2-ctf
+pkgver=1.13
+pkgrel=1
+pkgdesc="Threewave Capture the Flag for Yamagi Quake II"
+arch=('x86_64' 'aarch64')
+url="https://www.yamagi.org/quake2/"
+license=('GPL-2.0-or-later')
+depends=('bash' 'glibc' 'yamagi-quake2')
+source=("https://deponie.yamagi.org/quake2/quake2-ctf-${pkgver}.tar.xz"
+        "install.sh"
+        "yamagi-quake2-ctf.sh"
+        "yamagi-quake2-ctf.desktop"
+        "README.md")
+sha256sums=('0db3b3cb91069c79310d0564e8f2c91e389b8c046b0638156b929f3052098532'
+            'af30fc235094e6e42481ffd88133cedd06c42c7e6f3cca178f163dd650dd92fb'
+            '5233873badb1dd64d7cb56dc63233c12336674cbfef252ae91b28f58f05b35cd'
+            'a4d3e6d0ef255fd2c7d9ec015de5d6d183c7960658104746b677c1ece2e4af66'
+            'c365efd8c03bb81dbb369092f4b6ee04e449143fc3edefb3757e1cabce274e71')
+
+build() {
+    sh "${srcdir}/install.sh" build "${srcdir}/quake2-ctf-${pkgver}"
+}
+
+package() {
+    sh "${srcdir}/install.sh" install "${srcdir}/quake2-ctf-${pkgver}" "${pkgdir}" "${pkgname}" \
+        "${pkgdir}/usr/share/licenses/${pkgname}"
+}

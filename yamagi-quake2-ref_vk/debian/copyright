@@ -1,0 +1,35 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ref_vk
+Source: https://github.com/yquake2/ref_vk
+
+Files: *
+Copyright: 1997-2001 Id Software, Inc.; 2018-2019 Krzysztof Kondrak;
+ 2010-2025 Yamagi Quake II contributors
+License: GPL-2+
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-2.
+
+Files: src/vk/volk/*
+Copyright: 2018-2026 Arseny Kapoulkine
+License: Expat
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to
+ deal in the Software without restriction, including without limitation the
+ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+Files: src/files/stb_image*.h
+Copyright: Sean Barrett
+License: public-domain or Expat
+ stb is dual-licensed: public domain (Unlicense) or MIT.
+
+Files: debian/* README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

@@ -1,0 +1,21 @@
+name = "quake2-data-steam"
+family = "data-steam"
+release = 1
+summary = "Quake II data via Steam"
+url = "https://store.steampowered.com/app/2320/Quake_II/"
+target = "/usr/share/games/quake2"
+provides = ["quake2-data", "quake2-full-data"]
+conflicts = ["quake2-data-gog"]
+notes = """
+The original Quake II data (baseq2, The Reckoning in xatrix, Ground Zero in
+rogue, and CTF) for source ports such as yquake2. The 2023 remaster in
+rerelease/ is not included."""
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+
+[source.steam]
+appid = 2320
+# Keeps the version above the AUR package's "1" (no epoch).
+version_base = "1"
+# The original game, both mission packs and CTF sit beside the 2023 remaster
+# (rerelease/), which source ports such as yquake2 do not use.
+copy = ["baseq2/pak[0-2].pak", "baseq2/video", "xatrix/pak0.pak", "xatrix/video", "rogue/pak0.pak", "rogue/video", "ctf/pak0.pak"]
