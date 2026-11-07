@@ -16,7 +16,7 @@ source=("build.sh"
         "serioussamfusion.desktop"
         "README.md"
         "serioussamfusion.png")
-sha256sums=('7e18f802b836cb7bd92a4dcb4bf84adabc4b513b35c2db23b54352ed9102cfb1'
+sha256sums=('01be45237c8fcf310bc55bdb722caff4239ca7da0f9da36bce5f615957ba6d26'
             '1baba926312dcb0a32427e036d31acfffaca2b4e95fa16413d59bc1e38465871'
             '8973fabb7986f70fe2620900f8b498c5f54eacf2c13e1aaf2f326a9b589d0786'
             '7fc4dd4b5f48f758d3d3415273a59fa32b03731b1c66d8b088710b561d262a04'

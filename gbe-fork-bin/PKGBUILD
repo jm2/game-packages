@@ -3,7 +3,7 @@
 pkgname=gbe-fork-bin
 _tag=release-2026_09_27
 pkgver=2026.09.27
-pkgrel=1
+pkgrel=2
 pkgdesc="Goldberg Steam Emulator (Detanup01/gbe_fork) prebuilt Windows and Linux steam_api for game packages"
 arch=('x86_64' 'aarch64')
 url="https://github.com/Detanup01/gbe_fork"
@@ -21,7 +21,7 @@ noextract=("emu-win-release-vs26-${pkgver}.7z" "emu-linux-release-${pkgver}.tar.
 sha256sums=('417b7d348652ee9c7d2609edc921154cac2c52299975f360f5b04b436ab8c243'
             'f3e08366fb8052e55d9ca29ef5bb1f80afb66d59e96879e5900aac8a6d86c7b9'
             'e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118'
-            '40fb71fccde7216f3d0dd55798b0535b5d9ca2287308123339a8e1e2e6896d48')
+            '8ca8d382b33e3ec11459d501b30b415fe4af6500c4550b45e18053649b555af7')
 
 prepare() {
     rm -rf win lin && mkdir win lin

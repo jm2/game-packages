@@ -1,15 +1,12 @@
 name = "codmw2-wine-steam"
 family = "wine-steam"
 id = "codmw2"
-release = 1
+release = 2
 summary = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam"
 url = "https://iw4x.dev/"
 remove_files = ["codmw2.sh"]
 deb = { parts = 2 }   # ~12 GiB of data
-changelog = [
-  "Switch to gamelaunch and gbe-fork-bin",
-  "Move from the dead XLabs IW4x to the maintained iw4x project (client r5292, rawfiles v0.2.40)",
-]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 notes = """
 IW4x is the community multiplayer client for MW2
 (https://github.com/iw4x/iw4x-client, GPL-3.0). `codmw2 -v` starts the stock

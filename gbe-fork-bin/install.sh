@@ -6,6 +6,11 @@ win=$1 lin=$2 dest=$3 host=$4
 lib=$dest/usr/lib/gbe-fork
 
 # Windows: regular and experimental steam_api builds, the ColdClientLoader set, tools.
+# These live under /opt, not /usr: umu/Proton runs games in a pressure-vessel
+# container that replaces /usr with the Steam Runtime, so a game's
+# steam_api64.dll symlink into /usr/lib would dangle there. /opt stays visible.
+win_lib=$lib
+lib=$dest/opt/gbe-fork
 for flavour in regular experimental; do
     sub=win; [ "$flavour" = experimental ] && sub=win-experimental
     for a in x86 x64; do
@@ -22,6 +27,15 @@ install -m644 "$win/release/steamclient_experimental/ColdClientLoader.ini" "$lib
 install -Dm644 "$win/release/steam_old_lib/Steam.dll" "$lib/win-old/Steam.dll"
 install -d "$lib/win-tools"
 install -m644 "$win"/release/tools/generate_interfaces/*.exe "$win"/release/tools/lobby_connect/*.exe "$lib/win-tools/"
+lib=$win_lib
+# Compatibility links for game packages built before the move (plain Wine only).
+# One link per file: replacing a directory with a symlink breaks upgrades.
+for sub in win win-experimental; do
+    for a in x86 x64; do
+        install -d "$lib/$sub/$a"
+        for f in "$dest/opt/gbe-fork/$sub/$a"/*.dll; do ln -s "/opt/gbe-fork/$sub/$a/${f##*/}" "$lib/$sub/$a/"; done
+    done
+done
 
 # Linux: libsteam_api.so / steamclient.so for every architecture, tools.
 for flavour in regular experimental; do

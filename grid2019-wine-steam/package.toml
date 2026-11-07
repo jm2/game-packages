@@ -1,11 +1,11 @@
 name = "grid2019-wine-steam"
 family = "wine-steam"
 id = "grid2019"
-release = 2
+release = 3
 summary = "GRID (2019) using Wine with data via Steam"
 url = "https://store.steampowered.com/app/703860/GRID/"
 remove_files = ["grid2019.sh", "grid2019.install"]
-changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 deb = { parts = 10 }   # ~77 GiB of data
 
 [source.steam]

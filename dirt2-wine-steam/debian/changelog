@@ -1,6 +1,5 @@
-dirt2-wine-steam (0-4) unstable; urgency=medium
+dirt2-wine-steam (0-5) unstable; urgency=medium
 
-  * Switch to gamelaunch (umu/Proton default, system wine fallback)
-  * Replace the Ultimate ASI Loader xlive stub with XLiveLessNess (xlln-bin) for LAN play
+  * Link XLiveLessNess from /opt/xlln so the game starts under umu/Proton
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

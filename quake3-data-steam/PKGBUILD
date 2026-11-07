@@ -15,7 +15,7 @@ conflicts=('quake3-data-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('bacd2efbb61e5c9f4fef6b2b69a3218fb1d5b702eacc881cfd6cf988d3f01092'
+sha256sums=('9b83870a53e9344473696ad24e2d7406ba07de682f901a39abd589e35459e326'
             '2db187b1aa4444c5b8712aa3ad08fc05053ee88b5098e67bda8eee098ef5d293')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

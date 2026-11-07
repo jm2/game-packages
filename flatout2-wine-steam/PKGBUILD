@@ -3,12 +3,12 @@
 
 pkgname=flatout2-wine-steam
 pkgver=0
-pkgrel=1
+pkgrel=2
 pkgdesc='FlatOut 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/2990/FlatOut_2/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 conflicts=('flatout2-wine-gog')
@@ -17,7 +17,7 @@ source=("build.sh"
         "flatout2.conf"
         "flatout2.desktop"
         "README.md")
-sha256sums=('66a152a6393c2c2128685688f389499414683b103802dacc7552e610d4da15f2'
+sha256sums=('a612424816fc938b19f0ac26200e9cce63394a67f287f27f8d5286a8ee980932'
             'c973cca8a4d5eff93f6ba843cd0e185a02710bfee7980118150b08b3b5540c56'
             'de7c758a7f1295d6f23bb77d9622d634fdaa5bf318213a245167c43e0a7c28f0'
             'e3be9ed68ae674ada563a6cf18edc1017d5470cf804e63054ad5b248ea2c3c05')

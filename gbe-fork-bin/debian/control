@@ -14,6 +14,6 @@ Provides: gbe-fork, goldberg-emu
 Description: Goldberg Steam Emulator (gbe_fork) prebuilt steam_api for game packages
  Prebuilt release of gbe_fork, the maintained fork of Mr_Goldberg's Steam
  emulator. Game packages in jm2/linux-packages link their steam_api(64).dll or
- libsteam_api.so to the copies in /usr/lib/gbe-fork, so an emulator update
- reaches every game without rebuilding it. Also ships gbe-steam-interfaces,
- which writes steam_interfaces.txt for an original steam_api library.
+ libsteam_api.so to the copies in /opt/gbe-fork (Windows) and /usr/lib/gbe-fork
+ (Linux), so an emulator update reaches every game without rebuilding it. Also
+ ships gbe-steam-interfaces, which writes steam_interfaces.txt for an original steam_api library.

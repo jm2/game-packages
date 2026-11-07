@@ -3,12 +3,12 @@
 
 pkgname=dirt4-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='DiRT 4 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/421020/DiRT_4/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 conflicts=('dirt4-steam')
@@ -17,7 +17,7 @@ source=("build.sh"
         "dirt4.conf"
         "dirt4.desktop"
         "README.md")
-sha256sums=('6bb0776c6bc110ffca00916a94ad353034f3b518cd1408569f07d8c4ba5869d9'
+sha256sums=('422946e71f2d6f0f6817889eaeaafde9812aaaf072d4818ce204c22dce0b3513'
             'b0828e17cc38259a1a81b8977f39e49552dfdcb4dbcf6f3f95b06396929f4a9d'
             '5779e4aaed28beb3c3ff6b32450b072b44051820dfda3f4573a83d0d6418a1e2'
             'd46893dea142f3c5a0bdfa1a6babcfc809d2f53c45b7052947b42aff4231c0cd')

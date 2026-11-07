@@ -14,7 +14,7 @@ source=("build.sh"
         "README.md"
         "linuxq3apoint-1.32b-3.x86.run::https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/linuxq3apoint-1.32b-3.x86.run")
 noextract=("linuxq3apoint-1.32b-3.x86.run")
-sha256sums=('17e9877a789f030d5ea6d17a0c284b511564cb33dd4a1e16f7aa45389d30519e'
+sha256sums=('2dc9b7e8fd91255db9cab7016cda4d8eb3041ad28067b2d3f1cf5765a9d1cf23'
             '64961581da8c3085df0573d6916f175508327fe4296084e1107139540d89cd32'
             'c36132c5556b35e01950f1e9c646235033a5130f87ad776ba2bc7becf4f4f186')
 

@@ -14,7 +14,7 @@
 Name:           aoe2-de-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Age of Empires II: DE using Wine with data via Steam, ageLANServer for LAN
 License:        LicenseRef-Proprietary
 URL:            https://steamdb.info/app/813780/
@@ -35,7 +35,7 @@ BuildRequires:  icoutils
 BuildRequires:  gbe-fork-bin
 BuildRequires:  python3
 Requires:       gamelaunch
-Requires:       gbe-fork-bin
+Requires:       gbe-fork-bin >= 2026.09.27-2
 Requires:       hicolor-icon-theme
 Requires:       agelanserver-bin
 Requires:       agelanserver-companion-bin
@@ -75,8 +75,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/aoe2-de.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
-- ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin
-- Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin
-- ageLANServer 1.15.6 and ageServerLauncherCompanion 1.5.0.0
-- Per-user ageLANServer launcher (aoe2-de-lan) via gamelaunch
-- Goldberg saves go to the user's GSE Saves directory, not the install
+- Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton

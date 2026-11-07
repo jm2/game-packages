@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: dirt3-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, dirt3-wine-steam-data1 (= ${binary:Version}), dirt3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, dirt3-wine-steam-data1 (= ${binary:Version}), dirt3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: DiRT 3 Complete Edition using Wine with data via Steam
  DiRT 3 Complete Edition using Wine with data via Steam
 

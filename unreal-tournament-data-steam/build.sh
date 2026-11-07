@@ -304,7 +304,8 @@ pt_gbe_apply() { # <installed game root>
         esac
         [ "${PT_GBE_FLAVOUR:-regular}" = experimental ] && emu=${emu/#win\//win-experimental/} && emu=${emu/#linux\//linux-experimental/}
         rm -f "$dir/$lib"
-        ln -s "/usr/lib/gbe-fork/$emu" "$dir/$lib"
+        # Windows builds live in /opt (visible inside umu's container), Linux ones in /usr/lib.
+        case $emu in win*) ln -s "/opt/gbe-fork/$emu" "$dir/$lib" ;; *) ln -s "/usr/lib/gbe-fork/$emu" "$dir/$lib" ;; esac
         install -d "$dir/steam_settings"
         install -m644 "$PT_META/interfaces/$rel/steam_interfaces.txt" "$dir/steam_settings/steam_interfaces.txt"
         printf '%s\n' "$PT_STEAM_APPID" > "$dir/steam_settings/steam_appid.txt"

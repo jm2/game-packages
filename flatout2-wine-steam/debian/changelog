@@ -1,5 +1,5 @@
-flatout2-wine-steam (0-1) unstable; urgency=medium
+flatout2-wine-steam (0-2) unstable; urgency=medium
 
-  * Initial package
+  * Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

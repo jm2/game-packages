@@ -21,7 +21,7 @@ source=("build.sh"
         "setup_flatout_2_1.0_(26697)-1.bin::gogdownloader://flatout_2/en1installer1")
 noextract=("setup_flatout_2_1.0_(26697).exe"
            "setup_flatout_2_1.0_(26697)-1.bin")
-sha256sums=('1933fbf48e06ebf2a84a308022d3148555aada04dda604eadb865fff320fb54e'
+sha256sums=('0b727cfae138c30111c06b58e772b5041782847bc28a07fdff23a2f9d52c6dfb'
             '4f73101e9a9aedfa6045d0daccaab45c255df61c25d6aae561ecd9e058637612'
             'de7c758a7f1295d6f23bb77d9622d634fdaa5bf318213a245167c43e0a7c28f0'
             'b889652d028db36b062d2a2b766f1c4cd24ab6a11fbd4ea25be6bd53c9612041'

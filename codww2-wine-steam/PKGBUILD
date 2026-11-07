@@ -3,12 +3,12 @@
 
 pkgname=codww2-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Call of Duty: WWII using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/476600/Call_of_Duty_WWII/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "codww2.conf"
         "codww2.desktop"
         "README.md")
-sha256sums=('8c048d8fb3f4f3fc5b882fcdf8c9e0bc3a4f35254c3db4e94b4543ebfbc6e039'
+sha256sums=('dd3aa709ccfc4581541284f7ce2af9589112c9dec55cffa8a063e9b03589f6f0'
             '98d7b1a5786df0813465bb7a6733d48032c4d758b06160745c7679775eb16d5a'
             'c4f1587cccd05540232be600885d3b1145c5971970ebc708a8b2502a1aa038de'
             'e4198e26c93f4b915d77c7620872c4892a3eb4b81aecd3dbf126fe40809e483f')

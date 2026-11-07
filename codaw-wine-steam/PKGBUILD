@@ -3,12 +3,12 @@
 
 pkgname=codaw-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Call of Duty: Advanced Warfare using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/209650/Call_of_Duty_Advanced_Warfare__Gold_Edition/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "codaw.conf"
         "codaw.desktop"
         "README.md")
-sha256sums=('e68fa88e12ef6eb1bb56acb21315f415d5074d07b938498a1b919c871610efb3'
+sha256sums=('43ff95466ee760449301ead34dce3415878a63c1554231ef9b932b41d80a14d9'
             '7329f3b5550bb76ba790070fe3c22cc6e6a1dfafd8164de77fe188cae331faa1'
             '8c805250812d047c7de5229c20c88598fb1e77d1c21be459012f1cbf9f3de0d6'
             '3a0b61d8297f31378121d61286ded805b0c9c142dc0a03dca17fa2b02b76026b')

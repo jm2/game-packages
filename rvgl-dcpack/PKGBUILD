@@ -15,7 +15,7 @@ source=("build.sh"
         "README.md"
         "rvgl_dcpack-23.0501a1.zip::https://distribute.re-volt.io/packs/rvgl_dcpack.zip")
 noextract=("rvgl_dcpack-23.0501a1.zip")
-sha256sums=('c65c544e047975a996903e80550c15759fa4165635d9be60b055675c7097dcdc'
+sha256sums=('f7703485842724458951e921c03eaf27572a6730e6f090af6dda707077719b49'
             'fdc27167a490f15823c8aeddc3e1e35b633c632450dbd4961d5e7cf6f069a042'
             'db2414cd14c44adae24021beb3f00dfe8605833255291aa43062f68916544d36')
 

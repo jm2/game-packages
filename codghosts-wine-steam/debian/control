@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: codghosts-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, codghosts-wine-steam-data1 (= ${binary:Version}), codghosts-wine-steam-data2 (= ${binary:Version}), codghosts-wine-steam-data3 (= ${binary:Version}), codghosts-wine-steam-data4 (= ${binary:Version}), codghosts-wine-steam-data5 (= ${binary:Version}), codghosts-wine-steam-data6 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, codghosts-wine-steam-data1 (= ${binary:Version}), codghosts-wine-steam-data2 (= ${binary:Version}), codghosts-wine-steam-data3 (= ${binary:Version}), codghosts-wine-steam-data4 (= ${binary:Version}), codghosts-wine-steam-data5 (= ${binary:Version}), codghosts-wine-steam-data6 (= ${binary:Version}), ${misc:Depends}
 Description: Call of Duty: Ghosts using Wine with data via Steam
  Call of Duty: Ghosts using Wine with data via Steam
 

@@ -3,12 +3,12 @@
 
 pkgname=grid2019-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='GRID (2019) using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/703860/GRID/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "grid2019.conf"
         "grid2019.desktop"
         "README.md")
-sha256sums=('488bbb3d49446daedcff8336ea04a6cfe15ef6e54469ac94a63d1cb6965369a1'
+sha256sums=('ad8516c41b733461ba4cc0097662f32a1c72b9578455c043e81e0a541779fc03'
             '366e82781d785883dfb6820cfed90feb82c53c67afb17826d5311c1c6559b343'
             '11dc271e37988cd34ce334d61930512de6a3f33652bae373fbb374f95fb49d7f'
             'fa24d6fd54a83292b16aca5fd9a7ad408032a64ffcbbfed316bca3422f105425')

@@ -3,7 +3,7 @@
 
 Name:           xlln-bin
 Version:        1.6.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        XLiveLessNess GFWL replacement xlive.dll for Wine game packages
 License:        LGPL-2.1-only
 URL:            https://gitlab.com/GlitchyScripts/xlivelessness
@@ -31,8 +31,12 @@ sh %{SOURCE1} . %{buildroot}
 %files
 %license LICENSE.md
 %{_prefix}/lib/xlln/
+/opt/xlln/
 %{_docdir}/xlln/
 
 %changelog
+* Sat Nov 07 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.6.2.1-2
+- Move to /opt/xlln so umu/Proton's container can see it
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.6.2.1-1
 - Initial package of XLiveLessNess v1.6.2.1

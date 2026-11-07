@@ -3,12 +3,12 @@
 
 pkgname=codmw2-wine-steam
 pkgver=0
-pkgrel=1
+pkgrel=2
 pkgdesc='Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam'
 arch=('x86_64')
 url='https://iw4x.dev/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'unzip' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -20,7 +20,7 @@ source=("build.sh"
         "iw4x-rawfiles-v0.2.40.zip::https://github.com/iw4x/iw4x-rawfiles/releases/download/v0.2.40/release.zip")
 noextract=("iw4x-r5292.dll"
            "iw4x-rawfiles-v0.2.40.zip")
-sha256sums=('90ded29f45d427437915973a2533ea8682d014db839d526803e50892616bf7f4'
+sha256sums=('aa8056809b7374c3636f45e759f2484a3998e7ea8ac97e47a61ed7f29d4a2e9b'
             '6d735929fa282f50da53e2b17d74378b44f039e691f69f691d8835965c70a74d'
             '6d12a9727419470d5f1afa06ae3a78de0d22bb092c17116a0d72b1eb3b738b57'
             '8c19a133f0a710ad32e81ce1309b0a810205f6e85cf87b135c5a752c70235132'

@@ -1,11 +1,11 @@
 name = "wreckfest2-wine-steam"
 family = "wine-steam"
 id = "wreckfest2"
-release = 2
+release = 3
 summary = "Wreckfest 2 using Wine with data via Steam"
 url = "https://store.steampowered.com/app/1203190/Wreckfest_2/"
 remove_files = ["wreckfest2.sh", "wreckfest2.install"]
-changelog = ["Switch to gamelaunch and gbe-fork-bin (umu GAMEID now set for protonfixes)"]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 deb = { parts = 4 }
 
 [source.steam]

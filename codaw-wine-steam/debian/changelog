@@ -1,6 +1,5 @@
-codaw-wine-steam (0-2) unstable; urgency=medium
+codaw-wine-steam (0-3) unstable; urgency=medium
 
-  * Switch to gamelaunch and gbe-fork-bin
-  * Drop the s1x client: XLabs is gone and its downloads return 404
+  * Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

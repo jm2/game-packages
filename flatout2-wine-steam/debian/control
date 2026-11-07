@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: flatout2-wine-steam
 Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
 Conflicts: flatout2-wine-gog
 Description: FlatOut 2 using Wine with data via Steam
  FlatOut 2 using Wine with data via Steam

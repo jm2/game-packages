@@ -15,7 +15,7 @@ conflicts=('revolt-data' 'revolt-data-revoltio')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('0aff3a6fd3764dbf1192402d08da659c5500b1bde92342e9dafa7e9decab1183'
+sha256sums=('edbceac6742f3142e25ddbd8f50e24663b1510047b12bc61d4ff95594739a35c'
             '119c74c83372f6c363d054a0962acf58b345f1527b445ce9b19278292250d3d4')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

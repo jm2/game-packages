@@ -14,7 +14,7 @@
 Name:           codmw2-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://iw4x.dev/
@@ -32,7 +32,7 @@ BuildRequires:  unzip
 BuildRequires:  gbe-fork-bin
 BuildRequires:  python3
 Requires:       gamelaunch
-Requires:       gbe-fork-bin
+Requires:       gbe-fork-bin >= 2026.09.27-2
 Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
@@ -66,5 +66,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/codmw2.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
-- Switch to gamelaunch and gbe-fork-bin
-- Move from the dead XLabs IW4x to the maintained iw4x project (client r5292, rawfiles v0.2.40)
+- Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton

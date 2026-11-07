@@ -3,12 +3,12 @@
 
 pkgname=dirt2-wine-steam
 pkgver=0
-pkgrel=4
+pkgrel=5
 pkgdesc='Colin McRae: DiRT 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/12840/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'xlln-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch>=1.1.2' 'xlln-bin>=1.6.2.1-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "dirt2.conf"
         "dirt2.desktop"
         "README.md")
-sha256sums=('e0b90c95ea55660ea3cc99f0b32d5cf09153791171a6025f80a07af6b457a128'
+sha256sums=('94e5ef69ca1929b555ffc64990b31fe42e5b87a1e899a53dfebb54bcbd330495'
             '9ecf51f3ee176423c32279c5d5523bc0d9dc3e7478f49db063684f197896c774'
             'c15820bc4315dbde47aef351c67ddc1d34bbcf1f5227af8092f0804a247f41de'
             '04eaa1acf0c38ebb58362cbc2cabfa45f1dfcd9168ad3d0bebb8c9e2f5ef280f')

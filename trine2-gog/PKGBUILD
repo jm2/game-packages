@@ -18,7 +18,7 @@ source=("build.sh"
         "README.md"
         "gog_trine_2_complete_story_2.0.0.5.sh::gogdownloader://trine_2_complete_story/en3installer2")
 noextract=("gog_trine_2_complete_story_2.0.0.5.sh")
-sha256sums=('b26de3d2d0bd32951cd1dbabfbafd381e71a43a06591071f5129a3b6be242ed5'
+sha256sums=('3b360cd50ba244fd760d4c9611c7a50e58be6cada29bd096424692f4e4dff466'
             '27d6b107eb1599ead86b5d627456796c8267d789066983d54ccf54a99c5f359a'
             'f2358d598df8284918dc6e6ece85a2406851d587cadabc93258ef9108dd00897'
             '514e4bb9eff92f6a5f1fc6ab5d56e0d78a96b2407a808e7dc64e58add84b56de'

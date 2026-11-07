@@ -53,7 +53,9 @@ packages contain proprietary game data or prebuilt third-party binaries.
   `tools/debian-fetch-sources`), which `debian/rules` calls before building.
 - `gbe-fork-bin`: Goldberg is never vendored. Generated packages declare
   `[gbe] libs = [...]`; the original library's interfaces are recorded at build
-  time and the library is replaced by a symlink into `/usr/lib/gbe-fork`.
+  time and the library is replaced by a symlink into `/opt/gbe-fork` (Windows
+  builds; umu's pressure-vessel container hides `/usr`) or `/usr/lib/gbe-fork`
+  (Linux builds).
 - `xlln-bin`: GFWL games set `[xlln] enabled = true`; gamelaunch links
   XLiveLessNess into the per-user game directory.
 

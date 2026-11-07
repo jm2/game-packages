@@ -14,7 +14,7 @@ conflicts=('doom3bfg-data-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('a202f83b67be45a60550e9461325090f5c67715e73e5de21f8617a4a7dadb8e2'
+sha256sums=('75149adf00a47fbd2ff14f20ab106128686cfaf2c0bf6fe1b6705e381f68a7bf'
             '420bdb89e99c68f847c34e93488b025c65b55e808d9e0b15b89bf6fb05d28aef')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

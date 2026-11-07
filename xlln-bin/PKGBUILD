@@ -2,7 +2,7 @@
 
 pkgname=xlln-bin
 pkgver=1.6.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="XLiveLessNess: Games for Windows - LIVE replacement xlive.dll for Wine game packages (prebuilt)"
 arch=('any')
 url="https://gitlab.com/GlitchyScripts/xlivelessness"
@@ -13,7 +13,7 @@ options=('!strip' '!debug')
 source=("https://dl.glitchyscripts.com/xlln/XLiveLessNess-v${pkgver}-Release.zip"
         "install.sh")
 sha256sums=('6f6e0285211c9fbcd77eb12cfd2efe5860eb7e5e6262f7a3139f14edfebcbf94'
-            '6a052b45b775313615cd5789738b8216e843327c77acdc443d8b5ba65c56dffa')
+            '4c06ae748e901246994df56e85b969aff8f98afda810fa5342c11f369450b1eb')
 
 package() {
     sh install.sh "${srcdir}/XLiveLessNess-v${pkgver}-Release" "${pkgdir}"

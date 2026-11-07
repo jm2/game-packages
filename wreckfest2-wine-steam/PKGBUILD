@@ -3,12 +3,12 @@
 
 pkgname=wreckfest2-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Wreckfest 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/1203190/Wreckfest_2/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "wreckfest2.conf"
         "wreckfest2.desktop"
         "README.md")
-sha256sums=('caa075025f51bf9f1b48b325e3956d9dd5a640a56b77c8ac5fd50f9fbbb32f95'
+sha256sums=('1f73b47d925a896c452877073207ab6df36208bb09898ba304abd4308d0e1bbb'
             '19ebf6f9c4e84c134e49cd9f36119a2c6814d1e72cd9c20bd3ce581c0c204960'
             '05c4e09d58dd70495fc102adfb101b25e2414814d15a180b8a7d5e86b80e7e6f'
             '56187fdd156ee16a995f457c5b72bd7625e084f6e1e2d086fb1e4f2adc1e9148')

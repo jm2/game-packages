@@ -74,6 +74,10 @@ DOLLAR = "$"
 DEB_ARCH = {"x86_64": "amd64", "i686": "i386", "aarch64": "arm64", "any": "all"}
 
 
+def versioned(name: str, v: str, fmt: str) -> str:
+    return {"arch": f"{name}>={v}", "fedora": f"{name} >= {v}", "debian": f"{name} (>= {v})"}[fmt]
+
+
 def die(msg: str) -> None:
     sys.exit(f"gen.py: {msg}")
 
@@ -185,6 +189,8 @@ class Pkg:
     def gamelaunch_dep(self, fmt: str) -> str:
         # gamelaunch_min: the oldest gamelaunch with the features the config uses.
         v = self.t.get("gamelaunch_min", "1.1.0" if self.target == "@prefix" else "")
+        if self.xlln and tuple(map(int, (v or "0").split("."))) < (1, 1, 2):
+            v = "1.1.2"                           # 1.1.2: XLLN links into /opt/xlln
         if not v:
             return "gamelaunch"
         return {"arch": f"gamelaunch>={v}", "fedora": f"gamelaunch >= {v}",
@@ -194,9 +200,11 @@ class Pkg:
         """Dependencies that are the same on every architecture."""
         out: list[str] = [self.gamelaunch_dep(fmt)] if self.game else []
         if self.gbe:
-            out.append("gbe-fork-bin")
+            # The Windows builds moved to /opt/gbe-fork in 2026.09.27-2.
+            win = any(l.lstrip("?").endswith(".dll") for l in self.gbe["libs"])
+            out.append(versioned("gbe-fork-bin", "2026.09.27-2", fmt) if win else "gbe-fork-bin")
         if self.xlln:
-            out.append("xlln-bin")
+            out.append(versioned("xlln-bin", "1.6.2.1-2", fmt))
         if self.data_package:
             out.append(self.data_package)
         if self.t.get("icon"):                    # icons go into the hicolor tree

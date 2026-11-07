@@ -1,12 +1,12 @@
 name = "dirt4-wine-steam"
 family = "wine-steam"
 id = "dirt4"
-release = 2
+release = 3
 summary = "DiRT 4 using Wine with data via Steam"
 url = "https://store.steampowered.com/app/421020/DiRT_4/"
 conflicts = ["dirt4-steam"]
 remove_files = ["dirt4.sh", "dirt4.install"]
-changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 deb = { parts = 6 }
 
 [source.steam]

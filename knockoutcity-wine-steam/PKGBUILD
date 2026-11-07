@@ -18,7 +18,7 @@ source=("build.sh"
         "knockoutcity.conf"
         "knockoutcity.desktop"
         "README.md")
-sha256sums=('e8d6863c8faf25923d9100a5d994d9b2846fe91499cd9d0cc98e29ba95b16bc0'
+sha256sums=('7f85d14a98320824dc1aa4453e6ee9a3fc92dc3c59d8343a674fb28c1e9e97d0'
             '7e7944fb8bfff87e639792b4f75b8e3642b7fa22c0dca24a9d7b483084421b0a'
             'd670f493b25b0305f2335877a897f4dae6a27d603537f32b5d5002a1a92047ab'
             '28dd53f0737e73310c29e3f7b845262f41144eaa5231f6eba26f79638a412cc9')

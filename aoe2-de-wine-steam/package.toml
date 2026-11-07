@@ -1,7 +1,7 @@
 name = "aoe2-de-wine-steam"
 family = "wine-steam"
 id = "aoe2-de"
-release = 3
+release = 4
 summary = "Age of Empires II: DE using Wine with data via Steam, ageLANServer for LAN"
 description = """
 Age of Empires II: Definitive Edition (with the Enhanced Graphics Pack), run
@@ -10,13 +10,7 @@ from Steam and the Goldberg Steam emulator (gbe-fork-bin). ageLANServer and
 its launcher companion DLLs restore LAN multiplayer lobbies without the
 official servers."""
 url = "https://steamdb.info/app/813780/"
-changelog = [
-  "ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin",
-  "Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin",
-  "ageLANServer 1.15.6 and ageServerLauncherCompanion 1.5.0.0",
-  "Per-user ageLANServer launcher (aoe2-de-lan) via gamelaunch",
-  "Goldberg saves go to the user's GSE Saves directory, not the install",
-]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 remove_files = ["lan.sh", "lan-client.sh", "lan-wine.sh", "aoe2-de-lan.conf", "aoe2-de.sh", "ColdClientLoader.ini", "configs.app.ini", "configs.user.ini",
                 "achievements.json", "supported_languages.txt"]
 extra_files = ["gbe.configs.app.ini", "gbe.configs.user.ini", "gbe.achievements.json",

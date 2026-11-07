@@ -1,11 +1,11 @@
 name = "flatout2-wine-steam"
 family = "wine-steam"
 id = "flatout2"
-release = 1
+release = 2
 summary = "FlatOut 2 using Wine with data via Steam"
 url = "https://store.steampowered.com/app/2990/FlatOut_2/"
 conflicts = ["flatout2-wine-gog"]
-changelog = ["Initial package"]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 notes = """
 Steam's current FlatOut 2 (the re-release with fo2_launcher.exe, dxwrapper and
 SDL3); its steam_api.dll is replaced by gbe-fork's. FlatOut2.exe has no version

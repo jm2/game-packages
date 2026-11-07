@@ -1,3 +1,10 @@
+xlln-bin (1.6.2.1-2) unstable; urgency=medium
+
+  * Move to /opt/xlln so umu/Proton's container can see it; /usr/lib/xlln
+    keeps per-file compatibility links.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Sat, 07 Nov 2026 12:00:00 -0500
+
 xlln-bin (1.6.2.1-1) unstable; urgency=medium
 
   * Initial package of XLiveLessNess v1.6.2.1.

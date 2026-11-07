@@ -1,9 +1,5 @@
-aoe3-de-wine-steam (0-3) unstable; urgency=medium
+aoe3-de-wine-steam (0-4) unstable; urgency=medium
 
-  * ageLANServer and its companion DLLs come from agelanserver-bin / agelanserver-companion-bin
-  * Switch to gamelaunch (umu/Proton, system wine fallback) and gbe-fork-bin
-  * ageLANServer 1.15.6 and ageServerLauncherCompanion 1.5.0.0
-  * Per-user ageLANServer launcher (aoe3-de-lan) via gamelaunch
-  * Goldberg saves go to the user's GSE Saves directory, not the install
+  * Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

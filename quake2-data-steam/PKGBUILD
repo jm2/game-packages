@@ -14,7 +14,7 @@ conflicts=('quake2-data-gog')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('bf9afb5c4864522dae2a2e1dbc5745b294174d6b76badfbb4a1da3b05fccee17'
+sha256sums=('7da07b2d9b9ef550b34d4487068578eb8372405783c445c70cbd4aeb2c0fc689'
             'af2cb288c6f369a382f33d66e9b29a22b85e78e4b9e36e1d61c61ee781165374')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

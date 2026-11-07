@@ -20,7 +20,7 @@ source=("build.sh"
         "README.md"
         "KnockoutCity-HighRes-10.0-269701.zip::https://web.archive.org/web/20230630025014id_/https://chonky-delivery-network.akamaized.net/KnockoutCity-HighRes-10.0-269701.zip")
 noextract=("KnockoutCity-HighRes-10.0-269701.zip")
-sha256sums=('1c96d285c831c9061756925aceb34134eafc5983a2cc630f7974d667fc41b084'
+sha256sums=('9fb25a54a3a509481f2f646afa2b0118db8aade65e2b3c90223bd9c84ad43ad9'
             '219d7f88686a29f2728c839d531bb77da70eabf7e031b5b75086b06854d07614'
             'd670f493b25b0305f2335877a897f4dae6a27d603537f32b5d5002a1a92047ab'
             '3888ef2437dd925a722cc132e3a1cd94d428a0ab96e76aa65251ff3db32082ba'

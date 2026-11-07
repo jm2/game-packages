@@ -17,7 +17,7 @@ source=("build.sh"
         "README.md"
         "game_files-22.0909.zip::https://distribute.re-volt.io/packs/game_files.zip")
 noextract=("game_files-22.0909.zip")
-sha256sums=('8423de6043820e2ed21619cf77762b99f7718fc5c1869224fbd8a729c6cb8d10'
+sha256sums=('6ee1d18826cc83ab20f93d7771eb422b71ea87b5750d6481d9cfc69b9b265470'
             'c58f02a66227312cd43668c9439f57c36672e3103cd9873558f4b438339af2db'
             '6ce4033dd436e37fdd37f02991ae5f5c4427a40f58e87a8ff0cb787ebb667f9f')
 

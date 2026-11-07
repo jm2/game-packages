@@ -3,12 +3,12 @@
 
 pkgname=codghosts-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Call of Duty: Ghosts using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/209160/Call_of_Duty_Ghosts/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "codghosts.conf"
         "codghosts.desktop"
         "README.md")
-sha256sums=('37e371c461776a8b59616bc99ff2e25ea40dc8997804f5bb9aa0d73e1e929514'
+sha256sums=('c7eca5c49c6234a991ed65be21538f5e03fdf3d002ec12d6d284b54c76825c9d'
             '33712fb2682db5a6cbafd27eab587d003f6c657f69851da05e9822b8e5307559'
             '03d08194086286ce8aabe894b532ed7b5558298b4024de7d2fa512572b12c6ce'
             'f84eb00a37eaee6dfa4f0f02838d0f71c3e1bacc7d8dd7a79a980848f574f6a0')

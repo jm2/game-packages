@@ -18,7 +18,7 @@ source=("build.sh"
         "README.md"
         "Battle.net-Setup.exe::https://www.battle.net/download/getInstallerForGame?os=win&version=LIVE&gameProgram=BATTLENET_APP")
 noextract=("Battle.net-Setup.exe")
-sha256sums=('870cc072aa0eb7c42b7b80e20200fabbb88a5bc6da8568d366c26f0e8297af9a'
+sha256sums=('d97f4e2db9be2aef48cb9507045c139e5c06a69ee7161c884523ede6b7dc4fd4'
             '0778800318fec05242dc3db0da2f6d8ad0e1ccd4d75a22b9c38b8a8b5e0d9de9'
             '48cba054754fa4600eb739ce0132d68e5eeb693eb35a7a15cc2adb1c69146a86'
             '6edfa37c2313c047df51cbbb4383c98c1fa7665b65fbb41654592a3204160632'

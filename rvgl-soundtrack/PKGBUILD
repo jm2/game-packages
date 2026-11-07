@@ -15,7 +15,7 @@ source=("build.sh"
         "README.md"
         "soundtrack-20.1008.zip::https://distribute.re-volt.io/packs/soundtrack.zip")
 noextract=("soundtrack-20.1008.zip")
-sha256sums=('30665bdbaa6d327cc3650ab90394a46da1dc671d0c3e293eecb50e305ac5be95'
+sha256sums=('e8ff68b80391e789df18e2fccb36eff45cb30d6c0208f5165ac3d88f5aceb301'
             '4cc3f556a9809b620ebc4a18e1b850af34fd5925a16d1e7ad213708a69160a52'
             '472259107349e7af549ff859cc7ffcf347f56786e5e63ecf7e1ffa761a152bf8')
 

@@ -1,11 +1,11 @@
 name = "dirt3-wine-steam"
 family = "wine-steam"
 id = "dirt3"
-release = 2
+release = 3
 summary = "DiRT 3 Complete Edition using Wine with data via Steam"
 url = "https://steamdb.info/app/321040/"
 remove_files = ["dirt3.sh", "dirt3.install"]
-changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 notes = """
 If DiRT 3 crashes on the first start, set your native resolution in
 `Documents/My Games/DiRT3/hardwaresettings/hardware_settings_config.xml`

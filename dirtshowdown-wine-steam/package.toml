@@ -1,11 +1,11 @@
 name = "dirtshowdown-wine-steam"
 family = "wine-steam"
 id = "dirtshowdown"
-release = 3
+release = 4
 summary = "DiRT Showdown using Wine with data via Steam"
 url = "https://steamdb.info/app/201700/"
 remove_files = ["dirtshowdown.sh", "dirtshowdown.install"]
-changelog = ["Switch to gamelaunch and gbe-fork-bin"]
+changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
 deb = { parts = 2 }
 
 [source.steam]

@@ -84,7 +84,12 @@ gl_load() {
 # Files listed in WRITABLE_COPY (globs relative to GAME_DIR) are real copies,
 # for games that rewrite files they ship (ini files, profiles).
 
-readonly GL_XLLN_ROOT=${GAMELAUNCH_XLLN_ROOT:-/usr/lib/xlln}
+# xlln-bin lives in /opt so the links still resolve inside umu's pressure-vessel
+# container (it replaces /usr); /usr/lib/xlln is the pre-1.6.2.1-2 location.
+if [ -n "${GAMELAUNCH_XLLN_ROOT:-}" ]; then readonly GL_XLLN_ROOT=$GAMELAUNCH_XLLN_ROOT
+elif [ -f /opt/xlln/xlive.dll ]; then readonly GL_XLLN_ROOT=/opt/xlln
+else readonly GL_XLLN_ROOT=/usr/lib/xlln
+fi
 
 gl_overlay_stamp() {
     # Changes whenever the game package (or xlln-bin, for XLLN games) is updated.
@@ -102,7 +107,9 @@ gl_xlln_overlay() {
     mkdir -p "$dir/XLiveLessNess"
     rm -f "$dir/xlive.dll"
     ln -s "$GL_XLLN_ROOT/xlive.dll" "$dir/xlive.dll"
-    find "$dir/XLiveLessNess" -xtype l -delete 2>/dev/null
+    # Every link here points into xlln-bin; recreate them all so they follow it
+    # if it moves (old /usr/lib/xlln links dangle under umu).
+    find "$dir/XLiveLessNess" -type l -delete 2>/dev/null
     cp -asn "$GL_XLLN_ROOT/XLiveLessNess/." "$dir/XLiveLessNess/"
     find "$dir/XLiveLessNess" -type d ! -perm -u+w -exec chmod u+w {} +
     local ini

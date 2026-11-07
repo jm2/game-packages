@@ -3,12 +3,12 @@
 
 pkgname=dirt3-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='DiRT 3 Complete Edition using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/321040/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "dirt3.conf"
         "dirt3.desktop"
         "README.md")
-sha256sums=('0a53d0c78b51d60a2e414c8dc68dcfcd2ea8cf59b42b9962999bf3d0028db4c7'
+sha256sums=('337fa0199b173bf5f1c2f91be54fbc891dc05ccc1e77d0a523f4c02bf32e7dcc'
             'd25dca630564fde2ed15e2719e6436dfe7d2fd134c3a86bf4642f050a2b3ec1a'
             '5fb763661193b21913a54dd5ca3cea8d3301efc952c3a7d137a4b55460517e73'
             '46260d860dca7d7de72f23129a32dbb87660b6670145e51515aa046560d1c14a')

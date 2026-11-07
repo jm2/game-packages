@@ -3,12 +3,12 @@
 
 pkgname=dirtrally2-wine-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='DiRT Rally 2.0 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/690790/DiRT_Rally_20/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -16,7 +16,7 @@ source=("build.sh"
         "dirtrally2.conf"
         "dirtrally2.desktop"
         "README.md")
-sha256sums=('4f3e86912fb46d28b8dd828fc70f7ddf34f2af00a049edc4e72aff02da574384'
+sha256sums=('a9bde9efb62830537659a6dd98e8b401f537105ec1974eeb9444f22b5a19aae9'
             '7bb3a8b7aecfa47b9e53ef75a4f2e86523d63f3e55b94307544398cbbca6ae50'
             'b1c02fb2e9d419ceb81d5347f9719ab5ab215029c2bce3dd442122133bfe4105'
             '141ce511de2be5decd54783751cc1a59780044d42e970100969b2234fbd3815e')

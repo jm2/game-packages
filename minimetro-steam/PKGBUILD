@@ -17,7 +17,7 @@ source=("build.sh"
         "minimetro.conf"
         "minimetro.desktop"
         "README.md")
-sha256sums=('5e08515f89ddd53281021af3a683054d63be69daf9aea81694b161698ca78b3c'
+sha256sums=('ac724294404569dfb7e684f125df830208cacd5c7a869f83df9877304e42aeaf'
             '2a81b77f017d543e170ecd84d9b8adc8bd47ddfa00f688f859848dec7e65f888'
             '8df97f0651a864e31a0358d2fb341a36c99e396458495cc4298bad5407c1dabc'
             '08254d1e3396b293d7651abfaa313e3a584ba86f24fbc923e491499bc32eb6bc')

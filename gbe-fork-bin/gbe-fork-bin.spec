@@ -11,7 +11,7 @@
 
 Name:           gbe-fork-bin
 Version:        2026.09.27
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Goldberg Steam Emulator (gbe_fork) prebuilt steam_api for game packages
 License:        LGPL-3.0-or-later
 URL:            https://github.com/Detanup01/gbe_fork
@@ -30,7 +30,8 @@ Provides:       goldberg-emu = %{version}-%{release}
 %description
 Prebuilt release of gbe_fork, the maintained fork of Mr_Goldberg's Steam
 emulator. Game packages in jm2/linux-packages link their steam_api(64).dll or
-libsteam_api.so to the copies in /usr/lib/gbe-fork, so an emulator update
+libsteam_api.so to the copies in /opt/gbe-fork (Windows) and
+/usr/lib/gbe-fork (Linux), so an emulator update
 reaches every game without rebuilding it. Also ships gbe-steam-interfaces,
 which writes steam_interfaces.txt for an original steam_api library.
 
@@ -56,9 +57,13 @@ sh %{SOURCE3} win lin %{buildroot} x64
 %{_bindir}/gbe-lobby-connect
 %{_bindir}/gbe-steam-interfaces
 %{_prefix}/lib/gbe-fork/
+/opt/gbe-fork/
 %{_datadir}/gbe-fork/
 %{_docdir}/gbe-fork/
 
 %changelog
+* Sat Nov 07 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2026.09.27-2
+- Move the Windows builds to /opt/gbe-fork so umu/Proton's container can see them
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2026.09.27-1
 - Initial package of gbe_fork release-2026_09_27 (vs26 Windows build)

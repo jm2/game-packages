@@ -14,7 +14,7 @@
 Name:           dirt2-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Colin McRae: DiRT 2 using Wine with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://steamdb.info/app/12840/
@@ -27,8 +27,8 @@ ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  python3
-Requires:       gamelaunch
-Requires:       xlln-bin
+Requires:       gamelaunch >= 1.1.2
+Requires:       xlln-bin >= 1.6.2.1-2
 Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
@@ -64,5 +64,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/dirt2.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
-- Switch to gamelaunch (umu/Proton default, system wine fallback)
-- Replace the Ultimate ASI Loader xlive stub with XLiveLessNess (xlln-bin) for LAN play
+- Link XLiveLessNess from /opt/xlln so the game starts under umu/Proton
