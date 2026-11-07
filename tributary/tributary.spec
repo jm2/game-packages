@@ -1,6 +1,6 @@
 Name:           tributary
 Version:        0.7.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Rhythmbox-style media manager with unified local and remote backends
 License:        GPL-3.0-or-later
 URL:            https://github.com/jm2/tributary
@@ -43,6 +43,10 @@ Subsonic/Navidrome, Jellyfin and Plex servers, DAAP shares and internet radio.
 export CARGO_HOME=%{_builddir}/cargo-home
 # Keep symbols so rpm can split them into -debuginfo and strip the binary.
 export CARGO_PROFILE_RELEASE_STRIP=false CARGO_PROFILE_RELEASE_DEBUG=line-tables-only
+# Fedora's RUSTFLAGS ask for one codegen unit and full debug info, which with
+# the crate's LTO takes over 10 GB in one rustc process. rustc uses the last
+# value given for a -C option, so these override them and keep the rest.
+export RUSTFLAGS="${RUSTFLAGS:-} -Ccodegen-units=16 -Cdebuginfo=line-tables-only"
 cargo build --release --locked
 
 %install
@@ -62,5 +66,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.jm2.
 %{_docdir}/tributary/
 
 %changelog
+* Sat Nov 07 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.7.2-2
+- Build with 16 codegen units and line tables only, to fit in 15 GB of RAM
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.7.2-1
 - Local RPM build of tributary 0.7.2
