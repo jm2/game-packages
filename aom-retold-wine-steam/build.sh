@@ -31,7 +31,7 @@ pt_icon() {
 pt_post_install() {
     # Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
     install -d steam_settings/load_dlls
-    ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+    ln -sfn /opt/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
     # LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
     install -Dm644 "$PT_SRCDIR/aom-retold.agelan" "$D/usr/share/agelanserver/games/aom-retold.conf"
     install -Dm644 "$PT_SRCDIR/aom-retold-lan.desktop" "$D/usr/share/applications/aom-retold-lan.desktop"

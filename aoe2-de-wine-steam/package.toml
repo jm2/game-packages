@@ -1,7 +1,7 @@
 name = "aoe2-de-wine-steam"
 family = "wine-steam"
 id = "aoe2-de"
-release = 4
+release = 5
 summary = "Age of Empires II: DE using Wine with data via Steam, ageLANServer for LAN"
 description = """
 Age of Empires II: Definitive Edition (with the Enhanced Graphics Pack), run
@@ -10,7 +10,7 @@ from Steam and the Goldberg Steam emulator (gbe-fork-bin). ageLANServer and
 its launcher companion DLLs restore LAN multiplayer lobbies without the
 official servers."""
 url = "https://steamdb.info/app/813780/"
-changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+changelog = ["Link Goldberg from /opt/gbe-fork and the companion DLLs from /opt/agelanserver-companion so the game starts under umu/Proton"]
 remove_files = ["lan.sh", "lan-client.sh", "lan-wine.sh", "aoe2-de-lan.conf", "aoe2-de.sh", "ColdClientLoader.ini", "configs.app.ini", "configs.user.ini",
                 "achievements.json", "supported_languages.txt"]
 extra_files = ["gbe.configs.app.ini", "gbe.configs.user.ini", "gbe.achievements.json",
@@ -41,9 +41,9 @@ flavour = "experimental"   # loads steam_settings/load_dlls/*.dll (companion DLL
 exe = "AoE2DE_s.exe"
 
 [deps]
-arch = ["agelanserver-bin", "agelanserver-companion-bin"]
-fedora = ["agelanserver-bin", "agelanserver-companion-bin"]
-debian = ["agelanserver-bin", "agelanserver-companion-bin"]
+arch = ["agelanserver-bin", "agelanserver-companion-bin>=1.5.0.0-2"]
+fedora = ["agelanserver-bin", "agelanserver-companion-bin >= 1.5.0.0-2"]
+debian = ["agelanserver-bin", "agelanserver-companion-bin (>= 1.5.0.0-2)"]
 
 [install]
 remove = ["*.vdf"]
@@ -62,8 +62,8 @@ parts = 7
 post_install = '''
 # Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
 install -d steam_settings/load_dlls
-ln -sfn /usr/lib/agelanserver-companion/Age2FakeOnline.dll steam_settings/load_dlls/Age2FakeOnline.dll
-ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+ln -sfn /opt/agelanserver-companion/Age2FakeOnline.dll steam_settings/load_dlls/Age2FakeOnline.dll
+ln -sfn /opt/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
 # LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
 install -Dm644 "$PT_SRCDIR/aoe2-de.agelan" "$D/usr/share/agelanserver/games/aoe2-de.conf"
 install -Dm644 "$PT_SRCDIR/aoe2-de-lan.desktop" "$D/usr/share/applications/aoe2-de-lan.desktop"

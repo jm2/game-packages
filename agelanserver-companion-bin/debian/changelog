@@ -1,3 +1,10 @@
+agelanserver-companion-bin (1.5.0.0-2) unstable; urgency=medium
+
+  * Move the DLLs to /opt/agelanserver-companion so umu/Proton's container
+    can see them; /usr/lib/agelanserver-companion keeps compatibility links.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Sat, 07 Nov 2026 12:00:00 -0500
+
 agelanserver-companion-bin (1.5.0.0-1) unstable; urgency=medium
 
   * Initial package.

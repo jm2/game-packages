@@ -14,7 +14,7 @@
 Name:           prey-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Prey (2006) data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://steamdb.info/app/3970/
@@ -44,4 +44,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
-- Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
+- Copy every base/*.pk4, not just pak000-pak004

@@ -31,8 +31,8 @@ pt_icon() {
 pt_post_install() {
     # Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
     install -d steam_settings/load_dlls
-    ln -sfn /usr/lib/agelanserver-companion/Age3FakeOnline.dll steam_settings/load_dlls/Age3FakeOnline.dll
-    ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+    ln -sfn /opt/agelanserver-companion/Age3FakeOnline.dll steam_settings/load_dlls/Age3FakeOnline.dll
+    ln -sfn /opt/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
     # LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
     install -Dm644 "$PT_SRCDIR/aoe3-de.agelan" "$D/usr/share/agelanserver/games/aoe3-de.conf"
     install -Dm644 "$PT_SRCDIR/aoe3-de-lan.desktop" "$D/usr/share/applications/aoe3-de-lan.desktop"

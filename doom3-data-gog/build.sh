@@ -7,7 +7,7 @@ PT_TARGET=/opt/doom3
 PT_STEAM_APPID=''
 PT_REMOVE=()
 PT_ALIASES=()
-PT_EXTRA_PATHS=()
+PT_EXTRA_PATHS=(/usr/share/games/doom3)
 PT_ICON_NAME=''
 PT_NO_DATA=
 PT_VERSION_EXE=''
@@ -24,6 +24,11 @@ pt_fetch() {
 
 pt_icon() {
     :
+}
+
+pt_post_install() {
+    install -d "$D/usr/share/games"
+    ln -sfn /opt/doom3 "$D/usr/share/games/doom3"
 }
 
 # pkgtool.sh - shared build logic for generated game/data packages.

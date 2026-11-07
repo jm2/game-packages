@@ -19,7 +19,7 @@ pt_fetch() {
     local dir; dir=$(pt_steam_fetch 3970 windows )
     pt_steam_version "$dir" > "$PT_META/version"
     local f
-    for f in "$dir"/base/pak00[0-4].pk4; do rel=${f#"$dir"/}; install -d "$PT_GAME/$(dirname "$rel")"; cp -a "$f" "$PT_GAME/$rel"; done
+    for f in "$dir"/base/*.pk4; do rel=${f#"$dir"/}; install -d "$PT_GAME/$(dirname "$rel")"; cp -a "$f" "$PT_GAME/$rel"; done
     rm -rf "$PT_GAME/steamapps"
 }
 

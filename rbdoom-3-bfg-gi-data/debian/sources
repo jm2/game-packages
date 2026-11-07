@@ -1,0 +1,2 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+f1b9a325cede2a281ece7d10a1a8bc48ce760d12ae23e37c62308631a886abae RBDOOM-3-BFG-1.6.0.22-full-win64-20250510-git-ba39ba6.7z https://github.com/RobertBeckebans/RBDOOM-3-BFG/releases/download/v1.6.0/RBDOOM-3-BFG-1.6.0.22-full-win64-20250510-git-ba39ba6.7z

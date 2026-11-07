@@ -5,7 +5,9 @@
 #   ageServerLauncherCompanion_Age2FakeOnline_release_1.4.0.0.dll -> Age2FakeOnline.dll
 set -eu
 src=$1 dest=$2
-lib=$dest/usr/lib/agelanserver-companion
+# /opt, not /usr/lib: umu/Proton's pressure-vessel container replaces /usr, so
+# the game packages' load_dlls links would dangle there.
+lib=$dest/opt/agelanserver-companion
 install -d "$lib"
 n=0
 for f in "$src"/ageServerLauncherCompanion_*_release_*.dll; do
@@ -16,4 +18,7 @@ done
 for d in Age2FakeOnline Age3FakeOnline AgeFakeHostsCerts; do
     [ -f "$lib/$d.dll" ] || { echo "install.sh: $d.dll missing from the companion release" >&2; exit 1; }
 done
+# Compatibility links for game packages built before the move (plain Wine only).
+install -d "$dest/usr/lib/agelanserver-companion"
+for f in "$lib"/*.dll; do ln -s "/opt/agelanserver-companion/${f##*/}" "$dest/usr/lib/agelanserver-companion/"; done
 install -Dm644 README.md "$dest/usr/share/doc/agelanserver-companion-bin/README.md"

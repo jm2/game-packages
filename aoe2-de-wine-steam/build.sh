@@ -31,8 +31,8 @@ pt_icon() {
 pt_post_install() {
     # Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
     install -d steam_settings/load_dlls
-    ln -sfn /usr/lib/agelanserver-companion/Age2FakeOnline.dll steam_settings/load_dlls/Age2FakeOnline.dll
-    ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+    ln -sfn /opt/agelanserver-companion/Age2FakeOnline.dll steam_settings/load_dlls/Age2FakeOnline.dll
+    ln -sfn /opt/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
     # LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
     install -Dm644 "$PT_SRCDIR/aoe2-de.agelan" "$D/usr/share/agelanserver/games/aoe2-de.conf"
     install -Dm644 "$PT_SRCDIR/aoe2-de-lan.desktop" "$D/usr/share/applications/aoe2-de-lan.desktop"

@@ -15,15 +15,10 @@ that directory: the SPIR-V shaders compiled during the build
 materials and editor textures.
 
 Upstream's Windows release archive also has two data packs that are not
-built from source and are not included here:
-
-- `_rbdoom_global_illumination_data.pk4` (1.4 GB): the baked light grids
-  and environment probes of the campaign maps (the engine's
-  `bakeLightGrids`/`bakeEnvironmentProbes` output).
-- `_rbdoom_blood.pk4`: extra blood decals.
-
-To use them, copy them from the release archive into
-`~/.local/share/rbdoom3bfg/base/`.
+built from source: `_rbdoom_global_illumination_data.pk4` (1.4 GB, the baked
+light grids and environment probes of the campaign maps) and
+`_rbdoom_blood.pk4` (the blood materials those probes were baked for).
+Install the optional `rbdoom-3-bfg-gi-data` package for them.
 
 ## Running
 

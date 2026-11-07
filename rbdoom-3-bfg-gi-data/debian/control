@@ -1,0 +1,19 @@
+Source: rbdoom-3-bfg-gi-data
+Section: contrib/games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), curl, ca-certificates, libarchive-tools
+Standards-Version: 4.7.0
+Homepage: https://github.com/RobertBeckebans/RBDOOM-3-BFG
+Rules-Requires-Root: no
+
+Package: rbdoom-3-bfg-gi-data
+Architecture: all
+Depends: rbdoom-3-bfg, ${misc:Depends}
+Description: Baked global illumination and blood data for RBDOOM-3-BFG
+ The two data packs from RBDOOM-3-BFG's release archive that are not built
+ from source: _rbdoom_global_illumination_data.pk4, the baked light grids and
+ environment probes of the Doom 3 BFG campaign maps, and _rbdoom_blood.pk4,
+ the reflective blood materials those probes were baked for. Installed next
+ to the retail data in /usr/share/games/doom3bfg/base; extracted at build
+ time from the upstream Windows release archive (1.6 GB download).

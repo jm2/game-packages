@@ -1,13 +1,13 @@
 name = "doom3-data-gog"
 family = "data-gog"
 version = "1.3.1"
-release = 1
+release = 2
 summary = "Doom 3 and Resurrection of Evil data via GOG"
 url = "https://www.gog.com/game/doom_3"
 target = "/opt/doom3"
 provides = ["doom3-data", "doom3xp-data"]
 conflicts = ["doom3-data-steam", "doom3xp-data-steam"]
-changelog = ["Initial package"]
+changelog = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)"]
 notes = """
 GOG's original DOOM 3 (doom_3_classic, part of the DOOM 3 bundle) includes
 Resurrection of Evil, so this package installs both base/*.pk4 and
@@ -24,3 +24,13 @@ copy = ["base/*.pk4", "d3xp/*.pk4"]
 name = "setup_doom_3_1.3.1_(62814)-1.bin"
 url = "gogdownloader://doom_3_classic/en1installer1"
 sha256 = "01be656be3f760460dde24bffb7d709bc3cbfd7ef85c80f5ac2e5d67b936f5af"
+
+[install]
+# Debian's dhewm3 looks in /usr/share/games/doom3; ours and the AUR's use /opt/doom3.
+extra_paths = ["/usr/share/games/doom3"]
+
+[hooks]
+post_install = '''
+install -d "$D/usr/share/games"
+ln -sfn /opt/doom3 "$D/usr/share/games/doom3"
+'''

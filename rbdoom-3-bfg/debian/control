@@ -12,6 +12,7 @@ Package: rbdoom-3-bfg
 Architecture: amd64
 Depends: doom3bfg-data, hicolor-icon-theme, libvulkan1, ${shlibs:Depends}, ${misc:Depends}
 Recommends: mesa-vulkan-drivers | vulkan-icd
+Suggests: rbdoom-3-bfg-gi-data
 Description: Doom 3 BFG Edition with modern engine features
  RBDOOM-3-BFG is Robert Beckebans' modernized Doom 3 BFG Edition engine,
  with Vulkan rendering through NVIDIA's NVRHI, physically based rendering,

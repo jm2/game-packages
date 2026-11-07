@@ -14,7 +14,7 @@
 
 pkgname=rbdoom-3-bfg
 pkgver=1.6.0
-pkgrel=1
+pkgrel=2
 _nvrhi=fc4cfe69b9f65c7a0ba6509a52303efaba0a0e8c
 _shadermake=13867771f6142f35690a5e2103c1e1efdd90cb0e
 # Upstream's icon, added after the tag on the flatpak branch.
@@ -25,6 +25,7 @@ url="https://github.com/RobertBeckebans/RBDOOM-3-BFG"
 license=('GPL-3.0-or-later' 'MIT' 'Apache-2.0' 'LGPL-2.1-or-later' 'Zlib' 'BSD-3-Clause')
 depends=('bash' 'doom3bfg-data' 'glibc' 'hicolor-icon-theme' 'libgcc' 'libstdc++' 'ncurses' 'openal'
          'sdl2' 'vulkan-driver' 'vulkan-icd-loader' 'zlib')
+optdepends=('rbdoom-3-bfg-gi-data: baked global illumination and blood data from the release archive')
 makedepends=('cmake' 'directx-shader-compiler' 'ninja' 'vulkan-headers')
 makedepends_x86_64=('ispc')
 options=('!lto')
@@ -45,7 +46,7 @@ sha256sums=('05c7e824429d0b485eeb38567e67cc173a36c73aae403f6e76b5587e9ba06f65'
             '4f78f30678aed77f6dfe4cc7c3c76e23117623058030ebca20a29f5149091a2c'
             'fcd2676c04ff3ac2884599a1d039451d1d2db50d16bfe645312877b1c87488e8'
             'cac2eab78debeca04272e7d2265ce98124f5ee4e78846d8c96c76d16c674282a'
-            '665615b9f076b9fddced1838b9ebd7eacf27cc916e69e58abafaa6be09dbaf24')
+            'a1641dad3eec6a51ce4365164426a9a483783e54ac72d2dc8a2939d35f6013ca')
 
 prepare() {
     local _src="RBDOOM-3-BFG-${pkgver}/neo/extern"

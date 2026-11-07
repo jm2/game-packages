@@ -3,12 +3,12 @@
 
 pkgname=aoe2-de-wine-steam
 pkgver=0
-pkgrel=4
+pkgrel=5
 pkgdesc='Age of Empires II: DE using Wine with data via Steam, ageLANServer for LAN'
 arch=('x86_64')
 url='https://steamdb.info/app/813780/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'agelanserver-bin' 'agelanserver-companion-bin' 'umu-launcher')
+depends=('gamelaunch' 'gbe-fork-bin>=2026.09.27-2' 'hicolor-icon-theme' 'agelanserver-bin' 'agelanserver-companion-bin>=1.5.0.0-2' 'umu-launcher')
 makedepends=('icoutils' 'gbe-fork-bin' 'steamcmd' 'python')
 optdepends=('wine: system wine backend (GAMELAUNCH_RUNNER=wine)' 'dxvk-bin: DXVK for the system wine backend')
 options=('!strip' '!debug' 'emptydirs')
@@ -22,7 +22,7 @@ source=("build.sh"
         "gbe.supported_languages.txt"
         "aoe2-de-lan.desktop"
         "aoe2-de.agelan")
-sha256sums=('9903c3402796868d4763f707a2f5425c77fb54f404040a102c446c0ddc57b5a5'
+sha256sums=('128619177f23185371495cb4ad9365602ae7e319bab1d120c61d22569d2778c3'
             '6b11ec41a76081592daa1d1f967284817cbf0ba71e00e9dc5ea94d5875d9b1b5'
             '0ba20a90a202e27b3e2862d413fcbe3371e8a94ac8de4fd1e0959dc61adce293'
             'cb9da6e191eccee04e0f250f569fd61a8c1d77e1f8fce8909bb23923d9afcc25'

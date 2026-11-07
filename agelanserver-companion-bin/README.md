@@ -3,7 +3,7 @@
 luskaner's ageServerLauncherCompanion (AGPL-3.0) DLLs, loaded into Age of
 Empires II/III: DE and Age of Mythology: Retold by the Goldberg emulator's
 `steam_settings/load_dlls/` (the game packages link the ones they need from
-`/usr/lib/agelanserver-companion/`):
+`/opt/agelanserver-companion/`, which umu/Proton's container can see):
 
 - `AgeFakeHostsCerts.dll`: resolves the official hosts to the LAN server and
   trusts its certificate inside the game process (`--overrideHosts` /

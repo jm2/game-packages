@@ -1,7 +1,7 @@
 name = "aoe3-de-wine-steam"
 family = "wine-steam"
 id = "aoe3-de"
-release = 4
+release = 5
 summary = "Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN"
 description = """
 Age of Empires III: Definitive Edition, run through gamelaunch
@@ -9,7 +9,7 @@ Age of Empires III: Definitive Edition, run through gamelaunch
 Goldberg Steam emulator (gbe-fork-bin). ageLANServer and its launcher
 companion DLLs restore LAN multiplayer lobbies without the official servers."""
 url = "https://steamdb.info/app/933110/"
-changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+changelog = ["Link Goldberg from /opt/gbe-fork and the companion DLLs from /opt/agelanserver-companion so the game starts under umu/Proton"]
 remove_files = ["lan.sh", "lan-client.sh", "lan-wine.sh", "aoe3-de-lan.conf", "aoe3-de.sh", "ColdClientLoader.ini", "configs.app.ini", "configs.user.ini",
                 "achievements.json", "supported_languages.txt"]
 extra_files = ["gbe.configs.app.ini", "gbe.configs.user.ini", "gbe.achievements.json",
@@ -39,9 +39,9 @@ flavour = "experimental"   # loads steam_settings/load_dlls/*.dll (companion DLL
 exe = "AoE3DE_s.exe"
 
 [deps]
-arch = ["agelanserver-bin", "agelanserver-companion-bin"]
-fedora = ["agelanserver-bin", "agelanserver-companion-bin"]
-debian = ["agelanserver-bin", "agelanserver-companion-bin"]
+arch = ["agelanserver-bin", "agelanserver-companion-bin>=1.5.0.0-2"]
+fedora = ["agelanserver-bin", "agelanserver-companion-bin >= 1.5.0.0-2"]
+debian = ["agelanserver-bin", "agelanserver-companion-bin (>= 1.5.0.0-2)"]
 
 [install]
 remove = ["*.vdf"]
@@ -60,8 +60,8 @@ parts = 6
 post_install = '''
 # Companion DLLs (agelanserver-companion-bin), loaded by Goldberg's load_dlls.
 install -d steam_settings/load_dlls
-ln -sfn /usr/lib/agelanserver-companion/Age3FakeOnline.dll steam_settings/load_dlls/Age3FakeOnline.dll
-ln -sfn /usr/lib/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
+ln -sfn /opt/agelanserver-companion/Age3FakeOnline.dll steam_settings/load_dlls/Age3FakeOnline.dll
+ln -sfn /opt/agelanserver-companion/AgeFakeHostsCerts.dll steam_settings/load_dlls/AgeFakeHostsCerts.dll
 # LAN launcher entry: agelan (agelanserver-bin) reads this descriptor.
 install -Dm644 "$PT_SRCDIR/aoe3-de.agelan" "$D/usr/share/agelanserver/games/aoe3-de.conf"
 install -Dm644 "$PT_SRCDIR/aoe3-de-lan.desktop" "$D/usr/share/applications/aoe3-de-lan.desktop"

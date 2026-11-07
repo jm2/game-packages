@@ -1,12 +1,12 @@
 name = "doom3-data-steam"
 family = "data-steam"
-release = 1
+release = 2
 summary = "Doom 3 data via Steam"
 url = "https://store.steampowered.com/app/9050/DOOM_3/"
 target = "/opt/doom3"
 provides = ["doom3-data"]
 conflicts = ["doom3-data-gog"]
-changelog = ["Initial package"]
+changelog = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)"]
 notes = """
 base/*.pk4 for dhewm3 and other Doom 3 engines. Resurrection of Evil is
 doom3xp-data-steam."""
@@ -16,3 +16,13 @@ appid = 9050
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
 copy = ["base/*.pk4"]
+
+[install]
+# Debian's dhewm3 looks in /usr/share/games/doom3; ours and the AUR's use /opt/doom3.
+extra_paths = ["/usr/share/games/doom3"]
+
+[hooks]
+post_install = '''
+install -d "$D/usr/share/games"
+ln -sfn /opt/doom3 "$D/usr/share/games/doom3"
+'''

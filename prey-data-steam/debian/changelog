@@ -1,5 +1,5 @@
-prey-data-steam (0-2) unstable; urgency=medium
+prey-data-steam (0-3) unstable; urgency=medium
 
-  * Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
+  * Copy every base/*.pk4, not just pak000-pak004
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

@@ -14,7 +14,7 @@
 Name:           aoe3-de-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Age of Empires III: DE using Wine with data via Steam, ageLANServer for LAN
 License:        LicenseRef-Proprietary
 URL:            https://steamdb.info/app/933110/
@@ -38,7 +38,7 @@ Requires:       gamelaunch
 Requires:       gbe-fork-bin >= 2026.09.27-2
 Requires:       hicolor-icon-theme
 Requires:       agelanserver-bin
-Requires:       agelanserver-companion-bin
+Requires:       agelanserver-companion-bin >= 1.5.0.0-2
 %ifarch aarch64
 Requires:       umu-launcher
 Requires:       fex-emu
@@ -74,4 +74,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/aoe3-de.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
-- Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton
+- Link Goldberg from /opt/gbe-fork and the companion DLLs from /opt/agelanserver-companion so the game starts under umu/Proton

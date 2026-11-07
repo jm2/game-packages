@@ -13,7 +13,7 @@
 
 Name:           doom3-data-gog
 Version:        1.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Doom 3 and Resurrection of Evil data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/doom_3
@@ -45,5 +45,5 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.3.1-1
-- Initial package
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.3.1-2
+- Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)

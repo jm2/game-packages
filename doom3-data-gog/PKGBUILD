@@ -3,7 +3,7 @@
 
 pkgname=doom3-data-gog
 pkgver=1.3.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Doom 3 and Resurrection of Evil data via GOG'
 arch=('any')
 url='https://www.gog.com/game/doom_3'
@@ -18,7 +18,7 @@ source=("build.sh"
         "setup_doom_3_1.3.1_(62814)-1.bin::gogdownloader://doom_3_classic/en1installer1")
 noextract=("setup_doom_3_1.3.1_(62814).exe"
            "setup_doom_3_1.3.1_(62814)-1.bin")
-sha256sums=('c2136efc2a4fa49e1104b9f81c8d8fd6e2dc64228ce292d2a54be34054b3170a'
+sha256sums=('6bf626e8fbcb8d6ecf885945abaad6700d70d831efa5baa695cb088b7b07ce2c'
             'd7750ddd477962125fd78adba6912aac65f8079c18706873b734a2ec2dc75ec2'
             '4fe819ce056a6b8b5fe5fc41c7bf2c8dced3a5db1564d45b851e235bad7597d9'
             '01be656be3f760460dde24bffb7d709bc3cbfd7ef85c80f5ac2e5d67b936f5af')

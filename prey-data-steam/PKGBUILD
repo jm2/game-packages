@@ -3,7 +3,7 @@
 
 pkgname=prey-data-steam
 pkgver=0
-pkgrel=2
+pkgrel=3
 pkgdesc='Prey (2006) data via Steam'
 arch=('any')
 url='https://steamdb.info/app/3970/'
@@ -13,7 +13,7 @@ provides=('prey-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")
-sha256sums=('32c7b4386e865ad36abce397b6f83d8876d06b7578e1bda8f4fff4e45a0d992c'
+sha256sums=('6de10b466233ab6785169f8f52f8609be54752d8b88487f6846132d3ec766d0b'
             'dccddceae4995e1d79cf6dcf8af20f04dcf0aaeba827fc3565118c2d906dbf7d')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.

@@ -1,15 +1,15 @@
 name = "prey-data-steam"
 family = "data-steam"
-release = 2
+release = 3
 summary = "Prey (2006) data via Steam"
 url = "https://steamdb.info/app/3970/"
 target = "/opt/prey"
 provides = ["prey-data"]
 conflicts = []
-changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+changelog = ["Copy every base/*.pk4, not just pak000-pak004"]
 
 [source.steam]
 appid = 3970
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
-copy = ["base/pak00[0-4].pk4"]
+copy = ["base/*.pk4"]
