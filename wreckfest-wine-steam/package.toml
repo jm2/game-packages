@@ -1,12 +1,20 @@
 name = "wreckfest-wine-steam"
 family = "wine-steam"
 id = "wreckfest"
-release = 3
+release = 4
 summary = "Wreckfest using Wine with data via Steam"
 url = "https://store.steampowered.com/app/228380/Wreckfest/"
 remove_files = ["wreckfest.sh", "wreckfest.install"]
-changelog = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+changelog = ["Put Goldberg under THQ's Steam wrapper instead of replacing it, so LAN play matches the GOG build"]
 deb = { parts = 4 }
+notes = """
+LAN play: the game's top-level steam_api64.dll is THQ Nordic's online
+wrapper (the same file as in the GOG build), which loads Valve's Steam API
+from wrapper/THQNOnline/steam/. Goldberg replaces only that inner Steam API,
+so LAN discovery and joins go through THQ's layer exactly as in the GOG
+build: this package finds and joins dedicated servers run by
+wreckfest-wine-gog (`wreckfest-gog -s`).
+"""
 
 [source.steam]
 appid = 228380
@@ -14,7 +22,8 @@ appid = 228380
 version_base = "1.27"
 
 [gbe]
-libs = ["steam_api64.dll", "?steam_api.dll"]
+# Inside THQ's wrapper, not the top-level steam_api64.dll (see notes).
+libs = ["wrapper/THQNOnline/steam/steam_api64.dll", "?wrapper/THQNOnline/steam/steam_api.dll"]
 
 [icon]
 exe = "Wreckfest.exe"

@@ -13,7 +13,7 @@ PT_NO_DATA=
 PT_VERSION_EXE=Wreckfest_x64.exe
 PT_STEAM_VERSION_BASE=1.27
 PT_VERSION_STATIC=0
-PT_GBE_LIBS=(steam_api64.dll '?steam_api.dll')
+PT_GBE_LIBS=(wrapper/THQNOnline/steam/steam_api64.dll '?wrapper/THQNOnline/steam/steam_api.dll')
 PT_GBE_FLAVOUR=regular
 PT_GBE_LINUX_ARCH=x64
 

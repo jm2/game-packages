@@ -14,7 +14,7 @@
 Name:           wreckfest-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Wreckfest using Wine with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/228380/Wreckfest/
@@ -63,4 +63,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/wreckfest.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
-- Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton
+- Put Goldberg under THQ's Steam wrapper instead of replacing it, so LAN play matches the GOG build

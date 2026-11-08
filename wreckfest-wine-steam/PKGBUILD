@@ -3,7 +3,7 @@
 
 pkgname=wreckfest-wine-steam
 pkgver=0
-pkgrel=3
+pkgrel=4
 pkgdesc='Wreckfest using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/228380/Wreckfest/'
@@ -16,10 +16,10 @@ source=("build.sh"
         "wreckfest.conf"
         "wreckfest.desktop"
         "README.md")
-sha256sums=('d0639aeb39f4dd5563a641a2ad6e8cac5d2f37529cb04a45881bcc81993cfdd8'
+sha256sums=('53ddea3fe2e964f8e4bdbd003a13690c3d9cb1437dd5d75b25a04367bd87df65'
             'e8e1e530438ea994a46107c6b1a11efc3e68046dc44c0bf076474bfcf565bc86'
             '36810cbaac457fad873c6b7465f36ee274de594661d4a8978afadad66f9f58b3'
-            '1b38661029bd8c858579838c31858617369354477fda22f03052d6df8cd47ea4')
+            '794541882c8213cb0becb7cb6e0a006697970331f237343c13d268668418453b')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
 pkgver() {
