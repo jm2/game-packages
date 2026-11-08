@@ -4,7 +4,7 @@ name = "dirt4-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "DiRT 4 using Wine with data via Steam"
+description = "DiRT 4 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/421020/DiRT_4/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,7 +21,7 @@ replaces = []
 name = "DiRT 4"
 target = "dirt4/dirt4.exe"
 args = ""
-description = "DiRT 4 (Wine)"
+description = "DiRT 4"
 
 [[firewall]]
 name = "DiRT 4 (dirt4.exe)"

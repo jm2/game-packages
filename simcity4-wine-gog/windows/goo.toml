@@ -4,7 +4,7 @@ name = "simcity4-gog"
 version = "1.1.641"
 release = 3
 arch = "noarch"
-description = "SimCity 4 Deluxe Edition using Wine with data via GOG"
+description = "SimCity 4 Deluxe Edition with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/simcity_4_deluxe_edition"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)", "Drop the GOG installer's tmp/ slideshow images"]
@@ -21,7 +21,7 @@ replaces = []
 name = "SimCity 4"
 target = "simcity4/Apps/SimCity 4.exe"
 args = "-CustomResolution:enabled -r1920x1080x32"
-description = "SimCity 4 Deluxe Edition (Wine)"
+description = "SimCity 4 Deluxe Edition"
 
 [[firewall]]
 name = "SimCity 4 (SimCity 4.exe)"

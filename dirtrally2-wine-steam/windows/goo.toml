@@ -4,7 +4,7 @@ name = "dirtrally2-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "DiRT Rally 2.0 using Wine with data via Steam"
+description = "DiRT Rally 2.0 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/690790/DiRT_Rally_20/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,7 +21,7 @@ replaces = []
 name = "DiRT Rally 2.0"
 target = "dirtrally2/dirtrally2.exe"
 args = ""
-description = "DiRT Rally 2.0 (Wine)"
+description = "DiRT Rally 2.0"
 
 [[firewall]]
 name = "DiRT Rally 2.0 (dirtrally2.exe)"

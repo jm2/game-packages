@@ -4,7 +4,7 @@ name = "dirt3-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "DiRT 3 Complete Edition using Wine with data via Steam"
+description = "DiRT 3 Complete Edition with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/321040/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,7 +21,7 @@ replaces = []
 name = "DiRT 3"
 target = "dirt3/dirt3_game.exe"
 args = ""
-description = "DiRT 3 Complete Edition (Wine)"
+description = "DiRT 3 Complete Edition"
 
 [[firewall]]
 name = "DiRT 3 (dirt3_game.exe)"

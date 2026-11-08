@@ -4,7 +4,7 @@ name = "dirtshowdown-steam"
 version = "0"
 release = 4
 arch = "noarch"
-description = "DiRT Showdown using Wine with data via Steam"
+description = "DiRT Showdown with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/201700/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,13 +21,13 @@ replaces = []
 name = "DiRT Showdown"
 target = "dirtshowdown/showdown_avx.exe"
 args = ""
-description = "DiRT Showdown (Wine)"
+description = "DiRT Showdown"
 
 [[shortcut]]
 name = "DiRT Showdown (non-AVX build for older CPUs)"
 target = "dirtshowdown/showdown.exe"
 args = ""
-description = "DiRT Showdown (Wine)"
+description = "DiRT Showdown"
 
 [[firewall]]
 name = "DiRT Showdown (showdown_avx.exe)"

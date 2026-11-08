@@ -4,7 +4,7 @@ name = "codwaw-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "Call of Duty: World at War using Wine with data via Steam"
+description = "Call of Duty: World at War with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
@@ -24,19 +24,19 @@ dirs = ["codwaw"]
 name = "Call of Duty: World at War"
 target = "codwaw/CoDWaWlf.exe"
 args = ""
-description = "Call of Duty: World at War (Wine)"
+description = "Call of Duty: World at War"
 
 [[shortcut]]
 name = "Call of Duty: World at War (campaign and zombies (standard build))"
 target = "codwaw/CoDWaW.exe"
 args = ""
-description = "Call of Duty: World at War (Wine)"
+description = "Call of Duty: World at War"
 
 [[shortcut]]
 name = "Call of Duty: World at War (multiplayer)"
 target = "codwaw/CoDWaWmp.exe"
 args = ""
-description = "Call of Duty: World at War (Wine)"
+description = "Call of Duty: World at War"
 
 [[firewall]]
 name = "Call of Duty: World at War (CoDWaWlf.exe)"

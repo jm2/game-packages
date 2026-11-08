@@ -4,7 +4,7 @@ name = "flatout2-gog"
 version = "1.2"
 release = 5
 arch = "noarch"
-description = "FlatOut 2 using Wine with data via GOG"
+description = "FlatOut 2 with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/flatout_2"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)", "Update to GOG's current installer (build 26697, game at its root)", "Conflict with flatout2-wine-steam"]
@@ -21,7 +21,7 @@ replaces = []
 name = "FlatOut 2"
 target = "flatout2/FlatOut2.exe"
 args = ""
-description = "FlatOut 2 (Wine)"
+description = "FlatOut 2"
 
 [[firewall]]
 name = "FlatOut 2 (FlatOut2.exe)"

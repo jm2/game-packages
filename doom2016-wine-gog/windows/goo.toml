@@ -4,7 +4,7 @@ name = "doom2016-gog"
 version = "20240321.110145"
 release = 1
 arch = "noarch"
-description = "DOOM (2016) using Wine with data via GOG"
+description = "DOOM (2016) with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/doom_2016"
 release_notes = ["Initial GOG package (replaces doom2016-wine-steam, which needed DRM-free executables)"]
@@ -21,13 +21,13 @@ replaces = ["doom2016-steam"]
 name = "DOOM (2016)"
 target = "doom2016/DOOMx64vk.exe"
 args = ""
-description = "DOOM (2016) (Wine)"
+description = "DOOM (2016)"
 
 [[shortcut]]
 name = "DOOM (2016) (OpenGL renderer)"
 target = "doom2016/DOOMx64.exe"
 args = ""
-description = "DOOM (2016) (Wine)"
+description = "DOOM (2016)"
 
 [[firewall]]
 name = "DOOM (2016) (DOOMx64vk.exe)"

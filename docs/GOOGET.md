@@ -49,3 +49,31 @@ Versions become googet's `X.Y.Z@release` (`tools/goopack.py goo_version`):
 googet downloads a package to its cache and extracts it before copying the
 files, so a client needs about three times a game's size free while it
 installs (`googet clean` empties the cache afterwards).
+
+## Engine Windows builds (survey 2026-11-08)
+
+Upstream Windows releases for the pinned Linux versions; hand-written
+`windows/goo.toml` manifests still to do except quake3e.
+
+| Package | Windows build | Notes |
+|---|---|---|
+| quake3e | ec-/Quake3e 2026-10-14 windows-x86_64.zip | done |
+| yamagi-quake2 (+ctf, rogue, xatrix) | deponie.yamagi.org quake2-8.70a.zip | 32-bit only; ctf/rogue/xatrix DLLs are inside, same versions as Linux |
+| yamagi-quake2-ref_vk | yquake2/ref_vk v1.0.12 i686 zip | 32-bit |
+| dhewm3 | 1.5.5_win32.zip (+ mods zip) | 32-bit |
+| rbdoom-3-bfg | v1.6.0 full-win64 .7z (1.65 GB) | no checksum published |
+| etlegacy-bin | etlegacy.com file/793 (v2.86.2 x64 zip) | numeric download URL |
+| openetqw-bin, kisakcod-bin | jm2 v0.1.0 windows-x64 zips | releases are still drafts (Linux URLs 404 too); kisakcod-bin's PKGBUILD asks for `-client-beta` but the draft has `-client` |
+| openq4-bin | v0.13.2 windows-x64.zip (722 MB) | arm64 zip too |
+| lilium-voyager-git, prey2006-git | none for the pinned commits | need MinGW source builds |
+| quake2rtx | v1.8.1 windows.exe | installer only (1 GB) |
+| unreal-tournament-bin | OldUnreal 469e Windows-x86.zip | 32-bit; patch over retail data |
+| ut2004-bin | OldUnreal 3374-rc3 Windows zip | x64 + SystemARM64; patch over retail data |
+| rvgl-bin | rvgl 23.1030a1 win64 .7z | |
+| cro-mag-rally-net | jm2/CroMagRally v3.2.0 windows-x64 zip | arm64 zip too |
+| Jorio ports | each project's windows-x64 zip | mightymike's asset is `-hotfix` |
+| agelanserver(-companion), gbe-fork-bin, xlln-bin | same archives the Linux packages use | already Windows files |
+| steamcmd | steamcmd.zip (unversioned) | self-updating |
+| tributary(-bin) | jm2/tributary v0.7.2 windows-x86_64.zip | arm64 zip too |
+| geysermc-bin | same jar | needs Java on Windows |
+| owntone-server, netatalk-appletalk | none | Unix-only |

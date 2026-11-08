@@ -4,7 +4,7 @@ name = "blur-steam"
 version = "0"
 release = 2
 arch = "noarch"
-description = "Blur using Wine with data via Steam"
+description = "Blur with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/42640/"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
@@ -21,7 +21,7 @@ replaces = []
 name = "Blur"
 target = "blur/Blur.exe"
 args = ""
-description = "Blur (Wine)"
+description = "Blur"
 
 [[firewall]]
 name = "Blur (Blur.exe)"

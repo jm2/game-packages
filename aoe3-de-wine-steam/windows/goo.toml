@@ -24,7 +24,7 @@ dirs = ["aoe3-de"]
 name = "Age of Empires III: Definitive Edition"
 target = "aoe3-de/AoE3DE_s.exe"
 args = ""
-description = "Age of Empires III: Definitive Edition (Wine)"
+description = "Age of Empires III: Definitive Edition"
 
 [[firewall]]
 name = "Age of Empires III: Definitive Edition (AoE3DE_s.exe)"

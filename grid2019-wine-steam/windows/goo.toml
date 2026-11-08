@@ -4,7 +4,7 @@ name = "grid2019-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "GRID (2019) using Wine with data via Steam"
+description = "GRID (2019) with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/703860/GRID/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,7 +21,7 @@ replaces = []
 name = "GRID (2019)"
 target = "grid2019/Grid_dx12.exe"
 args = ""
-description = "GRID (2019) (Wine)"
+description = "GRID (2019)"
 
 [[firewall]]
 name = "GRID (2019) (Grid_dx12.exe)"

@@ -4,7 +4,7 @@ name = "wreckfest2-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "Wreckfest 2 using Wine with data via Steam"
+description = "Wreckfest 2 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/1203190/Wreckfest_2/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,7 +21,7 @@ replaces = []
 name = "Wreckfest 2"
 target = "wreckfest2/Wreckfest2.exe"
 args = ""
-description = "Wreckfest 2 (Wine)"
+description = "Wreckfest 2"
 
 [[firewall]]
 name = "Wreckfest 2 (Wreckfest2.exe)"

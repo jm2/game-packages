@@ -4,7 +4,7 @@ name = "codmw2-steam"
 version = "0"
 release = 2
 arch = "noarch"
-description = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam"
+description = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://iw4x.dev/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -24,13 +24,13 @@ dirs = ["codmw2"]
 name = "Call of Duty: Modern Warfare 2 (IW4x)"
 target = "codmw2/iw4x.exe"
 args = ""
-description = "Modern Warfare 2 multiplayer with IW4x (Wine)"
+description = "Modern Warfare 2 multiplayer with IW4x"
 
 [[shortcut]]
 name = "Call of Duty: Modern Warfare 2 (IW4x) (stock multiplayer executable)"
 target = "codmw2/iw4mp.exe"
 args = ""
-description = "Modern Warfare 2 multiplayer with IW4x (Wine)"
+description = "Modern Warfare 2 multiplayer with IW4x"
 
 [[firewall]]
 name = "Call of Duty: Modern Warfare 2 (IW4x) (iw4x.exe)"

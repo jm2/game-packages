@@ -771,6 +771,11 @@ def toml_list(items) -> str:
     return "[" + ", ".join(toml_str(i) for i in items) + "]"
 
 
+def goo_text(s: str) -> str:
+    # Linux wording that doesn't apply on Windows.
+    return re.sub(r"\s*\(Wine\)|\s+using Wine", "", s)
+
+
 def goo_name(p: Pkg) -> str:
     # No Wine on Windows: wreckfest-wine-gog -> wreckfest-gog.
     return p.name.replace("-wine-", "-") if p.wine else p.name
@@ -803,7 +808,7 @@ def gen_goo(p: Pkg) -> str | None:
            f"version = {toml_str(p.version)}",
            f"release = {p.release}",
            'arch = "noarch"',
-           f"description = {toml_str(p.description)}",
+           f"description = {toml_str(goo_text(p.description))}",
            f"license = {toml_str(p.license)}",
            f"url = {toml_str(p.url)}",
            f"release_notes = {toml_list(notes)}",
@@ -830,7 +835,7 @@ def gen_goo(p: Pkg) -> str | None:
             out += ["", "[[shortcut]]", f"name = {toml_str(label)}",
                     f"target = {toml_str(stage_dir + '/' + exe)}",
                     f"args = {toml_str(args)}",
-                    f"description = {toml_str(p.desktop.get('comment', p.summary))}"]
+                    f"description = {toml_str(goo_text(p.desktop.get('comment', p.summary)))}"]
             if workdir:
                 out.append(f"workdir = {toml_str(stage_dir + '/' + workdir)}")
             if exe not in exes:

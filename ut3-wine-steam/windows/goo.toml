@@ -4,7 +4,7 @@ name = "ut3-steam"
 version = "0"
 release = 2
 arch = "noarch"
-description = "Unreal Tournament 3 Black using Wine with data via Steam"
+description = "Unreal Tournament 3 Black with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
@@ -21,7 +21,7 @@ replaces = []
 name = "Unreal Tournament 3"
 target = "ut3/Binaries/UT3.exe"
 args = "-nostartupmovies"
-description = "Unreal Tournament 3 Black (Wine)"
+description = "Unreal Tournament 3 Black"
 
 [[firewall]]
 name = "Unreal Tournament 3 (UT3.exe)"

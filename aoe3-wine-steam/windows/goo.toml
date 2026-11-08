@@ -4,7 +4,7 @@ name = "aoe3-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "Age of Empires III (2007) Complete Collection using Wine with data via Steam"
+description = "Age of Empires III (2007) Complete Collection with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/105450/Age_of_Empires_III_2007/"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
@@ -21,19 +21,19 @@ replaces = []
 name = "Age of Empires III (Age of Empires III (original game))"
 target = "aoe3/age3.exe"
 args = "+noIntroCinematics"
-description = "Age of Empires III Complete Collection (Wine)"
+description = "Age of Empires III Complete Collection"
 
 [[shortcut]]
 name = "Age of Empires III (The WarChiefs)"
 target = "aoe3/age3x.exe"
 args = "+noIntroCinematics"
-description = "Age of Empires III Complete Collection (Wine)"
+description = "Age of Empires III Complete Collection"
 
 [[shortcut]]
 name = "Age of Empires III"
 target = "aoe3/age3y.exe"
 args = "+noIntroCinematics"
-description = "Age of Empires III Complete Collection (Wine)"
+description = "Age of Empires III Complete Collection"
 
 [[firewall]]
 name = "Age of Empires III (age3.exe)"

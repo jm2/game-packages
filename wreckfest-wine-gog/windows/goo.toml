@@ -4,7 +4,7 @@ name = "wreckfest-gog"
 version = "1.0o"
 release = 5
 arch = "noarch"
-description = "Wreckfest using Wine with data via GOG"
+description = "Wreckfest with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/wreckfest"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)", "Fix the launcher looking in /opt/wreckfest instead of /opt/wreckfest-gog", "Own prefix, no longer shared with wreckfest-wine-steam", "LAN: run as a Windows user named after the host (unique SteamID per machine); dedicated server variant", "LAN: preload wine-ipv6only so hosting from the game works under Wine (not for -s)"]
@@ -24,19 +24,19 @@ dirs = ["wreckfest-gog"]
 name = "Wreckfest (GOG)"
 target = "wreckfest-gog/Wreckfest_x64.exe"
 args = ""
-description = "Wreckfest (Wine)"
+description = "Wreckfest"
 
 [[shortcut]]
 name = "Wreckfest (GOG) (legacy 32-bit Wreckfest.exe)"
 target = "wreckfest-gog/Wreckfest.exe"
 args = ""
-description = "Wreckfest (Wine)"
+description = "Wreckfest"
 
 [[shortcut]]
 name = "Wreckfest (GOG) (dedicated LAN server (server_config.cfg))"
 target = "wreckfest-gog/Wreckfest_x64.exe"
 args = "-s server_config=server_config.cfg"
-description = "Wreckfest (Wine)"
+description = "Wreckfest"
 
 [[firewall]]
 name = "Wreckfest (GOG) (Wreckfest_x64.exe)"

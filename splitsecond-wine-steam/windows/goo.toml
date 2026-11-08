@@ -4,7 +4,7 @@ name = "splitsecond-steam"
 version = "0"
 release = 2
 arch = "noarch"
-description = "Split/Second using Wine with data via Steam"
+description = "Split/Second with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/297860/SplitSecond/"
 release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
@@ -21,7 +21,7 @@ replaces = []
 name = "Split/Second"
 target = "splitsecond/SplitSecond.exe"
 args = ""
-description = "Split/Second (Wine)"
+description = "Split/Second"
 
 [[firewall]]
 name = "Split/Second (SplitSecond.exe)"

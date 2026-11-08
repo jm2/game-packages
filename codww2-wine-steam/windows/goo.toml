@@ -4,7 +4,7 @@ name = "codww2-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "Call of Duty: WWII using Wine with data via Steam"
+description = "Call of Duty: WWII with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/476600/Call_of_Duty_WWII/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -24,13 +24,13 @@ dirs = ["codww2"]
 name = "Call of Duty: WWII"
 target = "codww2/s2_sp64_ship.exe"
 args = ""
-description = "Call of Duty: WWII (Wine)"
+description = "Call of Duty: WWII"
 
 [[shortcut]]
 name = "Call of Duty: WWII (multiplayer / nazi zombies (LAN via Goldberg))"
 target = "codww2/s2_mp64_ship.exe"
 args = ""
-description = "Call of Duty: WWII (Wine)"
+description = "Call of Duty: WWII"
 
 [[firewall]]
 name = "Call of Duty: WWII (s2_sp64_ship.exe)"

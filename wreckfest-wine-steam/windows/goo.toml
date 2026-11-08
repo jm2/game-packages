@@ -4,7 +4,7 @@ name = "wreckfest-steam"
 version = "0"
 release = 5
 arch = "noarch"
-description = "Wreckfest using Wine with data via Steam"
+description = "Wreckfest with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/228380/Wreckfest/"
 release_notes = ["LAN: preload wine-ipv6only so hosting from the game works under Wine", "Put Goldberg under THQ's Steam wrapper instead of replacing it, so LAN play matches the GOG build"]
@@ -21,13 +21,13 @@ replaces = []
 name = "Wreckfest"
 target = "wreckfest/Wreckfest_x64.exe"
 args = ""
-description = "Wreckfest (Wine)"
+description = "Wreckfest"
 
 [[shortcut]]
 name = "Wreckfest (legacy 32-bit Wreckfest.exe)"
 target = "wreckfest/Wreckfest.exe"
 args = ""
-description = "Wreckfest (Wine)"
+description = "Wreckfest"
 
 [[firewall]]
 name = "Wreckfest (Wreckfest_x64.exe)"

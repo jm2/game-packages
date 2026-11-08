@@ -24,7 +24,7 @@ dirs = ["aom-retold"]
 name = "Age of Mythology: Retold"
 target = "aom-retold/AoMRT_s.exe"
 args = ""
-description = "Age of Mythology: Retold (Wine)"
+description = "Age of Mythology: Retold"
 
 [[firewall]]
 name = "Age of Mythology: Retold (AoMRT_s.exe)"

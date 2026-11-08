@@ -4,7 +4,7 @@ name = "knockoutcity-steam"
 version = "0"
 release = 1
 arch = "noarch"
-description = "Knockout City Private Server Edition using Wine with data via Steam"
+description = "Knockout City Private Server Edition with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/2915930/Knockout_City__Private_Server_Edition/"
 release_notes = ["Initial package"]
@@ -21,7 +21,7 @@ replaces = []
 name = "Knockout City"
 target = "knockoutcity/KnockoutCity.exe"
 args = ""
-description = "Dodgeball brawler: host or join a LAN game (Wine)"
+description = "Dodgeball brawler: host or join a LAN game"
 
 [[firewall]]
 name = "Knockout City (KnockoutCity.exe)"

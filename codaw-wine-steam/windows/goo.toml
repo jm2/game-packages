@@ -4,7 +4,7 @@ name = "codaw-steam"
 version = "0"
 release = 3
 arch = "noarch"
-description = "Call of Duty: Advanced Warfare using Wine with data via Steam"
+description = "Call of Duty: Advanced Warfare with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/209650/Call_of_Duty_Advanced_Warfare__Gold_Edition/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -24,13 +24,13 @@ dirs = ["codaw"]
 name = "Call of Duty: Advanced Warfare"
 target = "codaw/s1_sp64_ship.exe"
 args = ""
-description = "Call of Duty: Advanced Warfare (Wine)"
+description = "Call of Duty: Advanced Warfare"
 
 [[shortcut]]
 name = "Call of Duty: Advanced Warfare (multiplayer / exo survival (LAN via Goldberg))"
 target = "codaw/s1_mp64_ship.exe"
 args = ""
-description = "Call of Duty: Advanced Warfare (Wine)"
+description = "Call of Duty: Advanced Warfare"
 
 [[firewall]]
 name = "Call of Duty: Advanced Warfare (s1_sp64_ship.exe)"

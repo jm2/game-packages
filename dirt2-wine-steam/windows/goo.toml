@@ -24,7 +24,7 @@ dirs = ["dirt2"]
 name = "DiRT 2"
 target = "dirt2/dirt2.exe"
 args = ""
-description = "Colin McRae: DiRT 2 (Wine)"
+description = "Colin McRae: DiRT 2"
 
 [[firewall]]
 name = "DiRT 2 (dirt2.exe)"

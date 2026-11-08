@@ -4,7 +4,7 @@ name = "flatout2-steam"
 version = "0"
 release = 2
 arch = "noarch"
-description = "FlatOut 2 using Wine with data via Steam"
+description = "FlatOut 2 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/2990/FlatOut_2/"
 release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
@@ -21,7 +21,7 @@ replaces = []
 name = "FlatOut 2"
 target = "flatout2/FlatOut2.exe"
 args = ""
-description = "FlatOut 2 (Wine)"
+description = "FlatOut 2"
 
 [[firewall]]
 name = "FlatOut 2 (FlatOut2.exe)"
