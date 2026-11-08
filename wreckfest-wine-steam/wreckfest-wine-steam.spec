@@ -14,7 +14,7 @@
 Name:           wreckfest-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Wreckfest using Wine with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/228380/Wreckfest/
@@ -28,7 +28,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  gbe-fork-bin
 BuildRequires:  python3
-Requires:       gamelaunch
+Requires:       gamelaunch >= 1.2.0
 Requires:       gbe-fork-bin >= 2026.09.27-2
 Requires:       hicolor-icon-theme
 %ifarch aarch64
@@ -40,6 +40,7 @@ Recommends:     fex-emu-thunks
 Recommends:     muvm
 %else
 Requires:       (umu-launcher or wine)
+Requires:       wine-ipv6only
 %endif
 
 %description
@@ -63,4 +64,5 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/wreckfest.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
+- LAN: preload wine-ipv6only so hosting from the game works under Wine
 - Put Goldberg under THQ's Steam wrapper instead of replacing it, so LAN play matches the GOG build

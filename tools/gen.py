@@ -52,6 +52,8 @@ WINE_DEPS = {
     "fedora": ["gamelaunch", "(umu-launcher or wine)"],
     "debian": ["gamelaunch", "umu-launcher | wine"],
 }
+# LD_PRELOAD libraries for [launcher] preload, and the package providing them.
+PRELOAD_PROVIDERS = {"/opt/wine-ipv6only/": "wine-ipv6only"}
 WINE_OPTDEPS_ARCH = ["wine: system wine backend (GAMELAUNCH_RUNNER=wine)",
                      "dxvk-bin: DXVK for the system wine backend"]
 NATIVE_DEPS = {"arch": ["gamelaunch"], "fedora": ["gamelaunch"], "debian": ["gamelaunch"]}
@@ -191,6 +193,8 @@ class Pkg:
         v = self.t.get("gamelaunch_min", "1.1.0" if self.target == "@prefix" else "")
         if self.xlln and tuple(map(int, (v or "0").split("."))) < (1, 1, 2):
             v = "1.1.2"                           # 1.1.2: XLLN links into /opt/xlln
+        if self.launcher.get("preload") and tuple(map(int, (v or "0").split("."))) < (1, 2, 0):
+            v = "1.2.0"                           # 1.2.0: WINE_PRELOAD
         if not v:
             return "gamelaunch"
         return {"arch": f"gamelaunch>={v}", "fedora": f"gamelaunch >= {v}",
@@ -219,6 +223,11 @@ class Pkg:
         out: list[str] = []
         if self.wine:
             out += [d for d in WINE_DEPS[fmt] if d != "gamelaunch"]
+            # Preload libraries are x86_64 builds; gamelaunch skips missing ones.
+            for lib in self.launcher.get("preload", []):
+                for prefix, pkg in PRELOAD_PROVIDERS.items():
+                    if lib.startswith(prefix) and pkg not in out:
+                        out.append(pkg)
         elif self.game:
             # dh_shlibdeps is off for prebuilt game binaries, so declare libc.
             libc = "libc6:i386" if self.native32 else "libc6"
@@ -402,6 +411,10 @@ def gen_conf(p: Pkg) -> str:
             out.append("XLLN=1")
         if l.get("wine_user"):
             out.append(f"WINE_USER={sh(l['wine_user'])}")
+        if l.get("preload"):
+            out.append(f"WINE_PRELOAD={sh_array(l['preload'])}")
+            if l.get("preload_variants"):
+                out.append(f"WINE_PRELOAD_VARIANTS={sh_array(l['preload_variants'])}")
         if l.get("bootstrap_url"):
             # A client that installs and updates itself in the prefix (target = "@prefix").
             out.append(f"BOOTSTRAP_URL={sh(l['bootstrap_url'])}")

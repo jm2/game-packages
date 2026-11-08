@@ -25,9 +25,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 TOOLS = REPO / "tools"
-RUNTIME = ["gamelaunch", "gbe-fork-bin", "xlln-bin", "agelanserver-bin", "agelanserver-companion-bin"]
+RUNTIME = ["gamelaunch", "gbe-fork-bin", "xlln-bin", "wine-ipv6only", "agelanserver-bin", "agelanserver-companion-bin"]
 # Preinstalled in every build that isn't one of them (see docs/PACKAGING.md).
-LOCAL = ["gamelaunch", "xlln-bin", "gbe-fork-bin"]
+LOCAL = ["gamelaunch", "xlln-bin", "gbe-fork-bin", "wine-ipv6only"]
 # Imported from the AUR, as games depend on them. Those listed in AUR_LOCAL are
 # preinstalled to build the package named; they build first.
 AUR = ["gtk2", "lib32-portaudio", "xf86miscproto", "gconf", "lib32-gtk2", "lib32-libpng12", "lib32-libxxf86misc",

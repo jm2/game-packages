@@ -1,5 +1,6 @@
-wreckfest-wine-steam (0-4) unstable; urgency=medium
+wreckfest-wine-steam (0-5) unstable; urgency=medium
 
+  * LAN: preload wine-ipv6only so hosting from the game works under Wine
   * Put Goldberg under THQ's Steam wrapper instead of replacing it, so LAN play matches the GOG build
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

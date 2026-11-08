@@ -1,5 +1,5 @@
 Name:           gamelaunch
-Version:        1.1.2
+Version:        1.2.0
 Release:        1%{?dist}
 Summary:        Shared launcher for wine/Proton and native game packages
 License:        0BSD
@@ -43,6 +43,9 @@ install -dm755 %{buildroot}%{_datadir}/gamelaunch/games %{buildroot}%{_sysconfdi
 %dir %{_sysconfdir}/gamelaunch/games
 
 %changelog
+* Sun Nov 08 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2.0-1
+- WINE_PRELOAD / WINE_PRELOAD_VARIANTS: LD_PRELOAD Linux libraries into Wine games
+
 * Sat Nov 07 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.1.2-1
 - xlln: use /opt/xlln (visible inside umu's container), fall back to /usr/lib/xlln
 

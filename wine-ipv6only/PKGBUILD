@@ -1,0 +1,24 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=wine-ipv6only
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="LD_PRELOAD library that forces IPV6_V6ONLY, so Windows games can host LAN games under Wine"
+arch=('x86_64')
+url="https://github.com/jm2/linux-packages"
+license=('0BSD')
+depends=('glibc')
+makedepends=('gcc' 'make')
+source=("ipv6only.c" "Makefile" "LICENSE")
+sha256sums=('c82497bf719584b6129529906afe32f5a6f099664e0eda4ae4618b9f1a26d726'
+            'ae486a41087d47fe85b882f1582911d49e6ef563956fa4ff38899e443348b8c6'
+            '6d3b473b559ad3816a3ca62bd6f59dc66a06eb89a0b237e79f3f8217a8a6a467')
+
+build() {
+    make
+}
+
+package() {
+    make DESTDIR="${pkgdir}" install
+    install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

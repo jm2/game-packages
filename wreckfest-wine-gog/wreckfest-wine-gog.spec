@@ -13,7 +13,7 @@
 
 Name:           wreckfest-wine-gog
 Version:        1.0o
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Wreckfest using Wine with data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/en/game/wreckfest
@@ -35,7 +35,7 @@ ExclusiveArch:  x86_64 aarch64
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  innoextract
-Requires:       gamelaunch
+Requires:       gamelaunch >= 1.2.0
 Requires:       hicolor-icon-theme
 %ifarch aarch64
 Requires:       umu-launcher
@@ -46,6 +46,7 @@ Recommends:     fex-emu-thunks
 Recommends:     muvm
 %else
 Requires:       (umu-launcher or wine)
+Requires:       wine-ipv6only
 %endif
 Recommends:     wine
 
@@ -67,8 +68,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/wreckfest-gog.desktop
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-5
 - Switch to gamelaunch (umu/Proton default, system wine fallback)
 - Fix the launcher looking in /opt/wreckfest instead of /opt/wreckfest-gog
 - Own prefix, no longer shared with wreckfest-wine-steam
 - LAN: run as a Windows user named after the host (unique SteamID per machine); dedicated server variant
+- LAN: preload wine-ipv6only so hosting from the game works under Wine (not for -s)

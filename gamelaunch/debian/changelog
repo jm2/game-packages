@@ -1,3 +1,10 @@
+gamelaunch (1.2.0-1) unstable; urgency=medium
+
+  * WINE_PRELOAD / WINE_PRELOAD_VARIANTS: LD_PRELOAD Linux libraries into
+    Wine games.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Sun, 08 Nov 2026 12:00:00 -0500
+
 gamelaunch (1.1.2-1) unstable; urgency=medium
 
   * xlln: use /opt/xlln (visible inside umu's container), fall back to

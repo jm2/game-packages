@@ -23,6 +23,7 @@
 #   GAMELAUNCH_USER=<name>       Windows username for this run (wine backend
 #                                only: Proton always reports "steamuser")
 #   GAMELAUNCH_DEBUG=1           trace and keep wine/umu logging
+#   GAMELAUNCH_NO_PRELOAD=1      skip the config's WINE_PRELOAD libraries
 #   PROTONPATH, GAMEID           passed through to umu-run
 #   WINE                         wine binary for the wine backend
 #   GAMELAUNCH_WRAPPER           command to wrap games in on non-x86 hosts
@@ -64,6 +65,7 @@ gl_load() {
     DXVK=1 UMU_ID='' WINE_ARCH=win64 WINE_DLL_OVERRIDES='' WINE_ENV=() PREREQS=()
     XLLN=0 XLLN_DIR='' LEGACY_DIRS=() NATIVE_ENV=() NEEDS_X86_32=0 WINE_USER=''
     BOOTSTRAP_URL='' BOOTSTRAP_FILE='' BOOTSTRAP_ARGS=()
+    WINE_PRELOAD=() WINE_PRELOAD_VARIANTS=()
     # shellcheck source=/dev/null
     . "$conf" || die "failed to read $conf"
 
@@ -463,7 +465,7 @@ gl_bootstrap() {
 
 gl_select_variant() {
     # VARIANTS entries: "<flag>|<exe>|<extra args>|<description>"
-    GL_EXE=$GAME_EXE GL_EXTRA=()
+    GL_EXE=$GAME_EXE GL_EXTRA=() GL_VARIANT=''
     local want=${DEFAULT_VARIANT:-} v flag exe args
     if [ -n "${1:-}" ] && [ "${#VARIANTS[@]}" -gt 0 ]; then
         case $1 in
@@ -484,6 +486,7 @@ gl_select_variant() {
     for v in "${VARIANTS[@]}"; do
         IFS='|' read -r flag exe args _ <<<"$v"
         if [ "$flag" = "$want" ]; then
+            GL_VARIANT=$flag
             [ -n "$exe" ] && GL_EXE=$exe
             # shellcheck disable=SC2206
             [ -n "$args" ] && GL_EXTRA=($args)
@@ -491,6 +494,25 @@ gl_select_variant() {
         fi
     done
     die "unknown default variant '$want' in config"
+}
+
+# WINE_PRELOAD: Linux libraries LD_PRELOADed into Wine/Proton (from /opt, which
+# umu's container can see), for the variants in WINE_PRELOAD_VARIANTS (all if
+# empty). A missing library is skipped: such packages only depend on it on x86.
+gl_preload() {
+    [ ${#WINE_PRELOAD[@]} -gt 0 ] && [ -z "${GAMELAUNCH_NO_PRELOAD:-}" ] || return 0
+    if [ ${#WINE_PRELOAD_VARIANTS[@]} -gt 0 ]; then
+        [[ " ${WINE_PRELOAD_VARIANTS[*]} " == *" $GL_VARIANT "* ]] || return 0
+    fi
+    local lib list=''
+    for lib in "${WINE_PRELOAD[@]}"; do
+        if [ -e "$lib" ]; then list+="${list:+:}$lib"
+        else case $(uname -m) in x86_64|i?86) warn "$lib is missing; skipping it" ;; esac
+        fi
+    done
+    [ -n "$list" ] || return 0
+    export LD_PRELOAD="$list${LD_PRELOAD:+:$LD_PRELOAD}"
+    GL_ENV_NAMES+=" LD_PRELOAD"
 }
 
 gl_run_game() {
@@ -525,6 +547,7 @@ gl_run_game() {
     local e
     for e in "${WINE_ENV[@]}"; do export "${e?}"; done
     gl_bootstrap "$root"
+    gl_preload
     [ -n "$GL_OVERRIDES" ] && export WINEDLLOVERRIDES="$GL_OVERRIDES${WINEDLLOVERRIDES:+;$WINEDLLOVERRIDES}"
     [ -n "${GAMELAUNCH_DEBUG:-}" ] || export WINEDEBUG=${WINEDEBUG:--all}
     cd "$workdir" || die "cannot enter $workdir"

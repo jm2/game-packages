@@ -1,0 +1,18 @@
+Source: wine-ipv6only
+Section: otherosfs
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/linux-packages
+Rules-Requires-Root: no
+
+Package: wine-ipv6only
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: LD_PRELOAD library that forces IPV6_V6ONLY for Wine games
+ Some Windows games bind a dual-stack IPv6 socket and then an IPv4 socket on
+ the same port. Windows allows that; Linux refuses the IPv4 bind, so under
+ Wine the game can't host LAN games. gamelaunch preloads this library (from
+ /opt/wine-ipv6only, which umu's container can see) for the games that need
+ it; it forces IPV6_V6ONLY=1 so both sockets bind as they do on Windows.

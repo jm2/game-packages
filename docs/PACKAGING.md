@@ -58,6 +58,11 @@ packages contain proprietary game data or prebuilt third-party binaries.
   (Linux builds).
 - `xlln-bin`: GFWL games set `[xlln] enabled = true`; gamelaunch links
   XLiveLessNess into the per-user game directory.
+- `wine-ipv6only`: `[launcher] preload = ["/opt/wine-ipv6only/lib64/ipv6only.so"]`
+  (with `preload_variants` to leave out e.g. a dedicated server) forces
+  IPV6_V6ONLY for games that bind `[::]` and `0.0.0.0` on the same port, which
+  Linux otherwise refuses (Wreckfest hosting). x86_64 only; packages depend on
+  it on x86 and gamelaunch skips it where it is missing.
 
 ## Versions of Steam packages
 
@@ -103,7 +108,7 @@ make exact.
 in clean podman containers and runs namcap / rpmlint / lintian. Game packages
 need their data: point `PT_CACHE` at a cache directory (real data from
 `tools/fetch-steam`, or a fake tree for build-logic tests), set
-`LOCAL="gamelaunch xlln-bin gbe-fork-bin"` to preinstall locally built
+`LOCAL="gamelaunch xlln-bin gbe-fork-bin wine-ipv6only"` to preinstall locally built
 dependencies, and `NODEPS=1` on Arch where makedepends are AUR-only (steamcmd).
 
 ## Building the repos
