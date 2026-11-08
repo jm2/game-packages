@@ -752,6 +752,132 @@ def write(path: Path, content: str, mode: int = 0o644, check: bool = False) -> b
     return True
 
 
+# --------------------------------------------------------------------------
+# GooGet (Windows): windows/goo.toml, built by tools/goo-build
+# --------------------------------------------------------------------------
+
+# Families with a Windows package: the same files, installed natively.
+# native-* need the Windows depots and wine-local/wine-launcher user files or
+# a store client, so they get hand-written manifests (or none) instead.
+GOO_FAMILIES = {"wine-steam", "wine-gog", "data-steam", "data-gog", "data-url"}
+GOO_ROOT = "<SystemDrive>/Games"
+
+
+def toml_str(v: str) -> str:
+    return '"' + v.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n") + '"'
+
+
+def toml_list(items) -> str:
+    return "[" + ", ".join(toml_str(i) for i in items) + "]"
+
+
+def goo_name(p: Pkg) -> str:
+    # No Wine on Windows: wreckfest-wine-gog -> wreckfest-gog.
+    return p.name.replace("-wine-", "-") if p.wine else p.name
+
+
+def gen_goo(p: Pkg) -> str | None:
+    if p.family not in GOO_FAMILIES or p.t.get("goo", {}).get("disabled"):
+        return None
+    g = p.t.get("goo", {})
+    # /opt/X, /usr/share/games/X, /usr/share/X -> C:\Games\X (engines use the same).
+    rel = next((p.target.removeprefix(pre) for pre in ("/opt/", "/usr/share/games/", "/usr/share/")
+                if p.target.startswith(pre)), None)
+    if not rel:
+        die(f"{p.name}: no Windows location for target {p.target}")
+    base, _, sub = rel.strip("/").partition("/")   # e.g. rvgl, packs/game_files
+    stage_dir = f"{base}/{sub}" if sub else base
+    deps: dict[str, str] = {}
+    if p.data_package:
+        deps[p.data_package] = ""
+    for d in g.get("deps", []):
+        deps[d] = ""
+    local = []
+    if p.gbe:
+        local.append("gbe-fork-bin")
+    if p.xlln:
+        local.append("xlln-bin")
+    notes = p.t.get("changelog", [])
+    out = [f"# GooGet (Windows) package for {p.name}", f"# {HEADER}",
+           f"name = {toml_str(goo_name(p))}",
+           f"version = {toml_str(p.version)}",
+           f"release = {p.release}",
+           'arch = "noarch"',
+           f"description = {toml_str(p.description)}",
+           f"license = {toml_str(p.license)}",
+           f"url = {toml_str(p.url)}",
+           f"release_notes = {toml_list(notes)}",
+           f"provides = {toml_list(p.provides)}",
+           f"conflicts = {toml_list([goo_name_of(c) for c in p.conflicts])}",
+           f"replaces = {toml_list([goo_name_of(c) for c in p.replaces])}",
+           "", "[deps]"]
+    out += [f"{toml_str(k)} = {toml_str(v)}" for k, v in deps.items()]
+    out += ["", "[files]", f"{toml_str(base)} = {toml_str(GOO_ROOT + '/' + base)}"]
+    if p.game:
+        l = p.launcher
+        writable = l.get("writable", p.xlln)
+        if writable:
+            out += ["", "[writable]", f"dirs = {toml_list([base])}"]
+        name = p.desktop.get("name", p.id)
+        variants = l.get("variants") or [{"flag": "", "exe": l["exe"], "description": ""}]
+        exes = []
+        for v in variants:
+            exe = v.get("exe") or l["exe"]
+            args = " ".join(l.get("args", []) + v.get("args", []))
+            label = name if (v["flag"] in ("", l.get("default_variant")) or len(variants) == 1) \
+                else f"{name} ({v['description']})"
+            workdir = l.get("workdir", "")
+            out += ["", "[[shortcut]]", f"name = {toml_str(label)}",
+                    f"target = {toml_str(stage_dir + '/' + exe)}",
+                    f"args = {toml_str(args)}",
+                    f"description = {toml_str(p.desktop.get('comment', p.summary))}"]
+            if workdir:
+                out.append(f"workdir = {toml_str(stage_dir + '/' + workdir)}")
+            if exe not in exes:
+                exes.append(exe)
+        for exe in exes:
+            out += ["", "[[firewall]]", f"name = {toml_str(name + ' (' + exe.split('/')[-1] + ')')}",
+                    f"program = {toml_str(stage_dir + '/' + exe)}"]
+        for pr in l.get("prereqs", []):
+            pname, _, cmd = pr.partition("|")
+            if cmd.startswith("winetricks:"):
+                continue          # Windows ships or installs these itself
+            exe, _, args = cmd.partition(" ")
+            out += ["", "[[prereq]]", f"name = {toml_str(pname)}",
+                    f"path = {toml_str(stage_dir + '/' + exe)}", f"args = {toml_str(args)}"]
+    script = ['export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"',
+              'bash "$PKGDIR/build.sh" prepare',
+              'bash "$PKGDIR/build.sh" install "$WORK/root"',
+              f'mkdir -p "$STAGE/{stage_dir}"',
+              '# Windows needs real files: follow the gbe-fork / xlln links.',
+              f'cp -aL "$WORK/root{p.target}/." "$STAGE/{stage_dir}/"',
+              f'rm -f "$STAGE/{stage_dir}/.gamelaunch-stamp"']
+    if p.xlln:
+        xdir = stage_dir + ("/" + p.launcher.get("xlln_dir", "").strip("/") if p.launcher.get("xlln_dir")
+                            else ("/" + p.launcher["exe"].rsplit("/", 1)[0] if "/" in p.launcher["exe"] else ""))
+        script += [f'mkdir -p "$STAGE/{xdir}/XLiveLessNess"',
+                   f'cp -L /opt/xlln/xlive.dll "$STAGE/{xdir}/"',
+                   f'cp -aL /opt/xlln/XLiveLessNess/. "$STAGE/{xdir}/XLiveLessNess/"']
+    if p.steam_versioned:
+        script.append('bash "$PKGDIR/build.sh" version > "$STAGE/.version"')
+    # URL sources are fetched by goo-build into PT_CACHE/<linux name>/, where
+    # build.sh looks; store downloads (gogdownloader://, steam) must already be
+    # cached by tools/fetch-gog / tools/fetch-steam.
+    for f in p.files:
+        if f.get("url", "").startswith(("http://", "https://")) and f.get("sha256"):
+            out += ["", "[[source]]", f"name = {toml_str(f['name'])}",
+                    f"url = {toml_str(f['url'])}", f"sha256 = {toml_str(f['sha256'])}"]
+    out += ["", "[stage]", 'container = "fedora"', f"source_dir = {toml_str(p.name)}",
+            f"deps = {toml_list(p.build_deps('fedora'))}",
+            f"local = {toml_list(local)}",
+            "script = '''", *script, "'''"]
+    return "\n".join(out) + "\n"
+
+
+def goo_name_of(name: str) -> str:
+    return name.replace("-wine-", "-")
+
+
 def generate(d: Path, check: bool = False) -> bool:
     p = Pkg(d)
     changed = False
@@ -785,6 +911,9 @@ def generate(d: Path, check: bool = False) -> bool:
         else:
             shutil.rmtree(d / "debian")
         changed = True
+    goo = gen_goo(p)
+    if goo:
+        out["windows/goo.toml"] = (goo, 0o644)
     for n, (content, mode) in out.items():
         changed |= write(d / n, content, mode, check)
     if not check:

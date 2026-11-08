@@ -1,0 +1,52 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "quake3e"
+version = "2026.10.14"
+release = 1
+arch = "x86_64"
+description = """
+Improved Quake III Arena engine with OpenGL and Vulkan renderers (upstream's
+Windows build). Installs to C:\\Games\\quake3 next to the game data from
+quake3-data-gog or quake3-data-steam."""
+license = "GPL-2.0-or-later"
+url = "https://github.com/ec-/Quake3e"
+release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)"]
+
+[deps]
+quake3-data = ""
+
+[files]
+"quake3" = "<SystemDrive>/Games/quake3"
+
+[writable]
+dirs = ["quake3"]
+
+[[shortcut]]
+name = "Quake III Arena (Quake3e)"
+target = "quake3/quake3e.x64.exe"
+description = "Quake III Arena"
+
+[[shortcut]]
+name = "Quake III Team Arena (Quake3e)"
+target = "quake3/quake3e.x64.exe"
+args = "+set fs_game missionpack"
+description = "Quake III: Team Arena"
+
+[[firewall]]
+name = "Quake3e"
+program = "quake3/quake3e.x64.exe"
+
+[[firewall]]
+name = "Quake3e dedicated server"
+program = "quake3/quake3e.ded.x64.exe"
+
+[[source]]
+name = "quake3e-windows-x86_64-2026-10-14.zip"
+url = "https://github.com/ec-/Quake3e/releases/download/2026-10-14/quake3e-windows-x86_64.zip"
+sha256 = "33cc1017bf48de2b1256f74e063387e6e3b8507de309622a0e082c5b9b58279b"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+mkdir -p "$STAGE/quake3"
+unzip -q -o "$SRC/quake3e-windows-x86_64-2026-10-14.zip" -d "$STAGE/quake3"
+'''

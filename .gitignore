@@ -4,6 +4,7 @@
 !/*/debian/
 !/*/patches/
 !/*/LICENSES/
+!/*/windows/
 !/.github/workflows/
 
 # Local scratch listings
