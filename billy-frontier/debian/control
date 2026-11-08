@@ -1,0 +1,17 @@
+Source: billy-frontier
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, libsdl2-dev, libgl-dev,
+ desktop-file-utils, patch, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jorio/BillyFrontier
+Rules-Requires-Root: no
+
+Package: billy-frontier
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Description: cowboys-in-space arcade shooter from Pangea Software
+ Billy Frontier is Pangea Software's "cowboys in space" arcade action game:
+ duels, stampedes and shooting galleries on a frontier planet.
+ Updated for modern systems by Iliyas Jorio.

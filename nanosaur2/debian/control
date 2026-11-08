@@ -1,0 +1,17 @@
+Source: nanosaur2
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, libsdl2-dev, libgl-dev,
+ desktop-file-utils, patch, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jorio/Nanosaur2
+Rules-Requires-Root: no
+
+Package: nanosaur2
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Description: sequel to Nanosaur, from Pangea Software
+ Nanosaur 2: Hatchling is Pangea Software's sequel to Nanosaur, a flying
+ shooter starring a cybernetic pterodactyl.
+ Updated for modern systems by Iliyas Jorio.

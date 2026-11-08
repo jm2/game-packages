@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+VER := 1.1.1
+POMME := 9fae17d7715314a3a20259ac2e87aa500a977695
+D := $(CURDIR)/debian/billy-frontier
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=src --builddirectory=build
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf BillyFrontier-$(VER).tar.gz -C src --strip-components=1
+	rmdir src/extern/Pomme && mkdir src/extern/Pomme
+	tar -xf Pomme-$(POMME).tar.gz -C src/extern/Pomme --strip-components=1
+	dh_auto_configure -- -Wno-dev
+
+override_dh_auto_install:
+	sh install.sh src build $(D) $(VER) billy-frontier
+	install -m644 src/LICENSE.md $(D)/usr/share/doc/billy-frontier/
+	install -m644 src/extern/Pomme/LICENSE.md $(D)/usr/share/doc/billy-frontier/Pomme-LICENSE.md
+	desktop-file-validate $(D)/usr/share/applications/billy-frontier.desktop
+
+override_dh_auto_clean:
+	rm -rf src build

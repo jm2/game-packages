@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The same release tarball as the PKGBUILD, and the Pomme commit it records.
+ec7cb0beadb2e289030d6d2643a7e150cdc8aab540321c2ad81e4e5e9c8675b3 Nanosaur-1.4.4.tar.gz https://github.com/jorio/Nanosaur/archive/v1.4.4/Nanosaur-1.4.4.tar.gz
+b81e3d0bb2d4eb68ba78ba62d046ab6589d7bf46a6d4c48e19ded37e3aa2a9da Pomme-fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6.tar.gz https://github.com/jorio/Pomme/archive/fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6/Pomme-fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6.tar.gz

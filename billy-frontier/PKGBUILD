@@ -1,0 +1,44 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: George Rawlinson <george@rawlinson.net.nz>
+
+pkgname=billy-frontier
+pkgver=1.1.1
+pkgrel=1
+pkgdesc='An arcade action game with a "cowboys in space" theme'
+arch=('x86_64' 'aarch64')
+url='https://github.com/jorio/BillyFrontier'
+license=('CC-BY-NC-SA-4.0' 'MIT')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sdl2-compat' 'sh')
+makedepends=('cmake')
+# Release tarballs; GitHub archives don't include the Pomme submodule, so it is
+# fetched separately at the commit the release records.
+source=("BillyFrontier-1.1.1.tar.gz::https://github.com/jorio/BillyFrontier/archive/v1.1.1/BillyFrontier-1.1.1.tar.gz"
+        "Pomme-9fae17d7715314a3a20259ac2e87aa500a977695.tar.gz::https://github.com/jorio/Pomme/archive/9fae17d7715314a3a20259ac2e87aa500a977695/Pomme-9fae17d7715314a3a20259ac2e87aa500a977695.tar.gz"
+        'billy-frontier.desktop'
+        'billy-frontier.sh'
+        'install.sh')
+sha256sums=('5c484627e1f9c5713011bbab4211f45fce4400b594d89a14d59be228f85ae083'
+            'e0e5e0065cfa2c8d37a8dcd41b37eed1e83068420fd8d64132fc77252944febb'
+            'ffaa3171b1dfa14865c400ec7d1dae9d47bf45efbe4c8db1ce8f58b736aeb673'
+            'bb97c5042fdab62eee02b547cb0744d4f3964bf1d5a4d6ad44979d4c657c1519'
+            'fa834eb84821c2ab38a3fc19853f1b83d5cf32cff7c32a09a9780bf308059afa')
+
+prepare() {
+  rmdir "BillyFrontier-1.1.1/extern/Pomme"
+  mkdir "BillyFrontier-1.1.1/extern/Pomme"
+  tar -xf "Pomme-9fae17d7715314a3a20259ac2e87aa500a977695.tar.gz" -C "BillyFrontier-1.1.1/extern/Pomme" --strip-components=1
+}
+
+build() {
+  cmake -S "BillyFrontier-1.1.1" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  sh "${srcdir}/install.sh" "${srcdir}/BillyFrontier-1.1.1" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "BillyFrontier-1.1.1/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "BillyFrontier-1.1.1/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+}

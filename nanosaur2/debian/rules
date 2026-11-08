@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+VER := 2.1.0
+POMME := 6e4ea042ba9e7e525d3930e45662be15605153c4
+D := $(CURDIR)/debian/nanosaur2
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=src --builddirectory=build
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf Nanosaur2-$(VER).tar.gz -C src --strip-components=1
+	rmdir src/extern/Pomme && mkdir src/extern/Pomme
+	tar -xf Pomme-$(POMME).tar.gz -C src/extern/Pomme --strip-components=1
+	patch -d src/extern/Pomme -p1 < pomme-cstdint.patch
+	dh_auto_configure -- -Wno-dev
+
+override_dh_auto_install:
+	sh install.sh src build $(D) $(VER) nanosaur2
+	install -m644 src/LICENSE.md $(D)/usr/share/doc/nanosaur2/
+	install -m644 src/extern/Pomme/LICENSE.md $(D)/usr/share/doc/nanosaur2/Pomme-LICENSE.md
+	desktop-file-validate $(D)/usr/share/applications/nanosaur2.desktop
+
+override_dh_auto_clean:
+	rm -rf src build

@@ -1,0 +1,23 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Nanosaur
+Source: https://github.com/jorio/Nanosaur
+
+Files: *
+Copyright: 1998 Pangea Software, Inc.; Iliyas Jorio
+License: CC-BY-NC-SA-4.0
+ See /usr/share/doc/nanosaur/LICENSE.md.
+
+Files: src/extern/Pomme/*
+Copyright: 2020 Iliyas Jorio
+License: MIT
+ See /usr/share/doc/nanosaur/Pomme-LICENSE.md.
+
+Files: LICENSE.upstream
+Copyright: 1998 Pangea Software, Inc.
+License: LicenseRef-Pangea
+ Pangea Software's original Nanosaur source code usage rules. See
+ /usr/share/doc/nanosaur/Pangea-LICENSE.
+
+Files: debian/* nanosaur.desktop nanosaur.sh install.sh
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

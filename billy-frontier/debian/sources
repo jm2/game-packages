@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The same release tarball as the PKGBUILD, and the Pomme commit it records.
+5c484627e1f9c5713011bbab4211f45fce4400b594d89a14d59be228f85ae083 BillyFrontier-1.1.1.tar.gz https://github.com/jorio/BillyFrontier/archive/v1.1.1/BillyFrontier-1.1.1.tar.gz
+e0e5e0065cfa2c8d37a8dcd41b37eed1e83068420fd8d64132fc77252944febb Pomme-9fae17d7715314a3a20259ac2e87aa500a977695.tar.gz https://github.com/jorio/Pomme/archive/9fae17d7715314a3a20259ac2e87aa500a977695/Pomme-9fae17d7715314a3a20259ac2e87aa500a977695.tar.gz

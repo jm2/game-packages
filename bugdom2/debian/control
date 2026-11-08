@@ -1,0 +1,17 @@
+Source: bugdom2
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, libsdl2-dev, libgl-dev,
+ desktop-file-utils, patch, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jorio/Bugdom2
+Rules-Requires-Root: no
+
+Package: bugdom2
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Description: sequel to Bugdom, from Pangea Software
+ Bugdom 2 is Pangea Software's sequel to Bugdom: Skip the grasshopper tracks
+ down the Bully Bee to get his knapsack back.
+ Updated for modern systems by Iliyas Jorio.

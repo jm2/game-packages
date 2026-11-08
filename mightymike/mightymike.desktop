@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Mighty Mike
+Comment=High-powered action rescue in a toy store gone mad
+Icon=mightymike
+Exec=mightymike
+Terminal=false
+Categories=Game;ActionGame;

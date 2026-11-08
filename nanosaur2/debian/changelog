@@ -1,0 +1,5 @@
+nanosaur2 (2.1.0-1) unstable; urgency=medium
+
+  * Initial Debian package, following the AUR package.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Sat, 07 Nov 2026 12:00:00 -0500

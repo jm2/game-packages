@@ -1,0 +1,17 @@
+Source: nanosaur
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, libsdl2-dev, libgl-dev,
+ desktop-file-utils, patch, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jorio/Nanosaur
+Rules-Requires-Root: no
+
+Package: nanosaur
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Description: cybernetic dinosaur third-person shooter from Pangea Software
+ Nanosaur is Pangea Software's third-person shooter: a cybernetic dinosaur
+ sends eggs to the future before a meteor hits the Earth.
+ Updated for modern systems by Iliyas Jorio.

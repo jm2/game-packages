@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+VER := 1.4.4
+POMME := fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6
+D := $(CURDIR)/debian/nanosaur
+
+%:
+	dh $@ --buildsystem=cmake --sourcedirectory=src --builddirectory=build
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf Nanosaur-$(VER).tar.gz -C src --strip-components=1
+	rmdir src/extern/Pomme && mkdir src/extern/Pomme
+	tar -xf Pomme-$(POMME).tar.gz -C src/extern/Pomme --strip-components=1
+	patch -d src/extern/Pomme -p1 < pomme-cstdint.patch
+	dh_auto_configure -- -Wno-dev
+
+override_dh_auto_install:
+	sh install.sh src build $(D) $(VER) nanosaur
+	install -m644 src/LICENSE.md $(D)/usr/share/doc/nanosaur/
+	install -m644 src/extern/Pomme/LICENSE.md $(D)/usr/share/doc/nanosaur/Pomme-LICENSE.md
+	install -m644 LICENSE.upstream $(D)/usr/share/doc/nanosaur/Pangea-LICENSE
+	desktop-file-validate $(D)/usr/share/applications/nanosaur.desktop
+
+override_dh_auto_clean:
+	rm -rf src build

@@ -1,0 +1,49 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: George Rawlinson <george@rawlinson.net.nz>
+
+pkgname=nanosaur2
+pkgver=2.1.0
+pkgrel=1
+pkgdesc='Sequel to the original Nanosaur'
+arch=('x86_64' 'aarch64')
+url='https://github.com/jorio/Nanosaur2'
+license=('CC-BY-NC-SA-4.0' 'MIT')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sdl2-compat' 'sh')
+makedepends=('cmake')
+# Release tarballs; GitHub archives don't include the Pomme submodule, so it is
+# fetched separately at the commit the release records.
+source=("Nanosaur2-2.1.0.tar.gz::https://github.com/jorio/Nanosaur2/archive/v2.1.0/Nanosaur2-2.1.0.tar.gz"
+        "Pomme-6e4ea042ba9e7e525d3930e45662be15605153c4.tar.gz::https://github.com/jorio/Pomme/archive/6e4ea042ba9e7e525d3930e45662be15605153c4/Pomme-6e4ea042ba9e7e525d3930e45662be15605153c4.tar.gz"
+        'nanosaur2.desktop'
+        'nanosaur2.sh'
+        'install.sh'
+        'pomme-cstdint.patch')
+sha256sums=('fcf64a96baa88c405f228ab9d177aa36cfa30325b23413d9dc6622e3f17f94bf'
+            '752a18a8e7d8cbd7937f1bf7ef3ae1ed5bc8e0a52c55b039e2f01098d4d92b67'
+            'd65d842b95bd5a7fe42659bb5f99dcdbcb3d3d80c4b00aa31d365e8c7b30ca94'
+            '99dbfa391ec97d7925dcbca553f26dde229133efd1d5cd4e19b489bdf45aec4c'
+            '4faff247a3f0188a6187cc2f02e6e39ccc66b927678235c3a4aef49bbd19fe4d'
+            'e872a562db3a239c09dc13add53f010d57ded562d405b93d0552e495ca1c1f17')
+
+prepare() {
+  rmdir "Nanosaur2-2.1.0/extern/Pomme"
+  mkdir "Nanosaur2-2.1.0/extern/Pomme"
+  tar -xf "Pomme-6e4ea042ba9e7e525d3930e45662be15605153c4.tar.gz" -C "Nanosaur2-2.1.0/extern/Pomme" --strip-components=1
+  # <cstdint> includes for GCC 13+, from Pomme d57c28e (later Pomme commits
+  # have it; this release pins an older one).
+  patch -d "Nanosaur2-2.1.0/extern/Pomme" -p1 < pomme-cstdint.patch
+}
+
+build() {
+  cmake -S "Nanosaur2-2.1.0" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  sh "${srcdir}/install.sh" "${srcdir}/Nanosaur2-2.1.0" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "Nanosaur2-2.1.0/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "Nanosaur2-2.1.0/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+}

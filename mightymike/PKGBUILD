@@ -1,0 +1,49 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: George Rawlinson <george@rawlinson.net.nz>
+
+pkgname=mightymike
+pkgver=3.0.2
+pkgrel=1
+pkgdesc='High Powered Action Rescue in a Toy Store Gone Mad'
+arch=('x86_64' 'aarch64')
+url='https://github.com/jorio/mightymike'
+license=('CC-BY-NC-SA-4.0' 'MIT')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sdl2-compat' 'sh')
+makedepends=('cmake')
+# Release tarballs; GitHub archives don't include the Pomme submodule, so it is
+# fetched separately at the commit the release records.
+source=("mightymike-3.0.2.tar.gz::https://github.com/jorio/mightymike/archive/v3.0.2/mightymike-3.0.2.tar.gz"
+        "Pomme-ad9cc177d2187f67bd00cb6cf2b3045ef91c577b.tar.gz::https://github.com/jorio/Pomme/archive/ad9cc177d2187f67bd00cb6cf2b3045ef91c577b/Pomme-ad9cc177d2187f67bd00cb6cf2b3045ef91c577b.tar.gz"
+        'mightymike.desktop'
+        'mightymike.sh'
+        'install.sh'
+        'pomme-cstdint.patch')
+sha256sums=('f86a758bfc807fe9c05e9735083fa0f82336183c6352f8dca3473cba558f7d3e'
+            'ab70d32efe83687d07fcfb85983ffa6215e68fa7b0b6c2c2a9363ee2c3061c0b'
+            '6689665bc9e093628d7dc89a4a9f4a82270b7cb49ae14cb3b77073d05fd597af'
+            'fffdc34443ec0b834b28d2d049f5bb90bd49b49d7ace2abd0b3a07ed7a896e3a'
+            '9277130f58b2df27fdae9c745dbe7bc86d4f3a5545174ddce45cce4828815de0'
+            'e872a562db3a239c09dc13add53f010d57ded562d405b93d0552e495ca1c1f17')
+
+prepare() {
+  rmdir "MightyMike-3.0.2/extern/Pomme"
+  mkdir "MightyMike-3.0.2/extern/Pomme"
+  tar -xf "Pomme-ad9cc177d2187f67bd00cb6cf2b3045ef91c577b.tar.gz" -C "MightyMike-3.0.2/extern/Pomme" --strip-components=1
+  # <cstdint> includes for GCC 13+, from Pomme d57c28e (later Pomme commits
+  # have it; this release pins an older one).
+  patch -d "MightyMike-3.0.2/extern/Pomme" -p1 < pomme-cstdint.patch
+}
+
+build() {
+  cmake -S "MightyMike-3.0.2" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  sh "${srcdir}/install.sh" "${srcdir}/MightyMike-3.0.2" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "MightyMike-3.0.2/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "MightyMike-3.0.2/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+}

@@ -1,0 +1,17 @@
+Source: mightymike
+Section: games
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), cmake, libsdl2-dev, libgl-dev,
+ desktop-file-utils, patch, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jorio/mightymike
+Rules-Requires-Root: no
+
+Package: mightymike
+Architecture: amd64 arm64
+Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
+Description: top-down action game in a toy store gone mad, from Pangea Software
+ Mighty Mike (originally Power Pete) is Pangea Software's top-down action
+ game: rescue the Fuzzy Puppies from a toy store gone mad.
+ Updated for modern systems by Iliyas Jorio.

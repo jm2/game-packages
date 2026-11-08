@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The same release tarball as the PKGBUILD, and the Pomme commit it records.
+c1d8cc0da3d1bb19456bd3672760e903f1924f47ebe69e8e62c9a1764007300a Bugdom2-4.0.0.tar.gz https://github.com/jorio/Bugdom2/archive/v4.0.0/Bugdom2-4.0.0.tar.gz
+fe1d3f57841ceea2aebac56368c49462643818d77472646f4a28aca00fc99b5f Pomme-c6a38eab19a11847024a13f9b3e2af0c2d908c3e.tar.gz https://github.com/jorio/Pomme/archive/c6a38eab19a11847024a13f9b3e2af0c2d908c3e/Pomme-c6a38eab19a11847024a13f9b3e2af0c2d908c3e.tar.gz

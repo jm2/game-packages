@@ -1,0 +1,44 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: George Rawlinson <george@rawlinson.net.nz>
+
+pkgname=bugdom
+pkgver=1.3.4
+pkgrel=1
+pkgdesc='Save Bugdom from Thorax'\''s evil Fire Ants'
+arch=('x86_64' 'aarch64')
+url='https://github.com/jorio/Bugdom'
+license=('CC-BY-NC-SA-4.0' 'MIT')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sdl2-compat' 'sh')
+makedepends=('cmake')
+# Release tarballs; GitHub archives don't include the Pomme submodule, so it is
+# fetched separately at the commit the release records.
+source=("Bugdom-1.3.4.tar.gz::https://github.com/jorio/Bugdom/archive/1.3.4/Bugdom-1.3.4.tar.gz"
+        "Pomme-ef94150e2dcec522e3099f4d03a4e8f2639f7232.tar.gz::https://github.com/jorio/Pomme/archive/ef94150e2dcec522e3099f4d03a4e8f2639f7232/Pomme-ef94150e2dcec522e3099f4d03a4e8f2639f7232.tar.gz"
+        'bugdom.desktop'
+        'bugdom.sh'
+        'install.sh')
+sha256sums=('7ec27f7e438588b56da9797310b83bcf7bb31cc3343b0df8644ee1e4216710a8'
+            '69faf616449c0737e238367883e36230f15d13c261e18d6e4d4c69e2edd0b002'
+            '7dfb60a9c8d3d02c030dd9730cfba83711139dd8164cdf0346e3d0bf407300b0'
+            '2779af390d2f9e3e5ffc01db3893efd54c61b90ee22e4ee6576797746523bc01'
+            '1ae0eaa58ea7c2c4fe951923440457b7dc227c9f10806e637437e9948c283555')
+
+prepare() {
+  rmdir "Bugdom-1.3.4/extern/Pomme"
+  mkdir "Bugdom-1.3.4/extern/Pomme"
+  tar -xf "Pomme-ef94150e2dcec522e3099f4d03a4e8f2639f7232.tar.gz" -C "Bugdom-1.3.4/extern/Pomme" --strip-components=1
+}
+
+build() {
+  cmake -S "Bugdom-1.3.4" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  sh "${srcdir}/install.sh" "${srcdir}/Bugdom-1.3.4" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "Bugdom-1.3.4/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "Bugdom-1.3.4/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+}

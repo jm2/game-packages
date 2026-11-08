@@ -1,0 +1,52 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: George Rawlinson <george@rawlinson.net.nz>
+
+pkgname=nanosaur
+pkgver=1.4.4
+pkgrel=1
+pkgdesc='Play as a cybernetic dinosaur in this third-person shooter'
+arch=('x86_64' 'aarch64')
+url='https://github.com/jorio/Nanosaur'
+license=('CC-BY-NC-SA-4.0' 'MIT' 'LicenseRef-Pangea')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sdl2-compat' 'sh')
+makedepends=('cmake')
+# Release tarballs; GitHub archives don't include the Pomme submodule, so it is
+# fetched separately at the commit the release records.
+source=("Nanosaur-1.4.4.tar.gz::https://github.com/jorio/Nanosaur/archive/v1.4.4/Nanosaur-1.4.4.tar.gz"
+        "Pomme-fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6.tar.gz::https://github.com/jorio/Pomme/archive/fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6/Pomme-fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6.tar.gz"
+        'nanosaur.desktop'
+        'nanosaur.sh'
+        'install.sh'
+        'pomme-cstdint.patch'
+        'LICENSE.upstream')
+sha256sums=('ec7cb0beadb2e289030d6d2643a7e150cdc8aab540321c2ad81e4e5e9c8675b3'
+            'b81e3d0bb2d4eb68ba78ba62d046ab6589d7bf46a6d4c48e19ded37e3aa2a9da'
+            '85704c1e123a7c7162ab66859c0bf8ba48aeb3132a44251043aa953b2d03b1c1'
+            '7af073ae3c9c4e67ba15e62754dacf88f9c33550187e55cd408b123cb73bf1af'
+            'b194e70a4015b49714553087bb3484b9ee427e40dcabe149b337ea220833340b'
+            'e872a562db3a239c09dc13add53f010d57ded562d405b93d0552e495ca1c1f17'
+            'baf74f45226065c7ed4252eda9ca59d713ce0a4bc34c26cd63da73f728246666')
+
+prepare() {
+  rmdir "Nanosaur-1.4.4/extern/Pomme"
+  mkdir "Nanosaur-1.4.4/extern/Pomme"
+  tar -xf "Pomme-fd1cd2cf81a2d39a4e47e76485860a87f0bf33f6.tar.gz" -C "Nanosaur-1.4.4/extern/Pomme" --strip-components=1
+  # <cstdint> includes for GCC 13+, from Pomme d57c28e (later Pomme commits
+  # have it; this release pins an older one).
+  patch -d "Nanosaur-1.4.4/extern/Pomme" -p1 < pomme-cstdint.patch
+}
+
+build() {
+  cmake -S "Nanosaur-1.4.4" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  sh "${srcdir}/install.sh" "${srcdir}/Nanosaur-1.4.4" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "Nanosaur-1.4.4/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "Nanosaur-1.4.4/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+  install -Dm644 LICENSE.upstream "${pkgdir}/usr/share/licenses/${pkgname}/Pangea-LICENSE"
+}

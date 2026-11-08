@@ -1,0 +1,44 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+# Contributor: George Rawlinson <george@rawlinson.net.nz>
+
+pkgname=bugdom2
+pkgver=4.0.0
+pkgrel=1
+pkgdesc='Sequel to the original Bugdom'
+arch=('x86_64' 'aarch64')
+url='https://github.com/jorio/Bugdom2'
+license=('CC-BY-NC-SA-4.0' 'MIT')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sdl2-compat' 'sh')
+makedepends=('cmake')
+# Release tarballs; GitHub archives don't include the Pomme submodule, so it is
+# fetched separately at the commit the release records.
+source=("Bugdom2-4.0.0.tar.gz::https://github.com/jorio/Bugdom2/archive/v4.0.0/Bugdom2-4.0.0.tar.gz"
+        "Pomme-c6a38eab19a11847024a13f9b3e2af0c2d908c3e.tar.gz::https://github.com/jorio/Pomme/archive/c6a38eab19a11847024a13f9b3e2af0c2d908c3e/Pomme-c6a38eab19a11847024a13f9b3e2af0c2d908c3e.tar.gz"
+        'bugdom2.desktop'
+        'bugdom2.sh'
+        'install.sh')
+sha256sums=('c1d8cc0da3d1bb19456bd3672760e903f1924f47ebe69e8e62c9a1764007300a'
+            'fe1d3f57841ceea2aebac56368c49462643818d77472646f4a28aca00fc99b5f'
+            '792d8c54a59316e27caee0322d5ff6fbda5d3591917a4bfeeb0a10e78f80fd3a'
+            '4bfd9e467b38432604029f2f62e592e3566526fb646f1bc68fa23c0c58fc8466'
+            '2073bcf8377bf664fcff962bbc8bfc059dff651553ece08af467cc4c1f53ea14')
+
+prepare() {
+  rmdir "Bugdom2-4.0.0/extern/Pomme"
+  mkdir "Bugdom2-4.0.0/extern/Pomme"
+  tar -xf "Pomme-c6a38eab19a11847024a13f9b3e2af0c2d908c3e.tar.gz" -C "Bugdom2-4.0.0/extern/Pomme" --strip-components=1
+}
+
+build() {
+  cmake -S "Bugdom2-4.0.0" -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Wno-dev
+  cmake --build build
+}
+
+package() {
+  sh "${srcdir}/install.sh" "${srcdir}/Bugdom2-4.0.0" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
+  install -Dm644 "Bugdom2-4.0.0/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
+  install -Dm644 "Bugdom2-4.0.0/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+}

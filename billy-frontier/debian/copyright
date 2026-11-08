@@ -1,0 +1,17 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Billy Frontier
+Source: https://github.com/jorio/BillyFrontier
+
+Files: *
+Copyright: 2003 Pangea Software, Inc.; Iliyas Jorio
+License: CC-BY-NC-SA-4.0
+ See /usr/share/doc/billy-frontier/LICENSE.md.
+
+Files: src/extern/Pomme/*
+Copyright: 2020 Iliyas Jorio
+License: MIT
+ See /usr/share/doc/billy-frontier/Pomme-LICENSE.md.
+
+Files: debian/* billy-frontier.desktop billy-frontier.sh install.sh
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD

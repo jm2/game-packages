@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+# The same release tarball as the PKGBUILD, and the Pomme commit it records.
+f86a758bfc807fe9c05e9735083fa0f82336183c6352f8dca3473cba558f7d3e mightymike-3.0.2.tar.gz https://github.com/jorio/mightymike/archive/v3.0.2/mightymike-3.0.2.tar.gz
+ab70d32efe83687d07fcfb85983ffa6215e68fa7b0b6c2c2a9363ee2c3061c0b Pomme-ad9cc177d2187f67bd00cb6cf2b3045ef91c577b.tar.gz https://github.com/jorio/Pomme/archive/ad9cc177d2187f67bd00cb6cf2b3045ef91c577b/Pomme-ad9cc177d2187f67bd00cb6cf2b3045ef91c577b.tar.gz
