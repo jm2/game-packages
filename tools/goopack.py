@@ -175,7 +175,8 @@ def main() -> int:
         "Description": m.get("description", "").strip(),
         "License": m.get("license", ""), "Owners": "jm2/linux-packages",
         "Source": m.get("url", ""),
-        "PkgDependencies": m.get("deps", {}),
+        # "" means any version to googet; crossdock wants a parseable one.
+        "PkgDependencies": {k: v or "0.0.0" for k, v in m.get("deps", {}).items()},
         "Replaces": m.get("replaces", []), "Conflicts": m.get("conflicts", []),
         "Provides": m.get("provides", []),
         "Install": {}, "Uninstall": {},
