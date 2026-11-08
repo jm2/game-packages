@@ -48,9 +48,13 @@ else
     podman run --rm -v "$pkgdir:/pkg:ro,Z" -v "$cache:/cache:ro,z" -v "$work:/work:Z" -v "$root:/local:ro,z" \
         -e DEPS="$(get deps)" -e LOCAL="$(get local)" -e SCRIPT="$script" \
         "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" bash -euo pipefail -c '
-            [ -n "$DEPS" ] && dnf -y -q install $DEPS >/dev/null
-            for l in $LOCAL; do rpm -i --nodeps --nosignature /local/$l/fedora/$l-[0-9]*.noarch.rpm 2>/dev/null ||
-                rpm -i --nodeps --nosignature /local/$l/fedora/$l-[0-9]*.rpm; done
+            # Our own packages come from $OUT (newest build), the rest from Fedora.
+            repo=$(for d in $DEPS; do [[ " $LOCAL " == *" $d "* ]] || printf "%s " "$d"; done)
+            [ -n "$repo" ] && dnf -y -q install $repo >/dev/null
+            for l in $LOCAL; do
+                rpm=$(ls -v /local/$l/fedora/$l-[0-9]*.rpm | grep -v -- "-debug" | tail -n 1)
+                rpm -i --nodeps --nosignature "$rpm"
+            done
             cd /work/stage && SRC=/cache/'"${srcdir:-$name-goo}"' STAGE=/work/stage PKGDIR=/pkg WORK=/work/w PT_CACHE=/cache \
                 bash -euo pipefail -c "$SCRIPT"'
 fi
