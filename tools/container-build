@@ -90,7 +90,15 @@ spec=$(ls *.spec)
 spectool -g -C /build/SOURCES "$spec" >/dev/null || true
 dnf -yq builddep "$spec" >/dev/null
 rpmbuild -bb --define "_topdir /build" --define "_sourcedir /build/SOURCES" --define "_tmppath /build/tmp" "$spec"
-rpmlint "$spec" /build/RPMS/*/*.rpm || true
+# rpmlint holds the payload in memory; on the 100 GB Steam data packages that
+# exhausts RAM and takes the build down with it. Lint the spec and every RPM
+# up to 2 GiB, and only name the larger ones.
+small=()
+for r in /build/RPMS/*/*.rpm; do
+    if [ "$(stat -c %s "$r")" -le $((2 << 30)) ]; then small+=("$r")
+    else echo "rpmlint: skipping ${r##*/} ($(du -h "$r" | cut -f1)), over 2 GiB"; fi
+done
+rpmlint "$spec" "${small[@]}" || true
 cp /build/RPMS/*/*.rpm /out/' || rc=1
 fi
 
