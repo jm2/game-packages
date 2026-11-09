@@ -195,7 +195,9 @@ def main() -> int:
     spec = {
         "Name": m["name"], "Version": version, "Arch": m["arch"],
         "ReleaseNotes": m.get("release_notes", []),
-        "Description": m.get("description", "").strip(),
+        # googet re-wraps descriptions itself; keep only paragraph breaks.
+        "Description": "\n\n".join(" ".join(par.split()) for par in
+                                     re.split(r"\n\s*\n", m.get("description", "").strip()) if par.strip()),
         "License": m.get("license", ""), "Owners": "jm2/linux-packages",
         "Source": m.get("url", ""),
         # "" means any version to googet; crossdock wants a parseable one.

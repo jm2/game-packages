@@ -71,8 +71,22 @@ Versions become googet's `X.Y.Z@release` (`tools/goopack.py goo_version`):
 `1.0o` -> `1.0.15`, Steam `1.27.b16986367` -> `1.27.16986367`.
 
 googet downloads a package to its cache and extracts it before copying the
-files, so a client needs about three times a game's size free while it
-installs (`googet clean` empties the cache afterwards).
+files, so a client needs about two and a half times a package's size free
+while it installs (measured with quake3e and the point release paks). The
+extracted copy is deleted afterwards; the cached .goo stays until the
+package is removed (`googet clean` empties the cache).
+
+## Tested (2026-11-08, Windows 11, googet 3.4.1 built from source)
+
+quake3-pointrelease-data and quake3e installed, verified and removed cleanly:
+files, Start Menu shortcuts (`%APPDATA%` in shortcut arguments is expanded
+by the shell), firewall rules, ACLs inherited from Program Files, and an
+"Apps & features" entry for packages with an install script. Client notes:
+
+- After googet's installer sets `GooGetRoot` machine-wide, open a new shell
+  (or pass `-root`): older shells fail with `The environment variable
+  "GooGetRoot" is not defined`.
+- `googet installed` exits 1 when nothing is installed.
 
 ## Engine Windows builds (survey 2026-11-08)
 
