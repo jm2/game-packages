@@ -7,7 +7,7 @@ arch = "noarch"
 description = "DiRT 4 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/421020/DiRT_4/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages dirt4-wine-steam 0-3"]
 provides = []
 conflicts = ["dirt4-steam"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"dirt4" = "<SystemDrive>/Games/dirt4"
+"dirt4" = "<ProgramFiles>/Games/dirt4"
 
 [[shortcut]]
 name = "DiRT 4"

@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Game data for Unreal Tournament 2004: Editor's Choice Edition, unpacked from\nthe ECE DVD image that OldUnreal hosts (files.oldunreal.net, the same image\nas on archive.org) and installed to /opt/ut2004. Play it with the native\nOldUnreal binaries from ut2004-bin."
 license = "LicenseRef-Proprietary"
 url = "https://www.oldunreal.com/downloads/unreal-tournament-2004/full-game-installers/"
-release_notes = ["Generated package (tools/gen.py); builds for Arch, Fedora and Debian", "sha256 for UT2004.ISO from OldUnreal's installer instead of md5", "Unpack the InstallShield groups the way OldUnreal's installer does (English only)", "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files"]
+release_notes = ["Built from linux-packages ut2004-data-archiveorg 3369-4"]
 provides = ["ut2004-data"]
 conflicts = ["ut2004-data", "ut2004-gog"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"ut2004" = "<SystemDrive>/Games/ut2004"
+"ut2004" = "<ProgramFiles>/Games/ut2004"
 
 [[source]]
 name = "UT2004.ISO"

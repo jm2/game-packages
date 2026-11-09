@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Call of Duty: WWII with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/476600/Call_of_Duty_WWII/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages codww2-wine-steam 0-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"codww2" = "<SystemDrive>/Games/codww2"
+"codww2" = "<ProgramFiles>/Games/codww2"
 
 [writable]
 dirs = ["codww2"]

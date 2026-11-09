@@ -7,7 +7,7 @@ arch = "noarch"
 description = "DOOM Eternal with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/doom_eternal"
-release_notes = ["Initial package"]
+release_notes = ["Built from linux-packages doom-eternal-wine-gog 20260414.233123-1"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"doom-eternal" = "<SystemDrive>/Games/doom-eternal"
+"doom-eternal" = "<ProgramFiles>/Games/doom-eternal"
 
 [[shortcut]]
 name = "DOOM Eternal"

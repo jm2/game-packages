@@ -7,7 +7,7 @@ arch = "noarch"
 description = "FlatOut 2 with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/flatout_2"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)", "Update to GOG's current installer (build 26697, game at its root)", "Conflict with flatout2-wine-steam"]
+release_notes = ["Built from linux-packages flatout2-wine-gog 1.2-5"]
 provides = []
 conflicts = ["flatout2-steam"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"flatout2" = "<SystemDrive>/Games/flatout2"
+"flatout2" = "<ProgramFiles>/Games/flatout2"
 
 [[shortcut]]
 name = "FlatOut 2"

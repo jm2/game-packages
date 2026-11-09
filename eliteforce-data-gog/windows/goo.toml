@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Star Trek Voyager: Elite Force data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/star_trek_voyager_elite_force"
-release_notes = ["Generated from package.toml"]
+release_notes = ["Built from linux-packages eliteforce-data-gog 1-3"]
 provides = ["eliteforce-data"]
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"lilium-voyager" = "<SystemDrive>/Games/lilium-voyager"
+"lilium-voyager" = "<ProgramFiles>/Games/lilium-voyager"
 
 [stage]
 container = "fedora"

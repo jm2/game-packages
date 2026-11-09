@@ -7,7 +7,7 @@ arch = "noarch"
 description = "SimCity 4 Deluxe Edition with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/simcity_4_deluxe_edition"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)", "Drop the GOG installer's tmp/ slideshow images"]
+release_notes = ["Built from linux-packages simcity4-wine-gog 1.1.641-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"simcity4" = "<SystemDrive>/Games/simcity4"
+"simcity4" = "<ProgramFiles>/Games/simcity4"
 
 [[shortcut]]
 name = "SimCity 4"

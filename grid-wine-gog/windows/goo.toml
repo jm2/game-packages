@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Race Driver GRID (2008) with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/race_driver_grid"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+release_notes = ["Built from linux-packages grid-wine-gog 1.3-2"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"grid" = "<SystemDrive>/Games/grid"
+"grid" = "<ProgramFiles>/Games/grid"
 
 [[shortcut]]
 name = "Race Driver: GRID"

@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Call of Duty: Modern Warfare 2 multiplayer (IW4x) with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://iw4x.dev/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages codmw2-wine-steam 0-2"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"codmw2" = "<SystemDrive>/Games/codmw2"
+"codmw2" = "<ProgramFiles>/Games/codmw2"
 
 [writable]
 dirs = ["codmw2"]

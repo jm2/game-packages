@@ -65,3 +65,10 @@ post_install = '''
 install -Dm644 Q3A_EULA.txt "$D/usr/share/licenses/$PT_NAME/Q3A_EULA.txt"
 rm -f Q3A_EULA.txt
 '''
+
+[goo]
+description = """
+The data files of id Software's Quake III Arena 1.32 point release:
+baseq3/pak1.pk3 to pak8.pk3 and missionpack/pak1.pk3 to pak3.pk3, installed
+next to the retail pak0.pk3 files of the Quake III Arena data packages. Pure
+servers require them."""

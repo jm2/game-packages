@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Prey (2006) data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/3970/"
-release_notes = ["Copy every base/*.pk4, not just pak000-pak004"]
+release_notes = ["Built from linux-packages prey-data-steam 0-3"]
 provides = ["prey-data"]
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"prey" = "<SystemDrive>/Games/prey"
+"prey" = "<ProgramFiles>/Games/prey"
 
 [stage]
 container = "fedora"

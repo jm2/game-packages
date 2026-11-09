@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Doom 3 BFG Edition data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/doom_3_bfg_edition"
-release_notes = ["Generated from package.toml", "Update to GOG's 1.14 20230201 installer (build 62122)"]
+release_notes = ["Built from linux-packages doom3bfg-data-gog 1-4"]
 provides = ["doom3bfg-data"]
 conflicts = ["doom3bfg-data-steam"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"doom3bfg" = "<SystemDrive>/Games/doom3bfg"
+"doom3bfg" = "<ProgramFiles>/Games/doom3bfg"
 
 [stage]
 container = "fedora"

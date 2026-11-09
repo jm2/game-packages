@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Wreckfest with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/wreckfest"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)", "Fix the launcher looking in /opt/wreckfest instead of /opt/wreckfest-gog", "Own prefix, no longer shared with wreckfest-wine-steam", "LAN: run as a Windows user named after the host (unique SteamID per machine); dedicated server variant", "LAN: preload wine-ipv6only so hosting from the game works under Wine (not for -s)"]
+release_notes = ["Built from linux-packages wreckfest-wine-gog 1.0o-5"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest-gog" = "<SystemDrive>/Games/wreckfest-gog"
+"wreckfest-gog" = "<ProgramFiles>/Games/wreckfest-gog"
 
 [writable]
 dirs = ["wreckfest-gog"]

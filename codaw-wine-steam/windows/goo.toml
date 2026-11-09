@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Call of Duty: Advanced Warfare with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/209650/Call_of_Duty_Advanced_Warfare__Gold_Edition/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages codaw-wine-steam 0-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"codaw" = "<SystemDrive>/Games/codaw"
+"codaw" = "<ProgramFiles>/Games/codaw"
 
 [writable]
 dirs = ["codaw"]

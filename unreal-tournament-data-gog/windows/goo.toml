@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Game data for Unreal Tournament: Game of the Year Edition, extracted from the\nGOG installer you download yourself and installed to /opt/unreal-tournament.\nPlay it with the native OldUnreal binaries from unreal-tournament-bin."
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/unreal_tournament_goty"
-release_notes = ["Generated package (tools/gen.py); builds for Arch, Fedora and Debian", "Real sha256 for the GOG installer, under GOG's own file name setup_ut_goty_2.0.0.5.exe", "Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files"]
+release_notes = ["Built from linux-packages unreal-tournament-data-gog 436-4"]
 provides = ["unreal-tournament-data"]
 conflicts = ["unreal-tournament-data"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"unreal-tournament" = "<SystemDrive>/Games/unreal-tournament"
+"unreal-tournament" = "<ProgramFiles>/Games/unreal-tournament"
 
 [stage]
 container = "fedora"

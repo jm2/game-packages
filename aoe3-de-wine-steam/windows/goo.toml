@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Age of Empires III: Definitive Edition, run through gamelaunch\n(umu/Proton or system wine) with the game data downloaded from Steam and the\nGoldberg Steam emulator (gbe-fork-bin). ageLANServer and its launcher\ncompanion DLLs restore LAN multiplayer lobbies without the official servers."
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/933110/"
-release_notes = ["Link Goldberg from /opt/gbe-fork and the companion DLLs from /opt/agelanserver-companion so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages aoe3-de-wine-steam 0-5"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"aoe3-de" = "<SystemDrive>/Games/aoe3-de"
+"aoe3-de" = "<ProgramFiles>/Games/aoe3-de"
 
 [writable]
 dirs = ["aoe3-de"]

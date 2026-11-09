@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Doom 3 data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/9050/DOOM_3/"
-release_notes = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)"]
+release_notes = ["Built from linux-packages doom3-data-steam 0-2"]
 provides = ["doom3-data"]
 conflicts = ["doom3-data-gog"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"doom3" = "<SystemDrive>/Games/doom3"
+"doom3" = "<ProgramFiles>/Games/doom3"
 
 [stage]
 container = "fedora"

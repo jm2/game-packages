@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Quake 4 data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/2210/Quake_IV/"
-release_notes = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+release_notes = ["Built from linux-packages quake4-data-steam 0-2"]
 provides = ["quake4-data"]
 conflicts = ["quake4-data-gog"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"quake4" = "<SystemDrive>/Games/quake4"
+"quake4" = "<ProgramFiles>/Games/quake4"
 
 [stage]
 container = "fedora"

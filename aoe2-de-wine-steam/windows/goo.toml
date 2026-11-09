@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Age of Empires II: Definitive Edition (with the Enhanced Graphics Pack), run\nthrough gamelaunch (umu/Proton or system wine) with the game data downloaded\nfrom Steam and the Goldberg Steam emulator (gbe-fork-bin). ageLANServer and\nits launcher companion DLLs restore LAN multiplayer lobbies without the\nofficial servers."
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/813780/"
-release_notes = ["Link Goldberg from /opt/gbe-fork and the companion DLLs from /opt/agelanserver-companion so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages aoe2-de-wine-steam 0-5"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"aoe2-de" = "<SystemDrive>/Games/aoe2-de"
+"aoe2-de" = "<ProgramFiles>/Games/aoe2-de"
 
 [writable]
 dirs = ["aoe2-de"]

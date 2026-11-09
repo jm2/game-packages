@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Enemy Territory: Quake Wars data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/10000/"
-release_notes = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+release_notes = ["Built from linux-packages etqw-data-steam 0-2"]
 provides = ["etqw-data"]
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"etqw" = "<SystemDrive>/Games/etqw"
+"etqw" = "<ProgramFiles>/Games/etqw"
 
 [stage]
 container = "fedora"

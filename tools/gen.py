@@ -760,7 +760,7 @@ def write(path: Path, content: str, mode: int = 0o644, check: bool = False) -> b
 # native-* need the Windows depots and wine-local/wine-launcher user files or
 # a store client, so they get hand-written manifests (or none) instead.
 GOO_FAMILIES = {"wine-steam", "wine-gog", "data-steam", "data-gog", "data-url"}
-GOO_ROOT = "<SystemDrive>/Games"
+GOO_ROOT = "<ProgramFiles>/Games"   # admin-only; C:\ lets every user modify new dirs
 
 
 def toml_str(v: str) -> str:
@@ -785,7 +785,7 @@ def gen_goo(p: Pkg) -> str | None:
     if p.family not in GOO_FAMILIES or p.t.get("goo", {}).get("disabled"):
         return None
     g = p.t.get("goo", {})
-    # /opt/X, /usr/share/games/X, /usr/share/X -> C:\Games\X (engines use the same).
+    # /opt/X, /usr/share/games/X, /usr/share/X -> C:\Program Files\Games\X (engines too).
     rel = next((p.target.removeprefix(pre) for pre in ("/opt/", "/usr/share/games/", "/usr/share/")
                 if p.target.startswith(pre)), None)
     if not rel:
@@ -802,13 +802,14 @@ def gen_goo(p: Pkg) -> str | None:
         local.append("gbe-fork-bin")
     if p.xlln:
         local.append("xlln-bin")
-    notes = p.t.get("changelog", [])
+    # The Linux changelog is about Linux packaging (Wine, gamelaunch, ...).
+    notes = g.get("release_notes", [f"Built from linux-packages {p.name} {p.version}-{p.release}"])
     out = [f"# GooGet (Windows) package for {p.name}", f"# {HEADER}",
            f"name = {toml_str(goo_name(p))}",
            f"version = {toml_str(p.version)}",
            f"release = {p.release}",
            'arch = "noarch"',
-           f"description = {toml_str(goo_text(p.description))}",
+           f"description = {toml_str(g.get('description') or goo_text(p.description))}",
            f"license = {toml_str(p.license)}",
            f"url = {toml_str(p.url)}",
            f"release_notes = {toml_list(notes)}",

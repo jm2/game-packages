@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Unreal Tournament 3 Black with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+release_notes = ["Built from linux-packages ut3-wine-steam 0-2"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"ut3" = "<SystemDrive>/Games/ut3"
+"ut3" = "<ProgramFiles>/Games/ut3"
 
 [[shortcut]]
 name = "Unreal Tournament 3"

@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Quake III Arena and Team Arena data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/quake_iii_gold"
-release_notes = ["Generated from package.toml", "Also provide quake3-ta-data (Team Arena is included)", "Depend on quake3-pointrelease-data for the 1.32 point release paks"]
+release_notes = ["Built from linux-packages quake3-data-gog 1-5"]
 provides = ["quake3-data", "quake3-ta-data"]
 conflicts = ["quake3-data-steam", "quake3-ta-data-steam"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"quake3" = "<SystemDrive>/Games/quake3"
+"quake3" = "<ProgramFiles>/Games/quake3"
 
 [stage]
 container = "fedora"

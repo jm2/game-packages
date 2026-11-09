@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Wreckfest (GOG) - Season Pass 2"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/wreckfest"
-release_notes = ["Install into /opt/wreckfest-gog so the game finds the DLC", "Use GOG's file name and DLC path for the installer and pin its sha256", "Ship GOG's DLC marker files instead of webcache.zip (which conflicted)"]
+release_notes = ["Built from linux-packages wreckfest-gog-dlc2 1.0o-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest-gog" = "<SystemDrive>/Games/wreckfest-gog"
+"wreckfest-gog" = "<ProgramFiles>/Games/wreckfest-gog"
 
 [stage]
 container = "fedora"

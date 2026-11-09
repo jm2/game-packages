@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Wreckfest 2 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/1203190/Wreckfest_2/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages wreckfest2-wine-steam 0-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest2" = "<SystemDrive>/Games/wreckfest2"
+"wreckfest2" = "<ProgramFiles>/Games/wreckfest2"
 
 [[shortcut]]
 name = "Wreckfest 2"

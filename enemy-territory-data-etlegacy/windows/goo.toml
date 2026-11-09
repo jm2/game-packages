@@ -7,7 +7,7 @@ arch = "noarch"
 description = "The original data files of Wolfenstein: Enemy Territory 2.60b (pak0.pk3,\npak1.pk3 and pak2.pk3), the free stand-alone game by Splash Damage and id\nSoftware, installed to /usr/share/enemy-territory/etmain. They are downloaded\nfrom mirror.etlegacy.com/etmain, the copy the ET: Legacy client itself\ndownloads them from, and are identical to those in the 2.60b Linux full\ninstaller. Play them with ET: Legacy (etlegacy-bin)."
 license = "LicenseRef-Wolfenstein-ET-EULA"
 url = "https://mirror.etlegacy.com/etmain/"
-release_notes = ["Generated package (tools/gen.py); builds for Arch, Fedora and Debian"]
+release_notes = ["Built from linux-packages enemy-territory-data-etlegacy 2.60b-1"]
 provides = ["enemy-territory-data=2.60b"]
 conflicts = ["enemy-territory-data"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"enemy-territory" = "<SystemDrive>/Games/enemy-territory"
+"enemy-territory" = "<ProgramFiles>/Games/enemy-territory"
 
 [[source]]
 name = "pak0.pk3"

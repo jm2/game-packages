@@ -25,7 +25,7 @@ goo.toml:
     release_notes = ["..."]
 
     [files]                       # stage subdirectory -> install directory
-    "quake3" = "<SystemDrive>/Games/quake3"
+    "quake3" = "<ProgramFiles>/Games/quake3"
 
     [deps]                        # name -> minimum version ("" = any)
     quake3-data = ""
@@ -36,18 +36,24 @@ goo.toml:
     args = ""
     description = "Quake III Arena (Quake3e)"
 
-    [[firewall]]                  # inbound allow rules for LAN play
+    [[firewall]]                  # inbound allow rules, local subnet only
     name = "Quake3e"
     program = "quake3/quake3e.x64.exe"  # program rule; or protocol/ports:
     # protocol = "UDP"; ports = "27960"
 
     [writable]                    # let Users modify these install dirs
-    dirs = ["quake3"]             # stage subdirectories ([files] keys)
+    dirs = ["quake3/baseq3"]      # stage-relative, under a [files] directory
 
     [[prereq]]                    # run once at install (redistributables)
     name = "openal"
     path = "game/redist/oalinst.exe"    # stage-relative
     args = "/s"
+
+Installs go under Program Files, where only administrators can write. A
+writable dir lets every user modify its files, except the executables
+already there (.exe, .dll, ...), so a standard user can't swap a program
+that others run; new files can still be added. Only mark the dirs a game
+really writes to.
 
 A <stage dir>/.version file (written by the stage script, e.g. a Steam
 build's version) overrides `version`.
@@ -57,6 +63,7 @@ from pathlib import Path
 
 VALID_ARCH = {"noarch", "x86_64", "x86_32", "arm", "arm64"}
 MENU = "Games (linux-packages)"
+EXEC = "*.exe,*.dll,*.asi,*.sys,*.ocx,*.cpl,*.scr,*.com,*.bat,*.cmd,*.ps1,*.vbs,*.msi"
 
 
 def goo_version(version: str, release: int) -> str:
@@ -95,7 +102,7 @@ def ps_quote(s: str) -> str:
 
 
 def win_dest(dest: str) -> str:
-    """googet destination ("<SystemDrive>/Games/x") as a PowerShell expression."""
+    """googet destination ("<ProgramFiles>/Games/x") as a PowerShell expression."""
     m = re.match(r"^<([^>]+)>(.*)$", dest)
     rest = (m.group(2) if m else dest).replace("/", "\\")
     return f'(Join-Path $env:{m.group(1)} {ps_quote(rest)})' if m else ps_quote(rest)
@@ -122,8 +129,19 @@ def scripts(m: dict) -> tuple[str, str] | None:
     un = ["$ErrorActionPreference = 'Continue'",
           f"$menu = Join-Path $env:ProgramData {ps_quote('Microsoft/Windows/Start Menu/Programs/' + MENU)}"]
     for d in wr:
-        # S-1-5-32-545 = BUILTIN\\Users, whatever the system language.
-        ins.append(f"icacls {resolve(files, d)} /grant '*S-1-5-32-545:(OI)(CI)M' /T /C /Q | Out-Null")
+        # S-1-5-32-545 = BUILTIN\\Users, whatever the system language. Programs
+        # already there stay read-only for them (inheritance cut, read+run back).
+        path = resolve(files, d)
+        ins += [f"$d = {path}",
+                "New-Item -ItemType Directory -Force -Path $d | Out-Null",
+                "icacls $d /grant '*S-1-5-32-545:(OI)(CI)M' /C /Q | Out-Null",
+                f"Get-ChildItem -LiteralPath $d -Recurse -File -Include {EXEC} | ForEach-Object {{",
+                "    icacls $_.FullName /inheritance:d /C /Q | Out-Null",
+                "    icacls $_.FullName /remove:g '*S-1-5-32-545' /C /Q | Out-Null",
+                "    icacls $_.FullName /grant '*S-1-5-32-545:RX' /C /Q | Out-Null",
+                "}"]
+        # Left-over user files keep the dir; take the grant back with it.
+        un.append(f"if (Test-Path -LiteralPath {path}) {{ icacls {path} /remove:g '*S-1-5-32-545' /C /Q | Out-Null }}")
     for r in pre:
         # 3010: success, reboot needed; 1638: a newer version is installed.
         ins += [f"$p = Start-Process -FilePath {resolve(files, r['path'])} -ArgumentList {ps_quote(r.get('args', '') or ' ')} -Wait -PassThru",
@@ -144,7 +162,10 @@ def scripts(m: dict) -> tuple[str, str] | None:
             un.append(f"Remove-Item -Force -ErrorAction SilentlyContinue {lnk}")
         un.append("if ((Test-Path $menu) -and -not (Get-ChildItem $menu)) { Remove-Item $menu }")
     for f in fw:
-        common = f"-DisplayName {ps_quote(f['name'])} -Group {ps_quote(tag)} -Direction Inbound -Action Allow -Profile Any"
+        # LAN play only: home networks are often classed as Public, so any
+        # profile, but only from the local subnet.
+        common = (f"-DisplayName {ps_quote(f['name'])} -Group {ps_quote(tag)} -Direction Inbound -Action Allow"
+                  " -Profile Any -RemoteAddress LocalSubnet")
         if f.get("program"):
             ins.append(f"New-NetFirewallRule {common} -Program {resolve(files, f['program'])} | Out-Null")
         else:

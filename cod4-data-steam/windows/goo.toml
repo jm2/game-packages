@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Call of Duty 4: Modern Warfare game data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/7940/Call_of_Duty_4_Modern_Warfare/"
-release_notes = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+release_notes = ["Built from linux-packages cod4-data-steam 0-2"]
 provides = ["cod4-data"]
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"cod4" = "<SystemDrive>/Games/cod4"
+"cod4" = "<ProgramFiles>/Games/cod4"
 
 [stage]
 container = "fedora"

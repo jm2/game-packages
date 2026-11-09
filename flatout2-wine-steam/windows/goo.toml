@@ -7,7 +7,7 @@ arch = "noarch"
 description = "FlatOut 2 with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/2990/FlatOut_2/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages flatout2-wine-steam 0-2"]
 provides = []
 conflicts = ["flatout2-gog"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"flatout2" = "<SystemDrive>/Games/flatout2"
+"flatout2" = "<ProgramFiles>/Games/flatout2"
 
 [[shortcut]]
 name = "FlatOut 2"

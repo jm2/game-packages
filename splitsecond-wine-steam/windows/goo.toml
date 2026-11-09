@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Split/Second with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/297860/SplitSecond/"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+release_notes = ["Built from linux-packages splitsecond-wine-steam 0-2"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"splitsecond" = "<SystemDrive>/Games/splitsecond"
+"splitsecond" = "<ProgramFiles>/Games/splitsecond"
 
 [[shortcut]]
 name = "Split/Second"

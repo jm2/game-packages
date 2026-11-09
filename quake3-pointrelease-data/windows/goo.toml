@@ -4,10 +4,10 @@ name = "quake3-pointrelease-data"
 version = "1.32b"
 release = 1
 arch = "noarch"
-description = "The data files of id Software's Quake III Arena 1.32 point release:\nbaseq3/pak1.pk3 to pak8.pk3 and missionpack/pak1.pk3 to pak3.pk3, installed\nto /opt/quake3 next to the retail pak0.pk3 files of the quake3-data packages.\nPure servers require them. They are unpacked from id's Linux point release\ninstaller (linuxq3apoint-1.32b-3.x86.run) without running it."
+description = "The data files of id Software's Quake III Arena 1.32 point release:\nbaseq3/pak1.pk3 to pak8.pk3 and missionpack/pak1.pk3 to pak3.pk3, installed\nnext to the retail pak0.pk3 files of the Quake III Arena data packages. Pure\nservers require them."
 license = "LicenseRef-Quake3-PointRelease-EULA"
 url = "https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/"
-release_notes = ["Initial package: 1.32 point release paks from id's Linux installer"]
+release_notes = ["Built from linux-packages quake3-pointrelease-data 1.32b-1"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"quake3" = "<SystemDrive>/Games/quake3"
+"quake3" = "<ProgramFiles>/Games/quake3"
 
 [[source]]
 name = "linuxq3apoint-1.32b-3.x86.run"

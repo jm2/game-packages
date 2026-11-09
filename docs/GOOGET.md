@@ -10,7 +10,9 @@ googet install quake3e
 ```
 
 GooGet has no repo signatures; the index pins each package's SHA-256. Use
-it on a trusted LAN or behind HTTPS.
+it on a trusted LAN or behind HTTPS. googet (2.11 and later) ignores plain
+`http://` repos unless `allowunsafeurl: true` is in
+`C:\ProgramData\GooGet\googet.conf`.
 
 ## What a Windows package is
 
@@ -22,12 +24,22 @@ it on a trusted LAN or behind HTTPS.
 | `native-*` (Linux depots) | Planned: the Windows depot of the same game. |
 | Linux plumbing (gamelaunch, wine-ipv6only, lib32-*, ...) | None. |
 
-Everything installs under `C:\Games\<dir>`, where `<dir>` is the last
-component of the Linux target's top directory (`/opt/quake3` and
-`/usr/share/games/quake2` become `C:\Games\quake3` and `C:\Games\quake2`),
-so data packages land next to their engine. Games that write next to their
-binaries (`writable` in package.toml, XLLN games) get Users modify rights on
-their directory.
+Everything installs under `C:\Program Files\Games\<dir>`, where `<dir>` is
+the first component of the Linux target below `/opt`, `/usr/share/games` or
+`/usr/share` (`/opt/quake3` and `/usr/share/games/quake2` become
+`...\Games\quake3` and `...\Games\quake2`), so data packages land next to
+their engine. Not `C:\Games`: a new directory in the root of C: lets every
+authenticated user modify everything in it (inherited from C:\'s ACL), and
+the Start Menu shortcuts and firewall rules are for all users.
+
+Games that write next to their binaries (`writable` in package.toml, XLLN
+games) get Users modify rights on their directory, except on the
+executables and DLLs installed there, so a standard user can't replace a
+program another user runs; they can still add files, including DLLs a game
+might load, so mark only games that need it. Quake3e keeps each user's
+settings in `%APPDATA%\Quake3` (`+set fs_homepath` in its shortcuts)
+instead. Firewall rules allow the local subnet only, on every profile
+(home networks are often classed as Public).
 
 ## Files
 

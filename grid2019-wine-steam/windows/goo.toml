@@ -7,7 +7,7 @@ arch = "noarch"
 description = "GRID (2019) with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/703860/GRID/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages grid2019-wine-steam 0-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"grid2019" = "<SystemDrive>/Games/grid2019"
+"grid2019" = "<ProgramFiles>/Games/grid2019"
 
 [[shortcut]]
 name = "GRID (2019)"

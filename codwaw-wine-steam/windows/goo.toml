@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Call of Duty: World at War with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/"
-release_notes = ["Switch to gamelaunch (umu/Proton default, system wine fallback)"]
+release_notes = ["Built from linux-packages codwaw-wine-steam 0-3"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"codwaw" = "<SystemDrive>/Games/codwaw"
+"codwaw" = "<ProgramFiles>/Games/codwaw"
 
 [writable]
 dirs = ["codwaw"]

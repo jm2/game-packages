@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Doom 3 and Resurrection of Evil data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/doom_3"
-release_notes = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)"]
+release_notes = ["Built from linux-packages doom3-data-gog 1.3.1-2"]
 provides = ["doom3-data", "doom3xp-data"]
 conflicts = ["doom3-data-steam", "doom3xp-data-steam"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"doom3" = "<SystemDrive>/Games/doom3"
+"doom3" = "<ProgramFiles>/Games/doom3"
 
 [stage]
 container = "fedora"

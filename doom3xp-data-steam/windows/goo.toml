@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Doom 3: Resurrection of Evil data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/"
-release_notes = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam", "Require doom3-data; conflict with doom3-data-gog, which includes the expansion"]
+release_notes = ["Built from linux-packages doom3xp-data-steam 0-3"]
 provides = ["doom3xp-data"]
 conflicts = ["doom3-data-gog"]
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"doom3" = "<SystemDrive>/Games/doom3"
+"doom3" = "<ProgramFiles>/Games/doom3"
 
 [stage]
 container = "fedora"

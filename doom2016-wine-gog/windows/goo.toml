@@ -7,7 +7,7 @@ arch = "noarch"
 description = "DOOM (2016) with data via GOG"
 license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/doom_2016"
-release_notes = ["Initial GOG package (replaces doom2016-wine-steam, which needed DRM-free executables)"]
+release_notes = ["Built from linux-packages doom2016-wine-gog 20240321.110145-1"]
 provides = []
 conflicts = ["doom2016-steam"]
 replaces = ["doom2016-steam"]
@@ -15,7 +15,7 @@ replaces = ["doom2016-steam"]
 [deps]
 
 [files]
-"doom2016" = "<SystemDrive>/Games/doom2016"
+"doom2016" = "<ProgramFiles>/Games/doom2016"
 
 [[shortcut]]
 name = "DOOM (2016)"

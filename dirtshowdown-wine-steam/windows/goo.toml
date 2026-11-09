@@ -7,7 +7,7 @@ arch = "noarch"
 description = "DiRT Showdown with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://steamdb.info/app/201700/"
-release_notes = ["Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton"]
+release_notes = ["Built from linux-packages dirtshowdown-wine-steam 0-4"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"dirtshowdown" = "<SystemDrive>/Games/dirtshowdown"
+"dirtshowdown" = "<ProgramFiles>/Games/dirtshowdown"
 
 [[shortcut]]
 name = "DiRT Showdown"

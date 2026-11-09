@@ -7,7 +7,7 @@ arch = "noarch"
 description = "Wreckfest with data via Steam"
 license = "LicenseRef-Proprietary"
 url = "https://store.steampowered.com/app/228380/Wreckfest/"
-release_notes = ["LAN: preload wine-ipv6only so hosting from the game works under Wine", "Put Goldberg under THQ's Steam wrapper instead of replacing it, so LAN play matches the GOG build"]
+release_notes = ["Built from linux-packages wreckfest-wine-steam 0-5"]
 provides = []
 conflicts = []
 replaces = []
@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest" = "<SystemDrive>/Games/wreckfest"
+"wreckfest" = "<ProgramFiles>/Games/wreckfest"
 
 [[shortcut]]
 name = "Wreckfest"

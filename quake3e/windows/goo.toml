@@ -1,34 +1,34 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "quake3e"
 version = "2026.10.14"
-release = 1
+release = 2
 arch = "x86_64"
 description = """
 Improved Quake III Arena engine with OpenGL and Vulkan renderers (upstream's
-Windows build). Installs to C:\\Games\\quake3 next to the game data from
-quake3-data-gog or quake3-data-steam."""
+Windows build), installed next to the Quake III Arena data packages. Settings,
+demos and screenshots go to %APPDATA%\\Quake3 for each user."""
 license = "GPL-2.0-or-later"
 url = "https://github.com/ec-/Quake3e"
-release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)"]
+release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)", "Per-user settings in %APPDATA%\\Quake3; firewall rules limited to the local subnet"]
 
 [deps]
 quake3-data = ""
 
 [files]
-"quake3" = "<SystemDrive>/Games/quake3"
-
-[writable]
-dirs = ["quake3"]
+"quake3" = "<ProgramFiles>/Games/quake3"
 
 [[shortcut]]
 name = "Quake III Arena (Quake3e)"
 target = "quake3/quake3e.x64.exe"
+# Quake3e's Windows build keeps settings in the install dir, shared by every
+# user; give each user their own (the shell expands %APPDATA% in shortcuts).
+args = "+set fs_homepath \"%APPDATA%\\Quake3\""
 description = "Quake III Arena"
 
 [[shortcut]]
 name = "Quake III Team Arena (Quake3e)"
 target = "quake3/quake3e.x64.exe"
-args = "+set fs_game missionpack"
+args = "+set fs_homepath \"%APPDATA%\\Quake3\" +set fs_game missionpack"
 description = "Quake III: Team Arena"
 
 [[firewall]]
