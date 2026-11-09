@@ -15,7 +15,7 @@ replaces = ["doom2016-steam"]
 [deps]
 
 [files]
-"doom2016" = "<ProgramFiles>/Games/doom2016"
+"doom2016" = "<SystemDrive>/Games/doom2016"
 
 [[shortcut]]
 name = "DOOM (2016)"

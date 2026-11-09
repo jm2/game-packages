@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"dirtshowdown" = "<ProgramFiles>/Games/dirtshowdown"
+"dirtshowdown" = "<SystemDrive>/Games/dirtshowdown"
 
 [[shortcut]]
 name = "DiRT Showdown"

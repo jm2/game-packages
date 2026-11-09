@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"knockoutcity" = "<ProgramFiles>/Games/knockoutcity"
+"knockoutcity" = "<SystemDrive>/Games/knockoutcity"
 
 [[shortcut]]
 name = "Knockout City"

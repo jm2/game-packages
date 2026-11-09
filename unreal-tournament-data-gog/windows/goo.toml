@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"unreal-tournament" = "<ProgramFiles>/Games/unreal-tournament"
+"unreal-tournament" = "<SystemDrive>/Games/unreal-tournament"
 
 [stage]
 container = "fedora"

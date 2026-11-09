@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"quake3" = "<ProgramFiles>/Games/quake3"
+"quake3" = "<SystemDrive>/Games/quake3"
 
 [[source]]
 name = "linuxq3apoint-1.32b-3.x86.run"

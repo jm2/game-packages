@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest" = "<ProgramFiles>/Games/wreckfest"
+"wreckfest" = "<SystemDrive>/Games/wreckfest"
 
 [[shortcut]]
 name = "Wreckfest"

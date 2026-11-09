@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"enemy-territory" = "<ProgramFiles>/Games/enemy-territory"
+"enemy-territory" = "<SystemDrive>/Games/enemy-territory"
 
 [[source]]
 name = "pak0.pk3"

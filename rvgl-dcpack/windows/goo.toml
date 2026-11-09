@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"rvgl" = "<ProgramFiles>/Games/rvgl"
+"rvgl" = "<SystemDrive>/Games/rvgl"
 
 [[source]]
 name = "rvgl_dcpack-23.0501a1.zip"

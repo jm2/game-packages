@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"grid" = "<ProgramFiles>/Games/grid"
+"grid" = "<SystemDrive>/Games/grid"
 
 [[shortcut]]
 name = "Race Driver: GRID"

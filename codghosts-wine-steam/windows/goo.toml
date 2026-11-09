@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"codghosts" = "<ProgramFiles>/Games/codghosts"
+"codghosts" = "<SystemDrive>/Games/codghosts"
 
 [writable]
 dirs = ["codghosts"]

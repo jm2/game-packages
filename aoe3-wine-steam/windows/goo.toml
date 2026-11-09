@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"aoe3" = "<ProgramFiles>/Games/aoe3"
+"aoe3" = "<SystemDrive>/Games/aoe3"
 
 [[shortcut]]
 name = "Age of Empires III (Age of Empires III (original game))"

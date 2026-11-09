@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"flatout2" = "<ProgramFiles>/Games/flatout2"
+"flatout2" = "<SystemDrive>/Games/flatout2"
 
 [[shortcut]]
 name = "FlatOut 2"

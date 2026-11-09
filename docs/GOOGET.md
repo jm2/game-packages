@@ -28,13 +28,17 @@ the clients trust.
 | `native-*` (Linux depots) | Planned: the Windows depot of the same game. |
 | Linux plumbing (gamelaunch, wine-ipv6only, lib32-*, ...) | None. |
 
-Everything installs under `C:\Program Files\Games\<dir>`, where `<dir>` is
-the first component of the Linux target below `/opt`, `/usr/share/games` or
+Everything installs under `C:\Games\<dir>`, where `<dir>` is the first
+component of the Linux target below `/opt`, `/usr/share/games` or
 `/usr/share` (`/opt/quake3` and `/usr/share/games/quake2` become
-`...\Games\quake3` and `...\Games\quake2`), so data packages land next to
-their engine. Not `C:\Games`: a new directory in the root of C: lets every
-authenticated user modify everything in it (inherited from C:\'s ACL), and
-the Start Menu shortcuts and firewall rules are for all users.
+`C:\Games\quake3` and `C:\Games\quake2`), so data packages land next to
+their engine. A new directory in the root of C: inherits C:\'s ACL, which
+lets every authenticated user modify everything in it, and the Start Menu
+shortcuts and firewall rules are for all users. So every package's
+install script makes Administrators the owner of its directory and replaces
+the inherited ACL with SYSTEM/Administrators full control and Users read
+and run. `C:\Games` itself keeps the default ACL (users may keep their own
+things there).
 
 Games that write next to their binaries (`writable` in package.toml, XLLN
 games) get Users modify rights on their directory, except on the
@@ -44,7 +48,7 @@ might load, so mark only games that need it. Quake3e keeps each user's
 settings in `%APPDATA%\Quake3` (`+set fs_homepath` in its shortcuts)
 instead. Firewall rules allow the local subnet only, on every profile
 (home networks are often classed as Public). Removing every package leaves an empty
-`C:\Program Files\Games`: googet doesn't track parent directories it
+`C:\Games`: googet doesn't track parent directories it
 creates, and uninstall scripts run before the files are removed.
 
 ## Files

@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"rvgl" = "<ProgramFiles>/Games/rvgl"
+"rvgl" = "<SystemDrive>/Games/rvgl"
 
 [stage]
 container = "fedora"

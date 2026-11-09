@@ -25,7 +25,7 @@ goo.toml:
     release_notes = ["..."]
 
     [files]                       # stage subdirectory -> install directory
-    "quake3" = "<ProgramFiles>/Games/quake3"
+    "quake3" = "<SystemDrive>/Games/quake3"
 
     [deps]                        # name -> minimum version ("" = any)
     quake3-data = ""
@@ -49,8 +49,10 @@ goo.toml:
     path = "game/redist/oalinst.exe"    # stage-relative
     args = "/s"
 
-Installs go under Program Files, where only administrators can write. A
-writable dir lets every user modify its files, except the executables
+Every [files] directory is locked down at install: owned by Administrators,
+inheritance cut, Users read+run only. Under C:\\Games this matters: C:\\'s ACL
+lets every authenticated user modify anything created below it. A
+writable dir then lets every user modify its files, except the executables
 already there (.exe, .dll, ...), so a standard user can't swap a program
 that others run; new files can still be added. Only mark the dirs a game
 really writes to.
@@ -102,7 +104,7 @@ def ps_quote(s: str) -> str:
 
 
 def win_dest(dest: str) -> str:
-    """googet destination ("<ProgramFiles>/Games/x") as a PowerShell expression."""
+    """googet destination ("<SystemDrive>/Games/x") as a PowerShell expression."""
     m = re.match(r"^<([^>]+)>(.*)$", dest)
     rest = (m.group(2) if m else dest).replace("/", "\\")
     return f'(Join-Path $env:{m.group(1)} {ps_quote(rest)})' if m else ps_quote(rest)
@@ -121,13 +123,20 @@ def scripts(m: dict) -> tuple[str, str] | None:
     files, sc, fw = m.get("files", {}), m.get("shortcut", []), m.get("firewall", [])
     wr = m.get("writable", {}).get("dirs", [])
     pre = m.get("prereq", [])
-    if not (sc or fw or wr or pre):
+    if not files:
         return None
     tag = f"linux-packages:{m['name']}"
     ins = ["$ErrorActionPreference = 'Stop'",
            f"$menu = Join-Path $env:ProgramData {ps_quote('Microsoft/Windows/Start Menu/Programs/' + MENU)}"]
     un = ["$ErrorActionPreference = 'Continue'",
           f"$menu = Join-Path $env:ProgramData {ps_quote('Microsoft/Windows/Start Menu/Programs/' + MENU)}"]
+    for top in files:
+        # Admins own it (a user could have created the dir before install),
+        # and the inherited Authenticated Users:Modify from C:\ goes away.
+        # S-1-5-18 SYSTEM, -32-544 Administrators, -32-545 Users.
+        ins += [f"$d = {win_dest(files[top])}",
+                "icacls $d /setowner '*S-1-5-32-544' /T /C /Q | Out-Null",
+                "icacls $d /inheritance:r /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' '*S-1-5-32-545:(OI)(CI)RX' /C /Q | Out-Null"]
     for d in wr:
         # S-1-5-32-545 = BUILTIN\\Users, whatever the system language. Programs
         # already there stay read-only for them (inheritance cut, read+run back).

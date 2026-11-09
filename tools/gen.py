@@ -760,7 +760,7 @@ def write(path: Path, content: str, mode: int = 0o644, check: bool = False) -> b
 # native-* need the Windows depots and wine-local/wine-launcher user files or
 # a store client, so they get hand-written manifests (or none) instead.
 GOO_FAMILIES = {"wine-steam", "wine-gog", "data-steam", "data-gog", "data-url"}
-GOO_ROOT = "<ProgramFiles>/Games"   # admin-only; C:\ lets every user modify new dirs
+GOO_ROOT = "<SystemDrive>/Games"   # goopack locks each package dir down (C:\ lets users modify new dirs)
 
 
 def toml_str(v: str) -> str:
@@ -785,7 +785,7 @@ def gen_goo(p: Pkg) -> str | None:
     if p.family not in GOO_FAMILIES or p.t.get("goo", {}).get("disabled"):
         return None
     g = p.t.get("goo", {})
-    # /opt/X, /usr/share/games/X, /usr/share/X -> C:\Program Files\Games\X (engines too).
+    # /opt/X, /usr/share/games/X, /usr/share/X -> C:\Games\X (engines too).
     rel = next((p.target.removeprefix(pre) for pre in ("/opt/", "/usr/share/games/", "/usr/share/")
                 if p.target.startswith(pre)), None)
     if not rel:

@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"ut3" = "<ProgramFiles>/Games/ut3"
+"ut3" = "<SystemDrive>/Games/ut3"
 
 [[shortcut]]
 name = "Unreal Tournament 3"

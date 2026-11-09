@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest-gog" = "<ProgramFiles>/Games/wreckfest-gog"
+"wreckfest-gog" = "<SystemDrive>/Games/wreckfest-gog"
 
 [writable]
 dirs = ["wreckfest-gog"]

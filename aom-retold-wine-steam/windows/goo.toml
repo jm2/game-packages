@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"aom-retold" = "<ProgramFiles>/Games/aom-retold"
+"aom-retold" = "<SystemDrive>/Games/aom-retold"
 
 [writable]
 dirs = ["aom-retold"]
