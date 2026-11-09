@@ -5,6 +5,8 @@ by crossdock next to the Arch and Fedora repos (`goo/linux-packages/`).
 Clients:
 
 ```
+# The repo is plain http on the LAN; googet 2.11+ needs this to use it:
+Add-Content C:\ProgramData\GooGet\googet.conf 'allowunsafeurl: true'
 googet addrepo linux-packages http://<crossdock host>:8080/goo/linux-packages
 googet install quake3e
 ```
@@ -12,7 +14,9 @@ googet install quake3e
 GooGet has no repo signatures; the index pins each package's SHA-256. Use
 it on a trusted LAN or behind HTTPS. googet (2.11 and later) ignores plain
 `http://` repos unless `allowunsafeurl: true` is in
-`C:\ProgramData\GooGet\googet.conf`.
+`C:\ProgramData\GooGet\googet.conf`. crossdock serves no TLS itself; HTTPS
+would be a TLS proxy (nginx/Caddy) in front of it, which needs a certificate
+the clients trust.
 
 ## What a Windows package is
 
