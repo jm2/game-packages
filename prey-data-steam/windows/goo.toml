@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"prey" = "<SystemDrive>/Games/prey"
+"prey" = "<ProgramFiles>/Games/prey"
 
 [stage]
 container = "fedora"

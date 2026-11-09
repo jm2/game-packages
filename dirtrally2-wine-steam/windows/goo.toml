@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"dirtrally2" = "<SystemDrive>/Games/dirtrally2"
+"dirtrally2" = "<ProgramFiles>/Games/dirtrally2"
 
 [[shortcut]]
 name = "DiRT Rally 2.0"

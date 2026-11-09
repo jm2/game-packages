@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"splitsecond" = "<SystemDrive>/Games/splitsecond"
+"splitsecond" = "<ProgramFiles>/Games/splitsecond"
 
 [[shortcut]]
 name = "Split/Second"

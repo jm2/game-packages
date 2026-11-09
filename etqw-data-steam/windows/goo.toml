@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"etqw" = "<SystemDrive>/Games/etqw"
+"etqw" = "<ProgramFiles>/Games/etqw"
 
 [stage]
 container = "fedora"

@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"codaw" = "<SystemDrive>/Games/codaw"
+"codaw" = "<ProgramFiles>/Games/codaw"
 
 [writable]
 dirs = ["codaw"]

@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"aoe3-de" = "<SystemDrive>/Games/aoe3-de"
+"aoe3-de" = "<ProgramFiles>/Games/aoe3-de"
 
 [writable]
 dirs = ["aoe3-de"]

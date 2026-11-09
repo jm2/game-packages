@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"blur" = "<SystemDrive>/Games/blur"
+"blur" = "<ProgramFiles>/Games/blur"
 
 [[shortcut]]
 name = "Blur"

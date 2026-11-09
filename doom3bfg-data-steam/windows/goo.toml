@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"doom3bfg" = "<SystemDrive>/Games/doom3bfg"
+"doom3bfg" = "<ProgramFiles>/Games/doom3bfg"
 
 [stage]
 container = "fedora"

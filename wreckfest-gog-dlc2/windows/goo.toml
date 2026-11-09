@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"wreckfest-gog" = "<SystemDrive>/Games/wreckfest-gog"
+"wreckfest-gog" = "<ProgramFiles>/Games/wreckfest-gog"
 
 [stage]
 container = "fedora"

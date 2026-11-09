@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"unreal-tournament" = "<SystemDrive>/Games/unreal-tournament"
+"unreal-tournament" = "<ProgramFiles>/Games/unreal-tournament"
 
 [[source]]
 name = "UT_GOTY_CD1.iso"

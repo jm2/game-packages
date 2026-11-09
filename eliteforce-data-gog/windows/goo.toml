@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"lilium-voyager" = "<SystemDrive>/Games/lilium-voyager"
+"lilium-voyager" = "<ProgramFiles>/Games/lilium-voyager"
 
 [stage]
 container = "fedora"

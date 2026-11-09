@@ -15,7 +15,7 @@ replaces = []
 [deps]
 
 [files]
-"ut2004" = "<SystemDrive>/Games/ut2004"
+"ut2004" = "<ProgramFiles>/Games/ut2004"
 
 [[source]]
 name = "UT2004.ISO"
