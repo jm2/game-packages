@@ -8,7 +8,7 @@ Clients:
 # The repo is plain http on the LAN; googet 2.11+ needs this to use it:
 Add-Content C:\ProgramData\GooGet\googet.conf 'allowunsafeurl: true'
 googet addrepo linux-packages http://<crossdock host>:8080/goo/linux-packages
-googet install quake3e
+googet install quake3e quake3-data-steam quake3-pointrelease-data
 ```
 
 GooGet has no repo signatures; the index pins each package's SHA-256. Use
@@ -87,6 +87,12 @@ by the shell), firewall rules, ACLs inherited from Program Files, and an
   (or pass `-root`): older shells fail with `The environment variable
   "GooGetRoot" is not defined`.
 - `googet installed` exits 1 when nothing is installed.
+- googet 3.4.1 can't install a dependency that only a `Provides` satisfies
+  (`install/install.go` listDeps resolves the provider but keeps the
+  virtual name: `no match found for package quake3-data.noarch...`). So
+  Windows packages depend on real package names only (`tools/gen.py`
+  checks), and quake3e has no data dependency: install
+  `quake3-data-steam` or `quake3-data-gog` with it.
 
 ## Engine Windows builds (survey 2026-11-08)
 

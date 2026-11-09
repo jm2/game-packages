@@ -947,7 +947,22 @@ def main(argv: list[str]) -> int:
             bad = True
             if not check:
                 print(f"generated {d.name}")
+    check_goo_deps()
     return 1 if (check and bad) else 0
+
+
+def check_goo_deps() -> None:
+    """googet (3.4.1) can't resolve a dependency on a name that only exists
+    through Provides: listDeps finds the provider but keeps the virtual name
+    ("no match found for package quake3-data.noarch..."). Depend on real
+    package names until that's fixed upstream."""
+    ms = [tomllib.loads(f.read_text()) for f in REPO.glob("*/windows/goo.toml")]
+    names = {m["name"] for m in ms}
+    for m in ms:
+        for dep in m.get("deps", {}):
+            if dep not in names:
+                die(f"{m['name']}: Windows dependency {dep} is not a package name "
+                    "(googet can't install dependencies satisfied only by Provides)")
 
 
 if __name__ == "__main__":

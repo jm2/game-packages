@@ -1,18 +1,18 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "quake3e"
 version = "2026.10.14"
-release = 5
+release = 6
 arch = "x86_64"
 description = """
 Improved Quake III Arena engine with OpenGL and Vulkan renderers (upstream's
 Windows build), installed next to the Quake III Arena data packages. Settings,
-demos and screenshots go to %APPDATA%\\Quake3 for each user."""
+demos and screenshots go to %APPDATA%\\Quake3 for each user.
+
+Install the game data too: quake3-data-steam or quake3-data-gog, plus
+quake3-pointrelease-data."""
 license = "GPL-2.0-or-later"
 url = "https://github.com/ec-/Quake3e"
-release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)", "Per-user settings in %APPDATA%\\Quake3; firewall rules limited to the local subnet", "Install to C:\\Program Files\\Games\\quake3", "Tested with googet 3.4.1 on Windows 11"]
-
-[deps]
-quake3-data = ""
+release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)", "Per-user settings in %APPDATA%\\Quake3; firewall rules limited to the local subnet", "Install to C:\\Program Files\\Games\\quake3", "Tested with googet 3.4.1 on Windows 11", "No dependency on quake3-data: googet 3.4.1 fails on dependencies satisfied through Provides; install a data package yourself"]
 
 [files]
 "quake3" = "<ProgramFiles>/Games/quake3"
