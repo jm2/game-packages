@@ -43,7 +43,9 @@ program another user runs; they can still add files, including DLLs a game
 might load, so mark only games that need it. Quake3e keeps each user's
 settings in `%APPDATA%\Quake3` (`+set fs_homepath` in its shortcuts)
 instead. Firewall rules allow the local subnet only, on every profile
-(home networks are often classed as Public).
+(home networks are often classed as Public). Removing every package leaves an empty
+`C:\Program Files\Games`: googet doesn't track parent directories it
+creates, and uninstall scripts run before the files are removed.
 
 ## Files
 
