@@ -42,6 +42,9 @@ their directory.
   same `PT_CACHE` as the Linux builds (`tools/fetch-steam`, `tools/fetch-gog`).
 - `tools/promote` moves `.goo` files into crossdock's incoming directory
   like the other formats.
+- `tools/build-all --formats arch,fedora,goo --goo-dest <incoming>/goo` builds
+  them with the Linux packages, sharing each download. A goo-only run needs
+  Fedora builds of gbe-fork-bin and xlln-bin in `$OUT` already.
 
 Versions become googet's `X.Y.Z@release` (`tools/goopack.py goo_version`):
 `1.0o` -> `1.0.15`, Steam `1.27.b16986367` -> `1.27.16986367`.
