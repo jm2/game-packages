@@ -96,6 +96,12 @@ by the shell), firewall rules, ACLs inherited from Program Files, and an
   (or pass `-root`): older shells fail with `The environment variable
   "GooGetRoot" is not defined`.
 - `googet installed` exits 1 when nothing is installed.
+- Replaces verified 2026-11-09 (quake3-data-steam @4 over
+  quake3-ta-data-steam @2): googet removed the old package (its uninstall
+  script and missionpack/pak0.pk3) first, then downloaded and installed
+  the new one; Team Arena's data was absent only for the download. googet
+  re-fetches a repo index older than 3 minutes; `rmrepo` leaves that
+  repo's cached index behind.
 - googet's `Replaces` and `Conflicts` (install/install.go at 56b678a)
   differ from pacman/dnf:
   - Replaces only acts when the replacing package is installed explicitly;
