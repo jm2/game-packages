@@ -3,7 +3,7 @@
 
 pkgname=ut3-wine-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Unreal Tournament 3 Black using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/'

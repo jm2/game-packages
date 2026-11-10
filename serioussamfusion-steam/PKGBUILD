@@ -3,7 +3,7 @@
 
 pkgname=serioussamfusion-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Serious Sam Fusion 2017 (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/'

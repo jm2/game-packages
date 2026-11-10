@@ -3,7 +3,7 @@
 
 pkgname=revolt-data-steam
 pkgver=0
-pkgrel=1
+true && pkgrel=1
 pkgdesc='Re-Volt game data for RVGL from Steam'
 arch=('any')
 url='https://store.steampowered.com/app/287310/ReVolt/'

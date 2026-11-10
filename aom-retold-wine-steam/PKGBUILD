@@ -3,7 +3,7 @@
 
 pkgname=aom-retold-wine-steam
 pkgver=0
-pkgrel=5
+true && pkgrel=5
 pkgdesc='Age of Mythology: Retold using Wine with data via Steam, ageLANServer for LAN'
 arch=('x86_64')
 url='https://steamdb.info/app/1934680/'

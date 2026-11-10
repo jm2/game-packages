@@ -1,25 +1,38 @@
 name = "quake3-data-steam"
 family = "data-steam"
-release = 2
-summary = "Quake III Arena data via Steam"
+release = 3
+summary = "Quake III Arena and Team Arena data via Steam"
 url = "https://store.steampowered.com/app/2200/Quake_III_Arena/"
 target = "/opt/quake3"
-provides = ["quake3-data"]
-conflicts = ["quake3-data-gog"]
+provides = ["quake3-data", "quake3-ta-data"]
+conflicts = ["quake3-data-gog", "quake3-ta-data-steam"]
+# Team Arena used to be its own package; Steam now sells them together.
+replaces = ["quake3-ta-data-steam"]
 changelog = [
   "Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam",
   "Depend on quake3-pointrelease-data for the 1.32 point release paks",
+  "Include Team Arena (missionpack/pak0.pk3, Steam app 2350): Steam sells Quake III Arena with Team Arena now; replaces quake3-ta-data-steam",
 ]
 notes = """
-baseq3/pak0.pk3 for ioquake3-based engines such as quake3e. The 1.32 point
-release paks (baseq3/pak1-8.pk3) come from quake3-pointrelease-data, which
-this package depends on. Team Arena is quake3-ta-data-steam."""
+baseq3/pak0.pk3 and Team Arena's missionpack/pak0.pk3 for ioquake3-based
+engines such as quake3e. The 1.32 point release paks (baseq3/pak1-8.pk3,
+missionpack/pak1-3.pk3) come from quake3-pointrelease-data, which this
+package depends on.
+
+Steam sells Quake III Arena with the Team Arena expansion included (store
+app 2200; Team Arena's own store page, app 2350, is gone), so one purchase
+owns both apps, and this package downloads both: app 2200 and depot 2351 of
+app 2350. It replaces the former quake3-ta-data-steam package. An account
+that got Quake III Arena some other way without Team Arena fails the
+download at depot 2351."""
 
 [source.steam]
 appid = 2200
+# Team Arena, sold with Quake III Arena (package 433 holds depots 2201 and 2351).
+depots = [[2350, 2351]]
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
-copy = ["baseq3/pak0.pk3"]
+copy = ["baseq3/pak0.pk3", "missionpack/pak0.pk3"]
 
 [deps]
 arch = ["quake3-pointrelease-data"]
@@ -27,12 +40,19 @@ fedora = ["quake3-pointrelease-data"]
 debian = ["quake3-pointrelease-data"]
 
 [goo]
-# Windows-only changes (shortcuts) since the Linux release.
-release_offset = 2
+# Windows release 4 (= 3 + 1) is above the published 1.242358.0@3.
+release_offset = 1
 
 [[goo.shortcut]]
 name = "Quake III Arena (Quake3e)"
 target = "quake3/quake3e.x64.exe"
 args = "+set fs_homepath \"%APPDATA%\\Quake3\""
 description = "Quake III Arena"
+requires = "quake3/quake3e.x64.exe"
+
+[[goo.shortcut]]
+name = "Quake III Team Arena (Quake3e)"
+target = "quake3/quake3e.x64.exe"
+args = "+set fs_homepath \"%APPDATA%\\Quake3\" +set fs_game missionpack"
+description = "Quake III: Team Arena"
 requires = "quake3/quake3e.x64.exe"

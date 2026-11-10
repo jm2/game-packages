@@ -3,7 +3,7 @@
 
 pkgname=serioussam2-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Serious Sam 2 (flibit'\''s Linux port) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/204340/Serious_Sam_2/'

@@ -3,7 +3,7 @@
 
 pkgname=quake2-data-steam
 pkgver=0
-pkgrel=1
+true && pkgrel=1
 pkgdesc='Quake II data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2320/Quake_II/'

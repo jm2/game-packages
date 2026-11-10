@@ -3,7 +3,7 @@
 
 pkgname=broforce-steam
 pkgver=0
-pkgrel=3
+true && pkgrel=3
 pkgdesc='Broforce (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/274190/Broforce/'

@@ -3,7 +3,7 @@
 
 pkgname=dirt2-wine-steam
 pkgver=0
-pkgrel=5
+true && pkgrel=5
 pkgdesc='Colin McRae: DiRT 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/12840/'

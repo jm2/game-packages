@@ -3,7 +3,7 @@
 
 pkgname=serioussam3-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Serious Sam 3: BFE (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/41070/Serious_Sam_3_BFE/'

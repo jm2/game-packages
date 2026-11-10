@@ -9,9 +9,8 @@ This package builds a dated upstream release from source.
 The engine runs from `/opt/quake3` and uses it as its base directory
 (`fs_basepath`), so it finds the data the `quake3-data-*` packages install:
 
-- `quake3-data-gog` (Quake III Arena and Team Arena from GOG), or
-  `quake3-data-steam` plus `quake3-ta-data-steam` (Steam): `baseq3/pak0.pk3`
-  and `missionpack/pak0.pk3`.
+- `quake3-data-gog` or `quake3-data-steam` (Quake III Arena and Team Arena
+  from GOG or Steam): `baseq3/pak0.pk3` and `missionpack/pak0.pk3`.
 - `quake3-pointrelease-data`, pulled in by those packages: the 1.32 point
   release paks (`baseq3/pak1-8.pk3`, `missionpack/pak1-3.pk3`), which pure
   servers require.

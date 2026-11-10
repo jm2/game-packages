@@ -518,7 +518,10 @@ def gen_pkgbuild(p: Pkg, local_sums: dict[str, str]) -> str:
     optdepends = (WINE_OPTDEPS_ARCH if p.wine else []) + p.deps.get("optional_arch", [])
     arch = p.arch
     L = [f"# {HEADER}", f"# Maintainer: {MAINTAINER_ARCH}", ""]
-    L += [f"pkgname={p.name}", f"pkgver={p.version}", f"pkgrel={p.release}",
+    L += [f"pkgname={p.name}", f"pkgver={p.version}",
+          # makepkg rewrites a line starting with "pkgrel=" to pkgrel=1 when
+          # pkgver() changes the version, which would drop every release bump.
+          *([f"true && pkgrel={p.release}"] if p.steam_versioned else [f"pkgrel={p.release}"]),
           f"pkgdesc={q1(p.summary)}", f"arch={bash_single(arch)}", f"url={q1(p.url)}",
           f"license={bash_single([p.license])}"]
     for key, val in (("depends", depends), ("makedepends", makedepends), ("optdepends", optdepends),
@@ -817,7 +820,9 @@ def gen_goo(p: Pkg) -> str | None:
            f"url = {toml_str(p.url)}",
            f"release_notes = {toml_list(notes)}",
            f"provides = {toml_list(p.provides)}",
-           f"conflicts = {toml_list([goo_name_of(c) for c in p.conflicts])}",
+           # googet checks Conflicts before it removes Replaces, so a replaced
+           # package listed in both would block the upgrade.
+           f"conflicts = {toml_list([goo_name_of(c) for c in p.conflicts if c not in p.replaces])}",
            f"replaces = {toml_list([goo_name_of(c) for c in p.replaces])}",
            "", "[deps]"]
     out += [f"{toml_str(k)} = {toml_str(v)}" for k, v in deps.items()]

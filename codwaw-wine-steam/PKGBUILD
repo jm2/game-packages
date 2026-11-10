@@ -3,7 +3,7 @@
 
 pkgname=codwaw-wine-steam
 pkgver=0
-pkgrel=3
+true && pkgrel=3
 pkgdesc='Call of Duty: World at War using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/10090/Call_of_Duty_World_at_War/'

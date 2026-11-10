@@ -3,7 +3,7 @@
 
 pkgname=knockoutcity-wine-steam
 pkgver=0
-pkgrel=1
+true && pkgrel=1
 pkgdesc='Knockout City Private Server Edition using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/2915930/Knockout_City__Private_Server_Edition/'

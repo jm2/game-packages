@@ -3,7 +3,7 @@
 
 pkgname=blur-wine-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Blur using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/42640/'

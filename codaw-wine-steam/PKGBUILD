@@ -3,7 +3,7 @@
 
 pkgname=codaw-wine-steam
 pkgver=0
-pkgrel=3
+true && pkgrel=3
 pkgdesc='Call of Duty: Advanced Warfare using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/209650/Call_of_Duty_Advanced_Warfare__Gold_Edition/'

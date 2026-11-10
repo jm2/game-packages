@@ -3,7 +3,7 @@
 
 pkgname=codghosts-wine-steam
 pkgver=0
-pkgrel=3
+true && pkgrel=3
 pkgdesc='Call of Duty: Ghosts using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/209160/Call_of_Duty_Ghosts/'

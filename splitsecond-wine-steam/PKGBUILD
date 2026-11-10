@@ -3,7 +3,7 @@
 
 pkgname=splitsecond-wine-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Split/Second using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/297860/SplitSecond/'

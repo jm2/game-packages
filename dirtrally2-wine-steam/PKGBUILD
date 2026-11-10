@@ -3,7 +3,7 @@
 
 pkgname=dirtrally2-wine-steam
 pkgver=0
-pkgrel=3
+true && pkgrel=3
 pkgdesc='DiRT Rally 2.0 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/690790/DiRT_Rally_20/'

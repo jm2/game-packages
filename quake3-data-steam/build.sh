@@ -16,10 +16,11 @@ PT_VERSION_STATIC=0
 PT_GBE_LIBS=()
 
 pt_fetch() {
-    local dir; dir=$(pt_steam_fetch 2200 windows )
+    local dir; dir=$(pt_steam_fetch 2200 windows 2350:2351)
     pt_steam_version "$dir" > "$PT_META/version"
     local f
     for f in "$dir"/baseq3/pak0.pk3; do rel=${f#"$dir"/}; install -d "$PT_GAME/$(dirname "$rel")"; cp -a "$f" "$PT_GAME/$rel"; done
+    for f in "$dir"/missionpack/pak0.pk3; do rel=${f#"$dir"/}; install -d "$PT_GAME/$(dirname "$rel")"; cp -a "$f" "$PT_GAME/$rel"; done
     rm -rf "$PT_GAME/steamapps"
 }
 

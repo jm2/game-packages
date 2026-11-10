@@ -3,7 +3,7 @@
 
 pkgname=dirt3-wine-steam
 pkgver=0
-pkgrel=3
+true && pkgrel=3
 pkgdesc='DiRT 3 Complete Edition using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/321040/'

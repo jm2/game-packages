@@ -3,7 +3,7 @@
 
 pkgname=etqw-data-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Enemy Territory: Quake Wars data via Steam'
 arch=('any')
 url='https://steamdb.info/app/10000/'

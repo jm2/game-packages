@@ -3,7 +3,7 @@
 
 pkgname=cod4-data-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Call of Duty 4: Modern Warfare game data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/7940/Call_of_Duty_4_Modern_Warfare/'

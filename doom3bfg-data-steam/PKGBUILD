@@ -3,7 +3,7 @@
 
 pkgname=doom3bfg-data-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Doom 3 BFG Edition data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/'

@@ -3,7 +3,7 @@
 
 pkgname=minimetro-steam
 pkgver=0
-pkgrel=1
+true && pkgrel=1
 pkgdesc='Mini Metro (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/287980/Mini_Metro/'

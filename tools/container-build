@@ -41,8 +41,14 @@ local_root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
 cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NODEPS:-}")
 [ -n "${PT_CACHE:-}" ] && cache_mount+=(-v "$PT_CACHE:/cache:ro,z" -e PT_CACHE=/cache)
 
+# Inside the containers: the newest build of each package among the given
+# files (no debug packages). $OUT can hold older releases of a LOCAL package,
+# and installing two versions of one package fails ("duplicate target").
+newest_fn='newest() { local f n; declare -A last=(); for f in $(ls -v "$@" | grep -v -- "-debug"); do
+    n=${f##*/}; case $n in *.pkg.tar.zst) n=${n%-*-*-*};; *.rpm) n=${n%-*-*};; *.deb) n=${n%%_*};; esac
+    last[$n]=$f; done; printf "%s\n" "${last[@]}"; }'
 run() { # distro image script
-    local d=$1 img=$2 script=$3
+    local d=$1 img=$2 script="$newest_fn"$'\n'$3
     mkdir -p "$out/$d" "$work/build-$d"
     echo "==> $pkg: $d ($img)"
     if podman run --rm -v "$work/$pkg:/src:ro,Z" -v "$out/$d:/out:Z" -v "$work/build-$d:/build:Z" "${cache_mount[@]}" \
@@ -62,7 +68,7 @@ run arch docker.io/library/archlinux:latest '
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp  # rpmlint and namcap unpack packages here
 printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
 pacman -Syu --noconfirm --needed base-devel git namcap $EXTRA >/dev/null
-for l in $LOCAL; do pacman -U --noconfirm /local/$l/arch/*.pkg.tar.zst >/dev/null; done
+for l in $LOCAL; do pacman -U --noconfirm $(newest /local/$l/arch/*.pkg.tar.zst) >/dev/null; done
 useradd -m b; cp -a /src /build/p; chown -R b /build; chmod 755 /build
 cd /build/p
 su b -c "makepkg --printsrcinfo" > /tmp/srcinfo
@@ -84,7 +90,7 @@ if [[ $which == fedora || $which == all ]] && compgen -G "$pkgdir/*.spec" >/dev/
 run fedora "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" '
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 dnf -yq install rpm-build rpmdevtools rpmlint dnf-plugins-core $EXTRA >/dev/null
-for l in $LOCAL; do dnf -yq install /local/$l/fedora/*.rpm >/dev/null; done
+for l in $LOCAL; do dnf -yq install $(newest /local/$l/fedora/*.rpm) >/dev/null; done
 mkdir -p /build/SOURCES; cp -a /src/. /build/SOURCES/; cd /build/SOURCES
 spec=$(ls *.spec)
 spectool -g -C /build/SOURCES "$spec" >/dev/null || true
@@ -106,7 +112,7 @@ if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
 run debian docker.io/library/debian:sid '
 export DEBIAN_FRONTEND=noninteractive
 apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs lintian fakeroot $EXTRA >/dev/null
-for l in $LOCAL; do apt-get -qq install -y /local/$l/debian/*.deb >/dev/null; done
+for l in $LOCAL; do apt-get -qq install -y $(newest /local/$l/debian/*.deb) >/dev/null; done
 cp -a /src /build/p; cd /build/p
 mk-build-deps -i -r -t "apt-get -y -qq --no-install-recommends" debian/control >/dev/null
 # After mk-build-deps, which loses its output with TMPDIR set.

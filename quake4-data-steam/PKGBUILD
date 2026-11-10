@@ -3,7 +3,7 @@
 
 pkgname=quake4-data-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='Quake 4 data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2210/Quake_IV/'

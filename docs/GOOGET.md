@@ -96,6 +96,22 @@ by the shell), firewall rules, ACLs inherited from Program Files, and an
   (or pass `-root`): older shells fail with `The environment variable
   "GooGetRoot" is not defined`.
 - `googet installed` exits 1 when nothing is installed.
+- googet's `Replaces` and `Conflicts` (install/install.go at 56b678a)
+  differ from pacman/dnf:
+  - Replaces only acts when the replacing package is installed explicitly;
+    `googet update` doesn't migrate (pacman -Syu and dnf Obsoletes do).
+    After a package merge, run `googet install <new package>`.
+  - Conflicts are checked before Replaces, so a replaced package must not
+    also be a conflict (`tools/gen.py` leaves it out on Windows).
+  - Replaced packages are removed (with their dependents) before the new
+    one is downloaded, and nothing is rolled back if that then fails.
+  - Only the incoming package's Conflicts are checked; versions are
+    minimum-only (no `< x` ranges).
+  - No file ownership: overlapping files are overwritten, and removing
+    either package deletes them. Don't remove a replaced package by hand
+    after installing its replacement (e.g. quake3-ta-data-steam after the
+    merged quake3-data-steam: it would delete Team Arena's pak0.pk3).
+  - Upgrades run only the new install script, never the old uninstall.
 - googet 3.4.1 can't install a dependency that only a `Provides` satisfies
   (`install/install.go` listDeps resolves the provider but keeps the
   virtual name: `no match found for package quake3-data.noarch...`). So

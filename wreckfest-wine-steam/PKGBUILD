@@ -3,7 +3,7 @@
 
 pkgname=wreckfest-wine-steam
 pkgver=0
-pkgrel=5
+true && pkgrel=5
 pkgdesc='Wreckfest using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/228380/Wreckfest/'

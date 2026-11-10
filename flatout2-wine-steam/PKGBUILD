@@ -3,7 +3,7 @@
 
 pkgname=flatout2-wine-steam
 pkgver=0
-pkgrel=2
+true && pkgrel=2
 pkgdesc='FlatOut 2 using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/2990/FlatOut_2/'

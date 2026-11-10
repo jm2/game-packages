@@ -9,7 +9,7 @@ license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/en/game/doom_2016"
 release_notes = ["Built from linux-packages doom2016-wine-gog 20240321.110145-1"]
 provides = []
-conflicts = ["doom2016-steam"]
+conflicts = []
 replaces = ["doom2016-steam"]
 
 [deps]

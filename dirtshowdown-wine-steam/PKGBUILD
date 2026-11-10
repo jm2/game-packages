@@ -3,7 +3,7 @@
 
 pkgname=dirtshowdown-wine-steam
 pkgver=0
-pkgrel=4
+true && pkgrel=4
 pkgdesc='DiRT Showdown using Wine with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/201700/'

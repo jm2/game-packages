@@ -3,7 +3,7 @@
 
 pkgname=gridautosport-steam
 pkgver=0
-pkgrel=4
+true && pkgrel=4
 pkgdesc='GRID Autosport (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/255220/'
