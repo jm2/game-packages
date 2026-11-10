@@ -1,0 +1,3 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+e6c49cc3ecb145a05f92bd1051ebcafd9b201cf8c522b26308cce18156491a62 boiii-v3.0.0.exe https://github.com/Ezz-lol/boiii-free/releases/download/v3.0.0/boiii.exe
+8935ebf540f2868e96bd8cf924196442037015118f4355e68bd7b23c52449230 boiii-free-v3.0.0.tar.gz https://github.com/Ezz-lol/boiii-free/archive/refs/tags/v3.0.0.tar.gz

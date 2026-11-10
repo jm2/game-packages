@@ -1,0 +1,63 @@
+name = "codbo3-wine-steam"
+family = "wine-steam"
+id = "codbo3"
+release = 1
+summary = "Call of Duty: Black Ops III (BOIII) using Wine with data via Steam"
+url = "https://store.steampowered.com/app/311210/Call_of_Duty_Black_Ops_III/"
+deb = { parts = 16 }   # ~125 GiB with all DLC (parts hold 9.9 GB each)
+changelog = ["Initial package: Ezz BOIII v3.0.0 client, stock executable against Goldberg"]
+notes = """
+BOIII (Ezz-lol/boiii-free, https://github.com/Ezz-lol/boiii-free, GPL-3.0) is
+the community client for Black Ops III: dedicated servers, LAN play, mods and
+custom maps, with its own Steam handling. `codbo3` starts BOIII with
+`-launch -noupdate` (straight into the game, no self-update); `codbo3 -v`
+starts the stock BlackOps3.exe against the Goldberg emulator.
+
+BOIII's data (data/ from the release's source) is installed to boiii/ in the
+game directory, which BOIII searches next to its own appdata copy, so it
+doesn't have to download it. Its launcher window reads its page from the
+appdata copy only, so it's skipped with -launch. DLC is downloaded when the
+Steam account owns it."""
+
+[source.steam]
+appid = 311210
+
+[[source.files]]
+name = "boiii-v3.0.0.exe"
+url = "https://github.com/Ezz-lol/boiii-free/releases/download/v3.0.0/boiii.exe"
+sha256 = "e6c49cc3ecb145a05f92bd1051ebcafd9b201cf8c522b26308cce18156491a62"
+extract = "copy"
+to = "boiii.exe"
+
+[[source.files]]
+name = "boiii-free-v3.0.0.tar.gz"
+url = "https://github.com/Ezz-lol/boiii-free/archive/refs/tags/v3.0.0.tar.gz"
+sha256 = "8935ebf540f2868e96bd8cf924196442037015118f4355e68bd7b23c52449230"
+extract = "tar"
+subdir = "boiii-free-3.0.0/data"
+to = "boiii/"
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "BlackOps3.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "boiii.exe"
+writable = true
+# Version from the game, not the client (which isn't in the Steam download).
+version_exe = "BlackOps3.exe"
+variants = [
+  { flag = "x", exe = "boiii.exe", args = ["-launch", "-noupdate"], description = "BOIII" },
+  { flag = "v", exe = "BlackOps3.exe", description = "stock executable, LAN via Goldberg" },
+]
+default_variant = "x"
+
+[desktop]
+name = "Call of Duty: Black Ops III"
+comment = "Call of Duty: Black Ops III with BOIII (Wine)"
+categories = "Game;ActionGame;Shooter;"

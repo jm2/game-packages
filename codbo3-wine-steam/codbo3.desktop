@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Call of Duty: Black Ops III
+Comment=Call of Duty: Black Ops III with BOIII (Wine)
+Exec=codbo3
+Icon=codbo3
+Terminal=false
+Categories=Game;ActionGame;Shooter;
