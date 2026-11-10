@@ -63,6 +63,8 @@ creates, and uninstall scripts run before the files are removed.
   when that file is installed, so an engine and its data (separate
   packages) both carry it and whichever comes second creates it; quake3e
   and the quake3 data packages do this for Quake III and Team Arena.
+  Install scripts reconcile (create or delete), because a googet upgrade
+  runs only the new version's install script, never the old uninstall.
 - `tools/goo-build <pkgdir> [out]`: downloads `[[source]]` files, runs the
   `[stage]` script (generated packages: `build.sh prepare` + `install` in a
   Fedora container with gbe-fork-bin / xlln-bin from `$OUT`, links followed)

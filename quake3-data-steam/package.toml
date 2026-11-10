@@ -28,7 +28,7 @@ debian = ["quake3-pointrelease-data"]
 
 [goo]
 # Windows-only changes (shortcuts) since the Linux release.
-release_offset = 1
+release_offset = 2
 
 [[goo.shortcut]]
 name = "Quake III Arena (Quake3e)"

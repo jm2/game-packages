@@ -168,7 +168,9 @@ def scripts(m: dict) -> tuple[str, str] | None:
                     f"$l.Description = {ps_quote(s.get('description', s['name']))}",
                     "$l.Save()"]
             if s.get("requires"):
-                ins.append("}")
+                # googet upgrades don't run the old uninstall script, so
+                # also drop a shortcut an older version made.
+                ins.append(f"}} else {{ Remove-Item -Force -ErrorAction SilentlyContinue {lnk} }}")
             un.append(f"Remove-Item -Force -ErrorAction SilentlyContinue {lnk}")
         un.append("if ((Test-Path $menu) -and -not (Get-ChildItem $menu)) { Remove-Item $menu }")
         if any(x.get("requires") for x in sc):
