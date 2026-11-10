@@ -34,7 +34,7 @@ program = "aoe3-de/AoE3DE_s.exe"
 container = "fedora"
 source_dir = "aoe3-de-wine-steam"
 deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin", "python3"]
-local = ["gbe-fork-bin"]
+local = ["gbe-fork-bin", "agelanserver-companion-bin"]
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"
 bash "$PKGDIR/build.sh" prepare

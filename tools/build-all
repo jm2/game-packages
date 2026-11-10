@@ -37,7 +37,9 @@ LOCAL = ["gamelaunch", "xlln-bin", "gbe-fork-bin", "wine-ipv6only"]
 AUR = ["gtk2", "lib32-portaudio", "xf86miscproto", "gconf", "lib32-gtk2", "lib32-libpng12", "lib32-libxxf86misc",
        "lib32-openal", "libidn11", "libldap24", "libpng12", "librtmp0", "openssl-1.0", "steamcmd"]
 AUR_LOCAL = {"lib32-gtk2": ["gtk2"], "lib32-openal": ["lib32-portaudio"], "lib32-libxxf86misc": ["xf86miscproto"]}
-KEEP = set(LOCAL) | {d for deps in AUR_LOCAL.values() for d in deps}
+# Windows (goo) stages install these from $OUT/<name>/fedora/ to follow links.
+GOO_LOCAL = ["gbe-fork-bin", "xlln-bin", "agelanserver-companion-bin"]
+KEEP = set(LOCAL) | set(GOO_LOCAL) | {d for deps in AUR_LOCAL.values() for d in deps}
 ORDER = {"runtime": 0, "aur": 1, "anonymous": 2, "gog": 3, "steam": 4}
 FETCHED = ".fetched"
 DEBUG = re.compile(r"-debug(info|source)?-")
@@ -80,13 +82,40 @@ def has_format(name: str, fmt: str) -> bool:
         return (d / "windows" / "goo.toml").exists()
     return (d / "PKGBUILD").exists() if fmt == "arch" else any(d.glob("*.spec"))
 
-def source_id(name: str):
-    """Identify the package's committed source, or None if it has local changes."""
-    git = ["git", "-C", str(REPO)]
-    if subprocess.run(git + ["status", "--porcelain", "--", name], capture_output=True, text=True).stdout:
+GIT = ["git", "-C", str(REPO)]
+
+def tree_ids(name: str, rev: str = "HEAD"):
+    """(whole package tree, the tree without windows/) at rev, or None.
+
+    Linux formats are keyed on the second, so a Windows-only change (windows/
+    goo.toml) doesn't rebuild the Arch and Fedora packages."""
+    r = subprocess.run(GIT + ["rev-parse", f"{rev}:{name}"], capture_output=True, text=True)
+    if r.returncode:
         return None
-    r = subprocess.run(git + ["rev-parse", f"HEAD:{name}"], capture_output=True, text=True)
-    return r.stdout.strip() if r.returncode == 0 else None
+    ls = subprocess.run(GIT + ["ls-tree", f"{rev}:{name}"], capture_output=True, text=True).stdout
+    linux = "".join(l + "\n" for l in ls.splitlines() if not l.endswith("\twindows"))
+    h = subprocess.run(GIT + ["hash-object", "--stdin"], input=linux, capture_output=True, text=True).stdout.strip()
+    return r.stdout.strip(), "linux:" + h
+
+def source_id(name: str, fmt: str):
+    """Identify the package's committed source for a format, or None if it has
+    local changes."""
+    if subprocess.run(GIT + ["status", "--porcelain", "--", name], capture_output=True, text=True).stdout:
+        return None
+    ids = tree_ids(name)
+    return None if ids is None else (ids[0] if fmt == "goo" else ids[1])
+
+def legacy_stamp_ok(name: str, stamp: str, linux_id: str) -> bool:
+    """Stamps written before Linux formats ignored windows/ hold the whole tree
+    id. Accept one if the commit it came from has the same non-Windows tree."""
+    if stamp.startswith("linux:"):
+        return False
+    log = subprocess.run(GIT + ["log", "--format=%H", "--", name], capture_output=True, text=True).stdout.split()
+    for c in log:
+        ids = tree_ids(name, c)
+        if ids and ids[0] == stamp:
+            return ids[1] == linux_id
+    return False
 
 def built(fmt: str, out: Path):
     return sorted(out.glob({"arch": "*.pkg.tar*", "fedora": "*.rpm", "goo": "*.goo"}[fmt]))
@@ -103,12 +132,20 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
     missing = [m for m in manual if not (cache / name / m).exists()]
     if missing:
         return f"skipped: needs {', '.join(missing)} in {cache / name}"
-    sid = source_id(name)
+    sids = {f: source_id(name, f) for f in fmts}
     def done(fmt):
-        stamp = state / f"{name}.{fmt}"
-        if name in KEEP and not built(fmt, out / name / fmt):
+        stamp, sid = state / f"{name}.{fmt}", sids[fmt]
+        if name in KEEP and fmt != "goo" and not built(fmt, out / name / fmt):
             return False  # other builds preinstall it, so it must be in $OUT
-        return not args.force and sid and stamp.exists() and stamp.read_text() == sid
+        if args.force or not sid or not stamp.exists():
+            return False
+        old = stamp.read_text()
+        if old == sid:
+            return True
+        if fmt != "goo" and legacy_stamp_ok(name, old, sid):
+            stamp.write_text(sid)  # migrate to the windows/-independent id
+            return True
+        return False
     todo = [f for f in fmts if has_format(name, f) and not done(f)]
     if not todo:
         return "ok"
@@ -150,8 +187,8 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         if name not in KEEP:  # other builds preinstall these from $OUT
             for p in pkgs:
                 p.unlink()
-        if sid:
-            (state / f"{name}.{fmt}").write_text(sid)
+        if sids[fmt]:
+            (state / f"{name}.{fmt}").write_text(sids[fmt])
     if not args.keep_cache and all(not has_format(name, f) or done(f) for f in fmts):
         clear_download(cache / name, gog)
     return "ok"

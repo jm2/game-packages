@@ -762,6 +762,9 @@ def write(path: Path, content: str, mode: int = 0o644, check: bool = False) -> b
 # Families with a Windows package: the same files, installed natively.
 # native-* need the Windows depots and wine-local/wine-launcher user files or
 # a store client, so they get hand-written manifests (or none) instead.
+# /opt dirs of our own packages that generated packages may link into.
+GOO_LINKED = {"/opt/gbe-fork/": "gbe-fork-bin", "/opt/xlln/": "xlln-bin",
+              "/opt/agelanserver-companion/": "agelanserver-companion-bin"}
 GOO_FAMILIES = {"wine-steam", "wine-gog", "data-steam", "data-gog", "data-url"}
 GOO_ROOT = "<ProgramFiles>/Games"   # admin-only; C:\ lets every user modify new dirs
 
@@ -808,6 +811,12 @@ def gen_goo(p: Pkg) -> str | None:
         local.append("gbe-fork-bin")
     if p.xlln:
         local.append("xlln-bin")
+    # Hooks that link into other packages' /opt dirs (e.g. aoe2-de's companion
+    # DLLs) need those packages in the stage, or `cp -aL` can't follow the links.
+    hooks = " ".join(p.hooks.values())
+    for prefix, pkg in GOO_LINKED.items():
+        if prefix in hooks and pkg not in local:
+            local.append(pkg)
     # The Linux changelog is about Linux packaging (Wine, gamelaunch, ...).
     notes = g.get("release_notes", [f"Built from linux-packages {p.name} {p.version}-{p.release}"])
     out = [f"# GooGet (Windows) package for {p.name}", f"# {HEADER}",
