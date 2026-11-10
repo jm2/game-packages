@@ -67,6 +67,9 @@ rm -f Q3A_EULA.txt
 '''
 
 [goo]
+# Windows release 2: rebuilt with parallel multi-member gzip (googet check).
+release_offset = 1
+release_notes = ["Rebuilt with parallel gzip (multi-member stream)"]
 description = """
 The data files of id Software's Quake III Arena 1.32 point release:
 baseq3/pak1.pk3 to pak8.pk3 and missionpack/pak1.pk3 to pak3.pk3, installed
