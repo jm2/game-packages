@@ -35,6 +35,8 @@ goo.toml:
     target = "quake3/quake3e.x64.exe"   # stage-relative; resolved via [files]
     args = ""
     description = "Quake III Arena (Quake3e)"
+    requires = "quake3/baseq3/pak0.pk3" # only if this exists (another package's
+                                        # file); that package makes it otherwise
 
     [[firewall]]                  # inbound allow rules, local subnet only
     name = "Quake3e"
@@ -154,6 +156,10 @@ def scripts(m: dict) -> tuple[str, str] | None:
         for s in sc:
             lnk = f"(Join-Path $menu {ps_quote(s['name'] + '.lnk')})"
             target = resolve(files, s["target"])
+            if s.get("requires"):
+                # An engine and its data are separate packages: whichever is
+                # installed second creates the shortcut, either removes it.
+                ins.append(f"if (Test-Path -LiteralPath {resolve(files, s['requires'])}) {{")
             ins += [f"$l = $sh.CreateShortcut({lnk})",
                     f"$l.TargetPath = {target}",
                     f"$l.WorkingDirectory = {resolve(files, s['workdir'])}" if s.get("workdir")
@@ -161,8 +167,12 @@ def scripts(m: dict) -> tuple[str, str] | None:
                     f"$l.Arguments = {ps_quote(s.get('args', ''))}",
                     f"$l.Description = {ps_quote(s.get('description', s['name']))}",
                     "$l.Save()"]
+            if s.get("requires"):
+                ins.append("}")
             un.append(f"Remove-Item -Force -ErrorAction SilentlyContinue {lnk}")
         un.append("if ((Test-Path $menu) -and -not (Get-ChildItem $menu)) { Remove-Item $menu }")
+        if any(x.get("requires") for x in sc):
+            ins.append("if (-not (Get-ChildItem $menu)) { Remove-Item $menu }")
     for f in fw:
         # LAN play only: home networks are often classed as Public, so any
         # profile, but only from the local subnet.

@@ -797,6 +797,9 @@ def gen_goo(p: Pkg) -> str | None:
         deps[p.data_package] = ""
     for d in g.get("deps", []):
         deps[d] = ""
+    # [[goo.shortcut]]: extra Start Menu entries, e.g. a data package's
+    # shortcut to its engine (with requires = the engine's exe).
+    extra_sc = g.get("shortcut", [])
     local = []
     if p.gbe:
         local.append("gbe-fork-bin")
@@ -807,7 +810,7 @@ def gen_goo(p: Pkg) -> str | None:
     out = [f"# GooGet (Windows) package for {p.name}", f"# {HEADER}",
            f"name = {toml_str(goo_name(p))}",
            f"version = {toml_str(p.version)}",
-           f"release = {p.release}",
+           f"release = {p.release + g.get('release_offset', 0)}",
            'arch = "noarch"',
            f"description = {toml_str(g.get('description') or goo_text(p.description))}",
            f"license = {toml_str(p.license)}",
@@ -819,6 +822,9 @@ def gen_goo(p: Pkg) -> str | None:
            "", "[deps]"]
     out += [f"{toml_str(k)} = {toml_str(v)}" for k, v in deps.items()]
     out += ["", "[files]", f"{toml_str(base)} = {toml_str(GOO_ROOT + '/' + base)}"]
+    for s in extra_sc:
+        out += ["", "[[shortcut]]"]
+        out += [f"{k} = {toml_str(v)}" for k, v in s.items()]
     if p.game:
         l = p.launcher
         writable = l.get("writable", p.xlln)

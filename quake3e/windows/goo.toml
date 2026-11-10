@@ -1,7 +1,7 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "quake3e"
 version = "2026.10.14"
-release = 6
+release = 7
 arch = "x86_64"
 description = """
 Improved Quake III Arena engine with OpenGL and Vulkan renderers (upstream's
@@ -12,7 +12,7 @@ Install the game data too: quake3-data-steam or quake3-data-gog, plus
 quake3-pointrelease-data."""
 license = "GPL-2.0-or-later"
 url = "https://github.com/ec-/Quake3e"
-release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)", "Per-user settings in %APPDATA%\\Quake3; firewall rules limited to the local subnet", "Install to C:\\Program Files\\Games\\quake3", "Tested with googet 3.4.1 on Windows 11", "No dependency on quake3-data: googet 3.4.1 fails on dependencies satisfied through Provides; install a data package yourself"]
+release_notes = ["Initial GooGet package (upstream 2026-10-14 Windows x86_64 build)", "Per-user settings in %APPDATA%\\Quake3; firewall rules limited to the local subnet", "Install to C:\\Program Files\\Games\\quake3", "Tested with googet 3.4.1 on Windows 11", "No dependency on quake3-data: googet 3.4.1 fails on dependencies satisfied through Provides; install a data package yourself", "Shortcuts only for installed games (Team Arena needs quake3-ta-data-steam or quake3-data-gog)"]
 
 [files]
 "quake3" = "<ProgramFiles>/Games/quake3"
@@ -24,12 +24,15 @@ target = "quake3/quake3e.x64.exe"
 # user; give each user their own (the shell expands %APPDATA% in shortcuts).
 args = "+set fs_homepath \"%APPDATA%\\Quake3\""
 description = "Quake III Arena"
+# The data packages create these when they're installed after quake3e.
+requires = "quake3/baseq3/pak0.pk3"
 
 [[shortcut]]
 name = "Quake III Team Arena (Quake3e)"
 target = "quake3/quake3e.x64.exe"
 args = "+set fs_homepath \"%APPDATA%\\Quake3\" +set fs_game missionpack"
 description = "Quake III: Team Arena"
+requires = "quake3/missionpack/pak0.pk3"
 
 [[firewall]]
 name = "Quake3e"
