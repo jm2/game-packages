@@ -63,9 +63,51 @@ A <stage dir>/.version file (written by the stage script, e.g. a Steam
 build's version) overrides `version`.
 """
 import gzip, io, json, os, re, sys, tarfile, tomllib
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 VALID_ARCH = {"noarch", "x86_64", "x86_32", "arm", "arm64"}
+CHUNK = 8 << 20   # fixed, so the output is reproducible
+
+
+class ParallelGzip(io.RawIOBase):
+    """A gzip writer that compresses fixed-size chunks on every core, like
+    pigz, writing each as its own gzip member (mtime 0). Go's gzip.Reader,
+    which googet and crossdock use, reads multi-member streams by default.
+    zlib releases the GIL, so threads are enough."""
+
+    def __init__(self, raw, level: int, jobs: int):
+        self.raw, self.level, self.buf = raw, level, bytearray()
+        self.pool = ThreadPoolExecutor(jobs)
+        self.pending: list = []
+        self.depth = jobs * 2
+
+    def writable(self) -> bool:
+        return True
+
+    def write(self, b) -> int:
+        self.buf += b
+        while len(self.buf) >= CHUNK:
+            self._submit(bytes(self.buf[:CHUNK]))
+            del self.buf[:CHUNK]
+        return len(b)
+
+    def _submit(self, chunk: bytes) -> None:
+        self.pending.append(self.pool.submit(gzip.compress, chunk, self.level, mtime=0))
+        while len(self.pending) > self.depth:
+            self.raw.write(self.pending.pop(0).result())
+
+    def close(self) -> None:
+        if self.closed:
+            return
+        if self.buf or not self.pending:
+            self._submit(bytes(self.buf))
+            self.buf.clear()
+        for f in self.pending:
+            self.raw.write(f.result())
+        self.pending.clear()
+        self.pool.shutdown()
+        super().close()
 MENU = "Games (linux-packages)"
 EXEC = "*.exe,*.dll,*.asi,*.sys,*.ocx,*.cpl,*.scr,*.com,*.bat,*.cmd,*.ps1,*.vbs,*.msi"
 
@@ -228,7 +270,9 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     dest = out / f"{m['name']}.{m['arch']}.{version}.goo"
     tmp = out / f".{dest.name}.part"
-    level = int(os.environ.get("GOO_GZIP_LEVEL", "6"))
+    # Game data barely compresses (about 0.9 at level 6), so speed wins.
+    level = int(os.environ.get("GOO_GZIP_LEVEL", "1"))
+    jobs = int(os.environ.get("GOO_GZIP_JOBS", "0")) or os.cpu_count() or 1
 
     def add_bytes(tf: tarfile.TarFile, name: str, data: bytes) -> None:
         ti = tarfile.TarInfo(name)
@@ -242,8 +286,8 @@ def main() -> int:
         ti.uname = ti.gname = ""
         return ti
 
-    with open(tmp, "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", compresslevel=level, mtime=0) as gz, \
-            tarfile.open(fileobj=gz, mode="w|", format=tarfile.PAX_FORMAT) as tf:
+    with open(tmp, "wb") as raw, ParallelGzip(raw, level, jobs) as gz, \
+            tarfile.open(fileobj=gz, mode="w|", format=tarfile.PAX_FORMAT, bufsize=CHUNK) as tf:
         add_bytes(tf, f"{m['name']}.pkgspec", json.dumps(spec, indent=2).encode())
         if sc:
             add_bytes(tf, "install.ps1", sc[0].encode("utf-8-sig"))

@@ -36,6 +36,15 @@ if [ -n "${PT_CACHE:-}" ] && [ -d "$PT_CACHE/$pkg" ]; then
     find "$PT_CACHE/$pkg" -maxdepth 1 -type f -exec sh -c \
         'cp -ln "$1" "$2/" 2>/dev/null || cp -n "$1" "$2/"' _ {} "$work/$pkg" \;
 fi
+# RPM payload compression is a build policy, not package content, so it's set
+# here in the scratch spec rather than in each spec (changing every spec would
+# make build-all rebuild every package): multi-threaded zstd level 3. Fedora's
+# default (w19.zstdio, single-threaded) runs at about 5 MB/s.
+for s in "$work/$pkg"/*.spec; do
+    [ -e "$s" ] || continue
+    sed -i '/^%global _binary_payload /d' "$s"
+    sed -i '1i %global _binary_payload w3T0.zstdio' "$s"
+done
 mkdir -p "$out"
 local_root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
 cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NODEPS:-}")

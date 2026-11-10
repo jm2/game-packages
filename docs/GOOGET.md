@@ -79,6 +79,12 @@ creates, and uninstall scripts run before the files are removed.
 Versions become googet's `X.Y.Z@release` (`tools/goopack.py goo_version`):
 `1.0o` -> `1.0.15`, Steam `1.27.b16986367` -> `1.27.16986367`.
 
+`tools/goopack.py` compresses with parallel gzip (8 MiB chunks, each its own
+gzip member, as pigz does; Go's gzip.Reader in googet and crossdock reads
+multi-member streams), at level 1 by default: game data barely compresses.
+`GOO_GZIP_LEVEL` and `GOO_GZIP_JOBS` override. About 150 MB/s on antec
+against 31 MB/s single-threaded at level 6; the output is reproducible.
+
 googet downloads a package to its cache and extracts it before copying the
 files, so a client needs about two and a half times a package's size free
 while it installs (measured with quake3e and the point release paks). The
