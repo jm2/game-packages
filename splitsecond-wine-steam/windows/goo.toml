@@ -30,7 +30,7 @@ program = "splitsecond/SplitSecond.exe"
 [stage]
 container = "fedora"
 source_dir = "splitsecond-wine-steam"
-deps = ["desktop-file-utils"]
+deps = ["desktop-file-utils", "python3"]
 local = []
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

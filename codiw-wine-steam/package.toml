@@ -1,0 +1,63 @@
+name = "codiw-wine-steam"
+family = "wine-steam"
+id = "codiw"
+release = 1
+summary = "Call of Duty: Infinite Warfare (IW7-Mod) using Wine with data via Steam"
+url = "https://store.steampowered.com/app/292730/Call_of_Duty_Infinite_Warfare/"
+deb = { parts = 15 }   # ~112 GiB with all DLC (parts hold 9.9 GB each)
+changelog = ["Initial package: IW7-Mod v1.1.0 client, stock executable against Goldberg"]
+notes = """
+IW7-Mod (https://github.com/auroramod/iw7-mod, GPL-3.0) is the community
+client for Infinite Warfare: dedicated servers, LAN play and mods, with its
+own Steam emulation (it skips the Steam client under Wine). `codiw` starts
+IW7-Mod (campaign, multiplayer and zombies from its menu) with -noupdate;
+`codiw -v` starts the stock iw7_ship.exe against the Goldberg emulator.
+
+IW7-Mod's client data (data/cdata from the release's source) is installed to
+iw7-mod/ in the game directory, which IW7-Mod searches, so it doesn't have to
+download it. IW7-Mod refuses game builds it doesn't support (it checks zone
+file hashes), so a Steam update can need a newer IW7-Mod. DLC is downloaded
+when the Steam account owns it."""
+
+[source.steam]
+appid = 292730
+
+[[source.files]]
+name = "iw7-mod-v1.1.0.exe"
+url = "https://github.com/auroramod/iw7-mod/releases/download/v1.1.0/iw7-mod.exe"
+sha256 = "f5e9a0721f907e09661b305b3a339a941cdf2ec6456228cf533b517222718649"
+extract = "copy"
+to = "iw7-mod.exe"
+
+[[source.files]]
+name = "iw7-mod-v1.1.0.tar.gz"
+url = "https://github.com/auroramod/iw7-mod/archive/refs/tags/v1.1.0.tar.gz"
+sha256 = "f4e78dd737c116037ff64656987225a86f3d4d34c96b22c415634fdc27e05bb6"
+extract = "tar"
+subdir = "iw7-mod-1.1.0/data/cdata"
+to = "iw7-mod/"
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "iw7_ship.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "iw7-mod.exe"
+writable = true
+# Version from the game, not the mod client (which isn't in the Steam download).
+version_exe = "iw7_ship.exe"
+variants = [
+  { flag = "x", exe = "iw7-mod.exe", args = ["-noupdate"], description = "IW7-Mod" },
+  { flag = "v", exe = "iw7_ship.exe", description = "stock executable, LAN via Goldberg" },
+]
+default_variant = "x"
+
+[desktop]
+name = "Call of Duty: Infinite Warfare"
+comment = "Call of Duty: Infinite Warfare with IW7-Mod (Wine)"
+categories = "Game;ActionGame;Shooter;"

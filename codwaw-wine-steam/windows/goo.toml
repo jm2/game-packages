@@ -68,7 +68,7 @@ sha256 = "b0e265592901cd248b7358e8b37c8c1b5c85c6b24fb3cb378f62d601378e4fae"
 [stage]
 container = "fedora"
 source_dir = "codwaw-wine-steam"
-deps = ["desktop-file-utils", "icoutils"]
+deps = ["desktop-file-utils", "icoutils", "python3"]
 local = []
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

@@ -50,7 +50,7 @@ program = "aoe3/age3y.exe"
 [stage]
 container = "fedora"
 source_dir = "aoe3-wine-steam"
-deps = ["desktop-file-utils"]
+deps = ["desktop-file-utils", "python3"]
 local = []
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

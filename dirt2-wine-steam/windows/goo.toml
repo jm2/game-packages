@@ -38,7 +38,7 @@ args = "/s"
 [stage]
 container = "fedora"
 source_dir = "dirt2-wine-steam"
-deps = ["desktop-file-utils", "icoutils"]
+deps = ["desktop-file-utils", "icoutils", "python3"]
 local = ["xlln-bin"]
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

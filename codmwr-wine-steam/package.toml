@@ -1,0 +1,74 @@
+name = "codmwr-wine-steam"
+family = "wine-steam"
+id = "codmwr"
+release = 1
+summary = "Call of Duty: Modern Warfare Remastered (H1-Mod) using Wine with data via Steam"
+url = "https://store.steampowered.com/app/393080/Call_of_Duty_Modern_Warfare_Remastered_2017/"
+deb = { parts = 12 }   # ~84 GiB with the campaign (parts hold 9.9 GB each)
+changelog = ["Initial package: H1-Mod v2.1.1 client, stock executables against Goldberg"]
+notes = """
+H1-Mod (https://github.com/auroramod/h1-mod, GPL-3.0) is the community client
+for Modern Warfare Remastered: dedicated servers, LAN play and mods, with its
+own Steam emulation. `codmwr` starts H1-Mod multiplayer, `codmwr -s` the
+H1-Mod campaign. `-v` and `-c` start the stock h1_mp64_ship.exe and
+h1_sp64_ship.exe against the Goldberg emulator instead.
+
+H1-Mod's automatic update check (which would replace h1-mod.exe and its data
+from auroramod's servers) is turned off with `+set cg_auto_update 0`; the
+packaged version stays as installed and works offline.
+
+H1-Mod's client data (data/cdata from the release's source) is installed to
+h1-mod/ in the game directory, which H1-Mod searches, so it doesn't have to
+download it at first launch. H1-Mod refuses game builds it doesn't support
+(it checks zone file hashes), so a Steam update can need a newer H1-Mod.
+
+Steam sells multiplayer (app 393100) and the campaign (app 393080) as
+separate apps of one purchase; this package downloads both."""
+
+[source.steam]
+appid = 393100
+# The multiplayer app; the campaign (h1_sp64_ship.exe and its data) is the
+# separate app 393080, whose own depots are added here.
+depots = [[393080, 393081], [393080, 393082]]
+
+[[source.files]]
+name = "h1-mod-v2.1.1.exe"
+url = "https://github.com/auroramod/h1-mod/releases/download/v2.1.1/h1-mod.exe"
+sha256 = "4d818232ea6103682f74da480206017cf66a7da1ef1a24107355f6c5f709d308"
+extract = "copy"
+to = "h1-mod.exe"
+
+[[source.files]]
+name = "h1-mod-v2.1.1.tar.gz"
+url = "https://github.com/auroramod/h1-mod/archive/refs/tags/v2.1.1.tar.gz"
+sha256 = "3b996a9074c2ce54eae59d81aff2032ffe315dff1ded03ff5cae12c79fd3ce5b"
+extract = "tar"
+subdir = "h1-mod-2.1.1/data/cdata"
+to = "h1-mod/"
+
+[gbe]
+libs = ["steam_api64.dll"]
+
+[icon]
+exe = "h1_mp64_ship.exe"
+
+[install]
+remove = ["*.vdf"]
+
+[launcher]
+exe = "h1-mod.exe"
+writable = true
+# Version from the game, not the mod client (which isn't in the Steam download).
+version_exe = "h1_mp64_ship.exe"
+variants = [
+  { flag = "m", exe = "h1-mod.exe", args = ["-multiplayer", "+set", "cg_auto_update", "0"], description = "H1-Mod multiplayer" },
+  { flag = "s", exe = "h1-mod.exe", args = ["-singleplayer", "+set", "cg_auto_update", "0"], description = "H1-Mod campaign" },
+  { flag = "v", exe = "h1_mp64_ship.exe", description = "stock multiplayer, LAN via Goldberg" },
+  { flag = "c", exe = "h1_sp64_ship.exe", description = "stock campaign" },
+]
+default_variant = "m"
+
+[desktop]
+name = "Call of Duty: Modern Warfare Remastered"
+comment = "Call of Duty: Modern Warfare Remastered with H1-Mod (Wine)"
+categories = "Game;ActionGame;Shooter;"

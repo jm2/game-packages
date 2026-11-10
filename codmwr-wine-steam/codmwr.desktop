@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Call of Duty: Modern Warfare Remastered
+Comment=Call of Duty: Modern Warfare Remastered with H1-Mod (Wine)
+Exec=codmwr
+Icon=codmwr
+Terminal=false
+Categories=Game;ActionGame;Shooter;

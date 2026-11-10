@@ -50,7 +50,7 @@ sha256 = "a62e1cb44020951d38ee4ab3c49a25fe76c77d9defd42661b81292d9ce495b7f"
 [stage]
 container = "fedora"
 source_dir = "dirtshowdown-wine-steam"
-deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin"]
+deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin", "python3"]
 local = ["gbe-fork-bin"]
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

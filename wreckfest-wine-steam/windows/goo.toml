@@ -40,7 +40,7 @@ program = "wreckfest/Wreckfest.exe"
 [stage]
 container = "fedora"
 source_dir = "wreckfest-wine-steam"
-deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin"]
+deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin", "python3"]
 local = ["gbe-fork-bin"]
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

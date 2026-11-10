@@ -30,7 +30,7 @@ program = "ut3/Binaries/UT3.exe"
 [stage]
 container = "fedora"
 source_dir = "ut3-wine-steam"
-deps = ["desktop-file-utils"]
+deps = ["desktop-file-utils", "python3"]
 local = []
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

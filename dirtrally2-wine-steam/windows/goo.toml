@@ -30,7 +30,7 @@ program = "dirtrally2/dirtrally2.exe"
 [stage]
 container = "fedora"
 source_dir = "dirtrally2-wine-steam"
-deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin"]
+deps = ["desktop-file-utils", "icoutils", "gbe-fork-bin", "python3"]
 local = ["gbe-fork-bin"]
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

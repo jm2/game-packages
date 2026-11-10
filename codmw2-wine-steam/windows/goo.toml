@@ -53,7 +53,7 @@ sha256 = "e878a9c3d4d09591adec46a10a3545499ee03b385e4f12b7643de0ad5d484455"
 [stage]
 container = "fedora"
 source_dir = "codmw2-wine-steam"
-deps = ["desktop-file-utils", "icoutils", "unzip", "gbe-fork-bin"]
+deps = ["desktop-file-utils", "icoutils", "unzip", "gbe-fork-bin", "python3"]
 local = ["gbe-fork-bin"]
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Call of Duty: Infinite Warfare
+Comment=Call of Duty: Infinite Warfare with IW7-Mod (Wine)
+Exec=codiw
+Icon=codiw
+Terminal=false
+Categories=Game;ActionGame;Shooter;

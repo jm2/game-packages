@@ -885,7 +885,8 @@ def gen_goo(p: Pkg) -> str | None:
             out += ["", "[[source]]", f"name = {toml_str(f['name'])}",
                     f"url = {toml_str(f['url'])}", f"sha256 = {toml_str(f['sha256'])}"]
     out += ["", "[stage]", 'container = "fedora"', f"source_dir = {toml_str(p.name)}",
-            f"deps = {toml_list(p.build_deps('fedora'))}",
+            # build.sh reads Steam builds' versions with python3 (as in the spec).
+            f"deps = {toml_list(p.build_deps('fedora') + (['python3'] if p.steam_versioned else []))}",
             f"local = {toml_list(local)}",
             "script = '''", *script, "'''"]
     return "\n".join(out) + "\n"

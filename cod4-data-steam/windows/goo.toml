@@ -20,7 +20,7 @@ replaces = []
 [stage]
 container = "fedora"
 source_dir = "cod4-data-steam"
-deps = ["desktop-file-utils"]
+deps = ["desktop-file-utils", "python3"]
 local = []
 script = '''
 export PT_SRCDIR="$PKGDIR" PT_WORK="$WORK"

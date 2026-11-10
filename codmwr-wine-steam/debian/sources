@@ -1,0 +1,3 @@
+# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>
+4d818232ea6103682f74da480206017cf66a7da1ef1a24107355f6c5f709d308 h1-mod-v2.1.1.exe https://github.com/auroramod/h1-mod/releases/download/v2.1.1/h1-mod.exe
+3b996a9074c2ce54eae59d81aff2032ffe315dff1ded03ff5cae12c79fd3ce5b h1-mod-v2.1.1.tar.gz https://github.com/auroramod/h1-mod/archive/refs/tags/v2.1.1.tar.gz
