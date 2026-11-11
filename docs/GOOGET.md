@@ -1,13 +1,14 @@
 # Windows packages (GooGet)
 
 The repo also builds Windows packages in GooGet's `.goo` format, published
-by crossdock next to the Arch and Fedora repos (`goo/linux-packages/`).
+by crossdock next to the Arch and Fedora repos (`goo/game-packages/`).
 Clients:
 
 ```
 # The repo is plain http on the LAN; googet 2.11+ needs this to use it:
 Add-Content C:\ProgramData\GooGet\googet.conf 'allowunsafeurl: true'
-googet addrepo linux-packages http://<crossdock host>:8080/goo/linux-packages
+googet addrepo game-packages http://<crossdock host>:8080/goo/game-packages
+# Clients set up before the rename (2026-11-11): googet rmrepo linux-packages
 googet install quake3e quake3-data-steam quake3-pointrelease-data
 ```
 
