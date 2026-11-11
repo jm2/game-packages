@@ -21,7 +21,7 @@
 
 Name:           openetqw-bin
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Open-source Enemy Territory: QUAKE Wars engine (binary release)
 License:        GPL-3.0-or-later AND LicenseRef-ETQW-SDK-EULA AND LicenseRef-ETQW-EULA AND LicenseRef-ETQW-Retail AND Zlib AND MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0
 URL:            https://github.com/jm2/openETQW
@@ -118,5 +118,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/openetqw.desktop
 
 
 %changelog
+* Wed Nov 11 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.1.0-2
+- Launcher: the install directory is fs_basepath and the retail data fs_cdpath,
+  so the 1.5 patch paks take priority over the retail pak000-pak004
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.1.0-1
 - Initial package of the openETQW 0.1.0 binary release

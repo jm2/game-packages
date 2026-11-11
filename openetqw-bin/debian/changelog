@@ -1,3 +1,11 @@
+openetqw-bin (0.1.0-2) unstable; urgency=medium
+
+  * Launcher: the install directory is fs_basepath and the retail data
+    fs_cdpath, so the 1.5 patch paks take priority over the retail
+    pak000-pak004.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 09:40:00 -0500
+
 openetqw-bin (0.1.0-1) unstable; urgency=medium
 
   * Initial package of the openETQW 0.1.0 binary release.

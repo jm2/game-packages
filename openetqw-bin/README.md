@@ -15,11 +15,18 @@ patch. You still need the base game's `base/pak000.pk4` - `pak004.pk4`,
 
 - install `etqw-data-steam` (provides `etqw-data`), which puts them in
   `/opt/etqw`, or
-- keep a Steam, retail or Wine install, which openETQW finds on its own, or
 - point it at an install yourself:
 
       OPENETQW_BASEPATH=/path/to/etqw openetqw
       openetqw +set fs_basepath /path/to/etqw
+
+The launcher runs the engine with `/opt/openetqw` as `fs_basepath` and the
+retail folder as `fs_cdpath`. The engine searches `fs_basepath` first, so the
+1.5 patch paks take priority over the retail `pak000-pak004`. If the retail
+folder were `fs_basepath` instead, its old scripts would win and maps would
+fail to load. Without any of the above, openETQW searches Steam, retail and
+Wine installs on its own and saves the folder in `basepath.txt` (see below);
+the launcher uses that folder from the next start.
 
 The engine checks at start-up that the official 1.5 paks are present and
 unmodified.
