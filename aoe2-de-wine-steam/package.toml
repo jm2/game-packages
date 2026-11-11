@@ -78,3 +78,11 @@ name = "Age of Empires II: Definitive Edition"
 comment = "Age of Empires II: Definitive Edition (Wine)"
 categories = "Game;StrategyGame;"
 keywords = "strategy;rts;"
+
+[goo]
+description = """
+Age of Empires II: Definitive Edition (with the Enhanced Graphics Pack), with
+the game data downloaded from Steam and the Goldberg Steam emulator in place
+of Steam. ageLANServer's launcher companion DLLs are installed too, so LAN
+multiplayer lobbies work against an ageLANServer on the network instead of
+the official servers."""

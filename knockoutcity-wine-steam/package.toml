@@ -46,3 +46,7 @@ keywords = "dodgeball;multiplayer;lan"
 arch = ["knockoutcity-server"]
 fedora = ["knockoutcity-server"]
 debian = ["knockoutcity-server"]
+
+[goo]
+# Windows release 2 (= 1 + 1): drops the Linux-only knockoutcity-wine conflict.
+release_offset = 1

@@ -9,7 +9,7 @@ license = "LicenseRef-Proprietary"
 url = "https://www.gog.com/game/quake_iii_gold"
 release_notes = ["Built from linux-packages quake3-data-gog 1-6"]
 provides = ["quake3-data", "quake3-ta-data"]
-conflicts = ["quake3-data-steam", "quake3-ta-data-steam"]
+conflicts = ["quake3-data-steam"]
 replaces = []
 
 [deps]

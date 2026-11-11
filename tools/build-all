@@ -24,7 +24,7 @@ xlln-bin from $OUT/<name>/fedora/, so build Fedora at least once first.
 TMPDIR, PT_CACHE and OUT must be set, and should be on a disk with room for
 the largest game several times over, since the defaults are on the system disk.
 """
-import argparse, os, re, subprocess, sys, tomllib
+import argparse, hashlib, os, re, subprocess, sys, tomllib
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -93,9 +93,29 @@ def tree_ids(name: str, rev: str = "HEAD"):
     if r.returncode:
         return None
     ls = subprocess.run(GIT + ["ls-tree", f"{rev}:{name}"], capture_output=True, text=True).stdout
-    linux = "".join(l + "\n" for l in ls.splitlines() if not l.endswith("\twindows"))
+    lines = []
+    for l in ls.splitlines():
+        if l.endswith("\twindows"):
+            continue
+        if l.endswith("\tpackage.toml"):
+            # package.toml's [goo] / [[goo.*]] tables only feed windows/goo.toml.
+            toml = subprocess.run(GIT + ["show", f"{rev}:{name}/package.toml"], capture_output=True, text=True).stdout
+            l = "package.toml " + hashlib.sha1(strip_goo(toml).encode()).hexdigest()
+        lines.append(l)
+    linux = "".join(l + "\n" for l in lines)
     h = subprocess.run(GIT + ["hash-object", "--stdin"], input=linux, capture_output=True, text=True).stdout.strip()
     return r.stdout.strip(), "linux:" + h
+
+def strip_goo(toml: str) -> str:
+    """package.toml without its [goo] and [[goo.*]] tables."""
+    out, skip = [], False
+    for line in toml.splitlines():
+        m = re.match(r"^\s*\[\[?\s*([A-Za-z0-9_.-]+)", line)
+        if m:
+            skip = m.group(1) == "goo" or m.group(1).startswith("goo.")
+        if not skip:
+            out.append(line)
+    return "\n".join(out).rstrip() + "\n"
 
 def source_id(name: str, fmt: str):
     """Identify the package's committed source for a format, or None if it has
