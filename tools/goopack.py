@@ -24,6 +24,8 @@ goo.toml:
     replaces = []
     conflicts = []
     release_notes = ["..."]
+    path = ["tool"]               # optional: stage dirs added to the
+                                  # machine PATH (command-line tools)
     menu = ""                     # optional Start Menu folder; default
                                   # "Games (linux-packages)", "" = Programs
                                   # itself (for applications)
@@ -193,7 +195,8 @@ def scripts(m: dict) -> tuple[str, str] | None:
     wr = m.get("writable", {}).get("dirs", [])
     pre = m.get("prereq", [])
     extra = m.get("script", {})
-    if not (sc or fw or wr or pre or extra):
+    paths = m.get("path", [])
+    if not (sc or fw or wr or pre or extra or paths):
         return None
     tag = f"linux-packages:{m['name']}"
     # menu = "" puts shortcuts straight into Programs (applications); games
@@ -261,6 +264,18 @@ def scripts(m: dict) -> tuple[str, str] | None:
         # Rules are grouped per package; drop stale ones before adding.
         ins.insert(1, f"Get-NetFirewallRule -Group {ps_quote(tag)} -ErrorAction SilentlyContinue | Remove-NetFirewallRule")
         un.append(f"Get-NetFirewallRule -Group {ps_quote(tag)} -ErrorAction SilentlyContinue | Remove-NetFirewallRule")
+    if paths:
+        # The machine PATH, read and written raw: through
+        # [Environment]::GetEnvironmentVariable, %SystemRoot%-style entries
+        # would come back expanded and be saved that way.
+        key = "'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment'"
+        get = f"$old = (Get-Item {key}).GetValue('Path', '', 'DoNotExpandEnvironmentNames')"
+        put = f"Set-ItemProperty -Path {key} -Name Path -Type ExpandString -Value"
+        dirs = "@(" + ", ".join(resolve(files, d) for d in paths) + ")"
+        ins += [get, f"$add = {dirs} | Where-Object {{ ($old -split ';') -notcontains $_ }}",
+                f"if ($add) {{ {put} ((@($old.TrimEnd(';')) + $add) -join ';') }}"]
+        un += [get, f"$drop = {dirs}",
+               f"{put} ((($old -split ';') | Where-Object {{ $_ -and $drop -notcontains $_ }}) -join ';')"]
     # [script] install / uninstall: package-specific PowerShell, run last.
     # $ErrorActionPreference is already Stop (install) / Continue (uninstall).
     if extra.get("install"):

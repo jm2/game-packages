@@ -84,6 +84,11 @@ creates, and uninstall scripts run before the files are removed.
   before `x86_64`, `x86_32` and `noarch`, so a native build replaces the
   emulated one there; elsewhere it's ignored. Game and data packages stay
   `noarch`. The goo repo in crossdock.yaml must list `arm64`.
+- Applications (not games) set `menu = ""` so their shortcut goes straight
+  into the Start Menu's Programs, and command-line tools list their folder in
+  `path = [...]`, which install adds to the machine PATH and uninstall takes
+  out (raw registry value, so `%SystemRoot%`-style entries stay unexpanded).
+  New terminals see it after the next sign-in or Explorer restart.
 - `tools/goo-build <pkgdir> [out]`: downloads `[[source]]` files, runs the
   `[stage]` script (generated packages: `build.sh prepare` + `install` in a
   Fedora container with gbe-fork-bin / xlln-bin from `$OUT`, links followed)
