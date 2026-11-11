@@ -1,0 +1,45 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+# go.mod asks for Go 1.27.3; GOTOOLCHAIN=auto fetches it from proxy.golang.org
+# (checked against sum.golang.org) if Debian's Go is older (local builds only).
+export GOTOOLCHAIN := auto
+export GOFLAGS := -mod=readonly -modcacherw
+export GOPATH := $(CURDIR)/debian/go
+export GOCACHE := $(CURDIR)/debian/go-cache
+SRC := switchworks-0.1.7
+D := debian/switchworks
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
+
+override_dh_auto_build:
+	$(MAKE) -C $(SRC) build tray VERSION=v0.1.7
+
+override_dh_auto_install:
+	sh install.sh $(SRC) $(D)
+	# The web UI built into swk embeds these fonts (see debian/copyright).
+	install -m644 $(SRC)/internal/web/assets/fonts/OFL-Onest.txt \
+		$(SRC)/internal/web/assets/fonts/OFL-JetBrainsMono.txt $(D)/usr/share/doc/switchworks/
+
+# Like upstream's .deb: nothing is enabled or started at install; the system
+# coordinator is restarted on upgrade if it runs.
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start --restart-after-upgrade
+
+# dh_installsystemduser would enable the node and coordinator user units for
+# every user; each user turns on the node with "swk service install".
+override_dh_installsystemduser:
+
+override_dh_auto_test:
+	$(SRC)/swk version | grep -F "v0.1.7 "
+
+# Upstream's Makefile already strips the static Go binaries.
+override_dh_strip:
+override_dh_dwz:
+
+override_dh_auto_clean:
+	rm -rf $(SRC) debian/go debian/go-cache

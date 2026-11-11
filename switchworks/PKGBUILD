@@ -1,0 +1,43 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=switchworks
+pkgver=0.1.7
+pkgrel=1
+pkgdesc="Control plane for coding agents across your machines (swk, tray icon, systemd units)"
+arch=('x86_64' 'aarch64')
+url="https://github.com/jm2/switchworks"
+license=('GPL-3.0-or-later' 'OFL-1.1')
+# Static Go binaries (CGO_ENABLED=0), already stripped by upstream's Makefile.
+depends=('hicolor-icon-theme')
+optdepends=('gnome-shell-extension-appindicator: tray icon on GNOME')
+makedepends=('go' 'make')
+options=('!lto' '!debug' '!strip')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        "install.sh")
+sha256sums=('ef1ae092087341ee838d88904c5db0b000aa2d2668d380ddd7d6c30011ab1962'
+            'fe3521fc9bcfa593aec7c9fb24bd8c80309294d0635f6327b2eba59d2981c10c')
+
+_goenv() {
+  # go.mod asks for Go 1.27.3; GOTOOLCHAIN=auto fetches it from
+  # proxy.golang.org (checked against sum.golang.org) if the system Go is older.
+  export GOTOOLCHAIN=auto GOFLAGS="-mod=readonly -modcacherw"
+  export GOPATH="${srcdir}/go" GOCACHE="${srcdir}/go-cache"
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  _goenv
+  make build tray VERSION="v${pkgver}"
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  ./swk version | grep -F "v${pkgver} "
+}
+
+package() {
+  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
+  cd "${pkgname}-${pkgver}"
+  install -Dm644 LICENSE internal/web/assets/fonts/OFL-Onest.txt internal/web/assets/fonts/OFL-JetBrainsMono.txt \
+    -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

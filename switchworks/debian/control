@@ -1,0 +1,24 @@
+Source: switchworks
+Section: devel
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-sequence-installsysusers,
+ golang-go, make, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/switchworks
+Rules-Requires-Root: no
+
+Package: switchworks
+Architecture: amd64 arm64
+Depends: ${misc:Depends}
+Suggests: gnome-shell-extension-appindicator
+Description: control plane for coding agents across your machines
+ Switchworks shows every coding-agent session (Codex, Goose and other ACP
+ agents) on every host in one place, from a browser, a phone or the swk
+ command line, and lets agents on different machines message each other.
+ .
+ This package installs swk, the swk-tray status icon, systemd user units for
+ the node and the coordinator, and a system unit that runs the coordinator
+ as its own switchworks account. Nothing is enabled at install: each user
+ runs "swk service install" to run the node as themselves, and "swk service
+ install --system coordinator", run as root, sets up the system coordinator.

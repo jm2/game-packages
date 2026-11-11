@@ -1,0 +1,35 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "switchworks"
+version = "0.1.7"
+release = 1
+arch = "x86_64"
+description = """
+Switchworks, a self-hosted control plane for coding agents across several
+workstations (upstream's Windows x86_64 command-line build: swk, swkw and the
+swk-tray tray app; upstream has no Windows ARM64 release). swk is added to the
+system PATH. Each user registers their own node with swk service install."""
+license = "GPL-3.0-or-later"
+url = "https://github.com/jm2/switchworks"
+release_notes = ["Initial GooGet package (upstream 0.1.7 Windows x86_64 build)"]
+path = ["switchworks"]
+menu = ""
+
+[files]
+"switchworks" = "<ProgramFiles>/Switchworks"
+
+[[shortcut]]
+name = "Switchworks"
+target = "switchworks/swk-tray.exe"
+args = ""
+description = "Switchworks tray: status, web UI and node control"
+
+[[source]]
+name = "swk-v0.1.7-windows-amd64.zip"
+url = "https://github.com/jm2/switchworks/releases/download/v0.1.7/swk-v0.1.7-windows-amd64.zip"
+sha256 = "5d605ac3a0cf5d236e580d8563edf4acf8a8c3f62dc06b94f58faa9b2d15754a"
+
+[stage]
+script = '''
+unzip -q -o "$SRC/swk-v0.1.7-windows-amd64.zip" -d "$STAGE"
+mv "$STAGE/swk-v0.1.7-windows-amd64" "$STAGE/switchworks"
+'''
