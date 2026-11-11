@@ -1,7 +1,7 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "gbe-hostname"
 version = "1.0.0"
-release = 1
+release = 2
 arch = "noarch"
 description = """
 Sets the Goldberg (gbe-fork) player name of every Windows user to this
@@ -14,7 +14,7 @@ than gbe's default "gse orca" or the host name it last wrote).
 Removing the package removes the task; names already written stay."""
 license = "0BSD"
 url = "https://github.com/jm2/game-packages"
-release_notes = ["Initial package"]
+release_notes = ["Start the logon task under conhost --headless so no console or Terminal window appears"]
 
 [files]
 "gbe-hostname" = "<ProgramFiles>/Games/gbe-hostname"
@@ -26,7 +26,11 @@ release_notes = ["Initial package"]
 install = '''
 $ps1 = Join-Path $env:ProgramFiles 'Games\gbe-hostname\Set-GbeAccountName.ps1'
 $exe = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
-$act = New-ScheduledTaskAction -Execute $exe -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$ps1`""
+$con = Join-Path $env:SystemRoot 'System32\conhost.exe'
+# conhost --headless gives PowerShell a console that is never shown; started
+# directly, it would open one (or, with Windows Terminal as the default
+# terminal, a Terminal window) at every logon.
+$act = New-ScheduledTaskAction -Execute $con -Argument "--headless `"$exe`" -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$ps1`""
 $trg = New-ScheduledTaskTrigger -AtLogOn
 $prn = New-ScheduledTaskPrincipal -GroupId 'S-1-5-32-545' -RunLevel Limited
 $set = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 2) -MultipleInstances IgnoreNew
