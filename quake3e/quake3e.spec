@@ -8,7 +8,7 @@
 
 Name:           quake3e
 Version:        2026.10.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Improved Quake III Arena engine with OpenGL and Vulkan renderers
 License:        GPL-2.0-or-later
 URL:            https://github.com/ec-/Quake3e
@@ -97,5 +97,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/quake3e-teamarena.des
 
 
 %changelog
+* Wed Nov 11 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2026.10.14-2
+- README: Team Arena data now comes with quake3-data-steam
+
 * Fri Nov 06 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2026.10.14-1
 - Initial RPM package, built from the 2026-10-14 release

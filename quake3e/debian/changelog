@@ -1,3 +1,9 @@
+quake3e (2026.10.14-2) unstable; urgency=medium
+
+  * README: Team Arena data now comes with quake3-data-steam.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 17:30:00 -0500
+
 quake3e (2026.10.14-1) unstable; urgency=medium
 
   * Initial Debian package, built from the 2026-10-14 release.
