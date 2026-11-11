@@ -8,8 +8,8 @@
 # header (architecture, dependencies) from <pkgdir>'s current spec. The old
 # RPM must have the spec's release; its version is kept, so a Steam package
 # keeps the build it was made from. The new RPM must hold exactly the old
-# one's files (path, size, digest, mode, owner, link target, doc flag), or
-# nothing is written to <outdir>.
+# one's files (path, size, digest, mode, owner and group, file flags, link
+# target; not mtimes), or nothing is written to <outdir>.
 #
 # Runs in the same Fedora container as tools/container-build, and needs room
 # for the game twice under ${TMPDIR:-/var/tmp}.
@@ -72,8 +72,11 @@ awk -v ver="$ver" -f /bin-repack/spec.awk "/src/$SPEC" > /build/repack.spec
 sed -i '/^%global _binary_payload /d; 1i %global _binary_payload w3T0.zstdio' /build/repack.spec
 rpmbuild -bb --quiet --define "_topdir /build" --define "_tmppath /build/tmp" /build/repack.spec
 new=$(ls /build/RPMS/noarch/*.rpm)
-# path size digest mode owner group config doc rdev link: everything but mtime
-dump() { rpm -qp --dump "$1" | awk '{ $3 = ""; print }' | sort; }
+# Everything but mtime, tab-separated (paths can contain spaces). Directory
+# mtimes may differ: rpmbuild clamps those newer than the changelog date.
+dump() {
+    rpm -qp --qf '[%{FILENAMES}\t%{FILESIZES}\t%{FILEDIGESTS}\t%{FILEMODES:octal}\t%{FILEUSERNAME}\t%{FILEGROUPNAME}\t%{FILEFLAGS:fflags}\t%{FILELINKTOS}\n]' "$1" | sort
+}
 if ! diff <(dump /old.rpm) <(dump "$new") > /build/files.diff; then
     echo "rpm-repack: the new RPM's files differ from the old one's:" >&2
     head -n 20 /build/files.diff >&2; exit 1
