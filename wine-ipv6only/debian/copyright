@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: wine-ipv6only
-Source: https://github.com/jm2/linux-packages
+Source: https://github.com/jm2/game-packages
 
 Files: *
 Copyright: 2026 John-Michael Mulesa

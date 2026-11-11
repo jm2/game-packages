@@ -1,3 +1,9 @@
+gamelaunch (1.2.0-2) unstable; urgency=medium
+
+  * Project URL: the repository is now jm2/game-packages.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 10:30:00 -0500
+
 gamelaunch (1.2.0-1) unstable; urgency=medium
 
   * WINE_PRELOAD / WINE_PRELOAD_VARIANTS: LD_PRELOAD Linux libraries into

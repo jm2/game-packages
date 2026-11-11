@@ -1,5 +1,5 @@
 #!/bin/bash
-# gamelaunch - shared launcher for the games in jm2/linux-packages.
+# gamelaunch - shared launcher for the games in jm2/game-packages.
 #
 #   gamelaunch <id> [-<variant>] [game args...]   run a game
 #   gamelaunch --run <id> <program> [args...]     run any program in the game's

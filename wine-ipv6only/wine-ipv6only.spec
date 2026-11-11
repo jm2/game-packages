@@ -1,9 +1,9 @@
 Name:           wine-ipv6only
 Version:        1.0.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        LD_PRELOAD library that forces IPV6_V6ONLY for Wine games
 License:        0BSD
-URL:            https://github.com/jm2/linux-packages
+URL:            https://github.com/jm2/game-packages
 Source0:        ipv6only.c
 Source1:        Makefile
 Source2:        LICENSE
@@ -34,5 +34,8 @@ cp -p %{SOURCE0} %{SOURCE1} %{SOURCE2} .
 /opt/wine-ipv6only/
 
 %changelog
+* Wed Nov 11 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0.0-2
+- Project URL: the repository is now jm2/game-packages
+
 * Sun Nov 08 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0.0-1
 - Initial package

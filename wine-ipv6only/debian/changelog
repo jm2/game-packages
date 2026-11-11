@@ -1,3 +1,9 @@
+wine-ipv6only (1.0.0-2) unstable; urgency=medium
+
+  * Project URL: the repository is now jm2/game-packages.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 10:30:00 -0500
+
 wine-ipv6only (1.0.0) unstable; urgency=medium
 
   * Initial package.

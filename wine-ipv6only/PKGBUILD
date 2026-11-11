@@ -2,10 +2,10 @@
 
 pkgname=wine-ipv6only
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="LD_PRELOAD library that forces IPV6_V6ONLY, so Windows games can host LAN games under Wine"
 arch=('x86_64')
-url="https://github.com/jm2/linux-packages"
+url="https://github.com/jm2/game-packages"
 license=('0BSD')
 depends=('glibc')
 makedepends=('gcc' 'make')

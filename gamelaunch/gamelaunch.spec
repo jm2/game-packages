@@ -1,9 +1,9 @@
 Name:           gamelaunch
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Shared launcher for wine/Proton and native game packages
 License:        0BSD
-URL:            https://github.com/jm2/linux-packages
+URL:            https://github.com/jm2/game-packages
 Source0:        gamelaunch
 Source1:        gamelaunch.conf.5.md
 Source2:        LICENSE
@@ -17,7 +17,7 @@ Suggests:       wine
 Suggests:       wine-dxvk
 
 %description
-gamelaunch runs the Windows and native games packaged in jm2/linux-packages
+gamelaunch runs the Windows and native games packaged in jm2/game-packages
 from a per-game config in /usr/share/gamelaunch/games. Windows games run
 through umu-launcher (Proton) when it is installed, or through system wine
 with the distribution's DXVK. Prefixes, saves and a writable per-user copy of
@@ -43,6 +43,9 @@ install -dm755 %{buildroot}%{_datadir}/gamelaunch/games %{buildroot}%{_sysconfdi
 %dir %{_sysconfdir}/gamelaunch/games
 
 %changelog
+* Wed Nov 11 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2.0-2
+- Project URL: the repository is now jm2/game-packages
+
 * Sun Nov 08 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.2.0-1
 - WINE_PRELOAD / WINE_PRELOAD_VARIANTS: LD_PRELOAD Linux libraries into Wine games
 

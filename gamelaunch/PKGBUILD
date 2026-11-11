@@ -2,17 +2,17 @@
 
 pkgname=gamelaunch
 pkgver=1.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Shared launcher for wine (umu/Proton or system wine + DXVK) and native game packages"
 arch=('any')
-url="https://github.com/jm2/linux-packages"
+url="https://github.com/jm2/game-packages"
 license=('0BSD')
 depends=('bash')
 optdepends=('umu-launcher: run Windows games through Proton (default backend)'
             'wine: system wine backend (GAMELAUNCH_RUNNER=wine)'
             'dxvk-bin: Direct3D 8-11 over Vulkan for the system wine backend')
 source=("gamelaunch" "gamelaunch.conf.5.md" "LICENSE")
-sha256sums=('9e4c01df088402f6ba35ec4de70e3d93aa65cdc44beea0cba06e1113a1e83272'
+sha256sums=('5ceb99a45525b4553b3dafee324975d752856fbdfc7ca00b89fe88cfa4fa0df8'
             '1ac2db4bc704dd3045f72b4fd4237212f6a2cf55aea507dd718a36a59dd1bf47'
             '6d3b473b559ad3816a3ca62bd6f59dc66a06eb89a0b237e79f3f8217a8a6a467')
 

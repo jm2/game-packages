@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
 Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.7.0
-Homepage: https://github.com/jm2/linux-packages
+Homepage: https://github.com/jm2/game-packages
 Rules-Requires-Root: no
 
 Package: wine-ipv6only
