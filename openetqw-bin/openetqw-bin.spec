@@ -1,9 +1,3 @@
-# UNPUBLISHED: the openETQW v0.1.0 release on jm2/openETQW is still a draft,
-# so Source0/Source1 return 404 until it is published. To build before then,
-# put the two linux tarballs from
-#   gh release download v0.1.0 -R jm2/openETQW -p 'openetqw-0.1.0-linux-x64.tar.xz' -p 'openetqw-0.1.0-linux-arm64.tar.xz'
-# into the SOURCES directory.
-
 # Prebuilt upstream binaries: nothing to strip or extract debuginfo from.
 %global debug_package %{nil}
 %global __strip /bin/true
@@ -14,7 +8,7 @@
 # The payload is mostly already-compressed pk4 (zip) data.
 %global _binary_payload w3.zstdio
 
-%global commit 90bc0382eaf7280ca3745ddfbb998420b2ce6571
+%global commit a5c9841e34e3ef56848c239a2663203612bf8b5e
 %global etqwver 1.5
 
 # Upstream names its binaries and modules by architecture tag.
@@ -45,7 +39,6 @@ ExclusiveArch:  x86_64 aarch64
 
 BuildRequires:  bsdtar
 BuildRequires:  desktop-file-utils
-BuildRequires:  patchelf
 BuildRequires:  tar
 BuildRequires:  xz
 
@@ -126,4 +119,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/openetqw.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.1.0-1
-- Initial package of the openETQW 0.1.0 binary release (unpublished draft)
+- Initial package of the openETQW 0.1.0 binary release

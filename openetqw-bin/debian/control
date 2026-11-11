@@ -2,7 +2,7 @@ Source: openetqw-bin
 Section: games
 Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
-Build-Depends: debhelper-compat (= 13), desktop-file-utils, libarchive-tools, patchelf, xz-utils, curl, ca-certificates
+Build-Depends: debhelper-compat (= 13), desktop-file-utils, libarchive-tools, xz-utils, curl, ca-certificates
 Standards-Version: 4.7.0
 Homepage: https://github.com/jm2/openETQW
 Rules-Requires-Root: no

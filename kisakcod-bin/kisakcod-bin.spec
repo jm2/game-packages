@@ -1,9 +1,3 @@
-# UNPUBLISHED: the KisakCOD v0.1.0 release on jm2/kisakcod is still a draft,
-# so Source0/Source1 return 404 until it is published. To build before then,
-# put the two linux tarballs from
-#   gh release download v0.1.0 -R jm2/kisakcod -p 'kisakcod-0.1.0-linux-*-client-beta.tar.xz'
-# into the SOURCES directory.
-
 # Prebuilt upstream binaries: nothing to strip or extract debuginfo from.
 %global debug_package %{nil}
 %global __strip /bin/true
@@ -24,11 +18,11 @@
 Name:           kisakcod-bin
 Version:        0.1.0
 Release:        1%{?dist}
-Summary:        Native Call of Duty 4 multiplayer client and server (beta binary release)
+Summary:        Native Call of Duty 4 multiplayer client and server (binary release)
 License:        GPL-3.0-only AND BSD-3-Clause AND Zlib AND LGPL-2.1-or-later AND LGPL-2.0-or-later
 URL:            https://github.com/jm2/kisakcod
-Source0:        %{url}/releases/download/v%{version}/kisakcod-%{version}-linux-x64-client-beta.tar.xz
-Source1:        %{url}/releases/download/v%{version}/kisakcod-%{version}-linux-arm64-client-beta.tar.xz
+Source0:        %{url}/releases/download/v%{version}/kisakcod-%{version}-linux-x64-client.tar.xz
+Source1:        %{url}/releases/download/v%{version}/kisakcod-%{version}-linux-arm64-client.tar.xz
 Source2:        kisakcod.sh
 Source3:        kisakcod.desktop
 Source4:        install.sh
@@ -110,4 +104,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/kisakcod.desktop
 
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.1.0-1
-- Initial package of the KisakCOD 0.1.0 beta binary release (unpublished draft)
+- Initial package of the KisakCOD 0.1.0 binary release

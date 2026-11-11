@@ -10,7 +10,7 @@ D := $(CURDIR)/debian/kisakcod-bin
 override_dh_auto_build:
 	debian/fetch-sources
 	rm -rf kisakcod && mkdir kisakcod
-	tar -xf kisakcod-$(VER)-linux-$(KCARCH)-client-beta.tar.xz -C kisakcod --strip-components=1
+	tar -xf kisakcod-$(VER)-linux-$(KCARCH)-client.tar.xz -C kisakcod --strip-components=1
 
 override_dh_auto_install:
 	sh install.sh kisakcod $(D) kisakcod-bin

@@ -17,7 +17,7 @@ Recommends: libx11-6, libxcursor1, libxext6, libxfixes3, libxi6, libxrandr2,
 Suggests: cod4-data
 Provides: kisakcod
 Conflicts: kisakcod
-Description: Native Call of Duty 4 multiplayer client and server (beta binary release)
+Description: Native Call of Duty 4 multiplayer client and server (binary release)
  KisakCOD is a native 64-bit reimplementation of the Call of Duty 4: Modern
  Warfare (1.8) multiplayer client and dedicated server. It bundles its runtime
  (SDL3, OpenAL Soft, Bink-only FFmpeg, dxvk-native) and renders through Vulkan.

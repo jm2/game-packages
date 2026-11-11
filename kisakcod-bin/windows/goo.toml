@@ -1,13 +1,4 @@
 # GooGet (Windows) package; built by tools/goo-build.
-#
-# UNPUBLISHED: the KisakCOD v0.1.0 release on jm2/kisakcod is still a draft, so
-# the GitHub release URL below returns 404 until it is published (same as the
-# Linux tarballs in PKGBUILD; note the current draft names the archive
-# -client.zip without -beta). To build before publishing, pre-populate the
-# source cache with:
-#   gh release download v0.1.0 -R jm2/kisakcod -p 'kisakcod-0.1.0-windows-x64-client.zip' \
-#       -D "${PT_CACHE:-/var/tmp/linux-packages-cache}/kisakcod-bin-goo"
-# Re-check sha256 if the draft release is rebuilt before publishing.
 name = "kisakcod-bin"
 version = "0.1.0"
 release = 1

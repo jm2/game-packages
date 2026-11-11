@@ -2,7 +2,7 @@
 
 KisakCOD is a native 64-bit reimplementation of the Call of Duty 4: Modern
 Warfare (1.8) multiplayer client and dedicated server
-(<https://github.com/jm2/kisakcod>). This package is its prebuilt beta
+(<https://github.com/jm2/kisakcod>). This package is its prebuilt binary
 release. It contains no game data.
 
 ## Game data

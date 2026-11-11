@@ -1,7 +1,3 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-# UNPUBLISHED: the v0.1.0 release is still a draft, so these URLs return 404
-# until it is published; put the tarballs next to debian/ (or in $PT_CACHE)
-# to build before then. Both architectures are listed; debian/rules unpacks
-# the host's.
-1ae0a7af8ea6fccdcc00322445d1abc1303648af9e9b409ca93b42ad1299ddb4 kisakcod-0.1.0-linux-x64-client-beta.tar.xz https://github.com/jm2/kisakcod/releases/download/v0.1.0/kisakcod-0.1.0-linux-x64-client-beta.tar.xz
-95e3726443ad25e87b675e5d81746eb4aa65d03c0b06176127fdb87f4beeab65 kisakcod-0.1.0-linux-arm64-client-beta.tar.xz https://github.com/jm2/kisakcod/releases/download/v0.1.0/kisakcod-0.1.0-linux-arm64-client-beta.tar.xz
+1256c4254bf69ed9205297d3bf5f383684bdeef802b78eb43ae280cd90af90c0 kisakcod-0.1.0-linux-x64-client.tar.xz https://github.com/jm2/kisakcod/releases/download/v0.1.0/kisakcod-0.1.0-linux-x64-client.tar.xz
+f23c0b9d7e068043e9101e034a7b8e8cbb1d4d27957eee871c2b2c2994736257 kisakcod-0.1.0-linux-arm64-client.tar.xz https://github.com/jm2/kisakcod/releases/download/v0.1.0/kisakcod-0.1.0-linux-arm64-client.tar.xz

@@ -12,9 +12,6 @@ opt=$dest/opt/openetqw
 install -d "$opt"
 install -m755 "$src/openETQW-client_$arch" "$src/openETQW-ded_$arch" "$src/game_$arch.so" \
     "$src/glslangValidator" "$src/libSDL3.so.0" "$opt/"
-# The 0.1.0 client's RUNPATH also names the CI runner's SDL3 build directory
-# (/home/runner/work/_temp/sdl3/lib); keep only $ORIGIN.
-patchelf --set-rpath '$ORIGIN' "$opt/openETQW-client_$arch"
 for d in base assets; do
     (cd "$src" && find "$d" -type d) | while read -r dir; do install -d "$opt/$dir"; done
     (cd "$src" && find "$d" -type f) | while read -r f; do install -m644 "$src/$f" "$opt/$f"; done

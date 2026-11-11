@@ -1,12 +1,4 @@
 # GooGet (Windows) package; built by tools/goo-build.
-#
-# UNPUBLISHED: the openETQW v0.1.0 release on jm2/openETQW is still a draft, so
-# the GitHub release URL below returns 404 until it is published (same as the
-# Linux tarballs in PKGBUILD). To build before publishing, pre-populate the
-# source cache with:
-#   gh release download v0.1.0 -R jm2/openETQW -p 'openetqw-0.1.0-windows-x64.zip' \
-#       -D "${PT_CACHE:-/var/tmp/linux-packages-cache}/openetqw-bin-goo"
-# Re-check sha256 if the draft release is rebuilt before publishing.
 name = "openetqw-bin"
 version = "0.1.0"
 release = 1
