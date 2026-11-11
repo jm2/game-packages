@@ -1,0 +1,35 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "tributary"
+version = "0.7.2"
+release = 1
+arch = "x86_64"
+description = """
+Tributary, a Rhythmbox-style media manager with unified local and remote
+backends, written in Rust with GTK4 and libadwaita (upstream's self-contained
+Windows x86_64 build, including GTK, GStreamer and FFmpeg)."""
+license = "GPL-3.0-or-later"
+url = "https://github.com/jm2/tributary"
+release_notes = ["Initial GooGet package (upstream 0.7.2 Windows x86_64 and ARM64 builds)"]
+# An application, not a game: its shortcut goes straight into Programs.
+menu = ""
+
+[files]
+"tributary" = "<ProgramFiles>/Tributary"
+
+[[shortcut]]
+name = "Tributary"
+target = "tributary/tributary.exe"
+args = ""
+description = "Rhythmbox-style media manager"
+
+[[source]]
+name = "tributary-0.7.2-windows-x86_64.zip"
+url = "https://github.com/jm2/tributary/releases/download/v0.7.2/tributary-windows-x86_64.zip"
+sha256 = "37f5dfd82e69aa0dafa92aa7e594c40e3efbaa265ec1b390cdee7d18677eb1ec"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+unzip -q -o "$SRC/tributary-0.7.2-windows-x86_64.zip" -d "$STAGE"
+mv "$STAGE/tributary-windows" "$STAGE/tributary"
+'''

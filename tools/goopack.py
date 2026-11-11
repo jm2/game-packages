@@ -24,16 +24,15 @@ goo.toml:
     replaces = []
     conflicts = []
     release_notes = ["..."]
+    menu = ""                     # optional Start Menu folder; default
+                                  # "Games (linux-packages)", "" = Programs
+                                  # itself (for applications)
 
     [files]                       # stage subdirectory -> install directory
     "quake3" = "<ProgramFiles>/Games/quake3"
 
     [deps]                        # name -> minimum version ("" = any)
     quake3-data = ""
-
-    menu = ""                     # optional Start Menu folder; default
-                                  # "Games (linux-packages)", "" = Programs
-                                  # itself (for applications)
 
     [[shortcut]]                  # Start Menu entries (all users)
     name = "Quake3e"
