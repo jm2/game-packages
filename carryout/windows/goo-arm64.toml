@@ -1,0 +1,17 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = """
+Carryout, a download helper for Google Takeout exports: it resumes, verifies
+and reassembles the archives of a Takeout export (upstream's Windows ARM64
+build). carryout.exe is added to the system PATH; run it from a terminal."""
+
+[[source]]
+name = "carryout_0.2.0_windows_arm64.zip"
+url = "https://github.com/jm2/carryout/releases/download/v0.2.0/carryout_0.2.0_windows_arm64.zip"
+sha256 = "4bd75c0d54b905cb73b659df2a3513b83dcc11673b73dd3eaf924ab04c6f9769"
+
+[stage]
+script = '''
+mkdir -p "$STAGE/carryout"
+unzip -q -o "$SRC/carryout_0.2.0_windows_arm64.zip" -d "$STAGE/carryout"
+'''

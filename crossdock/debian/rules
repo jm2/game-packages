@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+# Modules (and the Go release go.mod names, if Debian's is older) come from
+# proxy.golang.org, checked against go.sum (local builds only).
+export GOPATH := $(CURDIR)/debian/gopath
+export GOCACHE := $(CURDIR)/debian/gocache
+export GOTOOLCHAIN := auto
+export GOPROXY := https://proxy.golang.org,direct
+export GOSUMDB := sum.golang.org
+export GOFLAGS := -mod=readonly -modcacherw
+VERSION := 0.2.1
+SRC := crossdock-$(VERSION)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
+
+# The version string is set with -X main.version, as upstream's release does.
+override_dh_auto_build:
+	$(MAKE) -C $(SRC) build VERSION=v$(VERSION)
+
+override_dh_auto_install:
+	sh install.sh $(SRC) debian/crossdock
+
+# Like Arch and Fedora (and upstream's .deb): installed, but not enabled or
+# started. deb-systemd-invoke starts no disabled unit, so --no-enable alone
+# only try-restarts a running server, path or timer on upgrade. A publish in
+# progress is left to finish.
+override_dh_installsystemd:
+	dh_installsystemd --no-enable crossdock-serve.service crossdock-publish.path crossdock-publish.timer
+	dh_installsystemd --no-enable --no-start --no-stop-on-upgrade --no-restart-after-upgrade crossdock-publish.service
+
+override_dh_auto_test:
+	$(SRC)/crossdock version | grep -F "crossdock v$(VERSION) "
+
+override_dh_auto_clean:
+	rm -rf $(SRC) debian/gopath debian/gocache

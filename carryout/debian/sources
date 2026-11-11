@@ -1,0 +1,2 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+65372e94bf36ed2de49e9dba3cc75341db8bfec567fd6d97d411bced684039f9 carryout-0.2.0.tar.gz https://github.com/jm2/carryout/archive/refs/tags/v0.2.0.tar.gz

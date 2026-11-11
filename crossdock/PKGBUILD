@@ -1,0 +1,45 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=crossdock
+pkgver=0.2.1
+pkgrel=1
+pkgdesc="Publish packages as signed apt, pacman, RPM and GooGet repositories (with server and systemd units)"
+arch=('x86_64' 'aarch64')
+url="https://github.com/jm2/crossdock"
+license=('GPL-3.0-or-later')
+depends=()
+optdepends=('gnupg: sign with a GnuPG keyring or smartcard (signing.gnupg_home)'
+            'firewalld: the bundled crossdock service definition')
+makedepends=('go' 'make')
+# Upstream's Makefile builds a static, stripped binary (CGO_ENABLED=0, -s -w).
+options=('!lto' '!debug' '!strip')
+backup=('etc/crossdock/crossdock.yaml')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        "install.sh")
+sha256sums=('f0207a8ef7c173c5e869fbde544c9c95669e07c9b7d8083e185a1a1635414777'
+            '20ca3d714693965542ecb8a99f65f5b50c63af91106d3c37fe1463dbf4fb0a08')
+
+_goenv() {
+  # Modules (and the Go release go.mod names, if the system Go is older) come
+  # from proxy.golang.org, checked against go.sum (local builds only).
+  export GOPATH="${srcdir}/gopath" GOCACHE="${srcdir}/gocache"
+  export GOTOOLCHAIN=auto GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org
+  export GOFLAGS="-mod=readonly -modcacherw"
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  _goenv
+  # The version string is set with -X main.version, as upstream's release does.
+  make build VERSION="v${pkgver}"
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  ./crossdock version | grep -F "crossdock v${pkgver} "
+}
+
+package() {
+  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
+  install -Dm644 "${pkgname}-${pkgver}/LICENSE" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

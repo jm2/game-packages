@@ -1,0 +1,23 @@
+Source: crossdock
+Section: admin
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), dh-sequence-installsysusers, golang-go, make, curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/crossdock
+Rules-Requires-Root: no
+
+Package: crossdock
+Architecture: amd64 arm64
+Depends: ${misc:Depends}, systemd | systemd-sysusers | systemd-standalone-sysusers
+Suggests: gpg, gpg-agent
+Description: publish packages as signed apt, pacman, RPM and GooGet repos
+ crossdock takes one directory of built packages per format and publishes
+ them as signed, static package repositories. Each publish swaps in
+ atomically. It includes a read-only HTTP server, so no web server is
+ required.
+ .
+ This package installs crossdock, systemd units for the server
+ (crossdock-serve, LAN-only on port 8080) and for automatic publishing
+ (crossdock-publish.path), the crossdock account, /var/lib/crossdock, and
+ a firewalld service definition. Nothing is enabled at install.

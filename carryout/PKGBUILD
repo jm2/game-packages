@@ -1,0 +1,35 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=carryout
+pkgver=0.2.0
+pkgrel=1
+pkgdesc="Download helper for Google Takeout exports: fetches, resumes and verifies every archive part"
+arch=('x86_64' 'aarch64')
+url="https://github.com/jm2/carryout"
+license=('GPL-3.0-or-later')
+depends=()
+makedepends=('go')
+# Built like upstream's release archives: static and stripped (-s -w).
+options=('!lto' '!debug' '!strip')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        "install.sh")
+sha256sums=('65372e94bf36ed2de49e9dba3cc75341db8bfec567fd6d97d411bced684039f9'
+            'bea2a921c5648945c595346fd14d5be1162e3a57bd609939141b2d52dcb80588')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  # Standard library only: nothing is downloaded.
+  export GOPATH="${srcdir}/gopath" GOCACHE="${srcdir}/gocache" GOFLAGS="-mod=readonly"
+  # Upstream's release workflow sets the version with -X main.version.
+  CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -X main.version=${pkgver}" -o carryout .
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  [ "$(./carryout version)" = "carryout ${pkgver}" ]
+}
+
+package() {
+  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
+  install -Dm644 "${pkgname}-${pkgver}/LICENSE" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

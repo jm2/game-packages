@@ -1,0 +1,2 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+f0207a8ef7c173c5e869fbde544c9c95669e07c9b7d8083e185a1a1635414777 crossdock-0.2.1.tar.gz https://github.com/jm2/crossdock/archive/refs/tags/v0.2.1.tar.gz

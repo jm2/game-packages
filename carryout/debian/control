@@ -1,0 +1,18 @@
+Source: carryout
+Section: net
+Priority: optional
+Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
+Build-Depends: debhelper-compat (= 13), golang-go (>= 2:1.24), curl, ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://github.com/jm2/carryout
+Rules-Requires-Root: no
+
+Package: carryout
+Architecture: amd64 arm64
+Depends: ${misc:Depends}
+Description: download helper for Google Takeout exports
+ carryout picks up a Google Takeout order. Given one download request copied
+ as cURL from the browser and the export's file list, it fetches every
+ archive part, pauses for fresh cookies when the session expires instead of
+ burning download attempts, resumes interrupted parts, and verifies each
+ archive as it streams.

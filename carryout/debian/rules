@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+# Standard library only: nothing is downloaded.
+export GOPATH := $(CURDIR)/debian/gopath
+export GOCACHE := $(CURDIR)/debian/gocache
+export GOFLAGS := -mod=readonly
+export CGO_ENABLED := 0
+VERSION := 0.2.0
+SRC := carryout-$(VERSION)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
+
+# Upstream's release workflow sets the version with -X main.version.
+override_dh_auto_build:
+	cd $(SRC) && go build -trimpath -ldflags "-s -w -X main.version=$(VERSION)" -o carryout .
+
+override_dh_auto_install:
+	sh install.sh $(SRC) debian/carryout
+
+override_dh_auto_test:
+	test "$$($(SRC)/carryout version)" = "carryout $(VERSION)"
+
+override_dh_auto_clean:
+	rm -rf $(SRC) debian/gopath debian/gocache
