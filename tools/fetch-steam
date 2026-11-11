@@ -10,10 +10,52 @@ steamcmd asks for the password and Steam Guard code; STEAM_USER or --user
 gives the account name. Only one fetch runs at a time, as the account allows
 just one Steam session: a second one waits for the first.
 """
-import fcntl, os, shutil, subprocess, sys, tomllib
+import fcntl, os, re, shutil, subprocess, sys, tomllib
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+
+def depot_dirs(app, depot, dest: Path, log: str, home: Path) -> list[Path]:
+    """Every directory that may hold depot <depot> of <app> after steamcmd ran.
+
+    With +@sSteamCmdForcePlatformType windows, steamcmd on Linux can report
+    (and write to) a Windows-style path such as
+    ~/.steam/steamcmd/linux32\\steamapps\\content\\app_2350\\depot_2351: one
+    directory whose name holds the backslashes, next to a forward-slash tree
+    that may only have the depot's empty directories."""
+    tail = f"app_{app}/depot_{depot}"
+    found = []
+    for m in re.finditer(r'Depot download complete : "([^"]+)"', log):
+        if m.group(1).replace("\\", "/").endswith(tail):
+            found += [Path(m.group(1)), Path(m.group(1).replace("\\", "/"))]
+    for base in (dest / "steamapps/content", home / ".steam/steamcmd/linux32/steamapps/content",
+                 home / ".local/share/Steam/steamcmd/linux32/steamapps/content",
+                 home / ".local/share/steamcmd/linux32/steamapps/content",
+                 home / ".steam/steam/steamapps/content", home / "Steam/steamapps/content"):
+        found.append(base / tail)
+        # The backslash form of the same path, as one name in the parent.
+        parts = base.parts
+        for i in range(len(parts) - 1, 0, -1):
+            found.append(Path(*parts[:i]) / "\\".join(parts[i:] + (f"app_{app}", f"depot_{depot}")))
+    out = []
+    for d in found:
+        if d.is_dir() and d.resolve() not in [o.resolve() for o in out]:
+            out.append(d)
+    return out
+
+
+def collect_depot(app, depot, dest: Path, log: str, home: Path | None = None) -> bool:
+    """Merge the depot into dest from wherever steamcmd put it, then delete
+    those copies (they may be under the home directory, which can be on a much
+    smaller disk than the cache). False if no file arrived."""
+    home = home or Path.home()
+    files = 0
+    for src in depot_dirs(app, depot, dest, log, home):
+        files += sum(1 for p in src.rglob("*") if p.is_file())
+        subprocess.run(["cp", "-rn", f"{src}/.", f"{dest}/"], check=True)
+        shutil.rmtree(src)
+    return files > 0
+
 
 def main() -> int:
     args = sys.argv[1:]
@@ -51,22 +93,17 @@ def main() -> int:
     # fetches can use different caches.
     lock = (Path.home() / ".fetch-steam.lock").open("w")
     fcntl.flock(lock, fcntl.LOCK_EX)
-    subprocess.run(cmd, check=True)
-    home = Path.home()
+    # Keep steamcmd's output (still shown live): it names where each depot went.
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors="replace")
+    log = []
+    for line in proc.stdout:
+        sys.stdout.write(line); sys.stdout.flush()
+        log.append(line)
+    if proc.wait():
+        sys.exit(f"fetch-steam: steamcmd exited with {proc.returncode}")
     for app, depot in depots:
-        for base in (dest / "steamapps/content", home / ".steam/steamcmd/linux32/steamapps/content",
-                     home / ".local/share/Steam/steamcmd/linux32/steamapps/content",
-                     home / ".local/share/steamcmd/linux32/steamapps/content",
-                     home / ".steam/steam/steamapps/content", home / "Steam/steamapps/content"):
-            src = base / f"app_{app}" / f"depot_{depot}"
-            if src.is_dir():
-                subprocess.run(["cp", "-rn", f"{src}/.", f"{dest}/"], check=True)
-                # steamcmd may keep depots under the home directory, which
-                # can be on a much smaller disk than the cache.
-                shutil.rmtree(src)
-                break
-        else:
-            sys.exit(f"fetch-steam: depot {depot} of app {app} not found after download")
+        if not collect_depot(app, depot, dest, "".join(log)):
+            sys.exit(f"fetch-steam: depot {depot} of app {app} has no files after the download")
     print(f"fetch-steam: {pkg} cached in {dest}")
     return 0
 
