@@ -42,7 +42,9 @@ cat > "$work/bin/spec.awk" <<'EOF'
     print ""
     print "%install"
     print "mkdir -p %{buildroot}"
-    print "(cd %{buildroot} && rpm2cpio /old.rpm | cpio -idm --quiet)"
+    # rpm2archive's pax tar keeps files over 4 GiB, which rpm2cpio's cpio
+    # (newc) format skips.
+    print "(cd %{buildroot} && rpm2archive -n /old.rpm | tar -xpf -)"
     print "PT_SRCDIR=/src PT_WORK=$PWD/work bash /bin-repack/files-list.sh %{buildroot}"
     print ""
     next
@@ -58,7 +60,7 @@ EOF
 cat > "$work/bin/repack.sh" <<'EOF'
 set -euo pipefail
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
-dnf -yq install rpm-build cpio desktop-file-utils >/dev/null
+dnf -yq install rpm-build tar desktop-file-utils >/dev/null
 name=$(rpm -qp --qf '%{name}' /old.rpm)
 [ "$name" = "$PKG" ] || { echo "rpm-repack: the old RPM is $name, not $PKG" >&2; exit 1; }
 ver=$(rpm -qp --qf '%{version}' /old.rpm); rel=$(rpm -qp --qf '%{release}' /old.rpm)
