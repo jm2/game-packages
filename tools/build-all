@@ -191,7 +191,12 @@ def repack_source(name: str, stamp: Path, rpm_dest: Path):
     before, at, now = tree_ids(name, f"{switch}^"), tree_ids(name, switch), tree_ids(name)
     if not (before and at and now):
         return None
-    current = stamp.read_text() in (before["whole"], before["linux"], before["fedora"])
+    # Current then as build-all itself judges it: the stamp is that commit's
+    # source, or an older commit's with the same Fedora source (only goo or
+    # docs changed since).
+    old_stamp = stamp.read_text()
+    current = (old_stamp in (before["whole"], before["linux"], before["fedora"])
+               or legacy_stamp_ok(name, "fedora", old_stamp, before["fedora"]))
     if current and before["arch"] == now["arch"] and at["fedora"] == now["fedora"]:
         return old[0]
     return None
