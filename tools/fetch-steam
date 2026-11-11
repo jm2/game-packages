@@ -15,6 +15,14 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
+def CONTENT_BASES(dest: Path, home: Path) -> tuple[Path, ...]:
+    """Where steamcmd puts download_depot results."""
+    return (dest / "steamapps/content", home / ".steam/steamcmd/linux32/steamapps/content",
+            home / ".local/share/Steam/steamcmd/linux32/steamapps/content",
+            home / ".local/share/steamcmd/linux32/steamapps/content",
+            home / ".steam/steam/steamapps/content", home / "Steam/steamapps/content")
+
+
 def depot_dirs(app, depot, dest: Path, log: str, home: Path) -> list[Path]:
     """Every directory that may hold depot <depot> of <app> after steamcmd ran.
 
@@ -28,10 +36,7 @@ def depot_dirs(app, depot, dest: Path, log: str, home: Path) -> list[Path]:
     for m in re.finditer(r'Depot download complete : "([^"]+)"', log):
         if m.group(1).replace("\\", "/").endswith(tail):
             found += [Path(m.group(1)), Path(m.group(1).replace("\\", "/"))]
-    for base in (dest / "steamapps/content", home / ".steam/steamcmd/linux32/steamapps/content",
-                 home / ".local/share/Steam/steamcmd/linux32/steamapps/content",
-                 home / ".local/share/steamcmd/linux32/steamapps/content",
-                 home / ".steam/steam/steamapps/content", home / "Steam/steamapps/content"):
+    for base in CONTENT_BASES(dest, home):
         found.append(base / tail)
         # The backslash form of the same path, as one name in the parent.
         parts = base.parts
@@ -42,6 +47,21 @@ def depot_dirs(app, depot, dest: Path, log: str, home: Path) -> list[Path]:
         if d.is_dir() and d.resolve() not in [o.resolve() for o in out]:
             out.append(d)
     return out
+
+
+def clear_depot_state(app, depot, dest: Path, home: Path) -> None:
+    """Forget an earlier download of the depot before fetching it again.
+
+    steamcmd keeps app_<app>/state_<app>_<depot>.patch next to the depot and
+    patches against the files it expects to find; with the depot gone (moved
+    into a cache, then deleted), it "completes" without writing a file."""
+    for d in depot_dirs(app, depot, dest, "", home):
+        shutil.rmtree(d)
+    for base in CONTENT_BASES(dest, home):
+        state = base / f"app_{app}" / f"state_{app}_{depot}.patch"
+        if state.is_file():
+            print(f"fetch-steam: removing stale {state}", flush=True)
+            state.unlink()
 
 
 def collect_depot(app, depot, dest: Path, log: str, home: Path | None = None) -> bool:
@@ -93,6 +113,8 @@ def main() -> int:
     # fetches can use different caches.
     lock = (Path.home() / ".fetch-steam.lock").open("w")
     fcntl.flock(lock, fcntl.LOCK_EX)
+    for app, depot in depots:
+        clear_depot_state(app, depot, dest, Path.home())
     # Keep steamcmd's output (still shown live): it names where each depot went.
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors="replace")
     log = []
