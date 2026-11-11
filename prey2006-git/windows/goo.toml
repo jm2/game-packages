@@ -121,7 +121,8 @@ cmake -S "$s/neo" -B "$b" -G Ninja \
     -DCURL_INCLUDE_DIR="$sysroot/include" \
     -DCURL_LIBRARY="$sysroot/lib/libcurl.dll.a" \
     -Wno-dev
-grep -q '^#define ID_ENABLE_CURL' "$b/config.h"
+# config.h indents its #defines with a tab.
+grep -Eq '^[[:space:]]*#define ID_ENABLE_CURL' "$b/config.h"
 cmake --build "$b" --parallel "$(nproc)"
 
 # On WIN32, CMake places outputs in $s/output/windows rather than installing.
