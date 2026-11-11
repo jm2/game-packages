@@ -1,0 +1,2 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+d97d2a5efa205e1a47387f19ccc970cfa9125bae21ab02309a6d7974ca87fbe4 balun-0.2.1.tar.gz https://github.com/jm2/balun/archive/refs/tags/v0.2.1.tar.gz

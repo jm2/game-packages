@@ -1,0 +1,38 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=balun
+pkgver=0.2.1
+pkgrel=1
+pkgdesc="A lightweight cross-platform HDHomeRun live TV viewer"
+arch=('x86_64' 'aarch64')
+url="https://github.com/jm2/balun"
+license=('GPL-3.0-or-later')
+# gst-plugins-base-libs: playbin3, appsrc, typefind; gst-plugins-bad-libs: tsdemux;
+# gst-plugin-gtk4: gtk4paintablesink; gst-libav: MPEG-2/H.264/AC-3/AAC decoders.
+depends=('glib2' 'glibc' 'gtk4>=4.16' 'hicolor-icon-theme' 'libadwaita>=1.6' 'libgcc' 'pango'
+         'gstreamer>=1.20' 'gst-plugins-base-libs' 'gst-plugins-good' 'gst-plugins-bad-libs'
+         'gst-plugin-gtk4' 'gst-libav')
+makedepends=('cargo' 'pkgconf')
+# Upstream's release profile already strips the binary.
+options=('!lto' '!debug')
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        "install.sh")
+sha256sums=('d97d2a5efa205e1a47387f19ccc970cfa9125bae21ab02309a6d7974ca87fbe4'
+            '0af3f466f09df9e962bf767fee5e8c2c38e4fb6f1661a48b6872dab08a4d4bbf')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  export CARGO_HOME="${srcdir}/cargo-home"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  export CARGO_HOME="${srcdir}/cargo-home"
+  cargo build --release --frozen --features desktop --bin balun
+}
+
+package() {
+  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
+  install -Dm644 "${pkgname}-${pkgver}/LICENSE" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+}

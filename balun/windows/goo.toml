@@ -1,0 +1,34 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "balun"
+version = "0.2.1"
+release = 1
+arch = "x86_64"
+description = """
+Balun, a lightweight HDHomeRun live TV viewer written in Rust with GTK4 and
+GStreamer (upstream's self-contained Windows x86_64 build). It finds tuners on
+the local network and plays their unprotected channels."""
+license = "GPL-3.0-or-later"
+url = "https://github.com/jm2/balun"
+release_notes = ["Initial GooGet package (upstream 0.2.1 Windows x86_64 and ARM64 builds)"]
+menu = ""
+
+[files]
+"balun" = "<ProgramFiles>/Balun"
+
+[[shortcut]]
+name = "Balun"
+target = "balun/bin/balun.exe"
+args = ""
+description = "HDHomeRun live TV viewer"
+
+[[source]]
+name = "balun-0.2.1-windows-x86_64.zip"
+url = "https://github.com/jm2/balun/releases/download/v0.2.1/balun-windows-x86_64.zip"
+sha256 = "8c2b86391132299d099cc28a2304a39936b568dd6b2c14d65a6b0c111a05d7eb"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+unzip -q -o "$SRC/balun-0.2.1-windows-x86_64.zip" -d "$STAGE"
+mv "$STAGE/balun-windows" "$STAGE/balun"
+'''

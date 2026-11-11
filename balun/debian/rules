@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+# Crates are fetched from crates.io (local builds only).
+export CARGO_HOME := $(CURDIR)/debian/cargo-home
+SRC := balun-0.2.1
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
+
+override_dh_auto_build:
+	cd $(SRC) && cargo build --release --locked --features desktop --bin balun
+
+override_dh_auto_install:
+	sh install.sh $(SRC) debian/balun
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf $(SRC) debian/cargo-home

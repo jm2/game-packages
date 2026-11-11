@@ -1,0 +1,17 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = """
+Balun, a lightweight HDHomeRun live TV viewer written in Rust with GTK4 and
+GStreamer (upstream's self-contained Windows ARM64 build). It finds tuners on
+the local network and plays their unprotected channels."""
+
+[[source]]
+name = "balun-0.2.1-windows-aarch64.zip"
+url = "https://github.com/jm2/balun/releases/download/v0.2.1/balun-windows-aarch64.zip"
+sha256 = "f30ef9626efce704a384ca286d1d2ad2a640a07945a5ad940c5dc991d6b003ae"
+
+[stage]
+script = '''
+unzip -q -o "$SRC/balun-0.2.1-windows-aarch64.zip" -d "$STAGE"
+mv "$STAGE/balun-windows" "$STAGE/balun"
+'''
