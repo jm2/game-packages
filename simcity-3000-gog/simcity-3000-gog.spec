@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/simcity3000/.*$
@@ -27,7 +30,7 @@ Source6:       https://github.com/jm2/archlinux-package-simcity-3000-gog/raw/mas
 Source7:       http://www.improbability.net/loki/loki_compat_libs-1.5.tar.bz2#/loki_compat_libs-1.5.tar.bz2
 Source8:       https://github.com/liflg/sc3u_2.0a-multilingual_x86/archive/836250321b03ae4ef2496cc86aed22d479873473.zip#/sc3u_2.0a-multilingual_x86-836250321b03ae4ef2496cc86aed22d479873473.zip
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  innoextract
@@ -35,14 +38,11 @@ BuildRequires:  unzip
 BuildRequires:  bsdtar
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
-%ifarch aarch64
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-%endif
+Requires:       (fex-emu if glibc(aarch-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 SimCity 3000 Unlimited (Loki Linux port) with data via GOG

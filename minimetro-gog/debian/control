@@ -8,8 +8,8 @@ Homepage: https://www.gog.com/game/mini_metro
 Rules-Requires-Root: no
 
 Package: minimetro-gog
-Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, hicolor-icon-theme, libc6 | libc6:arm64, libgl1 | libc6:arm64, libx11-6 | libc6:arm64, libxext6 | libc6:arm64, libglu1-mesa | libc6:arm64, libc6:amd64 | fex-emu | box64, ${misc:Depends}
 Provides: minimetro
 Conflicts: minimetro, minimetro-hib, minimetro-steam
 Description: Mini Metro (native Linux) with data via GOG

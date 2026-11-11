@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/trine/.*$
@@ -23,30 +26,27 @@ Source2:       trine.desktop
 Source3:       README.md
 Source4:       gog_trine_enchanted_edition_2.0.0.2.sh
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  unzip
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
-%ifarch aarch64
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       xwininfo
-Requires:       mesa-libGLU(x86-32)
-Requires:       libXxf86vm(x86-32)
-Requires:       openal-soft(x86-32)
-Requires:       libX11(x86-32)
-Requires:       libdrm(x86-32)
-Requires:       libvorbis(x86-32)
-Requires:       freetype(x86-32)
-Requires:       libogg(x86-32)
-Requires:       gtk2(x86-32)
-Requires:       gdk-pixbuf2(x86-32)
-%endif
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       (xwininfo if glibc(x86-64))
+Requires:       (mesa-libGLU(x86-32) if glibc(x86-64))
+Requires:       (libXxf86vm(x86-32) if glibc(x86-64))
+Requires:       (openal-soft(x86-32) if glibc(x86-64))
+Requires:       (libX11(x86-32) if glibc(x86-64))
+Requires:       (libdrm(x86-32) if glibc(x86-64))
+Requires:       (libvorbis(x86-32) if glibc(x86-64))
+Requires:       (freetype(x86-32) if glibc(x86-64))
+Requires:       (libogg(x86-32) if glibc(x86-64))
+Requires:       (gtk2(x86-32) if glibc(x86-64))
+Requires:       (gdk-pixbuf2(x86-32) if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 Trine Enchanted Edition (native Linux) with data via GOG

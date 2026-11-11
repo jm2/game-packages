@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/aom\-retold/.*$
@@ -30,7 +33,7 @@ Source8:       gbe.configs.main.ini
 Source9:       aom-retold-lan.desktop
 Source10:      aom-retold.agelan
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  gbe-fork-bin
@@ -40,16 +43,13 @@ Requires:       gbe-fork-bin >= 2026.09.27-2
 Requires:       hicolor-icon-theme
 Requires:       agelanserver-bin
 Requires:       agelanserver-companion-bin >= 1.5.0.0-2
-%ifarch aarch64
-Requires:       umu-launcher
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       (umu-launcher or wine)
-%endif
+Requires:       (umu-launcher if glibc(aarch-64))
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       ((umu-launcher or wine) if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 Age of Mythology: Retold, run through gamelaunch

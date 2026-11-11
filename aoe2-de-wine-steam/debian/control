@@ -8,8 +8,8 @@ Homepage: https://steamdb.info/app/813780/
 Rules-Requires-Root: no
 
 Package: aoe2-de-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, agelanserver-bin, agelanserver-companion-bin (>= 1.5.0.0-2), ${pt:Depends}, aoe2-de-wine-steam-data1 (= ${binary:Version}), aoe2-de-wine-steam-data2 (= ${binary:Version}), aoe2-de-wine-steam-data3 (= ${binary:Version}), aoe2-de-wine-steam-data4 (= ${binary:Version}), aoe2-de-wine-steam-data5 (= ${binary:Version}), aoe2-de-wine-steam-data6 (= ${binary:Version}), aoe2-de-wine-steam-data7 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, agelanserver-bin, agelanserver-companion-bin (>= 1.5.0.0-2), umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, aoe2-de-wine-steam-data1 (= ${binary:Version}), aoe2-de-wine-steam-data2 (= ${binary:Version}), aoe2-de-wine-steam-data3 (= ${binary:Version}), aoe2-de-wine-steam-data4 (= ${binary:Version}), aoe2-de-wine-steam-data5 (= ${binary:Version}), aoe2-de-wine-steam-data6 (= ${binary:Version}), aoe2-de-wine-steam-data7 (= ${binary:Version}), ${misc:Depends}
 Description: Age of Empires II: DE using Wine with data via Steam, ageLANServer for LAN
  Age of Empires II: Definitive Edition (with the Enhanced Graphics Pack), run
  through gamelaunch (umu/Proton or system wine) with the game data downloaded

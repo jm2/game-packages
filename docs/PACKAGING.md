@@ -106,9 +106,23 @@ make exact.
   systems. Wine games require umu-launcher there (the distros' arm64 Wine
   can't run x86 Windows programs). x86 library dependencies of native games
   apply to x86_64 only.
+- Emulated game packages hold the same files on both architectures, so they
+  are built once: `BuildArch: noarch` on Fedora, `Architecture: all` on Debian
+  (the data parts already were). Their per-architecture dependencies become
+  conditions:
+  - Fedora: `(dep if glibc(x86-64))` for the x86 runtime and libraries,
+    `(dep if glibc(aarch-64))` for FEX, umu-launcher and the Recommends. The
+    spec sets `_binaries_in_noarch_packages_terminate_build 0`, since native
+    games ship x86 ELF files.
+  - Debian: an "all" package can't have per-architecture dependencies, so each
+    gets an alternative that is only installed on the other architecture:
+    `dep | libc6:arm64` for x86 dependencies, `libc6:amd64 | dep` for the
+    emulator.
+  Adding aarch64 to a repo then needs no rebuild of the game packages.
 - Per package: `aarch64 = false` opts out (Feral ports, which need AUR-only x86
-  libraries); `native32 = true` marks 32-bit x86 native games, which FEX can
-  run but box64 can't, so they get no Debian arm64 build.
+  libraries); those stay x86_64 packages. `native32 = true` marks 32-bit x86
+  native games, which FEX can run but box64 can't, so on Debian they stay
+  amd64 packages; on Fedora they're noarch like the rest.
 - Arch PKGBUILDs of emulated packages stay x86_64: Arch has no aarch64 port and
   Arch Linux ARM packages neither FEX nor box64.
 - No emulation for engines that have (or should get) source ports: build them
@@ -128,6 +142,16 @@ dependencies, and `NODEPS=1` on Arch where makedepends are AUR-only (steamcmd).
 `tools/build-all` builds every package for Arch and Fedora, one at a time,
 and hands them to `tools/promote`, which moves them into crossdock's incoming
 directories and removes the old versions. It can be rerun after a failure.
+A package rebuilds in a format when the files that format reads change: the
+spec doesn't rebuild the Arch package, the PKGBUILD doesn't rebuild the Fedora
+one, neither (nor `debian/`) rebuilds the goo package, and `windows/` only
+rebuilds the goo package.
+
+`--repack` rebuilds a game whose spec became noarch from its x86_64 RPM in
+`--rpm-dest` (`tools/rpm-repack`) instead of downloading it again: the files
+are the old RPM's, checked file by file, and the header is the new spec's. It
+only does so when the Fedora build was current just before the switch and
+nothing else has changed since; anything else builds from the download.
 Fedora builds target one release (`FEDORA_RELEASE`, default 45), and a single
 repo serves them all: only native packages depend on the release at all.
 

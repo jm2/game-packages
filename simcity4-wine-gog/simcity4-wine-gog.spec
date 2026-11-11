@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/simcity4/.*$
@@ -23,22 +26,19 @@ Source2:       simcity4.desktop
 Source3:       README.md
 Source4:       setup_simcity_4_deluxe_edition_1.1.641_hotfix_(25621).exe
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  innoextract
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
-%ifarch aarch64
-Requires:       umu-launcher
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       (umu-launcher or wine)
-%endif
+Requires:       (umu-launcher if glibc(aarch-64))
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       ((umu-launcher or wine) if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 SimCity 4 Deluxe Edition using Wine with data via GOG

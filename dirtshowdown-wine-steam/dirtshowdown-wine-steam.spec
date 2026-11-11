@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/dirtshowdown/.*$
@@ -25,7 +28,7 @@ Source3:       README.md
 Source4:       https://github.com/jm2/archlinux-package-dirtshowdown-wine-steam/raw/master/showdown.exe#/showdown.exe
 Source5:       https://github.com/jm2/archlinux-package-dirtshowdown-wine-steam/raw/master/showdown_avx.exe#/showdown_avx.exe
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 BuildRequires:  gbe-fork-bin
@@ -33,16 +36,13 @@ BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       gbe-fork-bin >= 2026.09.27-2
 Requires:       hicolor-icon-theme
-%ifarch aarch64
-Requires:       umu-launcher
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       (umu-launcher or wine)
-%endif
+Requires:       (umu-launcher if glibc(aarch-64))
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       ((umu-launcher or wine) if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 DiRT Showdown using Wine with data via Steam

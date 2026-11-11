@@ -8,8 +8,8 @@ Homepage: https://store.steampowered.com/app/292730/Call_of_Duty_Infinite_Warfar
 Rules-Requires-Root: no
 
 Package: codiw-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, codiw-wine-steam-data1 (= ${binary:Version}), codiw-wine-steam-data2 (= ${binary:Version}), codiw-wine-steam-data3 (= ${binary:Version}), codiw-wine-steam-data4 (= ${binary:Version}), codiw-wine-steam-data5 (= ${binary:Version}), codiw-wine-steam-data6 (= ${binary:Version}), codiw-wine-steam-data7 (= ${binary:Version}), codiw-wine-steam-data8 (= ${binary:Version}), codiw-wine-steam-data9 (= ${binary:Version}), codiw-wine-steam-data10 (= ${binary:Version}), codiw-wine-steam-data11 (= ${binary:Version}), codiw-wine-steam-data12 (= ${binary:Version}), codiw-wine-steam-data13 (= ${binary:Version}), codiw-wine-steam-data14 (= ${binary:Version}), codiw-wine-steam-data15 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, codiw-wine-steam-data1 (= ${binary:Version}), codiw-wine-steam-data2 (= ${binary:Version}), codiw-wine-steam-data3 (= ${binary:Version}), codiw-wine-steam-data4 (= ${binary:Version}), codiw-wine-steam-data5 (= ${binary:Version}), codiw-wine-steam-data6 (= ${binary:Version}), codiw-wine-steam-data7 (= ${binary:Version}), codiw-wine-steam-data8 (= ${binary:Version}), codiw-wine-steam-data9 (= ${binary:Version}), codiw-wine-steam-data10 (= ${binary:Version}), codiw-wine-steam-data11 (= ${binary:Version}), codiw-wine-steam-data12 (= ${binary:Version}), codiw-wine-steam-data13 (= ${binary:Version}), codiw-wine-steam-data14 (= ${binary:Version}), codiw-wine-steam-data15 (= ${binary:Version}), ${misc:Depends}
 Description: Call of Duty: Infinite Warfare (IW7-Mod) using Wine with data via Steam
  Call of Duty: Infinite Warfare (IW7-Mod) using Wine with data via Steam
 

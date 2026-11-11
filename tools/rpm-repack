@@ -1,0 +1,88 @@
+#!/bin/bash
+# Rebuild a game's RPM from its previous build instead of its download.
+#
+#   tools/rpm-repack <pkgdir> <old.rpm> <outdir>
+#
+# For a spec change that leaves the files alone (the switch of emulated game
+# packages from x86_64 to noarch): the files come from <old.rpm>, and the
+# header (architecture, dependencies) from <pkgdir>'s current spec. The old
+# RPM must have the spec's release; its version is kept, so a Steam package
+# keeps the build it was made from. The new RPM must hold exactly the old
+# one's files (path, size, digest, mode, owner, link target, doc flag), or
+# nothing is written to <outdir>.
+#
+# Runs in the same Fedora container as tools/container-build, and needs room
+# for the game twice under ${TMPDIR:-/var/tmp}.
+set -euo pipefail
+usage="usage: rpm-repack <pkgdir> <old.rpm> <outdir>"
+pkgdir=$(realpath "${1:?$usage}")
+old=$(realpath "${2:?$usage}")
+outdir=${3:?$usage}
+pkg=$(basename "$pkgdir")
+spec=$(cd "$pkgdir" && ls -- *.spec)
+grep -q '^BuildArch: *noarch' "$pkgdir/$spec" || { echo "rpm-repack: $spec isn't noarch" >&2; exit 1; }
+mkdir -p "$outdir"
+work=$(mktemp -d -p "${TMPDIR:-/var/tmp}" "rr-$pkg.XXXXXX")
+wipe() { rm -rf "$1" 2>/dev/null || podman unshare rm -rf "$1" || echo "rpm-repack: couldn't remove $1" >&2; }
+trap 'wipe "$work"' EXIT
+mkdir "$work/out" "$work/build" "$work/bin"
+
+# The scratch spec: the current spec without sources or build dependencies,
+# with the old RPM's version, its files, and the file list that the package's
+# own build.sh writes (its functions, without the command dispatch).
+cat > "$work/bin/spec.awk" <<'EOF'
+/^Source[0-9]+:/ || /^BuildRequires:/ { next }
+/^Version:/ { print "Version:        " ver; next }
+/^%prep/ {
+    skip = 1
+    print "%prep"
+    print "%setup -q -c -T"
+    print ""
+    print "%build"
+    print ""
+    print "%install"
+    print "mkdir -p %{buildroot}"
+    print "(cd %{buildroot} && rpm2cpio /old.rpm | cpio -idm --quiet)"
+    print "PT_SRCDIR=/src PT_WORK=$PWD/work bash /bin-repack/files-list.sh %{buildroot}"
+    print ""
+    next
+}
+skip && /^%(check|files)/ { skip = 0 }
+!skip { print }
+EOF
+cat > "$work/bin/files-list.sh" <<'EOF'
+mkdir -p "$PT_WORK"
+source <(sed '/^case ${1:-} in/,$d' "$PT_SRCDIR/build.sh")
+pt_files_list "$1"
+EOF
+cat > "$work/bin/repack.sh" <<'EOF'
+set -euo pipefail
+mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
+dnf -yq install rpm-build cpio desktop-file-utils >/dev/null
+name=$(rpm -qp --qf '%{name}' /old.rpm)
+[ "$name" = "$PKG" ] || { echo "rpm-repack: the old RPM is $name, not $PKG" >&2; exit 1; }
+ver=$(rpm -qp --qf '%{version}' /old.rpm); rel=$(rpm -qp --qf '%{release}' /old.rpm)
+want=$(sed -n 's/^Release: *\([^%]*\)%{?dist}.*/\1/p' "/src/$SPEC")
+if [ "${rel%.fc*}" != "$want" ]; then
+    echo "rpm-repack: the old RPM has release ${rel%.fc*}; the spec is at $want" >&2; exit 1
+fi
+awk -v ver="$ver" -f /bin-repack/spec.awk "/src/$SPEC" > /build/repack.spec
+sed -i '/^%global _binary_payload /d; 1i %global _binary_payload w3T0.zstdio' /build/repack.spec
+rpmbuild -bb --quiet --define "_topdir /build" --define "_tmppath /build/tmp" /build/repack.spec
+new=$(ls /build/RPMS/noarch/*.rpm)
+# path size digest mode owner group config doc rdev link: everything but mtime
+dump() { rpm -qp --dump "$1" | awk '{ $3 = ""; print }' | sort; }
+if ! diff <(dump /old.rpm) <(dump "$new") > /build/files.diff; then
+    echo "rpm-repack: the new RPM's files differ from the old one's:" >&2
+    head -n 20 /build/files.diff >&2; exit 1
+fi
+echo "    $(rpm -qp --dump "$new" | wc -l) files, all identical to the old RPM's"
+cp "$new" /out/
+EOF
+
+echo "==> $pkg: repacking ${old##*/}"
+podman run --rm -v "$pkgdir:/src:ro,Z" -v "$old:/old.rpm:ro,z" -v "$work/bin:/bin-repack:ro,Z" \
+    -v "$work/out:/out:Z" -v "$work/build:/build:Z" -e SPEC="$spec" -e PKG="$pkg" \
+    "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" bash /bin-repack/repack.sh
+cp "$work/out/"*.rpm "$outdir/"
+echo "    ok: $(cd "$work/out" && ls -- *.rpm)"

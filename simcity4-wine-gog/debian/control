@@ -8,7 +8,7 @@ Homepage: https://www.gog.com/game/simcity_4_deluxe_edition
 Rules-Requires-Root: no
 
 Package: simcity4-wine-gog
-Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, ${misc:Depends}
 Description: SimCity 4 Deluxe Edition using Wine with data via GOG
  SimCity 4 Deluxe Edition using Wine with data via GOG

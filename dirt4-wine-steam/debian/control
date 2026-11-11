@@ -8,8 +8,8 @@ Homepage: https://store.steampowered.com/app/421020/DiRT_4/
 Rules-Requires-Root: no
 
 Package: dirt4-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, dirt4-wine-steam-data1 (= ${binary:Version}), dirt4-wine-steam-data2 (= ${binary:Version}), dirt4-wine-steam-data3 (= ${binary:Version}), dirt4-wine-steam-data4 (= ${binary:Version}), dirt4-wine-steam-data5 (= ${binary:Version}), dirt4-wine-steam-data6 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, dirt4-wine-steam-data1 (= ${binary:Version}), dirt4-wine-steam-data2 (= ${binary:Version}), dirt4-wine-steam-data3 (= ${binary:Version}), dirt4-wine-steam-data4 (= ${binary:Version}), dirt4-wine-steam-data5 (= ${binary:Version}), dirt4-wine-steam-data6 (= ${binary:Version}), ${misc:Depends}
 Conflicts: dirt4-steam
 Description: DiRT 4 using Wine with data via Steam
  DiRT 4 using Wine with data via Steam

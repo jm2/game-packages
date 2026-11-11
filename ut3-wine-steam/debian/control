@@ -8,8 +8,8 @@ Homepage: https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/
 Rules-Requires-Root: no
 
 Package: ut3-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ut3-wine-steam-data1 (= ${binary:Version}), ut3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, ut3-wine-steam-data1 (= ${binary:Version}), ut3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: Unreal Tournament 3 Black using Wine with data via Steam
  Unreal Tournament 3 Black using Wine with data via Steam
 

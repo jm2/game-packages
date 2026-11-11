@@ -562,12 +562,27 @@ def rpm_dep(d: str) -> str:
     return d
 
 
+# A noarch package can't use %ifarch for its dependencies, so the x86 and
+# aarch64 ones are conditional on the architecture of the installed glibc.
+RPM_X86, RPM_ARM = "glibc(x86-64)", "glibc(aarch-64)"
+
+
+def rpm_if(d: str, cond: str) -> str:
+    return f"({d} if {cond})"
+
+
 def gen_spec(p: Pkg) -> str:
-    noarch = p.arch == ["any"]
+    # Games that also run on aarch64 (through FEX) ship the same files on both
+    # architectures, so they're built once, as noarch.
+    shared = p.game and p.aarch64
+    noarch = p.arch == ["any"] or shared
     L = [f"# {HEADER}",
          "# Proprietary game data and prebuilt binaries: no debuginfo, no stripping,",
          "# no automatic library provides/requires from the game tree.",
          "%global debug_package %{nil}", "%global __strip /bin/true", "%global _build_id_links none",
+         *(["# x86 game binaries in a noarch package: the same files run on x86_64",
+            "# and, through FEX, on aarch64.",
+            "%global _binaries_in_noarch_packages_terminate_build 0"] if shared else []),
          "# Prebuilt game libraries carry their vendors' build-tree RPATHs.",
          "%global __brp_check_rpaths %{nil}",
          *([f"%global __provides_exclude_from ^{re.escape(p.target)}/.*$",
@@ -600,7 +615,14 @@ def gen_spec(p: Pkg) -> str:
     for d in p.runtime_deps("fedora"):
         L.append(f"Requires:       {rpm_dep(d)}")
     x86, emu = p.x86_deps("fedora"), p.emu_deps("fedora")
-    if p.aarch64 and (x86 or emu):
+    if shared:
+        L += [f"Requires:       {rpm_if(d, RPM_ARM)}" for d in emu]
+        L += [f"Requires:       {rpm_if(rpm_dep(d), RPM_X86)}" for d in x86]
+        if emu:
+            L += ["# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems"]
+            L += [f"Recommends:     {rpm_if(d, RPM_ARM)}"
+                  for d in ("fex-emu-rootfs-fedora", "fex-emu-thunks", "muvm")]
+    elif p.aarch64 and (x86 or emu):
         L.append("%ifarch aarch64")
         L += [f"Requires:       {d}" for d in emu]
         L += ["# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems",
@@ -648,13 +670,23 @@ def gen_debian(p: Pkg) -> dict[str, str]:
     parts = int(p.deb.get("parts", 0))
     debarch = [DEB_ARCH[a] for a in p.arch]
     deb_arm = p.aarch64 and not p.native32     # box64 can't run 32-bit x86
-    if deb_arm and "arm64" not in debarch and "all" not in debarch:
+    # Games that also run on arm64 ship the same files on both, so they're
+    # Architecture: all. An "all" package can't have per-architecture
+    # dependencies, so each one gets an alternative that is only installed on
+    # the other architecture: libc6:arm64 stands in for the x86 runtime on
+    # arm64, libc6:amd64 for the emulator on amd64.
+    shared = p.game and deb_arm
+    if shared:
+        debarch = ["all"]
+    elif deb_arm and "arm64" not in debarch and "all" not in debarch:
         debarch.append("arm64")
     arch = " ".join(debarch)
     bdeps = ["debhelper-compat (= 13)"] + p.build_deps("debian") + (["python3"] if p.steam_versioned else [])
     rdeps = p.runtime_deps("debian")
     x86d, emud = p.x86_deps("debian"), p.emu_deps("debian")
-    if x86d or (deb_arm and emud):
+    if shared:
+        rdeps += [f"{d} | libc6:arm64" for d in x86d] + [f"libc6:amd64 | {d}" for d in emud]
+    elif x86d or (deb_arm and emud):
         rdeps.append("${pt:Depends}")
     if parts:
         rdeps += [f"{p.name}-data{i} (= ${{binary:Version}})" for i in range(1, parts + 1)]
@@ -698,18 +730,22 @@ def gen_debian(p: Pkg) -> dict[str, str]:
         rules.append(f"\tbash build.sh deb-split {D} debian/{p.name}-data {parts}")
     rules += ["", "# Prebuilt game files: leave them exactly as shipped.",
               "override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:",
-              "", "override_dh_builddeb:", "\tdh_builddeb -- -Zzstd -z1", "",
-              "# x86 runtime on amd64; FEX/box64 emulation on arm64.",
-              "ifeq ($(DEB_HOST_ARCH),arm64)",
-              f"PT_DEPENDS := {', '.join(emud)}",
-              "else",
-              f"PT_DEPENDS := {', '.join(x86d)}",
-              "endif",
-              "override_dh_gencontrol:",
-              ("\tdh_gencontrol -- -v" + DOLLAR + DOLLAR + "(cat work/meta/version)-" + str(p.release)
-               + " '-Vpt:Depends=$(PT_DEPENDS)'" if p.steam_versioned
-               else "\tdh_gencontrol -- '-Vpt:Depends=$(PT_DEPENDS)'"), "",
-              "override_dh_auto_clean:", "\trm -rf work", ""]
+              "", "override_dh_builddeb:", "\tdh_builddeb -- -Zzstd -z1", ""]
+    steam_v = "-v" + DOLLAR + DOLLAR + "(cat work/meta/version)-" + str(p.release)
+    if shared:
+        if p.steam_versioned:
+            rules += ["override_dh_gencontrol:", f"\tdh_gencontrol -- {steam_v}", ""]
+    else:
+        rules += ["# x86 runtime on amd64; FEX/box64 emulation on arm64.",
+                  "ifeq ($(DEB_HOST_ARCH),arm64)",
+                  f"PT_DEPENDS := {', '.join(emud)}",
+                  "else",
+                  f"PT_DEPENDS := {', '.join(x86d)}",
+                  "endif",
+                  "override_dh_gencontrol:",
+                  (f"\tdh_gencontrol -- {steam_v} '-Vpt:Depends=$(PT_DEPENDS)'" if p.steam_versioned
+                   else "\tdh_gencontrol -- '-Vpt:Depends=$(PT_DEPENDS)'"), ""]
+    rules += ["override_dh_auto_clean:", "\trm -rf work", ""]
     srclines = ["# Upstream files for debian/fetch-sources: <sha256|-> <filename> <url|local>"]
     for s in p.sources():
         if s.get("local"):

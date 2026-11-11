@@ -8,6 +8,8 @@
     --keep-cache      keep each package's download after building it
     --force           rebuild packages already marked as done
     --skip LIST       comma-separated packages to leave out
+    --repack          rebuild a game that became noarch from its x86_64 RPM in
+                      --rpm-dest (tools/rpm-repack) instead of downloading it
 
 Packages build one at a time: shared runtime packages first, then imported
 AUR dependencies, packages with anonymous downloads, GOG, and Steam. A package that fails is logged and
@@ -24,7 +26,7 @@ xlln-bin from $OUT/<name>/fedora/, so build Fedora at least once first.
 TMPDIR, PT_CACHE and OUT must be set, and should be on a disk with room for
 the largest game several times over, since the defaults are on the system disk.
 """
-import argparse, hashlib, os, re, subprocess, sys, tomllib
+import argparse, fnmatch, hashlib, os, re, subprocess, sys, tomllib
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -86,15 +88,23 @@ def has_format(name: str, fmt: str) -> bool:
 
 GIT = ["git", "-C", str(REPO)]
 
-def tree_ids(name: str, rev: str = "HEAD"):
-    """(whole package tree, the tree without windows/) at rev, or None.
+# Files that only one Linux format reads. debian/ isn't built by build-all.
+ONLY = {"arch": ("PKGBUILD", ".SRCINFO"), "fedora": ("*.spec",)}
 
-    Linux formats are keyed on the second, so a Windows-only change (windows/
-    goo.toml) doesn't rebuild the Arch and Fedora packages."""
+def tree_ids(name: str, rev: str = "HEAD"):
+    """Source ids of the package at rev, or None: "whole" (the whole tree) and
+    "linux" (without windows/), which older stamps hold, and one per format:
+    "goo" leaves out the Linux-only files (PKGBUILD, specs, debian/); "arch"
+    and "fedora" leave out windows/, debian/ and the other format's files.
+
+    So a Windows-only change (windows/goo.toml) doesn't rebuild the Arch and
+    Fedora packages, and a spec-only change rebuilds only the Fedora one."""
     r = subprocess.run(GIT + ["rev-parse", f"{rev}:{name}"], capture_output=True, text=True)
     if r.returncode:
         return None
     ls = subprocess.run(GIT + ["ls-tree", f"{rev}:{name}"], capture_output=True, text=True).stdout
+    linux_only = [g for globs in ONLY.values() for g in globs] + ["debian"]
+    goo = [l for l in ls.splitlines() if not any(fnmatch.fnmatch(l.split("\t", 1)[-1], g) for g in linux_only)]
     lines = []
     for l in ls.splitlines():
         if l.endswith("\twindows"):
@@ -104,9 +114,15 @@ def tree_ids(name: str, rev: str = "HEAD"):
             toml = subprocess.run(GIT + ["show", f"{rev}:{name}/package.toml"], capture_output=True, text=True).stdout
             l = "package.toml " + hashlib.sha1(strip_goo(toml).encode()).hexdigest()
         lines.append(l)
-    linux = "".join(l + "\n" for l in lines)
-    h = subprocess.run(GIT + ["hash-object", "--stdin"], input=linux, capture_output=True, text=True).stdout.strip()
-    return r.stdout.strip(), "linux:" + h
+    def hashed(ls):
+        text = "".join(l + "\n" for l in ls)
+        return subprocess.run(GIT + ["hash-object", "--stdin"], input=text, capture_output=True, text=True).stdout.strip()
+    ids = {"whole": r.stdout.strip(), "linux": "linux:" + hashed(lines), "goo": "goo:" + hashed(goo)}
+    for fmt in ONLY:
+        skip = [g for f, globs in ONLY.items() if f != fmt for g in globs] + ["debian"]
+        mine = [l for l in lines if not any(fnmatch.fnmatch(l.split("\t", 1)[-1], g) for g in skip)]
+        ids[fmt] = f"{fmt}:" + hashed(mine)
+    return ids
 
 def strip_goo(toml: str) -> str:
     """package.toml without its [goo] and [[goo.*]] tables."""
@@ -125,18 +141,19 @@ def source_id(name: str, fmt: str):
     if subprocess.run(GIT + ["status", "--porcelain", "--", name], capture_output=True, text=True).stdout:
         return None
     ids = tree_ids(name)
-    return None if ids is None else (ids[0] if fmt == "goo" else ids[1])
+    return None if ids is None else ids[fmt]
 
-def legacy_stamp_ok(name: str, stamp: str, linux_id: str) -> bool:
-    """Stamps written before Linux formats ignored windows/ hold the whole tree
-    id. Accept one if the commit it came from has the same non-Windows tree."""
-    if stamp.startswith("linux:"):
+def legacy_stamp_ok(name: str, fmt: str, stamp: str, sid: str) -> bool:
+    """Older stamps hold the whole tree id, or the id of the tree without
+    windows/ that Arch and Fedora shared. Accept one if the commit it came from
+    has the same source for this format."""
+    if stamp.startswith(f"{fmt}:"):
         return False
     log = subprocess.run(GIT + ["log", "--format=%H", "--", name], capture_output=True, text=True).stdout.split()
     for c in log:
         ids = tree_ids(name, c)
-        if ids and ids[0] == stamp:
-            return ids[1] == linux_id
+        if ids and stamp in (ids["whole"], ids["linux"]):
+            return ids[fmt] == sid
     return False
 
 def built(fmt: str, out: Path):
@@ -149,6 +166,35 @@ def clear_download(cache: Path, gog) -> None:
     for name in gog:
         (cache / name).unlink(missing_ok=True)
     (cache / FETCHED).unlink(missing_ok=True)
+
+NOARCH_MARK = "_binaries_in_noarch_packages_terminate_build"
+
+def repack_source(name: str, stamp: Path, rpm_dest: Path):
+    """The x86_64 RPM in rpm_dest to repack as this game's noarch one, or None.
+
+    Only if the Fedora build was current just before the spec became noarch
+    (the stamp holds that commit's source), and nothing that the files depend
+    on has changed since: the Arch source id leaves out the spec, and the spec
+    itself must be the one the switch wrote."""
+    spec = next((REPO / name).glob("*.spec"), None)
+    if not (spec and NOARCH_MARK in spec.read_text() and stamp.exists()):
+        return None
+    old = [r for r in rpm_dest.glob(f"{name}-*.x86_64.rpm")
+           if r.name[:-len(".x86_64.rpm")].rsplit("-", 2)[0] == name]
+    if len(old) != 1:
+        return None
+    log = subprocess.run(GIT + ["log", "--reverse", "--format=%H", f"-S{NOARCH_MARK}", "--", f"{name}/{spec.name}"],
+                         capture_output=True, text=True).stdout.split()
+    if not log:
+        return None
+    switch = log[0]
+    before, at, now = tree_ids(name, f"{switch}^"), tree_ids(name, switch), tree_ids(name)
+    if not (before and at and now):
+        return None
+    current = stamp.read_text() in (before["whole"], before["linux"], before["fedora"])
+    if current and before["arch"] == now["arch"] and at["fedora"] == now["fedora"]:
+        return old[0]
+    return None
 
 def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: Path) -> str:
     missing = [m for m in manual if not (cache / name / m).exists()]
@@ -164,16 +210,20 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         old = stamp.read_text()
         if old == sid:
             return True
-        if fmt != "goo" and legacy_stamp_ok(name, old, sid):
-            stamp.write_text(sid)  # migrate to the windows/-independent id
+        if legacy_stamp_ok(name, fmt, old, sid):
+            stamp.write_text(sid)  # migrate to the per-format id
             return True
         return False
     todo = [f for f in fmts if has_format(name, f) and not done(f)]
     if not todo:
         return "ok"
+    repack = {}
+    if args.repack and "fedora" in todo:
+        if old := repack_source(name, state / f"{name}.fedora", args.rpm_dest):
+            repack["fedora"] = old
     # The marker is only written once a download has finished: a directory
     # alone may hold a partial download, or just the user's files.
-    if group in ("steam", "gog") and not (cache / name / FETCHED).exists():
+    if group in ("steam", "gog") and not (cache / name / FETCHED).exists() and set(todo) - set(repack):
         if not run([TOOLS / f"fetch-{group}", name]):
             return "failed: download"
         (cache / name).mkdir(parents=True, exist_ok=True)
@@ -191,8 +241,15 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         # Anything left here is an older build, which must not be promoted.
         for old in built(fmt, fmt_out):
             old.unlink()
-        cmd = [TOOLS / "goo-build", REPO / name, fmt_out] if fmt == "goo" else [TOOLS / "container-build", REPO / name, fmt]
+        if fmt in repack:
+            cmd = [TOOLS / "rpm-repack", REPO / name, repack[fmt], fmt_out]
+        elif fmt == "goo":
+            cmd = [TOOLS / "goo-build", REPO / name, fmt_out]
+        else:
+            cmd = [TOOLS / "container-build", REPO / name, fmt]
         if not run(cmd, env=fmt_env):
+            if fmt in repack:
+                return f"failed: repacking {repack[fmt].name}; rerun without --repack to build it from the download"
             return f"failed: {fmt} build, see {fmt_out / 'build.log'}"
         # Debug packages stay out of the repo, and out of $OUT.
         pkgs = []
@@ -225,6 +282,7 @@ def main() -> int:
     ap.add_argument("--keep-cache", action="store_true")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--skip", default="")
+    ap.add_argument("--repack", action="store_true")
     ap.add_argument("packages", nargs="*")
     args = ap.parse_args()
     fmts = args.formats.split(",")

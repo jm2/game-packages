@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/minimetro/.*$
@@ -23,23 +26,20 @@ Source1:       minimetro.conf
 Source2:       minimetro.desktop
 Source3:       README.md
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  python3
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
-%ifarch aarch64
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       mesa-libGL
-Requires:       libX11
-Requires:       libXext
-Requires:       mesa-libGLU
-%endif
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       (mesa-libGL if glibc(x86-64))
+Requires:       (libX11 if glibc(x86-64))
+Requires:       (libXext if glibc(x86-64))
+Requires:       (mesa-libGLU if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 Provides:       minimetro
 Conflicts:      minimetro
 Conflicts:      minimetro-hib

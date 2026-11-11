@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 %global __provides_exclude_from ^/opt/trine3/.*$
@@ -23,28 +26,25 @@ Source2:       trine3.desktop
 Source3:       README.md
 Source4:       gog_trine_3_the_artifacts_of_power_2.2.0.4.sh
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  unzip
 Requires:       gamelaunch
 Requires:       hicolor-icon-theme
-%ifarch aarch64
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       xwininfo
-Requires:       mesa-libGLU
-Requires:       libXxf86vm
-Requires:       openal-soft
-Requires:       libdrm
-Requires:       libogg
-Requires:       libvorbis
-Requires:       freetype
-Requires:       libX11
-%endif
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       (xwininfo if glibc(x86-64))
+Requires:       (mesa-libGLU if glibc(x86-64))
+Requires:       (libXxf86vm if glibc(x86-64))
+Requires:       (openal-soft if glibc(x86-64))
+Requires:       (libdrm if glibc(x86-64))
+Requires:       (libogg if glibc(x86-64))
+Requires:       (libvorbis if glibc(x86-64))
+Requires:       (freetype if glibc(x86-64))
+Requires:       (libX11 if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 Trine 3: The Artifacts of Power (native Linux) with data via GOG

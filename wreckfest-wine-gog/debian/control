@@ -8,8 +8,8 @@ Homepage: https://www.gog.com/en/game/wreckfest
 Rules-Requires-Root: no
 
 Package: wreckfest-wine-gog
-Architecture: amd64 arm64
-Depends: gamelaunch (>= 1.2.0), hicolor-icon-theme, ${pt:Depends}, wreckfest-wine-gog-data1 (= ${binary:Version}), wreckfest-wine-gog-data2 (= ${binary:Version}), wreckfest-wine-gog-data3 (= ${binary:Version}), wreckfest-wine-gog-data4 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch (>= 1.2.0), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, wine-ipv6only | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, wreckfest-wine-gog-data1 (= ${binary:Version}), wreckfest-wine-gog-data2 (= ${binary:Version}), wreckfest-wine-gog-data3 (= ${binary:Version}), wreckfest-wine-gog-data4 (= ${binary:Version}), ${misc:Depends}
 Recommends: wine
 Description: Wreckfest using Wine with data via GOG
  Wreckfest using Wine with data via GOG

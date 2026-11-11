@@ -8,8 +8,8 @@ Homepage: https://store.steampowered.com/app/228380/Wreckfest/
 Rules-Requires-Root: no
 
 Package: wreckfest-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch (>= 1.2.0), gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, wreckfest-wine-steam-data1 (= ${binary:Version}), wreckfest-wine-steam-data2 (= ${binary:Version}), wreckfest-wine-steam-data3 (= ${binary:Version}), wreckfest-wine-steam-data4 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch (>= 1.2.0), gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, wine-ipv6only | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, wreckfest-wine-steam-data1 (= ${binary:Version}), wreckfest-wine-steam-data2 (= ${binary:Version}), wreckfest-wine-steam-data3 (= ${binary:Version}), wreckfest-wine-steam-data4 (= ${binary:Version}), ${misc:Depends}
 Description: Wreckfest using Wine with data via Steam
  Wreckfest using Wine with data via Steam
 

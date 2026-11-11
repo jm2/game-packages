@@ -8,8 +8,8 @@ Homepage: https://iw4x.dev/
 Rules-Requires-Root: no
 
 Package: codmw2-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, codmw2-wine-steam-data1 (= ${binary:Version}), codmw2-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, codmw2-wine-steam-data1 (= ${binary:Version}), codmw2-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
  Call of Duty: Modern Warfare 2 multiplayer (IW4x) using Wine with data via Steam
 

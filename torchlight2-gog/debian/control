@@ -8,8 +8,8 @@ Homepage: https://www.gog.com/game/torchlight_ii
 Rules-Requires-Root: no
 
 Package: torchlight2-gog
-Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, hicolor-icon-theme, libc6 | libc6:arm64, libgl1 | libc6:arm64, libx11-6 | libc6:arm64, libxext6 | libc6:arm64, libc6:amd64 | fex-emu | box64, ${misc:Depends}
 Provides: torchlight2
 Description: Torchlight II (native Linux) with data via GOG
  Torchlight II (native Linux) with data via GOG

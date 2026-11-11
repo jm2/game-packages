@@ -21,14 +21,8 @@ override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs o
 override_dh_builddeb:
 	dh_builddeb -- -Zzstd -z1
 
-# x86 runtime on amd64; FEX/box64 emulation on arm64.
-ifeq ($(DEB_HOST_ARCH),arm64)
-PT_DEPENDS := umu-launcher, fex-emu | box64
-else
-PT_DEPENDS := umu-launcher | wine, wine-ipv6only
-endif
 override_dh_gencontrol:
-	dh_gencontrol -- -v$$(cat work/meta/version)-5 '-Vpt:Depends=$(PT_DEPENDS)'
+	dh_gencontrol -- -v$$(cat work/meta/version)-5
 
 override_dh_auto_clean:
 	rm -rf work

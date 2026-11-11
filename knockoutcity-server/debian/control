@@ -8,8 +8,8 @@ Homepage: https://www.velanstudios.com/games?game=knockout-city
 Rules-Requires-Root: no
 
 Package: knockoutcity-server
-Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, postgresql, valkey-server | redis-server, python3, ${pt:Depends}, ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, hicolor-icon-theme, postgresql, valkey-server | redis-server, python3, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, ${misc:Depends}
 Description: Knockout City Private Server Edition dedicated server, using Wine
  Velan Studios' Private Hosted Server for Knockout City (version 10.0), run
  through gamelaunch with a private per-user PostgreSQL and Valkey/Redis. Also

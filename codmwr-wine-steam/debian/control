@@ -8,8 +8,8 @@ Homepage: https://store.steampowered.com/app/393080/Call_of_Duty_Modern_Warfare_
 Rules-Requires-Root: no
 
 Package: codmwr-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, codmwr-wine-steam-data1 (= ${binary:Version}), codmwr-wine-steam-data2 (= ${binary:Version}), codmwr-wine-steam-data3 (= ${binary:Version}), codmwr-wine-steam-data4 (= ${binary:Version}), codmwr-wine-steam-data5 (= ${binary:Version}), codmwr-wine-steam-data6 (= ${binary:Version}), codmwr-wine-steam-data7 (= ${binary:Version}), codmwr-wine-steam-data8 (= ${binary:Version}), codmwr-wine-steam-data9 (= ${binary:Version}), codmwr-wine-steam-data10 (= ${binary:Version}), codmwr-wine-steam-data11 (= ${binary:Version}), codmwr-wine-steam-data12 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, codmwr-wine-steam-data1 (= ${binary:Version}), codmwr-wine-steam-data2 (= ${binary:Version}), codmwr-wine-steam-data3 (= ${binary:Version}), codmwr-wine-steam-data4 (= ${binary:Version}), codmwr-wine-steam-data5 (= ${binary:Version}), codmwr-wine-steam-data6 (= ${binary:Version}), codmwr-wine-steam-data7 (= ${binary:Version}), codmwr-wine-steam-data8 (= ${binary:Version}), codmwr-wine-steam-data9 (= ${binary:Version}), codmwr-wine-steam-data10 (= ${binary:Version}), codmwr-wine-steam-data11 (= ${binary:Version}), codmwr-wine-steam-data12 (= ${binary:Version}), ${misc:Depends}
 Description: Call of Duty: Modern Warfare Remastered (H1-Mod) using Wine with data via Steam
  Call of Duty: Modern Warfare Remastered (H1-Mod) using Wine with data via Steam
 

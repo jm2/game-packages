@@ -4,6 +4,9 @@
 %global debug_package %{nil}
 %global __strip /bin/true
 %global _build_id_links none
+# x86 game binaries in a noarch package: the same files run on x86_64
+# and, through FEX, on aarch64.
+%global _binaries_in_noarch_packages_terminate_build 0
 # Prebuilt game libraries carry their vendors' build-tree RPATHs.
 %global __brp_check_rpaths %{nil}
 # Mostly already-compressed data; fast zstd keeps multi-GB builds reasonable.
@@ -21,22 +24,19 @@ Source2:       battlenet.desktop
 Source3:       README.md
 Source4:       https://www.battle.net/download/getInstallerForGame?os=win&version=LIVE&gameProgram=BATTLENET_APP#/Battle.net-Setup.exe
 
-ExclusiveArch:  x86_64 aarch64
+BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  icoutils
 Requires:       gamelaunch >= 1.1.0
 Requires:       hicolor-icon-theme
 Requires:       curl
-%ifarch aarch64
-Requires:       umu-launcher
-Requires:       fex-emu
-# x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
-Recommends:     fex-emu-rootfs-fedora
-Recommends:     fex-emu-thunks
-Recommends:     muvm
-%else
-Requires:       (umu-launcher or wine)
-%endif
+Requires:       (umu-launcher if glibc(aarch-64))
+Requires:       (fex-emu if glibc(aarch-64))
+Requires:       ((umu-launcher or wine) if glibc(x86-64))
+# On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
+Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
+Recommends:     (fex-emu-thunks if glibc(aarch-64))
+Recommends:     (muvm if glibc(aarch-64))
 
 %description
 The Blizzard Battle.net desktop client, run through gamelaunch (umu/Proton

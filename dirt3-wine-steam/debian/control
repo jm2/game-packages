@@ -8,8 +8,8 @@ Homepage: https://steamdb.info/app/321040/
 Rules-Requires-Root: no
 
 Package: dirt3-wine-steam
-Architecture: amd64 arm64
-Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, ${pt:Depends}, dirt3-wine-steam-data1 (= ${binary:Version}), dirt3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, gbe-fork-bin (>= 2026.09.27-2), hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, dirt3-wine-steam-data1 (= ${binary:Version}), dirt3-wine-steam-data2 (= ${binary:Version}), ${misc:Depends}
 Description: DiRT 3 Complete Edition using Wine with data via Steam
  DiRT 3 Complete Edition using Wine with data via Steam
 

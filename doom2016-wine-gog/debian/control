@@ -8,8 +8,8 @@ Homepage: https://www.gog.com/en/game/doom_2016
 Rules-Requires-Root: no
 
 Package: doom2016-wine-gog
-Architecture: amd64 arm64
-Depends: gamelaunch, hicolor-icon-theme, ${pt:Depends}, doom2016-wine-gog-data1 (= ${binary:Version}), doom2016-wine-gog-data2 (= ${binary:Version}), doom2016-wine-gog-data3 (= ${binary:Version}), doom2016-wine-gog-data4 (= ${binary:Version}), doom2016-wine-gog-data5 (= ${binary:Version}), doom2016-wine-gog-data6 (= ${binary:Version}), doom2016-wine-gog-data7 (= ${binary:Version}), doom2016-wine-gog-data8 (= ${binary:Version}), doom2016-wine-gog-data9 (= ${binary:Version}), ${misc:Depends}
+Architecture: all
+Depends: gamelaunch, hicolor-icon-theme, umu-launcher | wine | libc6:arm64, libc6:amd64 | umu-launcher, libc6:amd64 | fex-emu | box64, doom2016-wine-gog-data1 (= ${binary:Version}), doom2016-wine-gog-data2 (= ${binary:Version}), doom2016-wine-gog-data3 (= ${binary:Version}), doom2016-wine-gog-data4 (= ${binary:Version}), doom2016-wine-gog-data5 (= ${binary:Version}), doom2016-wine-gog-data6 (= ${binary:Version}), doom2016-wine-gog-data7 (= ${binary:Version}), doom2016-wine-gog-data8 (= ${binary:Version}), doom2016-wine-gog-data9 (= ${binary:Version}), ${misc:Depends}
 Conflicts: doom2016-wine-steam
 Replaces: doom2016-wine-steam
 Breaks: doom2016-wine-steam
