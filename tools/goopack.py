@@ -31,6 +31,10 @@ goo.toml:
     [deps]                        # name -> minimum version ("" = any)
     quake3-data = ""
 
+    menu = ""                     # optional Start Menu folder; default
+                                  # "Games (linux-packages)", "" = Programs
+                                  # itself (for applications)
+
     [[shortcut]]                  # Start Menu entries (all users)
     name = "Quake3e"
     target = "quake3/quake3e.x64.exe"   # stage-relative; resolved via [files]
@@ -193,10 +197,14 @@ def scripts(m: dict) -> tuple[str, str] | None:
     if not (sc or fw or wr or pre or extra):
         return None
     tag = f"linux-packages:{m['name']}"
+    # menu = "" puts shortcuts straight into Programs (applications); games
+    # share the MENU folder.
+    folder = m.get("menu", MENU)
+    menu_path = "Microsoft/Windows/Start Menu/Programs" + (f"/{folder}" if folder else "")
     ins = ["$ErrorActionPreference = 'Stop'",
-           f"$menu = Join-Path $env:ProgramData {ps_quote('Microsoft/Windows/Start Menu/Programs/' + MENU)}"]
+           f"$menu = Join-Path $env:ProgramData {ps_quote(menu_path)}"]
     un = ["$ErrorActionPreference = 'Continue'",
-          f"$menu = Join-Path $env:ProgramData {ps_quote('Microsoft/Windows/Start Menu/Programs/' + MENU)}"]
+          f"$menu = Join-Path $env:ProgramData {ps_quote(menu_path)}"]
     for d in wr:
         # S-1-5-32-545 = BUILTIN\\Users, whatever the system language. Programs
         # already there stay read-only for them (inheritance cut, read+run back).
@@ -237,9 +245,10 @@ def scripts(m: dict) -> tuple[str, str] | None:
                 # also drop a shortcut an older version made.
                 ins.append(f"}} else {{ Remove-Item -Force -ErrorAction SilentlyContinue {lnk} }}")
             un.append(f"Remove-Item -Force -ErrorAction SilentlyContinue {lnk}")
-        un.append("if ((Test-Path $menu) -and -not (Get-ChildItem $menu)) { Remove-Item $menu }")
-        if any(x.get("requires") for x in sc):
-            ins.append("if (-not (Get-ChildItem $menu)) { Remove-Item $menu }")
+        if folder:   # never remove Programs itself
+            un.append("if ((Test-Path $menu) -and -not (Get-ChildItem $menu)) { Remove-Item $menu }")
+            if any(x.get("requires") for x in sc):
+                ins.append("if (-not (Get-ChildItem $menu)) { Remove-Item $menu }")
     for f in fw:
         # LAN play only: home networks are often classed as Public, so any
         # profile, but only from the local subnet.

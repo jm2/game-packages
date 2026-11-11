@@ -1,0 +1,5 @@
+umu-launcher (1.4.4-1) unstable; urgency=medium
+
+  * Package 1.4.4 for Debian amd64 and arm64, with upstream's vendored pyzstd.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 17:00:00 -0500

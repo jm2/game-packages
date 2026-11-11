@@ -4,7 +4,7 @@
 #   tools/container-build <pkgdir> [arch|fedora|debian|all] [extra deps...]
 #
 # Uses podman with archlinux:latest, fedora:45 (FEDORA_RELEASE overrides it)
-# and debian:sid. The package directory is copied into a scratch dir under
+# and debian:sid (DEBIAN_RELEASE overrides it). The package directory is copied into a scratch dir under
 # ${TMPDIR:-/var/tmp}, and each build runs in a mounted directory there, not in
 # the container's own layer, so point TMPDIR at a disk with room for the
 # game: a build needs about twice its installed size. Results (packages +
@@ -118,9 +118,11 @@ cp /build/RPMS/*/*.rpm /out/' || rc=1
 fi
 
 if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
-run debian docker.io/library/debian:sid '
+run debian "docker.io/library/debian:${DEBIAN_RELEASE:-sid}" '
 export DEBIAN_FRONTEND=noninteractive
-apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs lintian fakeroot $EXTRA >/dev/null
+apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs fakeroot $EXTRA >/dev/null
+# lintian only checks the result; sid transitions sometimes make it uninstallable.
+apt-get -qq install -y --no-install-recommends lintian >/dev/null 2>&1 || echo "lintian: not installable right now, skipping it"
 for l in $LOCAL; do apt-get -qq install -y $(newest /local/$l/debian/*.deb) >/dev/null; done
 cp -a /src /build/p; cd /build/p
 mk-build-deps -i -r -t "apt-get -y -qq --no-install-recommends" debian/control >/dev/null
@@ -128,7 +130,7 @@ mk-build-deps -i -r -t "apt-get -y -qq --no-install-recommends" debian/control >
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 [ -x debian/fetch-sources ] && debian/fetch-sources
 dpkg-buildpackage -b -us -uc
-lintian --suppress-tags bad-distribution-in-changes-file ../*.deb || true
+if command -v lintian >/dev/null; then lintian --suppress-tags bad-distribution-in-changes-file ../*.deb || true; fi
 cp ../*.deb /out/' || rc=1
 fi
 exit $rc

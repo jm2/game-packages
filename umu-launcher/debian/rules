@@ -1,0 +1,44 @@
+#!/usr/bin/make -f
+# Based on upstream's packaging/deb/debian/trixie/rules (1.4.4). Debian sid
+# has no python3-pyzstd, so pyzstd is built from upstream's pinned submodule.
+VER := 1.4.4
+PYZSTD := 16857eb6c775fba2496285aee16ba62ecf02db81
+# pyzstd's setup lists its bundled zstd sources even when it links the
+# system libzstd (--dynamic-link-zstd), so its submodule is needed too.
+ZSTD := 794ea1b0afca0f020f4e57b6732332231fb23c70
+PYTHONDIR := /usr/lib/python3/dist-packages
+D := $(CURDIR)/debian/umu-launcher
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	debian/fetch-sources
+	rm -rf src && mkdir src
+	tar -xf umu-launcher-$(VER).tar.gz -C src --strip-components=1
+	tar -xf pyzstd-$(PYZSTD).tar.gz -C src/subprojects/pyzstd --strip-components=1
+	tar -xf zstd-$(ZSTD).tar.gz -C src/subprojects/pyzstd/zstd --strip-components=1
+	cd src && ./configure.sh --prefix=/usr --use-system-urllib
+
+override_dh_auto_build:
+	$(MAKE) -C src
+
+override_dh_auto_install:
+	$(MAKE) -C src DESTDIR=$(D) PYTHONDIR=$(PYTHONDIR) install
+	# Debian's Python installs the wheel under /usr/local (upstream's rules
+	# move it the same way): umu-run to /usr/bin, the modules to PYTHONDIR.
+	if [ -d $(D)/usr/local ]; then \
+		for d in $(D)/usr/local/lib/python3*/*-packages; do \
+			[ -d "$$d" ] && cp -a "$$d"/. $(D)$(PYTHONDIR)/; \
+		done; \
+		rm -rf $(D)/usr/local/lib; \
+		cp -a $(D)/usr/local/. $(D)/usr/; \
+		rm -rf $(D)/usr/local; \
+	fi
+	install -Dm644 src/LICENSE $(D)/usr/share/doc/umu-launcher/LICENSE
+	find $(D) -name __pycache__ -type d -prune -exec rm -rf {} +
+
+override_dh_auto_test:
+
+override_dh_auto_clean:
+	rm -rf src

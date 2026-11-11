@@ -1,0 +1,4 @@
+# Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
+19767e226b0b937b1dcdcd00282eb31d1a7bb42ee01d54f6dae78e44ab8e3284 umu-launcher-1.4.4.tar.gz https://github.com/Open-Wine-Components/umu-launcher/archive/refs/tags/1.4.4.tar.gz
+4a69c4f0db571975a1fd93083288b35f169ea9f297f16b91b5d591b1b9c91ccf pyzstd-16857eb6c775fba2496285aee16ba62ecf02db81.tar.gz https://github.com/Rogdham/pyzstd/archive/16857eb6c775fba2496285aee16ba62ecf02db81.tar.gz
+33eaa5611d330dbc037e32554521d4e4a8edf2358df7d9b74d586c510a4bcec6 zstd-794ea1b0afca0f020f4e57b6732332231fb23c70.tar.gz https://github.com/facebook/zstd/archive/794ea1b0afca0f020f4e57b6732332231fb23c70.tar.gz

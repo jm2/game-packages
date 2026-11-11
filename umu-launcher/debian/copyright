@@ -1,0 +1,20 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: umu-launcher
+Source: https://github.com/Open-Wine-Components/umu-launcher
+
+Files: *
+Copyright: Open Wine Components contributors
+License: GPL-3
+ On Debian systems the full text is in /usr/share/common-licenses/GPL-3.
+
+Files: src/subprojects/pyzstd/*
+Copyright: Ma Lin and pyzstd contributors
+License: BSD-3-clause
+
+Files: src/subprojects/pyzstd/zstd/*
+Copyright: Meta Platforms, Inc. and affiliates
+License: BSD-3-clause or GPL-2
+
+Files: debian/* README.md
+Copyright: 2026 John-Michael Mulesa
+License: 0BSD
