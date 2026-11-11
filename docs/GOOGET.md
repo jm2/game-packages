@@ -12,6 +12,16 @@ googet addrepo game-packages http://<crossdock host>:8080/goo/game-packages
 googet install quake3e quake3-data-steam quake3-pointrelease-data
 ```
 
+Goldberg games show every player as gbe's default "gse orca" unless each user
+sets a name. `googet install gbe-hostname` sets it to the computer's host name
+(lower case) for every user, at each logon, following a renamed computer and
+keeping any name a user picked themselves. On Linux, gamelaunch does the same
+for each game it starts (`GAMELAUNCH_NO_GBE_NAME=1` turns it off).
+
+goo.toml can add package-specific PowerShell with a `[script]` table
+(`install = '''...'''`, `uninstall = '''...'''`), run after the generated
+steps.
+
 GooGet has no repo signatures; the index pins each package's SHA-256. Use
 it on a trusted LAN or behind HTTPS. googet (2.11 and later) ignores plain
 `http://` repos unless `allowunsafeurl: true` is in

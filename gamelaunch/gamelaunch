@@ -24,6 +24,8 @@
 #                                only: Proton always reports "steamuser")
 #   GAMELAUNCH_DEBUG=1           trace and keep wine/umu logging
 #   GAMELAUNCH_NO_PRELOAD=1      skip the config's WINE_PRELOAD libraries
+#   GAMELAUNCH_NO_GBE_NAME=1     don't set the Goldberg player name to the
+#                                host name (see gl_gbe_account)
 #   PROTONPATH, GAMEID           passed through to umu-run
 #   WINE                         wine binary for the wine backend
 #   GAMELAUNCH_WRAPPER           command to wrap games in on non-x86 hosts
@@ -233,6 +235,55 @@ gl_wine_user() {
     fi
     # Characters valid in a Windows account name; at most 20 of them.
     GL_WUSER=$(printf '%s' "$GL_WUSER" | tr -cd 'A-Za-z0-9._-' | cut -c1-20)
+}
+
+# Goldberg (gbe-fork) player name. For games that ship a steam_settings
+# folder, account_name in gbe's global user settings follows this machine's
+# short host name, lowercased. It is rewritten on every start while it is
+# unset, gbe's default ("gse orca") or the name gamelaunch last wrote (kept in
+# account_name.gamelaunch next to the file), so a renamed host shows its new
+# name; once the user sets a name of their own it is left alone. Generic host
+# names (localhost, ...) are not used. GAMELAUNCH_NO_GBE_NAME=1 turns it off.
+#   gl_gbe_account <game root> <directory that holds "GSE Saves">
+gl_gbe_account() {
+    [ -n "${GAMELAUNCH_NO_GBE_NAME:-}" ] && return 0
+    local root=$1 dir="$2/GSE Saves/settings" ini state name cur last
+    [ -n "$(find -L "$root" -maxdepth 4 -type d -name steam_settings -print -quit 2>/dev/null)" ] || return 0
+    name=$(uname -n); name=${name%%.*}; name=${name,,}
+    name=$(printf '%s' "$name" | tr -cd 'a-z0-9._-' | cut -c1-32)
+    case $name in ''|localhost*|archiso) return 0 ;; esac
+    ini=$dir/configs.user.ini state=$dir/account_name.gamelaunch
+    cur=$(gl_gbe_ini_get "$ini")
+    last=$(cat "$state" 2>/dev/null)
+    # gbe writes its default, "gse orca", into the file on first start.
+    case $cur in ''|'gse orca'|"$last") ;; *) return 0 ;; esac
+    mkdir -p "$dir" || return 0
+    if [ "$cur" != "$name" ]; then
+        gl_gbe_ini_set "$ini" "$name" || { warn "couldn't set the Goldberg player name in $ini"; return 0; }
+    fi
+    printf '%s\n' "$name" > "$state"
+}
+# account_name in [user::general] of a gbe configs.user.ini (empty if unset).
+gl_gbe_ini_get() {
+    [ -f "$1" ] || return 0
+    awk '{ sub(/\r$/, "") }
+         /^[ \t]*\[/ { sec = ($0 ~ /^[ \t]*\[user::general\][ \t]*$/); next }
+         sec && /^[ \t]*account_name[ \t]*=/ { sub(/^[^=]*=[ \t]*/, ""); sub(/[ \t]+$/, ""); v = $0 }
+         END { printf "%s", v }' "$1"
+}
+# Set it, keeping every other line; adds the section if there is none.
+gl_gbe_ini_set() {
+    local ini=$1 tmp
+    tmp=$(mktemp "$ini.XXXXXX") || return 1
+    { [ -f "$ini" ] && cat "$ini"; true; } | awk -v n="$2" '
+        { sub(/\r$/, "") }
+        /^[ \t]*\[/ {
+            if (sec && !done) { print "account_name=" n; done = 1 }
+            sec = ($0 ~ /^[ \t]*\[user::general\][ \t]*$/); print; next }
+        sec && /^[ \t]*account_name[ \t]*=/ { if (!done) { print "account_name=" n; done = 1 } next }
+        { print }
+        END { if (!done) { if (!sec) print "[user::general]"; print "account_name=" n } }' > "$tmp" &&
+        mv -f "$tmp" "$ini" || { rm -f "$tmp"; return 1; }
 }
 
 gl_pick_runner() {
@@ -530,6 +581,7 @@ gl_run_game() {
         local e
         for e in "${NATIVE_ENV[@]}"; do export "${e?}"; done
         cd "$workdir" || die "cannot enter $workdir"
+        gl_gbe_account "$root" "${XDG_DATA_HOME:-$HOME/.local/share}"
         gl_emu_setup
         GL_ENV_NAMES=$(for e in "${NATIVE_ENV[@]}"; do printf '%s ' "${e%%=*}"; done)
         gl_exec "$root/$GL_EXE" "${GAME_ARGS[@]}" "${GL_EXTRA[@]}" "$@"
@@ -547,6 +599,7 @@ gl_run_game() {
     local e
     for e in "${WINE_ENV[@]}"; do export "${e?}"; done
     gl_bootstrap "$root"
+    gl_gbe_account "$root" "$GL_DATA/userdata/AppData/Roaming"
     gl_preload
     [ -n "$GL_OVERRIDES" ] && export WINEDLLOVERRIDES="$GL_OVERRIDES${WINEDLLOVERRIDES:+;$WINEDLLOVERRIDES}"
     [ -n "${GAMELAUNCH_DEBUG:-}" ] || export WINEDEBUG=${WINEDEBUG:--all}

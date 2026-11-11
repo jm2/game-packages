@@ -1,3 +1,11 @@
+gamelaunch (1.3.0-1) unstable; urgency=medium
+
+  * Goldberg player name follows the host name (lower case) for games with
+    steam_settings, unless the user set their own; GAMELAUNCH_NO_GBE_NAME=1
+    turns it off.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 13:00:00 -0500
+
 gamelaunch (1.2.0-2) unstable; urgency=medium
 
   * Project URL: the repository is now jm2/game-packages.

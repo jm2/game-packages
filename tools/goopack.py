@@ -181,7 +181,8 @@ def scripts(m: dict) -> tuple[str, str] | None:
     files, sc, fw = m.get("files", {}), m.get("shortcut", []), m.get("firewall", [])
     wr = m.get("writable", {}).get("dirs", [])
     pre = m.get("prereq", [])
-    if not (sc or fw or wr or pre):
+    extra = m.get("script", {})
+    if not (sc or fw or wr or pre or extra):
         return None
     tag = f"linux-packages:{m['name']}"
     ins = ["$ErrorActionPreference = 'Stop'",
@@ -244,6 +245,12 @@ def scripts(m: dict) -> tuple[str, str] | None:
         # Rules are grouped per package; drop stale ones before adding.
         ins.insert(1, f"Get-NetFirewallRule -Group {ps_quote(tag)} -ErrorAction SilentlyContinue | Remove-NetFirewallRule")
         un.append(f"Get-NetFirewallRule -Group {ps_quote(tag)} -ErrorAction SilentlyContinue | Remove-NetFirewallRule")
+    # [script] install / uninstall: package-specific PowerShell, run last.
+    # $ErrorActionPreference is already Stop (install) / Continue (uninstall).
+    if extra.get("install"):
+        ins += extra["install"].strip("\n").splitlines()
+    if extra.get("uninstall"):
+        un += extra["uninstall"].strip("\n").splitlines()
     return "\r\n".join(ins) + "\r\n", "\r\n".join(un) + "\r\n"
 
 

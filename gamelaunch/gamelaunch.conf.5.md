@@ -39,3 +39,14 @@ shared by both prefixes) and `game/` (the overlay).
 On non-x86 hosts (aarch64) x86 code runs through FEX or box64 via
 binfmt_misc; on systems with non-4K pages (Apple Silicon) gamelaunch wraps
 the game in `muvm --`. `GAMELAUNCH_WRAPPER` overrides the wrapper.
+
+Goldberg player name: for a game with a `steam_settings` folder (gbe-fork),
+gamelaunch sets `account_name` in gbe's global user settings to the machine's
+short host name in lower case. Wine games keep that file in
+`userdata/AppData/Roaming/GSE Saves/settings/configs.user.ini`, native games in
+`${XDG_DATA_HOME:-~/.local/share}/GSE Saves/settings/configs.user.ini`. The
+name is rewritten on each start while it is unset, gbe's default `gse orca`,
+or the name gamelaunch last wrote (recorded in `account_name.gamelaunch` next
+to the file), so it follows a renamed host. A name you set yourself is kept.
+Generic host names such as `localhost` are not used. `GAMELAUNCH_NO_GBE_NAME=1`
+turns this off.

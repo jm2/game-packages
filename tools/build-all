@@ -64,7 +64,9 @@ def classify(d: Path):
 
 def packages(only):
     out = []
-    for d in sorted(p.parent for p in REPO.glob("*/PKGBUILD")):
+    # Windows-only packages (windows/goo.toml, no PKGBUILD) count too.
+    dirs = {p.parent for p in REPO.glob("*/PKGBUILD")} | {p.parent.parent for p in REPO.glob("*/windows/goo.toml")}
+    for d in sorted(dirs):
         if only and d.name not in only:
             continue
         group, manual, gog = classify(d)

@@ -1,0 +1,44 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "gbe-hostname"
+version = "1.0.0"
+release = 1
+arch = "noarch"
+description = """
+Sets the Goldberg (gbe-fork) player name of every Windows user to this
+computer's host name in lower case, for the LAN games in this repository that
+use Goldberg. A scheduled task runs at each logon and updates account_name in
+%APPDATA%\\GSE Saves\\settings\\configs.user.ini. It follows a renamed
+computer, and leaves alone a name a user has set themselves (anything other
+than gbe's default "gse orca" or the host name it last wrote).
+
+Removing the package removes the task; names already written stay."""
+license = "0BSD"
+url = "https://github.com/jm2/game-packages"
+release_notes = ["Initial package"]
+
+[files]
+"gbe-hostname" = "<ProgramFiles>/Games/gbe-hostname"
+
+[script]
+# Logon task for every member of BUILTIN\Users (S-1-5-32-545, any system
+# language), run as that user without elevation; started once now so users
+# already logged on get the name without logging off.
+install = '''
+$ps1 = Join-Path $env:ProgramFiles 'Games\gbe-hostname\Set-GbeAccountName.ps1'
+$exe = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
+$act = New-ScheduledTaskAction -Execute $exe -Argument "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$ps1`""
+$trg = New-ScheduledTaskTrigger -AtLogOn
+$prn = New-ScheduledTaskPrincipal -GroupId 'S-1-5-32-545' -RunLevel Limited
+$set = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 2) -MultipleInstances IgnoreNew
+Register-ScheduledTask -TaskName 'gbe-hostname' -TaskPath '\game-packages\' -Action $act -Trigger $trg -Principal $prn -Settings $set -Description 'Goldberg player name = host name (gbe-hostname package)' -Force | Out-Null
+try { Start-ScheduledTask -TaskName 'gbe-hostname' -TaskPath '\game-packages\' } catch { Write-Warning "gbe-hostname: couldn't start the task now; it runs at the next logon" }
+'''
+uninstall = '''
+Unregister-ScheduledTask -TaskName 'gbe-hostname' -TaskPath '\game-packages\' -Confirm:$false -ErrorAction SilentlyContinue
+'''
+
+[stage]
+script = '''
+mkdir -p "$STAGE/gbe-hostname"
+cp "$PKGDIR/windows/Set-GbeAccountName.ps1" "$STAGE/gbe-hostname/"
+'''
