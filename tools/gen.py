@@ -831,7 +831,7 @@ def gen_goo(p: Pkg) -> str | None:
            f"provides = {toml_list(p.provides)}",
            # googet checks Conflicts before it removes Replaces, so a replaced
            # package listed in both would block the upgrade.
-           f"conflicts = {toml_list([goo_name_of(c) for c in p.conflicts if c not in p.replaces])}",
+           f"conflicts = {toml_list(goo_conflicts(p))}",
            f"replaces = {toml_list([goo_name_of(c) for c in p.replaces])}",
            "", "[deps]"]
     out += [f"{toml_str(k)} = {toml_str(v)}" for k, v in deps.items()]
@@ -903,6 +903,45 @@ def gen_goo(p: Pkg) -> str | None:
 
 def goo_name_of(name: str) -> str:
     return name.replace("-wine-", "-")
+
+
+_PROVIDERS: dict[str, list[str]] | None = None
+
+
+def goo_providers() -> dict[str, list[str]]:
+    """Virtual name -> the generated packages that provide it (Linux names)."""
+    global _PROVIDERS
+    if _PROVIDERS is None:
+        _PROVIDERS = {}
+        for f in sorted(REPO.glob("*/package.toml")):
+            t = tomllib.loads(f.read_text())
+            for v in t.get("provides", []):
+                _PROVIDERS.setdefault(v.split("=")[0], []).append(t["name"])
+    return _PROVIDERS
+
+
+def goo_conflicts(p: Pkg) -> list[str]:
+    """Windows Conflicts. Linux data packages conflict with the virtual name
+    they provide (<app>-data), which pacman, dnf and apt don't apply to the
+    package itself. googet (install.go resolveConflicts -> isSatisfied)
+    matches a Conflicts entry against every installed package's Provides,
+    including the installed older version of the same package, so a virtual
+    conflict would block the package's own upgrades. List the other packages
+    that provide it by name instead, plus any real names as given."""
+    self_name = goo_name(p)
+    repl = {goo_name_of(r) for r in p.replaces}
+    out: list[str] = []
+    for c in p.conflicts:
+        if c in p.replaces:
+            continue
+        names = [n for n in goo_providers().get(c, []) if n != p.name] if c in goo_providers() else [c]
+        for n in names:
+            n = goo_name_of(n)
+            # A wine-* package conflicting with its Linux-native twin (e.g.
+            # dirt4-wine-steam vs dirt4-steam) gets that twin's name on Windows.
+            if n not in out and n != self_name and n not in repl:
+                out.append(n)
+    return out
 
 
 def generate(d: Path, check: bool = False) -> bool:

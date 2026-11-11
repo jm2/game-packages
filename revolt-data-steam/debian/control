@@ -12,7 +12,7 @@ Architecture: all
 Depends: ${misc:Depends}
 Recommends: rvgl-bin
 Provides: revolt-data
-Conflicts: revolt-data, revolt-data-revoltio
+Conflicts: revolt-data
 Description: Re-Volt game data for RVGL from Steam
  The game files of Re-Volt (1999) from your Steam copy (app 287310), downloaded
  with steamcmd, converted to lower-case names and installed as RVGL's

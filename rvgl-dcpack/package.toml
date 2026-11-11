@@ -45,3 +45,13 @@ bad=$(find . -name '*[[:upper:]]*' | head -n 5)
 # Plain data: the archive marks many files executable.
 find . -type f -exec chmod 644 {} +
 '''
+
+[goo]
+# Windows release 2 (= 1 + 1) is above the published @1 (Windows description).
+release_offset = 1
+description = """
+The content of the Dreamcast version of Re-Volt for RVGL: the Rooftops track
+and 14 additional cars (including BigVolt and BossVolt), with the Dreamcast
+car selection layout. Installed as RVGL's rvgl_dcpack pack in
+C:\\Program Files\\Games\\rvgl\\packs\\rvgl_dcpack, downloaded at build time
+from Re-Volt I/O. Needs rvgl-bin and a Re-Volt data package."""

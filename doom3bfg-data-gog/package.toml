@@ -1,13 +1,13 @@
 name = "doom3bfg-data-gog"
 family = "data-gog"
 version = "1"
-release = 4
+release = 5
 summary = "Doom 3 BFG Edition data via GOG"
 url = "https://www.gog.com/game/doom_3_bfg_edition"
 target = "/usr/share/games/doom3bfg"
 provides = ["doom3bfg-data"]
-conflicts = ["doom3bfg-data-steam"]
-changelog = ["Generated from package.toml", "Update to GOG's 1.14 20230201 installer (build 62122)"]
+conflicts = ["doom3bfg-data"]
+changelog = ["Generated from package.toml", "Update to GOG's 1.14 20230201 installer (build 62122)", "Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)"]
 
 [[source.files]]
 name = "setup_doom3_bfg_edition_1.14_20230201_(62122).exe"
@@ -25,3 +25,10 @@ sha256 = "caa7f6e5458bacbe63dd42279142f72e2be4f8b36c9d74166cc09c1e793dfd0d"
 name = "setup_doom3_bfg_edition_1.14_20230201_(62122)-2.bin"
 url = "gogdownloader://doom_3_bfg_edition_game/en1installer2"
 sha256 = "85d2527ac1319a655d915b681d3f0d52dcfa2dd1d8c5ec324707d588e67aab30"
+
+[[goo.shortcut]]
+name = "Doom 3 BFG Edition (RBDOOM-3-BFG)"
+target = "doom3bfg/RBDoom3BFG.exe"
+args = ""
+description = "Doom 3 BFG Edition"
+requires = "doom3bfg/RBDoom3BFG.exe"

@@ -1,0 +1,175 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "lilium-voyager-git"
+# goo_version() parses all digit and trailing letter runs in version, so a
+# git hash suffix (.g51fccb9b) would turn hex digits into version numbers and
+# break ordering; 0.<YYYYMMDD> matches the RPM's 0^20261031git... ordering.
+version = "0.20261031"
+release = 1
+arch = "x86_64"
+description = """
+Lilium Voyager, an ioquake3-based engine for Star Trek Voyager: Elite Force
+Holomatch (multiplayer) with widescreen support (ZTM's Flexible Display) and
+OpenGL 1 / OpenGL 2 renderers (MinGW-w64 x86_64 build of commit 51fccb9b),
+installed next to the Elite Force data package in
+C:\\Program Files\\Games\\lilium-voyager. Settings, demos and screenshots go to
+%APPDATA%\\Lilium Voyager for each user (the engine's own default on Windows).
+
+Install the game data too: eliteforce-data-gog."""
+# Engine (GPL-2.0-or-later) plus the bundled MinGW-w64 runtime, SDL2/SDL3,
+# OpenAL Soft, libcurl, FreeType, libjpeg-turbo, libmad, Ogg/Vorbis, Opus and
+# zlib DLLs.
+license = "GPL-2.0-or-later AND Zlib AND LGPL-2.0-or-later AND curl AND BSD-3-Clause AND IJG AND MIT"
+url = "https://clover.moe/lilium-voyager/"
+release_notes = ["Initial GooGet package (MinGW-w64 x86_64 build of commit 51fccb9b)"]
+
+# Same directory as eliteforce-data-gog, which installs baseEF/pak0.pk3 to
+# pak3.pk3; the engine installs only executables, DLLs and docs, so nothing
+# overlaps.
+[files]
+"lilium-voyager" = "<ProgramFiles>/Games/lilium-voyager"
+
+[[shortcut]]
+name = "Star Trek Voyager Elite Force (Lilium Voyager)"
+target = "lilium-voyager/lilium-voyager.exe"
+# fs_basepath defaults to the working directory (the shortcut's: the install
+# dir) and fs_homepath to %APPDATA%\Lilium Voyager (sys_win32.c
+# Sys_DefaultHomePath), so no arguments are needed.
+args = ""
+description = "Star Trek Voyager: Elite Force Holomatch"
+# The data package creates this when it's installed after lilium-voyager-git.
+requires = "lilium-voyager/baseEF/pak0.pk3"
+
+[[firewall]]
+name = "Lilium Voyager"
+program = "lilium-voyager/lilium-voyager.exe"
+
+[[firewall]]
+name = "Lilium Voyager dedicated server"
+program = "lilium-voyager/lilium-voyager-server.exe"
+
+[[source]]
+name = "lilium-voyager-51fccb9b01faa8694b00be36a6262ff73b876d5a.tar.gz"
+url = "https://github.com/zturtleman/lilium-voyager/archive/51fccb9b01faa8694b00be36a6262ff73b876d5a/lilium-voyager-51fccb9b01faa8694b00be36a6262ff73b876d5a.tar.gz"
+sha256 = "f70d81108822da1ab63b5659d8b67135fe679f2a2cf1632bfd51980141ecc57d"
+
+[stage]
+container = "fedora"
+source_dir = "lilium-voyager-git"
+deps = [
+  "findutils",
+  "gawk",
+  "gcc",
+  "grep",
+  "gzip",
+  "make",
+  "mingw64-binutils",
+  "mingw64-curl",
+  "mingw64-filesystem",
+  "mingw64-freetype",
+  "mingw64-gcc",
+  "mingw64-libjpeg-turbo",
+  "mingw64-libmad",
+  "mingw64-libogg",
+  "mingw64-libvorbis",
+  "mingw64-openal-soft",
+  "mingw64-opus",
+  "mingw64-opusfile",
+  "mingw64-sdl2-compat",
+  "mingw64-zlib",
+  "pkgconf-pkg-config",
+  "sed",
+  "tar",
+  "which",
+]
+script = '''
+s=$WORK/lilium-voyager-51fccb9b01faa8694b00be36a6262ff73b876d5a
+d=$STAGE/lilium-voyager
+mkdir -p "$WORK" "$d"
+tar -xzf "$SRC/lilium-voyager-51fccb9b01faa8694b00be36a6262ff73b876d5a.tar.gz" -C "$WORK"
+
+# On MINGW, the Makefile adds $(OPENAL_LDFLAGS) (unset) before resetting
+# CLIENT_LIBS = -lgdi32 -lole32, so USE_OPENAL_DLOPEN=0 never links OpenAL.
+grep -q '^  CLIENT_LIBS = -lgdi32 -lole32$' "$s/Makefile"
+sed -i '/^  CLIENT_LIBS = -lgdi32 -lole32$/a\  ifneq ($(USE_OPENAL_DLOPEN),1)\n    CLIENT_LIBS += $(OPENAL_LIBS)\n  endif' "$s/Makefile"
+
+# Pass -std=gnu17 via the environment so GCC 16 (whose default is gnu23) keeps
+# K&R/C17 compatibility without overriding the Makefile's own CFLAGS additions.
+export CFLAGS="-std=gnu17"
+export SOURCE_DATE_EPOCH=1793404800 TZ=UTC
+
+pc=x86_64-w64-mingw32-pkg-config
+sdl_pc=sdl2-compat
+if "$pc" --exists sdl2; then sdl_pc=sdl2; fi
+
+q3make() {
+    make -C "$s" "$@" \
+        PLATFORM=mingw64 \
+        ARCH=x86_64 \
+        PKG_CONFIG="$pc" \
+        BUILD_CLIENT=1 \
+        BUILD_SERVER=1 \
+        BUILD_BASEGAME=0 \
+        BUILD_MISSIONPACK=0 \
+        BUILD_GAME_SO=0 \
+        BUILD_GAME_QVM=0 \
+        BUILD_RENDERER_OPENGL2=1 \
+        FULLBINEXT=.exe \
+        GENERATE_DEPENDENCIES=0 \
+        USE_OPENAL=1 \
+        USE_OPENAL_DLOPEN=0 \
+        USE_CURL=1 \
+        USE_CURL_DLOPEN=0 \
+        USE_CODEC_MP3=1 \
+        USE_CODEC_VORBIS=1 \
+        USE_CODEC_OPUS=1 \
+        USE_FREETYPE=1 \
+        USE_MUMBLE=1 \
+        USE_VOIP=1 \
+        USE_INTERNAL_LIBS=0 \
+        STRIP_FLAG= \
+        VERSION=1.40_GIT_51fccb9b-2026-10-31 \
+        SDL_CFLAGS="$("$pc" --cflags "$sdl_pc" | sed 's/-Dmain=SDL_main//')" \
+        SDL_LIBS="$("$pc" --libs "$sdl_pc")" \
+        FREETYPE_CFLAGS="$("$pc" --cflags freetype2)" \
+        MAD_CFLAGS="$("$pc" --cflags mad)" \
+        MAD_LIBS="$("$pc" --libs mad)"
+}
+
+q3make -j"$(nproc)" release
+q3make copyfiles COPYDIR="$d"
+# Drop the empty baseEF dir created by copyfiles; eliteforce-data-gog owns baseEF/*.pk3.
+rmdir "$d/baseEF" 2>/dev/null || true
+
+[ -f "$d/lilium-voyager.exe" ] && [ -f "$d/lilium-voyager-server.exe" ]
+[ -f "$d/lilium-voyager-renderer-opengl1_x86_64.dll" ]
+[ -f "$d/lilium-voyager-renderer-opengl2_x86_64.dll" ]
+x86_64-w64-mingw32-strip --strip-unneeded "$d"/*.exe "$d"/*.dll
+
+# Copy transitive MinGW runtime DLLs (matched case-insensitively on the Linux
+# filesystem; Windows system DLLs live outside mingw/bin and are skipped).
+mingw_bin=/usr/x86_64-w64-mingw32/sys-root/mingw/bin
+while :; do
+    added=0
+    for pe in "$d"/*.exe "$d"/*.dll; do
+        [ -f "$pe" ] || continue
+        for dll in $(x86_64-w64-mingw32-objdump -p "$pe" | awk '/DLL Name:/ {print $3}'); do
+            [ -n "$(find "$d" -maxdepth 1 -iname "$dll" -print -quit)" ] && continue
+            found=$(find "$mingw_bin" -maxdepth 1 -iname "$dll" -print -quit)
+            if [ -n "$found" ]; then
+                cp -L "$found" "$d/"
+                added=1
+            fi
+        done
+    done
+    [ "$added" -eq 0 ] && break
+done
+
+mkdir -p "$d/docs/lilium-voyager" "$d/docs/licenses"
+cp "$PKGDIR/README.md" "$d/docs/lilium-voyager/README.md"
+cp "$s/README.md" "$d/docs/lilium-voyager/README.lilium-voyager.md"
+cp "$s/README-ioq3.md" "$s/ChangeLog" "$s/id-readme.txt" "$d/docs/lilium-voyager/"
+cp "$s/COPYING.txt" "$d/docs/licenses/COPYING.lilium-voyager.txt"
+for lic in /usr/share/licenses/mingw64-*; do
+    [ -d "$lic" ] && cp -R "$lic" "$d/docs/licenses/"
+done
+'''

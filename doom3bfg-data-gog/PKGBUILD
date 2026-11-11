@@ -3,14 +3,14 @@
 
 pkgname=doom3bfg-data-gog
 pkgver=1
-pkgrel=4
+pkgrel=5
 pkgdesc='Doom 3 BFG Edition data via GOG'
 arch=('any')
 url='https://www.gog.com/game/doom_3_bfg_edition'
 license=('LicenseRef-Proprietary')
 makedepends=('innoextract')
 provides=('doom3bfg-data')
-conflicts=('doom3bfg-data-steam')
+conflicts=('doom3bfg-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"

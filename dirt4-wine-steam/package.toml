@@ -31,3 +31,8 @@ name = "DiRT 4"
 comment = "DiRT 4 (Wine)"
 categories = "Game;SportsGame;"
 keywords = "racing;rally;codemasters"
+
+[goo]
+# Drop the self-conflict on dirt4-steam (the Linux native twin's name, which
+# dirt4-wine-steam itself takes on Windows).
+release_offset = 1

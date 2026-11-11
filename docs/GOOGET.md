@@ -119,6 +119,12 @@ by the shell), firewall rules, ACLs inherited from Program Files, and an
     one is downloaded, and nothing is rolled back if that then fails.
   - Only the incoming package's Conflicts are checked; versions are
     minimum-only (no `< x` ranges).
+  - Conflicts match installed packages' Provides too (googet `c669619`
+    and later: `resolveConflicts` -> `isSatisfied`), including the
+    installed older version of the package being upgraded. So a data
+    package can't conflict with the virtual `<app>-data` it provides, as
+    it does on Linux: it would block its own upgrades. `tools/gen.py`
+    writes the other providers' names instead (`goo_conflicts`).
   - No file ownership: overlapping files are overwritten, and removing
     either package deletes them. Don't remove a replaced package by hand
     after installing its replacement (e.g. quake3-ta-data-steam after the
@@ -131,28 +137,30 @@ by the shell), firewall rules, ACLs inherited from Program Files, and an
   checks), and quake3e has no data dependency: install
   `quake3-data-steam` or `quake3-data-gog` with it.
 
-## Engine Windows builds (survey 2026-11-08)
+## Engine Windows builds
 
-Upstream Windows releases for the pinned Linux versions; hand-written
-`windows/goo.toml` manifests still to do except quake3e.
+Upstream Windows releases (or MinGW-w64 container cross-builds where upstream
+publishes none) for the pinned Linux versions; every game engine and source
+port now has a hand-written `windows/goo.toml`.
 
 | Package | Windows build | Notes |
 |---|---|---|
 | quake3e | ec-/Quake3e 2026-10-14 windows-x86_64.zip | done |
-| yamagi-quake2 (+ctf, rogue, xatrix) | deponie.yamagi.org quake2-8.70a.zip | 32-bit only; ctf/rogue/xatrix DLLs are inside, same versions as Linux |
-| yamagi-quake2-ref_vk | yquake2/ref_vk v1.0.12 i686 zip | 32-bit |
-| dhewm3 | 1.5.5_win32.zip (+ mods zip) | 32-bit |
-| rbdoom-3-bfg | v1.6.0 full-win64 .7z (1.65 GB) | no checksum published |
-| etlegacy-bin | etlegacy.com file/793 (v2.86.2 x64 zip) | numeric download URL |
-| openetqw-bin, kisakcod-bin | jm2 v0.1.0 windows-x64 zips | releases are still drafts (Linux URLs 404 too); kisakcod-bin's PKGBUILD asks for `-client-beta` but the draft has `-client` |
-| openq4-bin | v0.13.2 windows-x64.zip (722 MB) | arm64 zip too |
-| lilium-voyager-git, prey2006-git | none for the pinned commits | need MinGW source builds |
-| quake2rtx | v1.8.1 windows.exe | installer only (1 GB) |
-| unreal-tournament-bin | OldUnreal 469e Windows-x86.zip | 32-bit; patch over retail data |
-| ut2004-bin | OldUnreal 3374-rc3 Windows zip | x64 + SystemARM64; patch over retail data |
-| rvgl-bin | rvgl 23.1030a1 win64 .7z | |
-| cro-mag-rally-net | jm2/CroMagRally v3.2.0 windows-x64 zip | arm64 zip too |
-| Jorio ports | each project's windows-x64 zip | mightymike's asset is `-hotfix` |
+| yamagi-quake2 (+ctf, rogue, xatrix) | deponie.yamagi.org quake2-8.70a.zip | done (`x86_32`; ctf 1.13, rogue 2.16, xatrix 2.17 split out to match Linux) |
+| yamagi-quake2-ref_vk | yquake2/ref_vk v1.0.12 i686 zip | done (`x86_32`) |
+| dhewm3 | dhewm/dhewm3 1.5.5_win32.zip | done (`x86_32`; includes base + `d3xp` DLLs; `dhewm3_notools.exe` shortcuts for Doom 3 and Resurrection of Evil) |
+| rbdoom-3-bfg | RobertBeckebans/RBDOOM-3-BFG v1.6.0 full-win64 .7z (1.65 GB) | done (`x86_64`; shares cached `.7z` with `rbdoom-3-bfg-gi-data`, excludes GI/blood `.pk4`s, tools, and shader PDBs; runs bundled `VC_redist.x64.exe`) |
+| etlegacy-bin | etlegacy.com file/793 (v2.86.2 x64 zip) | done (`x86_64`; numeric download URL; Linux/macOS Omni-Bot `.so` trimmed) |
+| openetqw-bin, kisakcod-bin | jm2 v0.1.0 windows-x64 zips (+ ET:QW 1.5 `.run` patch paks for openETQW) | done (`x86_64`; `v0.1.0` releases are still drafts so URLs 404 until published or cached via `gh release download`; current kisakcod draft uses `-client.zip` without `-beta`) |
+| openq4-bin | themuffinator/openQ4 v0.13.2 windows-x64.zip + Quake 4 1.4.2 `.run` patch paks | done (`x86_64`; strips `.pdb` debug symbols, adds required `pak013`–`pak022.pk4` from 1.4.2 point release) |
+| lilium-voyager-git | MinGW-w64 x86_64 build of pinned commit `51fccb9b` | done (`x86_64`; `0.20261031`, settings in `%APPDATA%\Lilium Voyager`) |
+| prey2006-git | MinGW-w64 x86_64 build of pinned commit `1d9d18d7` | done (`x86_64`; `0.20261101`, settings/saves in `Documents\My Games\prey06`) |
+| quake2rtx | NVIDIA/Q2RTX v1.8.1 windows.exe (NSIS, unpacked with 7z) | done (`x86_64`; separate `Games\quake2rtx` with shareware pak, `+set homedir "%APPDATA%\Quake2RTX"`) |
+| unreal-tournament-bin | OldUnreal 469e Windows-x86.zip | done (`x86_32`; `-SETHOMEDIR="%APPDATA%\UnrealTournament\System"`, retail `editorres` + `EdSplash.bmp` trimmed to avoid data overlap) |
+| ut2004-bin | OldUnreal 3374-rc3 Windows-d906d39a.zip | done (`x86_64`; defaults to `D3D11Drv` since `D3D9Drv` needs `d3dx9_43.dll`, needs VC++ 2015-2022 x64 runtime, `[writable]` install subdirs until `UT2004Patches#490`) |
+| rvgl-bin | rvgl 23.1030a1 win64 .7z | done (`x86_64`; split into `packs/rvgl_assets` + `packs/default.txt`, `-prefpath "%APPDATA%\RVGL"`, writable `packs/local`) |
+| cro-mag-rally-net | jm2/CroMagRally v3.2.0 windows-x64 zip | done (arm64 zip available upstream too) |
+| Jorio ports | each project's windows-x64 zip | done (`billy-frontier`, `bugdom`, `bugdom2`, `mightymike` `-hotfix`, `nanosaur`, `nanosaur2`, `ottomatic`) |
 | agelanserver(-companion), gbe-fork-bin, xlln-bin | same archives the Linux packages use | already Windows files |
 | steamcmd | steamcmd.zip (unversioned) | self-updating |
 | tributary(-bin) | jm2/tributary v0.7.2 windows-x86_64.zip | arm64 zip too |

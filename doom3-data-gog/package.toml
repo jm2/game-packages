@@ -1,13 +1,13 @@
 name = "doom3-data-gog"
 family = "data-gog"
 version = "1.3.1"
-release = 2
+release = 3
 summary = "Doom 3 and Resurrection of Evil data via GOG"
 url = "https://www.gog.com/game/doom_3"
 target = "/opt/doom3"
 provides = ["doom3-data", "doom3xp-data"]
-conflicts = ["doom3-data-steam", "doom3xp-data-steam"]
-changelog = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)"]
+conflicts = ["doom3-data", "doom3xp-data"]
+changelog = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)", "Conflict with the virtual doom3-data/doom3xp-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)"]
 notes = """
 GOG's original DOOM 3 (doom_3_classic, part of the DOOM 3 bundle) includes
 Resurrection of Evil, so this package installs both base/*.pk4 and
@@ -34,3 +34,17 @@ post_install = '''
 install -d "$D/usr/share/games"
 ln -sfn /opt/doom3 "$D/usr/share/games/doom3"
 '''
+
+[[goo.shortcut]]
+name = "Doom 3 (dhewm3)"
+target = "doom3/dhewm3_notools.exe"
+args = ""
+description = "Doom 3"
+requires = "doom3/dhewm3_notools.exe"
+
+[[goo.shortcut]]
+name = "Doom 3 Resurrection of Evil (dhewm3)"
+target = "doom3/dhewm3_notools.exe"
+args = "+set fs_game d3xp"
+description = "Doom 3: Resurrection of Evil"
+requires = "doom3/dhewm3_notools.exe"

@@ -1,0 +1,88 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "rvgl-bin"
+version = "23.1030a1"
+release = 1
+arch = "x86_64"
+description = """
+RVGL, the cross-platform rewrite of the Re-Volt R/C car racing game
+(upstream's Windows x64 build with its own asset pack), installed next to the
+Re-Volt data packages. Settings, profiles, best times and replays go to
+%APPDATA%\\RVGL for each user.
+
+Install the game data too: revolt-data-revoltio or revolt-data-steam;
+optionally rvgl-dcpack (Dreamcast content) and rvgl-soundtrack (music).
+
+Your own cars and tracks, and editor saves, go to the shared
+packs\\local folder, which every user can write to."""
+license = "CC-BY-NC-SA-4.0 AND (LGPL-3.0-or-later OR GPL-2.0-or-later)"
+url = "https://rvgl.org"
+release_notes = ["Initial GooGet package (upstream 23.1030a1 Windows x64 build)"]
+
+# Same layout as the Linux package (RVGL Launcher's): the engine in the root,
+# RVGL's assets as the rvgl_assets pack; the data packages add
+# packs/game_files, packs/rvgl_dcpack and packs/soundtrack.
+[files]
+"rvgl" = "<ProgramFiles>/Games/rvgl"
+
+[[shortcut]]
+name = "Re-Volt (RVGL)"
+target = "rvgl/rvgl.exe"
+# The base path (packs/) defaults to the working directory, the install dir;
+# the packs are merged through packs/default.txt (below). Without -prefpath
+# the Windows build keeps profiles, times, replays and the shader cache in the
+# install dir; -prefpath moves them to each user's %APPDATA%\RVGL (the
+# location RVGL's docs give for a bare -prefpath; spelled out so the next
+# argument is never taken for the path).
+args = "-prefpath \"%APPDATA%\\RVGL\""
+description = "Re-Volt, the radio-controlled car racer, on the RVGL engine"
+# The data packages create this when they're installed after rvgl-bin.
+requires = "rvgl/packs/game_files/levels/frontend/frontend.inf"
+
+[[firewall]]
+name = "RVGL"
+program = "rvgl/rvgl.exe"
+
+# RVGL writes in-game edits (and looks for your own content) in the writable
+# pack, always packs/local under the base path; -prefpath doesn't move packs,
+# and the base path has to be the shared install for the packaged packs to be
+# found. So that one data-only folder is writable by Users; everything else
+# stays read-only. The install script creates it.
+[writable]
+dirs = ["rvgl/packs/local"]
+
+# rvgl.org publishes no checksums; hashed from the download.
+[[source]]
+name = "rvgl_23.1030a1_win64.7z"
+url = "https://rvgl.org/downloads/rvgl_23.1030a1_win64.7z"
+sha256 = "6d4721b1b5a96e24b2b683be3e0859e4cc91c13bfac278d6f60c8f71dab4ab45"
+
+[stage]
+container = "fedora"
+deps = ["bsdtar"]
+script = '''
+x=$WORK/rvgl
+mkdir -p "$x" "$STAGE/rvgl/packs/rvgl_assets"
+bsdtar -xf "$SRC/rvgl_23.1030a1_win64.7z" -C "$x"
+# As in the Linux install.sh: the program and its DLLs stay in the root,
+# everything else is RVGL's asset pack, except the per-user folders (in
+# %APPDATA%\RVGL), the icons, the OpenAL log helper (it writes to profiles\
+# in the install dir) and the docs, kept in the root.
+for f in "$x"/* "$x"/.[!.]*; do
+    [ -e "$f" ] || continue
+    n=${f##*/}
+    case $n in
+        *.exe|*.dll|licenses|rvgl_changelog.txt) cp -R "$f" "$STAGE/rvgl/" ;;
+        alsoft_log.bat|icons|cache|profiles|replays|times) ;;
+        *) cp -R "$f" "$STAGE/rvgl/packs/rvgl_assets/" ;;
+    esac
+done
+# packs/sample.txt came along with the assets; the packlist goes in packs/.
+rm -rf "$STAGE/rvgl/packs/rvgl_assets/packs"
+# The packlist RVGL loads when none is given (default.txt), in the order of
+# the Linux launcher (RVGL Launcher's "original" preset). Packs that aren't
+# installed are skipped ("Missing pack" in the log). "local" is the writable
+# pack for in-game edits and your own content.
+printf '%s\r\n' '; Written by the rvgl-bin package; changes are lost on upgrade.' \
+    '"game_files"' '"rvgl_assets"' '"rvgl_dcpack"' '"soundtrack"' '"local" *' \
+    > "$STAGE/rvgl/packs/default.txt"
+'''

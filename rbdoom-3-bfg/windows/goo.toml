@@ -1,0 +1,88 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "rbdoom-3-bfg"
+version = "1.6.0"
+release = 1
+arch = "x86_64"
+description = """
+RBDOOM-3-BFG, Robert Beckebans' modernized Doom 3 BFG Edition engine with DX12
+and Vulkan renderers, PBR, baked global illumination and soft shadows
+(upstream's Windows x64 build and standalone rbdmap compiler), installed next
+to the Doom 3 BFG data packages in C:\\Program Files\\Games\\doom3bfg.
+Configs, saves, screenshots and generated caches go to
+Saved Games\\id Software\\RBDOOM 3 BFG for each user (the engine's own default).
+
+Install the game data too: doom3bfg-data-steam or doom3bfg-data-gog; optionally
+rbdoom-3-bfg-gi-data for the baked global illumination and blood packs."""
+# Engine, NVRHI, ShaderMake, bundled OpenAL Soft and FFmpeg DLLs; see
+# LICENSE.md and LICENSE_EXCEPTIONS.md.
+license = "GPL-3.0-or-later AND MIT AND Apache-2.0 AND LGPL-2.1-or-later AND Zlib AND BSD-3-Clause"
+url = "https://github.com/RobertBeckebans/RBDOOM-3-BFG"
+release_notes = ["Initial GooGet package (upstream 1.6.0.22-full-win64-20250510-git-ba39ba6 build)"]
+
+# Same directory as doom3bfg-data-gog, doom3bfg-data-steam and
+# rbdoom-3-bfg-gi-data. Retail BFG keeps its configs, defs, materials and
+# textures inside .resources archives, so the engine's loose base/ files
+# (renderprogs2/, *.cfg, materials/, textures/, guis/, _tb/fgd/, _rbdoom_core.pk4)
+# do not exist in doom3bfg-data-*, and the two GI/blood .pk4s owned by
+# rbdoom-3-bfg-gi-data are excluded in [stage].
+[files]
+"doom3bfg" = "<ProgramFiles>/Games/doom3bfg"
+
+[[shortcut]]
+name = "Doom 3 BFG Edition (RBDOOM-3-BFG)"
+# Sys_DefaultBasePath() checks <exe dir>/base first and Sys_DefaultSavePath()
+# uses Saved Games\id Software\RBDOOM 3 BFG, so no path arguments are needed.
+target = "doom3bfg/RBDoom3BFG.exe"
+args = ""
+description = "Doom 3 BFG Edition"
+# The data packages create this when installed after rbdoom-3-bfg.
+requires = "doom3bfg/base/_common.resources"
+
+[[firewall]]
+name = "RBDOOM-3-BFG"
+program = "doom3bfg/RBDoom3BFG.exe"
+
+[[prereq]]
+name = "Microsoft Visual C++ 2019 Redistributable (x64)"
+path = "doom3bfg/redist/VC_redist.x64.exe"
+args = "/install /quiet /norestart"
+
+# Same upstream archive as rbdoom-3-bfg-gi-data (no upstream digest published;
+# SHA-256 verified against rbdoom-3-bfg-gi-data/package.toml).
+[[source]]
+name = "RBDOOM-3-BFG-1.6.0.22-full-win64-20250510-git-ba39ba6.7z"
+url = "https://github.com/RobertBeckebans/RBDOOM-3-BFG/releases/download/v1.6.0/RBDOOM-3-BFG-1.6.0.22-full-win64-20250510-git-ba39ba6.7z"
+sha256 = "f1b9a325cede2a281ece7d10a1a8bc48ce760d12ae23e37c62308631a886abae"
+
+[stage]
+container = "fedora"
+# Share the cached 1.6 GB .7z download in $PT_CACHE/rbdoom-3-bfg-gi-data/.
+source_dir = "rbdoom-3-bfg-gi-data"
+deps = ["bsdtar"]
+# Mirror the Linux install.sh (plus Windows's dxil shaders, _rbdoom_core.pk4,
+# runtime DLLs and bundled VC++ redistributable), stripping
+# _rbdoom_global_illumination_data.pk4 and _rbdoom_blood.pk4 (packaged
+# separately in rbdoom-3-bfg-gi-data) as well as shader PDBs, third-party
+# editor tools, TrenchBroom preview renders in base/_tb/ (keeping
+# base/_tb/fgd/*.fgd) and extra mod_* folders.
+script = '''
+x=$WORK/rbdoom d=$STAGE/doom3bfg
+a=$SRC/RBDOOM-3-BFG-1.6.0.22-full-win64-20250510-git-ba39ba6.7z
+mkdir -p "$x" "$d/redist" "$d/base/textures" "$d/base/_tb/fgd"
+bsdtar -xf "$a" -C "$x" \
+    --exclude='base/_rbdoom_global_illumination_data.pk4' \
+    --exclude='base/_rbdoom_blood.pk4' \
+    --exclude='*/PDB/*' \
+    --exclude='base/_tb/*' \
+    --exclude='tools/*' \
+    --exclude='mod_*'
+bsdtar -xf "$a" -C "$x" 'base/_tb/fgd' 'tools/runtimedeps/msvc2019/VC_redist.x64.exe'
+cp "$x"/RBDoom3BFG.exe "$x"/rbdmap.exe "$x"/*.dll \
+    "$x"/LICENSE.md "$x"/LICENSE_EXCEPTIONS.md "$x"/README.md "$x"/RELEASE-NOTES.md "$d/"
+cp "$x/tools/runtimedeps/msvc2019/VC_redist.x64.exe" "$d/redist/"
+cp "$x"/base/_rbdoom_core.pk4 "$x"/base/*.cfg "$d/base/"
+cp -R "$x"/base/renderprogs2 "$x"/base/materials "$x"/base/guis "$d/base/"
+find "$d/base/renderprogs2" -type d -name PDB -exec rm -rf {} +
+cp -R "$x"/base/textures/common "$x"/base/textures/editor "$d/base/textures/"
+cp "$x"/base/_tb/fgd/*.fgd "$d/base/_tb/fgd/"
+'''

@@ -1,6 +1,6 @@
 name = "ut2004-data-steam"
 family = "data-steam"
-release = 3
+release = 4
 summary = "Unreal Tournament 2004 ECE data from Steam"
 description = """
 Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
@@ -9,11 +9,12 @@ OldUnreal binaries from ut2004-bin."""
 url = "https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/"
 target = "/opt/ut2004"
 provides = ["ut2004-data"]
-conflicts = ["ut2004-data", "ut2004-gog"]
+conflicts = ["ut2004-data"]
 changelog = [
   "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
   "Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt",
   "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
+  "Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut",
 ]
 
 [source.steam]
@@ -64,3 +65,16 @@ ut_rm System UT2004.ini User.ini
 # Windows-only programs, libraries and redistributables.
 find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' -o -iname '*.msi' \) -delete
 '''
+
+[goo]
+description = """
+Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
+Steam with steamcmd and installed to C:\\Program Files\\Games\\ut2004. Play it
+with ut2004-bin."""
+
+[[goo.shortcut]]
+name = "Unreal Tournament 2004 (OldUnreal)"
+target = "ut2004/System/UT2004.exe"
+args = ""
+description = "Unreal Tournament 2004: Editor's Choice Edition"
+requires = "ut2004/System/UT2004.exe"

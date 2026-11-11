@@ -1,0 +1,53 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "cro-mag-rally-net"
+version = "3.2.0"
+release = 1
+arch = "x86_64"
+description = """
+Cro-Mag Rally, Pangea Software's prehistoric kart racer updated for modern
+systems by Iliyas Jorio, with experimental LAN multiplayer (upstream's
+self-contained Windows x64 build, including game data, SDL3 and the MSVC
+runtime). Preferences, player profiles and best race times go to
+%APPDATA%\\CroMagRally for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT) and bundled SDL3.dll
+# (Zlib); see License.txt and THIRD-PARTY-LICENSES.md.
+license = "CC-BY-NC-SA-4.0 AND MIT AND Zlib"
+url = "https://github.com/jm2/CroMagRally"
+provides = ["cro-mag-rally"]
+# Omit conflicts = ["cro-mag-rally"]: googet matches Conflicts against
+# installed packages' Provides too, including the older installed version of
+# this package during an upgrade, which would block self-upgrades. No separate
+# cro-mag-rally Windows package exists here; if one is added, conflict by its
+# real package name.
+conflicts = []
+release_notes = ["Initial GooGet package (upstream 3.2.0 Windows x64 build)"]
+
+[files]
+"cro-mag-rally" = "<ProgramFiles>/Games/cro-mag-rally"
+
+[[shortcut]]
+name = "Cro-Mag Rally"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\CroMagRally), and the game data ships
+# inside this package, so neither path arguments nor requires are needed.
+target = "cro-mag-rally/CroMagRally.exe"
+args = ""
+description = "The wildest racing game since man invented the wheel!"
+
+[[firewall]]
+name = "Cro-Mag Rally"
+program = "cro-mag-rally/CroMagRally.exe"
+
+[[source]]
+name = "CroMagRally-3.2.0-windows-x64.zip"
+url = "https://github.com/jm2/CroMagRally/releases/download/v3.2.0/CroMagRally-3.2.0-windows-x64.zip"
+sha256 = "d3298d58bd2e6e2da3e48af6620ed601b242135e79b566bbcbf6b958212eb8e9"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols, matching the stripped Linux binary package.
+script = '''
+unzip -q -o "$SRC/CroMagRally-3.2.0-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/CroMagRally-3.2.0" "$STAGE/cro-mag-rally"
+rm -f "$STAGE/cro-mag-rally/CroMagRally.pdb"
+'''

@@ -1,0 +1,42 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "billy-frontier"
+version = "1.1.1"
+release = 1
+arch = "x86_64"
+description = """
+Billy Frontier, Pangea Software's "cowboys in space" arcade action game updated
+for modern systems by Iliyas Jorio (upstream's self-contained Windows x64
+build, including game data, SDL2 and the MSVC runtime). Preferences and high
+scores go to %APPDATA%\\BillyFrontier for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT) and bundled SDL2.dll
+# (Zlib).
+license = "CC-BY-NC-SA-4.0 AND MIT AND Zlib"
+url = "https://github.com/jorio/BillyFrontier"
+release_notes = ["Initial GooGet package (upstream 1.1.1 Windows x64 build)"]
+
+[files]
+"billy-frontier" = "<ProgramFiles>/Games/billy-frontier"
+
+[[shortcut]]
+name = "Billy Frontier"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\BillyFrontier), and the game data
+# ships inside this package, so neither path arguments nor requires are needed.
+target = "billy-frontier/BillyFrontier.exe"
+args = ""
+description = "Cowboys in space"
+
+# Upstream publishes no release digest; SHA-256 computed from the v1.1.1 asset.
+[[source]]
+name = "BillyFrontier-1.1.1-windows-x64.zip"
+url = "https://github.com/jorio/BillyFrontier/releases/download/v1.1.1/BillyFrontier-1.1.1-windows-x64.zip"
+sha256 = "c574a4a1b928d6e85b9ef20ef544769489844d7e394182c00999fcb5c567ed36"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols, matching the stripped Linux binary package.
+script = '''
+unzip -q -o "$SRC/BillyFrontier-1.1.1-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/BillyFrontier-1.1.1" "$STAGE/billy-frontier"
+rm -f "$STAGE/billy-frontier/BillyFrontier.pdb"
+'''

@@ -147,6 +147,20 @@ def ps_quote(s: str) -> str:
     return "'" + s.replace("'", "''") + "'"
 
 
+def lnk_filename(name: str) -> str:
+    """Turn a shortcut display name into a valid Windows .lnk filename.
+
+    A colon in CreateShortcut's path silently writes an NTFS alternate data
+    stream on an extensionless 0-byte file; a slash looks for a subdirectory.
+    """
+    s = re.sub(r"\s+/\s+", " - ", name)
+    s = re.sub(r'[<>:"/\\|?*]+', "", s)
+    s = " ".join(s.split()).rstrip(". ")
+    if not s:
+        sys.exit(f"goopack: shortcut name {name!r} leaves an empty filename")
+    return s + ".lnk"
+
+
 def win_dest(dest: str) -> str:
     """googet destination ("<ProgramFiles>/Games/x") as a PowerShell expression."""
     m = re.match(r"^<([^>]+)>(.*)$", dest)
@@ -196,7 +210,7 @@ def scripts(m: dict) -> tuple[str, str] | None:
         ins += ["New-Item -ItemType Directory -Force -Path $menu | Out-Null",
                 "$sh = New-Object -ComObject WScript.Shell"]
         for s in sc:
-            lnk = f"(Join-Path $menu {ps_quote(s['name'] + '.lnk')})"
+            lnk = f"(Join-Path $menu {ps_quote(lnk_filename(s['name']))})"
             target = resolve(files, s["target"])
             if s.get("requires"):
                 # An engine and its data are separate packages: whichever is

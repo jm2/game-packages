@@ -13,7 +13,7 @@
 
 Name:           ut2004-data-archiveorg
 Version:        3369
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Unreal Tournament 2004 ECE data from the OldUnreal DVD image
 License:        LicenseRef-Proprietary
 URL:            https://www.oldunreal.com/downloads/unreal-tournament-2004/full-game-installers/
@@ -28,7 +28,6 @@ BuildRequires:  unshield
 Recommends:     ut2004-bin
 Provides:       ut2004-data
 Conflicts:      ut2004-data
-Conflicts:      ut2004-gog
 
 %description
 Game data for Unreal Tournament 2004: Editor's Choice Edition, unpacked from
@@ -48,8 +47,9 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3369-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3369-5
 - Generated package (tools/gen.py); builds for Arch, Fedora and Debian
 - sha256 for UT2004.ISO from OldUnreal's installer instead of md5
 - Unpack the InstallShield groups the way OldUnreal's installer does (English only)
 - Drop the files ut2004-bin ships in any letter case, and the old Windows ini files
+- Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut

@@ -17,3 +17,14 @@ remove = ["*.vdf"]
 
 [source.steam]
 appid = 7940
+
+[goo]
+# Windows release 3 (= 2 + 1) is above the published @2 (KisakCOD shortcut).
+release_offset = 1
+
+[[goo.shortcut]]
+name = "Call of Duty 4 Modern Warfare (KisakCOD)"
+target = "cod4/KisakCOD-mp.exe"
+args = ""
+description = "Call of Duty 4: Modern Warfare multiplayer"
+requires = "cod4/KisakCOD-mp.exe"

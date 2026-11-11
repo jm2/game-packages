@@ -41,3 +41,12 @@ bad=$(find . -name '*[[:upper:]]*' | head -n 5)
 # Plain data: the archive marks many files executable.
 find . -type f -exec chmod 644 {} +
 '''
+
+[goo]
+# Windows release 2 (= 1 + 1) is above the published @1 (Windows description).
+release_offset = 1
+description = """
+The original Re-Volt soundtrack (based on the Dreamcast version) as Ogg
+Vorbis files, installed as RVGL's soundtrack pack in
+C:\\Program Files\\Games\\rvgl\\packs\\soundtrack and downloaded at build time
+from Re-Volt I/O. Needs rvgl-bin and a Re-Volt data package."""

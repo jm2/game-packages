@@ -3,7 +3,7 @@
 
 pkgname=ut2004-data-archiveorg
 pkgver=3369
-pkgrel=4
+pkgrel=5
 pkgdesc='Unreal Tournament 2004 ECE data from the OldUnreal DVD image'
 arch=('any')
 url='https://www.oldunreal.com/downloads/unreal-tournament-2004/full-game-installers/'
@@ -11,7 +11,7 @@ license=('LicenseRef-Proprietary')
 makedepends=('libarchive' 'unshield')
 optdepends=('ut2004-bin: native binaries to play the game')
 provides=('ut2004-data')
-conflicts=('ut2004-data' 'ut2004-gog')
+conflicts=('ut2004-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"

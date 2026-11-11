@@ -1,6 +1,7 @@
 name = "revolt-data-revoltio"
 family = "data-url"
 version = "22.0909"
+release = 2
 summary = "Re-Volt game data for RVGL from Re-Volt I/O"
 description = """
 The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
@@ -10,8 +11,8 @@ for RVGL Launcher, and installed as RVGL's game_files pack in
 url = "https://re-volt.io/downloads/game"
 target = "/opt/rvgl/packs/game_files"
 provides = ["revolt-data"]
-conflicts = ["revolt-data", "revolt-data-steam"]
-changelog = ["Initial package: Re-Volt I/O game_files 22.0909"]
+conflicts = ["revolt-data"]
+changelog = ["Initial package: Re-Volt I/O game_files 22.0909", "Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)"]
 notes = """
 Re-Volt I/O hosts these files "for the sake of game preservation": the game
 is abandonware, its rights belong to WeGo Interactive, and there is no
@@ -49,3 +50,17 @@ bad=$(find . -name '*[[:upper:]]*' | head -n 5)
 # Plain data: the archive marks many files executable.
 find . -type f -exec chmod 644 {} +
 '''
+
+[goo]
+description = """
+The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
+downloaded at build time from Re-Volt I/O, the community site that hosts them
+for RVGL Launcher, and installed as RVGL's game_files pack in
+C:\\Program Files\\Games\\rvgl\\packs\\game_files. Play it with rvgl-bin."""
+
+[[goo.shortcut]]
+name = "Re-Volt (RVGL)"
+target = "rvgl/rvgl.exe"
+args = "-prefpath \"%APPDATA%\\RVGL\""
+description = "Re-Volt, the radio-controlled car racer, on the RVGL engine"
+requires = "rvgl/rvgl.exe"

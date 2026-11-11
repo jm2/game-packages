@@ -1,0 +1,96 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "ut2004-bin"
+# Match PKGBUILD's pkgver = "3374" (not "3374~rc3", which goo_version turns
+# into 3374.3.0 and would sort above a final 3374 release's 3374.0.0).
+version = "3374"
+release = 1
+arch = "x86_64"
+description = """
+Unreal Tournament 2004 community-maintained engine from OldUnreal (upstream's
+Windows x64 3374-rc3 preview build), installed next to the UT2004 data
+packages. Defaults to the Direct3D 11 renderer and generates a CD key in your
+user registry on first start if none is set.
+
+Install a game data package too: ut2004-data-gog, ut2004-data-steam or
+ut2004-data-archiveorg. Needs the Microsoft Visual C++ 2015-2022 (x64)
+runtime installed on Windows.
+
+OldUnreal's Windows UT2004 build has no per-user home-directory option yet, so
+settings, profiles, saves, cache and screenshots live in the install tree's
+writable folders (every .exe and .dll stays read-only)."""
+license = "LicenseRef-OldUnreal"
+url = "https://github.com/OldUnreal/UT2004Patches"
+release_notes = ["Initial GooGet package (upstream OldUnreal 3374-rc3 Windows x64 build d906d39a)"]
+provides = ["ut2004"]
+
+[files]
+"ut2004" = "<ProgramFiles>/Games/ut2004"
+
+[[shortcut]]
+name = "Unreal Tournament 2004 (OldUnreal)"
+target = "ut2004/System/UT2004.exe"
+args = ""
+description = "Unreal Tournament 2004: Editor's Choice Edition"
+# The data packages create this when they're installed after ut2004-bin.
+requires = "ut2004/Maps/Entry.ut2"
+
+[[firewall]]
+name = "Unreal Tournament 2004 (OldUnreal)"
+program = "ut2004/System/UT2004.exe"
+
+[[firewall]]
+name = "Unreal Tournament 2004 dedicated server (OldUnreal)"
+program = "ut2004/System/UCC.exe"
+
+# OldUnreal's Windows UT2004 build has no -homedir/-SETHOMEDIR support yet
+# (UT2004Patches#490): UT2004.exe writes UT2004.ini, User.ini, UT2004.log,
+# Running.ini, Detected.ini and *.ucl in System/, UManifest hardcodes ..\Saves
+# for single-player profiles, and Default.ini/engine paths write to Cache,
+# Demos, Save, Screenshots, UserLogs and UserMovies. goopack.py pre-creates
+# these folders with Users:(OI)(CI)M and strips write access from every .exe
+# and .dll inside them so binaries stay read+execute only.
+[writable]
+dirs = [
+  "ut2004/Cache",
+  "ut2004/Demos",
+  "ut2004/Save",
+  "ut2004/Saves",
+  "ut2004/Screenshots",
+  "ut2004/System",
+  "ut2004/UserLogs",
+  "ut2004/UserMovies",
+]
+
+# Zip sha256 matches GitHub's published 3374-rc3 release asset digest and the
+# download; LICENSE.md is not in the zip and is fetched from the 3374-rc3 tag
+# (same commit as PKGBUILD).
+[[source]]
+name = "OldUnreal-UT2004Patch3374-Windows-d906d39a.zip"
+url = "https://github.com/OldUnreal/UT2004Patches/releases/download/3374-rc3/OldUnreal-UT2004Patch3374-Windows-d906d39a.zip"
+sha256 = "16bd65fcf736163e1f00fbb9404a492489bea6869d87496dcd15c2fed4d96dd2"
+
+[[source]]
+name = "LICENSE-3374-rc3.md"
+url = "https://raw.githubusercontent.com/OldUnreal/UT2004Patches/3374-rc3/LICENSE.md"
+sha256 = "e6dadad5fccc4a9f41886b5db2ca06b5a5fe019fdd06ac66d3ef5e5dcb6a4391"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+mkdir -p "$STAGE/ut2004"
+unzip -q -o "$SRC/OldUnreal-UT2004Patch3374-Windows-d906d39a.zip" -d "$STAGE/ut2004"
+cp "$SRC/LICENSE-3374-rc3.md" "$STAGE/ut2004/LICENSE.md"
+# Drop the empty SystemARM64 directory and the Windows-only bitmaps that the
+# ut2004-data-* packages already supply (they weren't in the Linux tarball).
+rm -rf "$STAGE/ut2004/SystemARM64" "$STAGE/ut2004/System/editorres" \
+    "$STAGE/ut2004/System/edsplash.bmp" "$STAGE/ut2004/Help/ut2004logo.bmp"
+# Upstream's Default.ini selects D3D9Drv, which links against the legacy
+# DirectX End-User Runtime's d3dx9_43.dll (absent on clean Windows 10/11,
+# crashing at startup: UT2004Patches#572). Switch [Engine.Engine] to D3D11Drv,
+# which uses Windows' built-in d3d11.dll and D3DCOMPILER_47.dll.
+sed -b -i \
+    -e 's/^;RenderDevice=D3D11Drv\.D3D11RenderDevice/RenderDevice=D3D11Drv.D3D11RenderDevice/' \
+    -e '/^\[Engine\.Engine\]/,/^\[/{s/^RenderDevice=D3D9Drv\.D3D9RenderDevice/;RenderDevice=D3D9Drv.D3D9RenderDevice/;}' \
+    "$STAGE/ut2004/System/Default.ini"
+grep -q '^RenderDevice=D3D11Drv\.D3D11RenderDevice' "$STAGE/ut2004/System/Default.ini"
+'''

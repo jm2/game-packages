@@ -3,7 +3,7 @@
 
 pkgname=revolt-data-revoltio
 pkgver=22.0909
-pkgrel=1
+pkgrel=2
 pkgdesc='Re-Volt game data for RVGL from Re-Volt I/O'
 arch=('any')
 url='https://re-volt.io/downloads/game'
@@ -11,7 +11,7 @@ license=('LicenseRef-Proprietary')
 makedepends=('unzip')
 optdepends=('rvgl-bin: the RVGL engine to play the game')
 provides=('revolt-data')
-conflicts=('revolt-data' 'revolt-data-steam')
+conflicts=('revolt-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"

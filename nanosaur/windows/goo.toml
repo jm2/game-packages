@@ -1,0 +1,44 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "nanosaur"
+version = "1.4.4"
+release = 1
+arch = "x86_64"
+description = """
+Nanosaur, Pangea Software's cybernetic dinosaur third-person shooter updated
+for modern systems by Iliyas Jorio (upstream's self-contained Windows x64
+build, including game data, SDL2 and the MSVC runtime). Preferences go to
+%APPDATA%\\Nanosaur for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT), original Nanosaur public
+# source rules (LicenseRef-Pangea) and bundled SDL2.dll (Zlib).
+license = "CC-BY-NC-SA-4.0 AND MIT AND LicenseRef-Pangea AND Zlib"
+url = "https://github.com/jorio/Nanosaur"
+release_notes = ["Initial GooGet package (upstream 1.4.4 Windows x64 build)"]
+
+[files]
+"nanosaur" = "<ProgramFiles>/Games/nanosaur"
+
+[[shortcut]]
+name = "Nanosaur"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\Nanosaur), and the game data ships
+# inside this package, so neither path arguments nor requires are needed.
+target = "nanosaur/Nanosaur.exe"
+args = ""
+description = "Send dinosaur eggs to the future before a meteor hits the Earth!"
+
+# Upstream publishes no release digest; SHA-256 computed from the v1.4.4 asset.
+[[source]]
+name = "Nanosaur-1.4.4-windows-x64.zip"
+url = "https://github.com/jorio/Nanosaur/releases/download/v1.4.4/Nanosaur-1.4.4-windows-x64.zip"
+sha256 = "5462fe111e207f8d2953533c4948081cfd01a0d189d47c8cd696d673d1624b13"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols and include Pangea's original source notice next
+# to License.txt, matching the Linux package.
+script = '''
+unzip -q -o "$SRC/Nanosaur-1.4.4-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/Nanosaur-1.4.4" "$STAGE/nanosaur"
+rm -f "$STAGE/nanosaur/Nanosaur.pdb"
+install -m644 "$PKGDIR/LICENSE.upstream" "$STAGE/nanosaur/Pangea-LICENSE.txt"
+'''

@@ -13,7 +13,7 @@
 
 Name:           revolt-data-revoltio
 Version:        22.0909
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Re-Volt game data for RVGL from Re-Volt I/O
 License:        LicenseRef-Proprietary
 URL:            https://re-volt.io/downloads/game
@@ -27,7 +27,6 @@ BuildRequires:  unzip
 Recommends:     rvgl-bin
 Provides:       revolt-data
 Conflicts:      revolt-data
-Conflicts:      revolt-data-steam
 
 %description
 The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
@@ -47,5 +46,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 22.0909-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 22.0909-2
 - Initial package: Re-Volt I/O game_files 22.0909
+- Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)

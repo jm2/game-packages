@@ -14,7 +14,7 @@
 Name:           doom3xp-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Doom 3: Resurrection of Evil data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/
@@ -26,7 +26,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  python3
 Requires:       doom3-data
 Provides:       doom3xp-data
-Conflicts:      doom3-data-gog
+Conflicts:      doom3xp-data
 
 %description
 Doom 3: Resurrection of Evil data via Steam
@@ -48,3 +48,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
 - Require doom3-data; conflict with doom3-data-gog, which includes the expansion
+- Conflict with the virtual doom3xp-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)

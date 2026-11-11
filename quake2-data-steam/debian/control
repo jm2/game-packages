@@ -11,6 +11,6 @@ Package: quake2-data-steam
 Architecture: all
 Depends: ${misc:Depends}
 Provides: quake2-data, quake2-full-data
-Conflicts: quake2-data-gog
+Conflicts: quake2-data, quake2-full-data
 Description: Quake II data via Steam
  Quake II data via Steam

@@ -13,7 +13,7 @@
 
 Name:           ut2004-data-gog
 Version:        3369
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Unreal Tournament 2004 ECE data from GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/unreal_tournament_2004_ece
@@ -28,7 +28,6 @@ BuildRequires:  innoextract
 Recommends:     ut2004-bin
 Provides:       ut2004-data
 Conflicts:      ut2004-data
-Conflicts:      ut2004-gog
 
 %description
 Game data for Unreal Tournament 2004: Editor's Choice Edition, extracted from
@@ -47,6 +46,7 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3369-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 3369-4
 - Generated package (tools/gen.py); builds for Arch, Fedora and Debian
 - Drop the files ut2004-bin ships in any letter case, and the old Windows ini files
+- Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut

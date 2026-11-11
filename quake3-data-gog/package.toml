@@ -1,16 +1,17 @@
 name = "quake3-data-gog"
 family = "data-gog"
 version = "1"
-release = 5
+release = 6
 summary = "Quake III Arena and Team Arena data via GOG"
 url = "https://www.gog.com/game/quake_iii_gold"
 target = "/opt/quake3"
 provides = ["quake3-data", "quake3-ta-data"]
-conflicts = ["quake3-data-steam", "quake3-ta-data-steam"]
+conflicts = ["quake3-data", "quake3-ta-data", "quake3-ta-data-steam"]
 changelog = [
   "Generated from package.toml",
   "Also provide quake3-ta-data (Team Arena is included)",
   "Depend on quake3-pointrelease-data for the 1.32 point release paks",
+  "Conflict with the virtual quake3-data/quake3-ta-data instead of naming the other source packages, like every Quake III data package (Windows lists the providers by name)",
 ]
 notes = """
 baseq3/pak0.pk3 and missionpack/pak0.pk3 for ioquake3-based engines such as

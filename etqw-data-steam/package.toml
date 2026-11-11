@@ -15,3 +15,14 @@ appid = 10000
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
 copy = ["base/pak00[0-4].pk4", "base/zpak*000.pk4", "base/megatextures", "base/video"]
+
+[goo]
+# Windows release 3 (= 2 + 1) is above the published @2 (openETQW shortcut).
+release_offset = 1
+
+[[goo.shortcut]]
+name = "Enemy Territory QUAKE Wars (openETQW)"
+target = "etqw/openETQW-client_x64.exe"
+args = ""
+description = "Enemy Territory: QUAKE Wars"
+requires = "etqw/openETQW-client_x64.exe"

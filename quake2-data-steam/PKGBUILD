@@ -3,14 +3,14 @@
 
 pkgname=quake2-data-steam
 pkgver=0
-true && pkgrel=1
+true && pkgrel=2
 pkgdesc='Quake II data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2320/Quake_II/'
 license=('LicenseRef-Proprietary')
 makedepends=('steamcmd' 'python')
 provides=('quake2-data' 'quake2-full-data')
-conflicts=('quake2-data-gog')
+conflicts=('quake2-data' 'quake2-full-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")

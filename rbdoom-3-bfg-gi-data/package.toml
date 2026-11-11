@@ -33,3 +33,16 @@ copy = ["base/_rbdoom_global_illumination_data.pk4", "base/_rbdoom_blood.pk4"]
 arch = ["rbdoom-3-bfg"]
 fedora = ["rbdoom-3-bfg"]
 debian = ["rbdoom-3-bfg"]
+
+[goo]
+# Windows release 2 (= 1 + 1) is above the published 1.6.0@1 (Windows
+# description and rbdoom-3-bfg dependency).
+release_offset = 1
+deps = ["rbdoom-3-bfg"]
+description = """
+The two data packs from RBDOOM-3-BFG's release archive that are not built
+from source: _rbdoom_global_illumination_data.pk4, the baked light grids and
+environment probes of the Doom 3 BFG campaign maps, and _rbdoom_blood.pk4,
+the reflective blood materials those probes were baked for. Installed next
+to the retail data in C:\\Program Files\\Games\\doom3bfg\\base; extracted at
+build time from the upstream Windows release archive (1.6 GB download)."""

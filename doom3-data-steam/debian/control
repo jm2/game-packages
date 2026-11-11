@@ -11,6 +11,6 @@ Package: doom3-data-steam
 Architecture: all
 Depends: ${misc:Depends}
 Provides: doom3-data
-Conflicts: doom3-data-gog
+Conflicts: doom3-data
 Description: Doom 3 data via Steam
  Doom 3 data via Steam

@@ -13,7 +13,7 @@
 
 Name:           doom3-data-gog
 Version:        1.3.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Doom 3 and Resurrection of Evil data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/doom_3
@@ -27,8 +27,8 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  innoextract
 Provides:       doom3-data
 Provides:       doom3xp-data
-Conflicts:      doom3-data-steam
-Conflicts:      doom3xp-data-steam
+Conflicts:      doom3-data
+Conflicts:      doom3xp-data
 
 %description
 Doom 3 and Resurrection of Evil data via GOG
@@ -45,5 +45,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.3.1-2
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.3.1-3
 - Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)
+- Conflict with the virtual doom3-data/doom3xp-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)

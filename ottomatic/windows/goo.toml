@@ -1,0 +1,42 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "ottomatic"
+version = "4.0.1"
+release = 1
+arch = "x86_64"
+description = """
+Otto Matic, Pangea Software's 3D action game starring Otto the robot, updated
+for modern systems by Iliyas Jorio (upstream's self-contained Windows x64
+build, including game data, SDL2 and the MSVC runtime). Preferences and saved
+games go to %APPDATA%\\OttoMatic for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT) and bundled SDL2.dll
+# (Zlib).
+license = "CC-BY-NC-SA-4.0 AND MIT AND Zlib"
+url = "https://github.com/jorio/ottomatic"
+release_notes = ["Initial GooGet package (upstream 4.0.1 Windows x64 build)"]
+
+[files]
+"ottomatic" = "<ProgramFiles>/Games/ottomatic"
+
+[[shortcut]]
+name = "Otto Matic"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\OttoMatic), and the game data ships
+# inside this package, so neither path arguments nor requires are needed.
+target = "ottomatic/OttoMatic.exe"
+args = ""
+description = "Save the Earth from the clutches of the Giant Brain from Planet X"
+
+# Upstream publishes no release digest; SHA-256 computed from the 4.0.1 asset.
+[[source]]
+name = "OttoMatic-4.0.1-windows-x64.zip"
+url = "https://github.com/jorio/OttoMatic/releases/download/4.0.1/OttoMatic-4.0.1-windows-x64.zip"
+sha256 = "974a8cebcc25c6c691bdd8461b78a5410a74771c56a7b1c1234cae7da8f7cfa1"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols, matching the stripped Linux binary package.
+script = '''
+unzip -q -o "$SRC/OttoMatic-4.0.1-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/OttoMatic-4.0.1" "$STAGE/ottomatic"
+rm -f "$STAGE/ottomatic/OttoMatic.pdb"
+'''

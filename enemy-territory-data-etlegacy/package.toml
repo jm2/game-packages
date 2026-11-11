@@ -71,6 +71,24 @@ the ET: Legacy mirror and used under the EULA in
 [install]
 extra_paths = ["/usr/share/licenses/enemy-territory-data-etlegacy/"]
 
+[goo]
+# Windows release 2 (= 1 + 1) is above the published 2.60b@1 (new
+# description and ET: Legacy shortcut).
+release_offset = 1
+description = """
+The original data files of Wolfenstein: Enemy Territory 2.60b (pak0.pk3,
+pak1.pk3 and pak2.pk3), the free stand-alone game by Splash Damage and id
+Software, installed to the etmain folder of C:\\Program Files\\Games\\enemy-territory.
+They are downloaded from mirror.etlegacy.com/etmain, the copy the ET: Legacy
+client itself downloads them from. Play them with ET: Legacy (etlegacy-bin)."""
+
+[[goo.shortcut]]
+name = "Wolfenstein Enemy Territory (ET Legacy)"
+target = "enemy-territory/etl.exe"
+args = ""
+description = "Wolfenstein: Enemy Territory"
+requires = "enemy-territory/etl.exe"
+
 [hooks]
 post_install = '''
 # The EULA is the licence of the data; keep it out of the game tree.

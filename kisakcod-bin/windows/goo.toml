@@ -1,0 +1,71 @@
+# GooGet (Windows) package; built by tools/goo-build.
+#
+# UNPUBLISHED: the KisakCOD v0.1.0 release on jm2/kisakcod is still a draft, so
+# the GitHub release URL below returns 404 until it is published (same as the
+# Linux tarballs in PKGBUILD; note the current draft names the archive
+# -client.zip without -beta). To build before publishing, pre-populate the
+# source cache with:
+#   gh release download v0.1.0 -R jm2/kisakcod -p 'kisakcod-0.1.0-windows-x64-client.zip' \
+#       -D "${PT_CACHE:-/var/tmp/linux-packages-cache}/kisakcod-bin-goo"
+# Re-check sha256 if the draft release is rebuilt before publishing.
+name = "kisakcod-bin"
+version = "0.1.0"
+release = 1
+arch = "x86_64"
+description = """
+KisakCOD, the native 64-bit Call of Duty 4: Modern Warfare (1.8) multiplayer
+client and dedicated server (upstream's Windows x64 build), installed next to
+the Call of Duty 4 data package in C:\\Program Files\\Games\\cod4. Client
+profiles, settings, downloads and logs go to %APPDATA%\\KisakCOD for each user
+(the client's own default).
+
+Install the game data too: cod4-data-steam.
+
+When running KisakCOD-dedi.exe from a command prompt against the read-only
+install directory, pass +set fs_homepath \"%APPDATA%\\KisakCOD\"."""
+license = "GPL-3.0-only AND BSD-3-Clause AND Zlib AND LGPL-2.1-or-later AND LGPL-2.0-or-later"
+url = "https://github.com/jm2/kisakcod"
+release_notes = ["Initial GooGet package (upstream 0.1.0 Windows x64 build)"]
+
+# Same directory as cod4-data-steam (Steam app 7940, 2007 DirectX 9 release
+# using mss32.dll/binkw32.dll). Upstream names its executables and docs
+# KisakCOD-* to sit beside iw3mp.exe, and none of its bundled DLLs
+# (OpenAL32.dll, avcodec-63/avformat-63/avutil-61.dll, msvcp140/vcruntime140*.dll)
+# exist in the Steam depot; cod4-wine-steam is wine-launcher (Linux-only).
+[files]
+"cod4" = "<ProgramFiles>/Games/cod4"
+
+[[shortcut]]
+# Avoid ':' in shortcut names: goopack uses <name>.lnk, and ':' on NTFS writes
+# an Alternate Data Stream instead of a visible Start Menu .lnk file.
+name = "Call of Duty 4 Modern Warfare (KisakCOD)"
+# fs_basepath defaults to the working directory (the shortcut's: the install
+# dir) and fs_homepath on the client defaults to %APPDATA%\KisakCOD, so no
+# arguments are needed.
+target = "cod4/KisakCOD-mp.exe"
+args = ""
+description = "Call of Duty 4: Modern Warfare multiplayer"
+# cod4-data-steam creates this when installed after kisakcod-bin.
+requires = "cod4/main/iw_00.iwd"
+
+[[firewall]]
+name = "KisakCOD"
+program = "cod4/KisakCOD-mp.exe"
+
+[[firewall]]
+name = "KisakCOD dedicated server"
+program = "cod4/KisakCOD-dedi.exe"
+
+# kisakcod-0.1.0-windows-x64-client.zip includes both KisakCOD-mp.exe and
+# KisakCOD-dedi.exe plus the app-local OpenAL Soft, FFmpeg and MSVC CRT DLLs.
+[[source]]
+name = "kisakcod-0.1.0-windows-x64-client.zip"
+url = "https://github.com/jm2/kisakcod/releases/download/v0.1.0/kisakcod-0.1.0-windows-x64-client.zip"
+sha256 = "f9d62555dcf34b16fea99b76442b9c8f24790ff9165ba51e83252f1ce633320e"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+unzip -q -o "$SRC/kisakcod-0.1.0-windows-x64-client.zip" -d "$STAGE"
+mv "$STAGE/kisakcod-0.1.0-windows-x64-client" "$STAGE/cod4"
+'''

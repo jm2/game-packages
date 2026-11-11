@@ -1,0 +1,80 @@
+# GooGet (Windows) package; built by tools/goo-build.
+#
+# UNPUBLISHED: the openETQW v0.1.0 release on jm2/openETQW is still a draft, so
+# the GitHub release URL below returns 404 until it is published (same as the
+# Linux tarballs in PKGBUILD). To build before publishing, pre-populate the
+# source cache with:
+#   gh release download v0.1.0 -R jm2/openETQW -p 'openetqw-0.1.0-windows-x64.zip' \
+#       -D "${PT_CACHE:-/var/tmp/linux-packages-cache}/openetqw-bin-goo"
+# Re-check sha256 if the draft release is rebuilt before publishing.
+name = "openetqw-bin"
+version = "0.1.0"
+release = 1
+arch = "x86_64"
+description = """
+openETQW, the open-source Enemy Territory: QUAKE Wars 1.5 engine with Vulkan
+and OpenGL renderers (upstream's Windows x64 build, plus the ET:QW 1.5 patch
+paks pak005-pak008 from id Software's client patch), installed next to the
+ET:QW data package in C:\\Program Files\\Games\\etqw. Configs, logs and the
+shader cache go to %LOCALAPPDATA%\\openETQW for each user (the engine's own
+default).
+
+Install the game data too: etqw-data-steam."""
+license = "GPL-3.0-or-later AND LicenseRef-ETQW-SDK-EULA AND LicenseRef-ETQW-EULA AND LicenseRef-ETQW-Retail AND Zlib AND MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0"
+url = "https://github.com/jm2/openETQW"
+release_notes = ["Initial GooGet package (upstream 0.1.0 Windows x64 build + ET:QW 1.5 patch paks)"]
+
+# Same directory as etqw-data-steam, which installs base/pak000-pak004.pk4,
+# base/zpak*000.pk4, base/megatextures/ and base/video/; this package adds the
+# root binaries/DLLs, base/glprogs/, base/vkprogs/ and the 1.5 patch paks
+# (pak005-pak008, zpak_english001-003), so no files overlap.
+[files]
+"etqw" = "<ProgramFiles>/Games/etqw"
+
+[[shortcut]]
+# Avoid ':' in shortcut names: goopack uses <name>.lnk, and ':' on NTFS writes
+# an Alternate Data Stream instead of a visible Start Menu .lnk file.
+name = "Enemy Territory QUAKE Wars (openETQW)"
+# Installed next to base/ (with the shortcut's working directory set to the
+# install dir), openETQW finds base/ automatically and stores user state in
+# %LOCALAPPDATA%\openETQW.
+target = "etqw/openETQW-client_x64.exe"
+args = ""
+description = "Enemy Territory: QUAKE Wars"
+# etqw-data-steam creates this when installed after openetqw-bin.
+requires = "etqw/base/pak000.pk4"
+
+[[firewall]]
+name = "openETQW"
+program = "etqw/openETQW-client_x64.exe"
+
+[[firewall]]
+name = "openETQW dedicated server"
+program = "etqw/openETQW-ded_x64.exe"
+
+[[source]]
+name = "openetqw-0.1.0-windows-x64.zip"
+url = "https://github.com/jm2/openETQW/releases/download/v0.1.0/openetqw-0.1.0-windows-x64.zip"
+sha256 = "a8faf63a2c64e93b8842f55830f3098155522c96fa27bf5282319801923633c9"
+
+# ET:QW 1.5 patch paks (pak005-pak008 required at startup, plus optional
+# zpak_english001-003) from id's Linux 1.5 client patch (MojoSetup: stub + zip),
+# matching the Linux package.
+[[source]]
+name = "ETQW-client-1.5-full.x86.run"
+url = "https://cdn.splashdamage.com/downloads/games/etqw/ETQW-client-1.5-full.x86.run"
+sha256 = "827395c5ad7bff36a8456f7f210ab43b8cc2b0d18e9f366d15ff4f11eacfc4c5"
+
+[stage]
+container = "fedora"
+deps = ["bsdtar", "unzip"]
+script = '''
+unzip -q -o "$SRC/openetqw-0.1.0-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/openetqw-0.1.0-windows-x64" "$STAGE/etqw"
+mkdir -p "$WORK/etqw-1.5"
+bsdtar -xf "$SRC/ETQW-client-1.5-full.x86.run" -C "$WORK/etqw-1.5" \
+    'data/base/pak00[5-8].pk4' 'data/base/zpak_english00[1-3].pk4' data/EULA.txt
+cp "$WORK"/etqw-1.5/data/base/pak00[5-8].pk4 \
+    "$WORK"/etqw-1.5/data/base/zpak_english00[1-3].pk4 "$STAGE/etqw/base/"
+cp "$WORK/etqw-1.5/data/EULA.txt" "$STAGE/etqw/licenses/ETQW-EULA.txt"
+'''

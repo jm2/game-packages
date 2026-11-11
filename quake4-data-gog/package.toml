@@ -1,13 +1,13 @@
 name = "quake4-data-gog"
 family = "data-gog"
 version = "1"
-release = 4
+release = 5
 summary = "Quake 4 data via GOG"
 url = "https://www.gog.com/game/quake_4"
 target = "/opt/quake4"
 provides = ["quake4-data"]
-conflicts = ["quake4-data-steam"]
-changelog = ["Generated from package.toml"]
+conflicts = ["quake4-data"]
+changelog = ["Generated from package.toml", "Conflict with the virtual quake4-data instead of naming the other source packages, like every Quake 4 data package (Windows lists the providers by name)"]
 
 [[source.files]]
 name = "setup_quake_iv_1.4.3_lang_update_(63131).exe"
@@ -20,3 +20,10 @@ copy = ["q4base/pak00[1-9].pk4", "q4base/pak01[0-2].pk4", "q4base/zpak*h.pk4"]
 name = "setup_quake_iv_1.4.3_lang_update_(63131)-1.bin"
 url = "gogdownloader://quake_4_game/en1installer1"
 sha256 = "d3870c9dd56a5189acda1330b76d21897a5dcd515880a888586380f4ea2e5ea7"
+
+[[goo.shortcut]]
+name = "Quake 4 (openQ4)"
+target = "quake4/openQ4-client_x64.exe"
+args = ""
+description = "Quake 4"
+requires = "quake4/openQ4-client_x64.exe"

@@ -1,15 +1,22 @@
 name = "quake4-data-steam"
 family = "data-steam"
-release = 2
+release = 3
 summary = "Quake 4 data via Steam"
 url = "https://store.steampowered.com/app/2210/Quake_IV/"
 target = "/opt/quake4"
 provides = ["quake4-data"]
-conflicts = ["quake4-data-gog"]
-changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+conflicts = ["quake4-data"]
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam", "Conflict with the virtual quake4-data instead of naming the other source packages, like every Quake 4 data package (Windows lists the providers by name)"]
 
 [source.steam]
 appid = 2210
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
 copy = ["q4base/pak00[1-9].pk4", "q4base/pak01[0-2].pk4", "q4base/zpak*h.pk4"]
+
+[[goo.shortcut]]
+name = "Quake 4 (openQ4)"
+target = "quake4/openQ4-client_x64.exe"
+args = ""
+description = "Quake 4"
+requires = "quake4/openQ4-client_x64.exe"

@@ -1,0 +1,166 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "prey2006-git"
+# goo_version() parses all digit and trailing letter runs in version, so a
+# git hash suffix (.g1d9d18d7) would turn hex digits into version numbers and
+# break ordering; 0.<YYYYMMDD> matches the RPM's 0^20261101git... ordering.
+version = "0.20261101"
+release = 1
+arch = "x86_64"
+description = """
+Prey2006, a source port integrating the Prey (2006) SDK game code with a
+dhewm3-based Doom 3 GPL engine (MinGW-w64 x86_64 build of commit 1d9d18d7),
+installed next to the Prey data package in C:\\Program Files\\Games\\prey.
+Settings, saves, screenshots and logs go to Documents\\My Games\\prey06 for each
+user (the engine's own default on Windows).
+
+It is unfinished: upstream lists known blockers and multiplayer is untested.
+Install the game data too: prey-data-steam."""
+# Engine (GPL-3.0-or-later), Prey SDK game code and base/ override assets
+# (LicenseRef-Prey-SDK), bundled Dear ImGui / miniz (MIT), stb_image
+# (MIT OR Unlicense), minizip / mikktspace (Zlib), plus the bundled MinGW-w64
+# runtime, SDL2/SDL3, OpenAL Soft and libcurl DLLs.
+license = "GPL-3.0-or-later AND LicenseRef-Prey-SDK AND MIT AND Zlib AND (MIT OR Unlicense) AND LGPL-2.0-or-later AND curl"
+url = "https://github.com/glKarin/Prey2006"
+release_notes = ["Initial GooGet package (MinGW-w64 x86_64 build of commit 1d9d18d7)"]
+
+# Same directory as prey-data-steam, which installs only base/*.pk4; this
+# package installs the engine executables, base/gamex86_64.dll and the port's
+# loose base/ override files (no .pk4 files), so nothing overlaps.
+[files]
+"prey" = "<ProgramFiles>/Games/prey"
+
+[[shortcut]]
+name = "Prey (Prey2006)"
+target = "prey/prey06.exe"
+# Sys_GetPath(PATH_BASE) finds base/ next to prey06.exe, and
+# Sys_GetPath(PATH_SAVE | PATH_CONFIG) uses Documents\My Games\prey06 for each
+# user, so no arguments are needed.
+args = ""
+description = "Prey (2006)"
+# The data package creates this when it's installed after prey2006-git.
+requires = "prey/base/pak000.pk4"
+
+[[firewall]]
+name = "Prey2006"
+program = "prey/prey06.exe"
+
+[[firewall]]
+name = "Prey2006 dedicated server"
+program = "prey/prey06ded.exe"
+
+[[source]]
+name = "Prey2006-1d9d18d733946d2315886410d6642f4977f0971b.tar.gz"
+url = "https://github.com/glKarin/Prey2006/archive/1d9d18d733946d2315886410d6642f4977f0971b/Prey2006-1d9d18d733946d2315886410d6642f4977f0971b.tar.gz"
+sha256 = "ee4af39d77e2909151fd377e9faa8b20a3822652f4c4a711c58be02c4aef0af5"
+
+[stage]
+container = "fedora"
+source_dir = "prey2006-git"
+deps = [
+  "cmake",
+  "findutils",
+  "gawk",
+  "git-core",
+  "grep",
+  "gzip",
+  "mingw64-binutils",
+  "mingw64-curl",
+  "mingw64-filesystem",
+  "mingw64-gcc",
+  "mingw64-gcc-c++",
+  "mingw64-openal-soft",
+  "mingw64-sdl2-compat",
+  "mingw64-zlib",
+  "ninja-build",
+  "pkgconf-pkg-config",
+  "sed",
+  "tar",
+]
+script = '''
+s=$WORK/Prey2006-1d9d18d733946d2315886410d6642f4977f0971b
+b=$WORK/build
+d=$STAGE/prey
+mkdir -p "$WORK" "$d/base"
+tar -xzf "$SRC/Prey2006-1d9d18d733946d2315886410d6642f4977f0971b.tar.gz" -C "$WORK"
+
+# Drop the upstream vcpkg submodule check at the top of neo/CMakeLists.txt;
+# libraries come from Fedora's mingw64 sysroot.
+sed -n '5,12p' "$s/neo/CMakeLists.txt" | grep -q Vcpkg
+sed -i '5,12d' "$s/neo/CMakeLists.txt"
+
+# Dear ImGui calls ImmGetContext / ImmSetCompositionWindow (imm32) and relies on
+# MSVC #pragma comment(lib, "imm32"); link imm32 explicitly on MinGW.
+grep -q $'^\t\tole32$' "$s/neo/CMakeLists.txt"
+sed -i $'s/^\t\tole32$/\t\tole32\\\n\t\timm32/' "$s/neo/CMakeLists.txt"
+
+# Linux windres treats backslashes in resource paths literally.
+grep -q 'res\\\\prey.ico' "$s/neo/sys/win32/rc/prey.rc"
+sed -i 's|res\\\\prey.ico|res/prey.ico|' "$s/neo/sys/win32/rc/prey.rc"
+
+# Same two source fixes as preymake.sh (format-security and unused vtable).
+vote='sprintf(assembledVoteString, common->GetLanguageDict()->GetString(strings[0]));'
+grep -qF "$vote" "$s/neo/game/MultiplayerGame.cpp"
+sed -i 's|sprintf(assembledVoteString, common->GetLanguageDict()->GetString(strings\[0\]));|idStr::Copynz(assembledVoteString, common->GetLanguageDict()->GetString(strings[0]), sizeof(assembledVoteString));|' \
+    "$s/neo/game/MultiplayerGame.cpp"
+grep -q '^class hhProfilerGraph : public idCinematic {' "$s/neo/renderer/Cinematic.h"
+if grep -rq 'hhProfilerGraph' "$s/neo" --include='*.cpp'; then exit 1; fi
+sed -i '/^class hhProfilerGraph : public idCinematic {/,/^};/d' "$s/neo/renderer/Cinematic.h"
+
+sysroot=/usr/x86_64-w64-mingw32/sys-root/mingw
+cmake -S "$s/neo" -B "$b" -G Ninja \
+    -DCMAKE_TOOLCHAIN_FILE=/usr/share/mingw/toolchain-mingw64.cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS="-std=gnu17" \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,--stack,8388608" \
+    -DREPRODUCIBLE_BUILD=ON \
+    -DSDL3=OFF \
+    -DDEDICATED=ON \
+    -DSDL2_INCLUDE_DIR="$sysroot/include/SDL2" \
+    -DOPENAL_INCLUDE_DIR="$sysroot/include" \
+    -DOPENAL_LIBRARY="$sysroot/lib/libOpenAL32.dll.a" \
+    -DCURL_INCLUDE_DIR="$sysroot/include" \
+    -DCURL_LIBRARY="$sysroot/lib/libcurl.dll.a" \
+    -Wno-dev
+grep -q '^#define ID_ENABLE_CURL' "$b/config.h"
+cmake --build "$b" --parallel "$(nproc)"
+
+# On WIN32, CMake places outputs in $s/output/windows rather than installing.
+cp "$s/output/windows/prey06.exe" "$s/output/windows/prey06ded.exe" "$d/"
+cp "$s/output/windows/base/gamex86_64.dll" "$d/base/"
+x86_64-w64-mingw32-strip --strip-unneeded "$d"/*.exe "$d/base"/*.dll
+
+# Copy transitive MinGW runtime DLLs for both the root executables and base/gamex86_64.dll.
+mingw_bin=$sysroot/bin
+while :; do
+    added=0
+    for pe in "$d"/*.exe "$d"/*.dll "$d/base"/*.dll; do
+        [ -f "$pe" ] || continue
+        for dll in $(x86_64-w64-mingw32-objdump -p "$pe" | awk '/DLL Name:/ {print $3}'); do
+            [ -n "$(find "$d" -maxdepth 1 -iname "$dll" -print -quit)" ] && continue
+            found=$(find "$mingw_bin" -maxdepth 1 -iname "$dll" -print -quit)
+            if [ -n "$found" ]; then
+                cp -L "$found" "$d/"
+                added=1
+            fi
+        done
+    done
+    [ "$added" -eq 0 ] && break
+done
+
+# The port's loose replacement assets (GUIs, materials, defs, scripts, SDK maps);
+# ensure no .pk4 files ever collide with prey-data-steam.
+cp -R --no-preserve=mode,ownership "$s/base/." "$d/base/"
+[ -z "$(find "$d/base" -name '*.pk4' -print -quit)" ]
+find "$d/base" -type d -exec chmod 755 {} + -o -type f ! -name '*.dll' -exec chmod 644 {} +
+
+mkdir -p "$d/docs/prey2006" "$d/docs/licenses"
+cp "$PKGDIR/README.md" "$d/docs/prey2006/README.md"
+cp "$s/.github/README.md" "$d/docs/prey2006/README.Prey2006.md"
+cp "$s/.github/Changelog.md" "$s/.github/Configuration.md" "$d/docs/prey2006/"
+cp "$s/.github/COPYING.txt" "$d/docs/licenses/COPYING.txt"
+cp "$s/neo/libs/imgui/LICENSE.txt" "$d/docs/licenses/LICENSE.imgui.txt"
+cp "$PKGDIR/LicenseRef-Prey-SDK.txt" "$d/docs/licenses/LicenseRef-Prey-SDK.txt"
+for lic in /usr/share/licenses/mingw64-*; do
+    [ -d "$lic" ] && cp -R "$lic" "$d/docs/licenses/"
+done
+'''

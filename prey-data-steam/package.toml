@@ -13,3 +13,18 @@ appid = 3970
 # Keeps the version above the AUR package's "1" (no epoch).
 version_base = "1"
 copy = ["base/*.pk4"]
+
+[goo]
+# Windows release 4 (= 3 + 1) is above the published @3 (new description and
+# Prey2006 shortcut).
+release_offset = 1
+description = """
+The retail base/*.pk4 files of Prey (2006) from your Steam copy (app 3970),
+installed to C:\\Program Files\\Games\\prey\\base. Play it with prey2006-git."""
+
+[[goo.shortcut]]
+name = "Prey (Prey2006)"
+target = "prey/prey06.exe"
+args = ""
+description = "Prey (2006)"
+requires = "prey/prey06.exe"

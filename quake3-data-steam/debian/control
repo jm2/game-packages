@@ -11,7 +11,7 @@ Package: quake3-data-steam
 Architecture: all
 Depends: quake3-pointrelease-data, ${misc:Depends}
 Provides: quake3-data, quake3-ta-data
-Conflicts: quake3-data-gog, quake3-ta-data-steam
+Conflicts: quake3-data, quake3-ta-data, quake3-ta-data-steam
 Replaces: quake3-ta-data-steam
 Breaks: quake3-ta-data-steam
 Description: Quake III Arena and Team Arena data via Steam

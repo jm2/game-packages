@@ -3,7 +3,7 @@
 
 pkgname=ut2004-data-steam
 pkgver=0
-true && pkgrel=3
+true && pkgrel=4
 pkgdesc='Unreal Tournament 2004 ECE data from Steam'
 arch=('any')
 url='https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/'
@@ -11,7 +11,7 @@ license=('LicenseRef-Proprietary')
 makedepends=('steamcmd' 'python')
 optdepends=('ut2004-bin: native binaries to play the game')
 provides=('ut2004-data')
-conflicts=('ut2004-data' 'ut2004-gog')
+conflicts=('ut2004-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")

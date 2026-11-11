@@ -14,7 +14,7 @@
 Name:           doom3-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Doom 3 data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/9050/DOOM_3/
@@ -25,7 +25,7 @@ BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  python3
 Provides:       doom3-data
-Conflicts:      doom3-data-gog
+Conflicts:      doom3-data
 
 %description
 Doom 3 data via Steam
@@ -46,3 +46,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)
+- Conflict with the virtual doom3-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)

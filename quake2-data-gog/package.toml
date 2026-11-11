@@ -1,13 +1,13 @@
 name = "quake2-data-gog"
 family = "data-gog"
 version = "1"
-release = 4
+release = 5
 summary = "Quake II data via GOG"
 url = "https://www.gog.com/game/quake_ii_quad_damage"
 target = "/usr/share/games/quake2"
 provides = ["quake2-data", "quake2-full-data"]
-conflicts = ["quake2-data-steam"]
-changelog = ["Generated from package.toml", "Drop conflicts with Steam packages that never existed (the mission packs ship with quake2-data-steam); provide quake2-full-data for Debian's quake2 launcher"]
+conflicts = ["quake2-data", "quake2-full-data"]
+changelog = ["Generated from package.toml", "Drop conflicts with Steam packages that never existed (the mission packs ship with quake2-data-steam); provide quake2-full-data for Debian's quake2 launcher", "Conflict with the virtual quake2-data/quake2-full-data instead of naming the other source packages, like every Quake II data package (Windows lists the providers by name)"]
 
 [hooks]
 post_prepare = """
@@ -21,3 +21,33 @@ sha256 = "08b6addf4a33ab09a7846e95a879a33017410f8ddb80152cd4759336747f7fa7"
 extract = "inno"
 subdir = "app"
 copy = ["baseq2/pak[0-2].pak", "baseq2/video", "xatrix/pak0.pak", "xatrix/video", "rogue/pak0.pak", "rogue/video", "ctf/pak0.pak", "capture/pak1.pak", "capture/Pak2.pak", "rover/pak[0-2].pak", "chaos/pak[01].pak", "qwar2/pak[01].pak", "arena/pak[01].pak", "arena/_origarena/pak0.pak", "Eraser/pak0.pak", "Eraser/pak5.pak", "action/pak0.pak", "jail/pak0.pak"]
+
+[[goo.shortcut]]
+name = "Quake II (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = ""
+description = "Quake II"
+requires = "quake2/yquake2.exe"
+
+[[goo.shortcut]]
+name = "Quake II The Reckoning (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game xatrix"
+description = "Quake II Mission Pack 1"
+# Check the addon's game DLL, not yquake2.exe, so installing yamagi-quake2
+# without yamagi-quake2-xatrix doesn't create this shortcut.
+requires = "quake2/xatrix/game.dll"
+
+[[goo.shortcut]]
+name = "Quake II Ground Zero (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game rogue"
+description = "Quake II Mission Pack 2"
+requires = "quake2/rogue/game.dll"
+
+[[goo.shortcut]]
+name = "Quake II Capture the Flag (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game ctf"
+description = "Threewave Capture the Flag for Quake II"
+requires = "quake2/ctf/game.dll"

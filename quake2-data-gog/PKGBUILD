@@ -3,14 +3,14 @@
 
 pkgname=quake2-data-gog
 pkgver=1
-pkgrel=4
+pkgrel=5
 pkgdesc='Quake II data via GOG'
 arch=('any')
 url='https://www.gog.com/game/quake_ii_quad_damage'
 license=('LicenseRef-Proprietary')
 makedepends=('innoextract')
 provides=('quake2-data' 'quake2-full-data')
-conflicts=('quake2-data-steam')
+conflicts=('quake2-data' 'quake2-full-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"

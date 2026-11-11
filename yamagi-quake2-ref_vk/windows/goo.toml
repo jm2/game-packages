@@ -1,0 +1,40 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "yamagi-quake2-ref_vk"
+version = "1.0.12"
+release = 1
+# 32-bit, matching upstream's i686 yamagi-quake2 build (and importing SDL3.dll
+# from it).
+arch = "x86_32"
+description = """
+Vulkan renderer for Yamagi Quake II (upstream's Windows i686 build), installed
+next to the engine as C:\\Program Files\\Games\\quake2\\ref_vk.dll.
+
+Select Vulkan in the video menu, or start Yamagi Quake II with
++set vid_renderer vk."""
+license = "GPL-2.0-or-later AND MIT AND (MIT OR Unlicense)"
+url = "https://github.com/yquake2/ref_vk"
+release_notes = ["Initial GooGet package (upstream v1.0.12 Windows i686 build)"]
+
+[deps]
+# Real package name (no virtual deps on Windows); ref_vk.dll is loaded by
+# yquake2.exe and links against the SDL3.dll yamagi-quake2 installs.
+"yamagi-quake2" = ""
+
+[files]
+"quake2" = "<ProgramFiles>/Games/quake2"
+
+[[source]]
+name = "ref_vk-i686-v1.0.12.zip"
+url = "https://github.com/yquake2/ref_vk/releases/download/v1.0.12/ref_vk-i686-v1.0.12.zip"
+sha256 = "470b1c5259cfce518ab97d2e33e41315b3cd28492d235ac7dddadca7aee4214d"
+
+[stage]
+# yamagi-quake2 ships ref_gl1.dll, ref_gl3.dll, ref_gles3.dll and ref_soft.dll;
+# ref_vk.dll and docs/yamagi-quake2-ref_vk/* do not overlap any of its files.
+script = '''
+mkdir -p "$WORK" "$STAGE/quake2/docs/yamagi-quake2-ref_vk"
+unzip -q -o "$SRC/ref_vk-i686-v1.0.12.zip" -d "$WORK"
+z=$WORK/ref_vk-i686-v1.0.12
+cp "$z/ref_vk.dll" "$STAGE/quake2/"
+cp "$z"/misc/docs/* "$STAGE/quake2/docs/yamagi-quake2-ref_vk/"
+'''

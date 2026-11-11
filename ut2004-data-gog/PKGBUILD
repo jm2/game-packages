@@ -3,7 +3,7 @@
 
 pkgname=ut2004-data-gog
 pkgver=3369
-pkgrel=3
+pkgrel=4
 pkgdesc='Unreal Tournament 2004 ECE data from GOG'
 arch=('any')
 url='https://www.gog.com/game/unreal_tournament_2004_ece'
@@ -11,7 +11,7 @@ license=('LicenseRef-Proprietary')
 makedepends=('innoextract')
 optdepends=('ut2004-bin: native binaries to play the game')
 provides=('ut2004-data')
-conflicts=('ut2004-data' 'ut2004-gog')
+conflicts=('ut2004-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md"

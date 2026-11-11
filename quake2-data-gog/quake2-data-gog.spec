@@ -13,7 +13,7 @@
 
 Name:           quake2-data-gog
 Version:        1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Quake II data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/quake_ii_quad_damage
@@ -26,7 +26,8 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  innoextract
 Provides:       quake2-data
 Provides:       quake2-full-data
-Conflicts:      quake2-data-steam
+Conflicts:      quake2-data
+Conflicts:      quake2-full-data
 
 %description
 Quake II data via GOG
@@ -43,6 +44,7 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-5
 - Generated from package.toml
 - Drop conflicts with Steam packages that never existed (the mission packs ship with quake2-data-steam); provide quake2-full-data for Debian's quake2 launcher
+- Conflict with the virtual quake2-data/quake2-full-data instead of naming the other source packages, like every Quake II data package (Windows lists the providers by name)

@@ -1,0 +1,66 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "yamagi-quake2"
+version = "8.70"
+release = 1
+# Upstream's Windows build is 32-bit only (i686 MinGW); googet installs
+# x86_32 packages on x64 Windows.
+arch = "x86_32"
+description = """
+Enhanced Quake II engine (upstream's Windows build), installed next to the
+Quake II data packages in C:\\Program Files\\Games\\quake2. Settings and saves
+go to Documents\\YamagiQ2 for each user (the engine's own default).
+
+Install the game data too: quake2-data-steam or quake2-data-gog. The mission
+packs and CTF are separate packages, as on Linux: yamagi-quake2-xatrix (The
+Reckoning), yamagi-quake2-rogue (Ground Zero) and yamagi-quake2-ctf; the
+Vulkan renderer is yamagi-quake2-ref_vk."""
+# The engine, plus the SDL3, OpenAL Soft and curl DLLs it ships with.
+license = "GPL-2.0-or-later AND Info-ZIP AND Zlib AND LGPL-2.0-or-later AND curl AND MIT AND (MIT OR Unlicense)"
+url = "https://www.yamagi.org/quake2/"
+release_notes = ["Initial GooGet package (upstream 8.70a Windows i686 build: 8.70 with an updated SDL3.dll)"]
+
+[files]
+"quake2" = "<ProgramFiles>/Games/quake2"
+
+[[shortcut]]
+name = "Quake II (Yamagi Quake II)"
+# yquake2.exe is the engine; quake2.exe in the zip is only a wrapper that
+# starts it (upstream renamed the real binary because Windows applies
+# compatibility shims to programs called quake2.exe).
+target = "quake2/yquake2.exe"
+args = ""
+description = "Quake II"
+# The data packages create this when they're installed after the engine.
+requires = "quake2/baseq2/pak0.pak"
+
+[[firewall]]
+name = "Yamagi Quake II"
+program = "quake2/yquake2.exe"
+
+[[firewall]]
+name = "Yamagi Quake II dedicated server"
+program = "quake2/q2ded.exe"
+
+[[source]]
+name = "quake2-8.70a.zip"
+url = "https://deponie.yamagi.org/quake2/windows/quake2-8.70a.zip"
+sha256 = "26cc30f81598d746d691c4adfd7010403969680dc6c65e83df30260cea1e652a"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# The zip also holds the ctf/rogue/xatrix game DLLs (same versions as the
+# Linux mission pack packages); those are left to yamagi-quake2-ctf, -rogue
+# and -xatrix so no file is in two packages. The layout follows the Linux
+# package: upstream's yq2.cfg and the baseq2 map fixes (.ent) go into baseq2.
+# None of these files is in the data packages (baseq2/pak0-2.pak, video/ and
+# the mission packs' pak0.pak/video/).
+script = '''
+mkdir -p "$WORK"
+unzip -q -o "$SRC/quake2-8.70a.zip" -d "$WORK"
+z=$WORK/quake2-8.70a d=$STAGE/quake2
+mkdir -p "$d/baseq2/maps" "$d/docs/yamagi-quake2"
+cp "$z"/*.exe "$z"/*.dll "$d/"
+cp "$z/baseq2/game.dll" "$z/baseq2/footsteps.pkz" "$z/misc/yq2.cfg" "$d/baseq2/"
+cp "$z"/misc/mapfixes/baseq2/*.ent "$d/baseq2/maps/"
+cp "$z"/misc/docs/yquake2/* "$d/docs/yamagi-quake2/"
+'''

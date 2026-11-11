@@ -1,7 +1,7 @@
 name = "ut2004-data-archiveorg"
 family = "data-url"
 version = "3369"
-release = 4
+release = 5
 summary = "Unreal Tournament 2004 ECE data from the OldUnreal DVD image"
 description = """
 Game data for Unreal Tournament 2004: Editor's Choice Edition, unpacked from
@@ -11,12 +11,13 @@ OldUnreal binaries from ut2004-bin."""
 url = "https://www.oldunreal.com/downloads/unreal-tournament-2004/full-game-installers/"
 target = "/opt/ut2004"
 provides = ["ut2004-data"]
-conflicts = ["ut2004-data", "ut2004-gog"]
+conflicts = ["ut2004-data"]
 changelog = [
   "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
   "sha256 for UT2004.ISO from OldUnreal's installer instead of md5",
   "Unpack the InstallShield groups the way OldUnreal's installer does (English only)",
   "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
+  "Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut",
 ]
 notes = """
 The DVD image is about 3 GB; with the unpacked cabinets, the game tree and the
@@ -94,3 +95,17 @@ ut_rm System UT2004.ini User.ini
 # Windows-only programs, libraries and redistributables.
 find . -type f \( -iname '*.exe' -o -iname '*.dll' -o -iname '*.bat' -o -iname '*.msi' \) -delete
 '''
+
+[goo]
+description = """
+Game data for Unreal Tournament 2004: Editor's Choice Edition, unpacked from
+the ECE DVD image that OldUnreal hosts (files.oldunreal.net, the same image as
+on archive.org) and installed to C:\\Program Files\\Games\\ut2004. Play it with
+ut2004-bin."""
+
+[[goo.shortcut]]
+name = "Unreal Tournament 2004 (OldUnreal)"
+target = "ut2004/System/UT2004.exe"
+args = ""
+description = "Unreal Tournament 2004: Editor's Choice Edition"
+requires = "ut2004/System/UT2004.exe"

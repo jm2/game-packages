@@ -78,3 +78,19 @@ if [ -f 'Maps/DM-Cybrosis][.unr' ] && [ ! -f 'Maps/DOM-Cybrosis][.unr' ]; then
     cp 'Maps/DM-Cybrosis][.unr' 'Maps/DOM-Cybrosis][.unr'
 fi
 '''
+
+[goo]
+description = """
+Game data for Unreal Tournament: Game of the Year Edition, extracted from the
+GOG installer you download yourself and installed to
+C:\\Program Files\\Games\\unreal-tournament. Play it with
+unreal-tournament-bin."""
+# Windows release 5 (= 4 + 1) adds the Unreal Tournament (OldUnreal) shortcut.
+release_offset = 1
+
+[[goo.shortcut]]
+name = "Unreal Tournament (OldUnreal)"
+target = "unreal-tournament/System/UnrealTournament.exe"
+args = "-SETHOMEDIR=\"%APPDATA%\\UnrealTournament\\System\""
+description = "Unreal Tournament: Game of the Year Edition"
+requires = "unreal-tournament/System/UnrealTournament.exe"

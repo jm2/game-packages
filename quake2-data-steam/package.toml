@@ -1,16 +1,16 @@
 name = "quake2-data-steam"
 family = "data-steam"
-release = 1
+release = 2
 summary = "Quake II data via Steam"
 url = "https://store.steampowered.com/app/2320/Quake_II/"
 target = "/usr/share/games/quake2"
 provides = ["quake2-data", "quake2-full-data"]
-conflicts = ["quake2-data-gog"]
+conflicts = ["quake2-data", "quake2-full-data"]
 notes = """
 The original Quake II data (baseq2, The Reckoning in xatrix, Ground Zero in
 rogue, and CTF) for source ports such as yquake2. The 2023 remaster in
 rerelease/ is not included."""
-changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam"]
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam", "Conflict with the virtual quake2-data/quake2-full-data instead of naming the other source packages, like every Quake II data package (Windows lists the providers by name)"]
 
 [source.steam]
 appid = 2320
@@ -19,3 +19,33 @@ version_base = "1"
 # The original game, both mission packs and CTF sit beside the 2023 remaster
 # (rerelease/), which source ports such as yquake2 do not use.
 copy = ["baseq2/pak[0-2].pak", "baseq2/video", "xatrix/pak0.pak", "xatrix/video", "rogue/pak0.pak", "rogue/video", "ctf/pak0.pak"]
+
+[[goo.shortcut]]
+name = "Quake II (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = ""
+description = "Quake II"
+requires = "quake2/yquake2.exe"
+
+[[goo.shortcut]]
+name = "Quake II The Reckoning (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game xatrix"
+description = "Quake II Mission Pack 1"
+# Check the addon's game DLL, not yquake2.exe, so installing yamagi-quake2
+# without yamagi-quake2-xatrix doesn't create this shortcut.
+requires = "quake2/xatrix/game.dll"
+
+[[goo.shortcut]]
+name = "Quake II Ground Zero (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game rogue"
+description = "Quake II Mission Pack 2"
+requires = "quake2/rogue/game.dll"
+
+[[goo.shortcut]]
+name = "Quake II Capture the Flag (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game ctf"
+description = "Threewave Capture the Flag for Quake II"
+requires = "quake2/ctf/game.dll"

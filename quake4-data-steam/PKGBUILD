@@ -3,14 +3,14 @@
 
 pkgname=quake4-data-steam
 pkgver=0
-true && pkgrel=2
+true && pkgrel=3
 pkgdesc='Quake 4 data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2210/Quake_IV/'
 license=('LicenseRef-Proprietary')
 makedepends=('steamcmd' 'python')
 provides=('quake4-data')
-conflicts=('quake4-data-gog')
+conflicts=('quake4-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")

@@ -1,0 +1,51 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "yamagi-quake2-ctf"
+version = "1.13"
+release = 1
+# 32-bit, like the engine it plugs into.
+arch = "x86_32"
+description = """
+Threewave Capture the Flag game library for Yamagi Quake II
+(upstream's Windows build), installed in C:\\Program Files\\Games\\quake2\\ctf.
+
+Needs the ctf data, which quake2-data-steam and quake2-data-gog include."""
+license = "GPL-2.0-or-later"
+url = "https://www.yamagi.org/quake2/"
+release_notes = ["Initial GooGet package (ctf 1.13 from upstream's Yamagi Quake II 8.70a Windows i686 build)"]
+
+[deps]
+# The engine that loads this game DLL (a real package name, as googet needs).
+"yamagi-quake2" = ""
+
+[files]
+"quake2" = "<ProgramFiles>/Games/quake2"
+
+[[shortcut]]
+name = "Quake II Capture the Flag (Yamagi Quake II)"
+target = "quake2/yquake2.exe"
+args = "+set game ctf"
+description = "Threewave Capture the Flag for Quake II"
+# The data packages create this when installed after this package (checking
+# quake2/ctf/game.dll so yamagi-quake2 alone doesn't trigger it).
+requires = "quake2/ctf/pak0.pak"
+
+[[source]]
+# Upstream publishes no separate Windows zips for the mission packs: the
+# engine's zip carries every game DLL (ctf 1.13 per its CHANGELOG, the
+# version the Linux package builds). Same file as yamagi-quake2's source.
+name = "quake2-8.70a.zip"
+url = "https://deponie.yamagi.org/quake2/windows/quake2-8.70a.zip"
+sha256 = "26cc30f81598d746d691c4adfd7010403969680dc6c65e83df30260cea1e652a"
+
+[stage]
+source_dir = "yamagi-quake2-goo"
+# Only ctf/game.dll and its docs. The rest of the zip belongs to
+# yamagi-quake2, the ctf paks to the data packages.
+script = '''
+mkdir -p "$WORK"
+unzip -q -o "$SRC/quake2-8.70a.zip" -d "$WORK"
+z=$WORK/quake2-8.70a d=$STAGE/quake2/ctf
+mkdir -p "$d" "$STAGE/quake2/docs/yamagi-quake2-ctf"
+cp "$z/ctf/game.dll" "$d/"
+cp "$z"/misc/docs/ctf/* "$STAGE/quake2/docs/yamagi-quake2-ctf/"
+'''

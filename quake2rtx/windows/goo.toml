@@ -1,0 +1,66 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "quake2rtx"
+version = "1.8.1"
+release = 1
+arch = "x86_64"
+description = """
+NVIDIA's path-traced remaster of Quake II (upstream's Windows build), installed
+in C:\\Program Files\\Games\\quake2rtx. Settings, saves and screenshots go to
+%APPDATA%\\Quake2RTX for each user. Needs a Vulkan driver with ray tracing
+support.
+
+Includes the Quake II shareware episode, so it is playable on its own. For the
+full game, copy baseq2\\pak*.pak (and baseq2\\video) from quake2-data-steam or
+quake2-data-gog (C:\\Program Files\\Games\\quake2\\baseq2) into
+%APPDATA%\\Quake2RTX\\baseq2."""
+# Engine/game (GPL-2.0-only) + shareware demo + statically linked SDL2, OpenAL
+# Soft, libcurl, zlib, stb/tinyobjloader and AMD FSR 1.0 shaders.
+license = "GPL-2.0-only AND LicenseRef-Quake2-Demo AND LGPL-2.0-or-later AND Zlib AND curl AND MIT AND (MIT OR Unlicense)"
+url = "https://github.com/NVIDIA/Q2RTX"
+release_notes = ["Initial GooGet package (upstream v1.8.1 Windows x86_64 build)"]
+
+[files]
+# Separate directory from Games\quake2 (matching /usr/share/quake2rtx on Linux):
+# Q2RTX only reads baseq2 from basedir and homedir, ships the shareware
+# baseq2\pak0.pak (which would collide with quake2-data-*), and its 907 MB
+# baseq2\q2rtx_media.pkz would be loaded by yamagi-quake2 and override classic
+# Quake II textures, models, sprites and sounds if placed in Games\quake2\baseq2.
+"quake2rtx" = "<ProgramFiles>/Games/quake2rtx"
+
+[[shortcut]]
+name = "Quake II RTX"
+target = "quake2rtx/q2rtx.exe"
+# Q2RTX's Windows build leaves homedir empty by default and writes next to the
+# binary; point it at %APPDATA%\Quake2RTX (expanded by the shell; CVAR_NOSET so
+# command-line +set only). Retail paks placed in %APPDATA%\Quake2RTX\baseq2
+# override the bundled shareware pak0.pak, just as ~/.local/share/quake2rtx
+# does on Linux.
+args = "+set homedir \"%APPDATA%\\Quake2RTX\""
+description = "Path-traced remaster of Quake II"
+
+[[firewall]]
+name = "Quake II RTX"
+program = "quake2rtx/q2rtx.exe"
+
+[[firewall]]
+name = "Quake II RTX dedicated server"
+program = "quake2rtx/q2rtxded.exe"
+
+[[source]]
+name = "q2rtx-1.8.1-windows.exe"
+url = "https://github.com/NVIDIA/Q2RTX/releases/download/v1.8.1/q2rtx-1.8.1-windows.exe"
+sha256 = "9256910a85ae1352cd41842ef9c0d00f0dd915f251a01de8e30e56b6a0605018"
+
+[stage]
+# Upstream only ships an NSIS 3.11 installer for Windows; Fedora's 7zip unpacks
+# it cleanly. Drop NSIS's $PLUGINSDIR UI files and the 32-bit server/game
+# binaries (q2rtxded-x86.exe, baseq2/gamex86.dll).
+container = "fedora"
+deps = ["7zip"]
+script = '''
+mkdir -p "$STAGE/quake2rtx"
+7z x -y -o"$STAGE/quake2rtx" "$SRC/q2rtx-1.8.1-windows.exe" >/dev/null
+rm -rf "$STAGE/quake2rtx/\$PLUGINSDIR" \
+    "$STAGE/quake2rtx/q2rtxded-x86.exe" \
+    "$STAGE/quake2rtx/baseq2/gamex86.dll"
+'''

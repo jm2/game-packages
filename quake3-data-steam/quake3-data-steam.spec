@@ -14,7 +14,7 @@
 Name:           quake3-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Quake III Arena and Team Arena data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/2200/Quake_III_Arena/
@@ -27,7 +27,8 @@ BuildRequires:  python3
 Requires:       quake3-pointrelease-data
 Provides:       quake3-data
 Provides:       quake3-ta-data
-Conflicts:      quake3-data-gog
+Conflicts:      quake3-data
+Conflicts:      quake3-ta-data
 Conflicts:      quake3-ta-data-steam
 Obsoletes:      quake3-ta-data-steam
 
@@ -52,3 +53,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 - Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
 - Depend on quake3-pointrelease-data for the 1.32 point release paks
 - Include Team Arena (missionpack/pak0.pk3, Steam app 2350): Steam sells Quake III Arena with Team Arena now; replaces quake3-ta-data-steam
+- Conflict with the virtual quake3-data/quake3-ta-data instead of naming the other source packages, like every Quake III data package (Windows lists the providers by name)

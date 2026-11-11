@@ -11,6 +11,6 @@ Package: doom3bfg-data-steam
 Architecture: all
 Depends: ${misc:Depends}
 Provides: doom3bfg-data
-Conflicts: doom3bfg-data-gog
+Conflicts: doom3bfg-data
 Description: Doom 3 BFG Edition data via Steam
  Doom 3 BFG Edition data via Steam

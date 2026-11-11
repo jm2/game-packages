@@ -1,0 +1,81 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "dhewm3"
+version = "1.5.5"
+release = 1
+# Upstream's Windows release is 32-bit only (win32); googet installs x86_32
+# packages on x64 Windows.
+arch = "x86_32"
+description = """
+Doom 3 source port with SDL2, OpenAL Soft and widescreen/gamepad support
+(upstream's Windows build, including the Doom 3 and Resurrection of Evil game
+DLLs and the dedicated server), installed next to the Doom 3 data packages in
+C:\\Program Files\\Games\\doom3. Configs, saves and logs go to
+Documents\\My Games\\dhewm3 for each user (the engine's own default).
+
+Install the game data too: doom3-data-steam (base game) plus optionally
+doom3xp-data-steam (Resurrection of Evil), or doom3-data-gog (includes both).
+
+Built with Visual Studio 2017: needs the 32-bit (x86) Microsoft Visual C++
+2015-2022 Redistributable installed on Windows."""
+# Engine + game DLLs (GPL-3.0-or-later, Dear ImGui/miniz MIT, minizip Zlib, stb
+# MIT OR Unlicense) plus bundled SDL2.dll (Zlib), OpenAL32.dll (LGPL-2.0-or-later)
+# and libcurl-4.dll (curl); see COPYING.txt and LibLicenses.txt.
+license = "GPL-3.0-or-later AND MIT AND Zlib AND (MIT OR Unlicense) AND LGPL-2.0-or-later AND curl"
+url = "https://dhewm3.org/"
+release_notes = ["Initial GooGet package (upstream 1.5.5 Windows 32-bit build)"]
+
+# Same directory as doom3-data-gog, doom3-data-steam and doom3xp-data-steam,
+# which install only base/*.pk4 and d3xp/*.pk4; the zip holds no .pk4 files
+# (only gamepad.cfg and WHAT_TO_DO.txt in base/ and d3xp/), so nothing overlaps.
+[files]
+"doom3" = "<ProgramFiles>/Games/doom3"
+
+[[shortcut]]
+name = "Doom 3 (dhewm3)"
+# dhewm3_notools.exe omits the MFC-based radiant/editor tools (so mfc140.dll is
+# not required) and handles DSR/VSR display scaling better per upstream's
+# README.txt; dhewm3.exe is still installed alongside it for editor use.
+# Sys_GetPath(PATH_BASE) checks <exe dir>/base first and PATH_CONFIG/PATH_SAVE
+# use Documents\My Games\dhewm3, so no path arguments are needed.
+target = "doom3/dhewm3_notools.exe"
+args = ""
+description = "Doom 3"
+# doom3-data-gog and doom3-data-steam create this when installed after dhewm3.
+requires = "doom3/base/pak000.pk4"
+
+[[shortcut]]
+# Avoid ':' in shortcut names: goopack uses <name>.lnk, and ':' on NTFS writes
+# an Alternate Data Stream instead of a visible Start Menu .lnk file.
+name = "Doom 3 Resurrection of Evil (dhewm3)"
+target = "doom3/dhewm3_notools.exe"
+args = "+set fs_game d3xp"
+description = "Doom 3: Resurrection of Evil"
+# doom3-data-gog and doom3xp-data-steam create this when installed after dhewm3.
+requires = "doom3/d3xp/pak000.pk4"
+
+[[firewall]]
+name = "dhewm3"
+program = "doom3/dhewm3_notools.exe"
+
+[[firewall]]
+name = "dhewm3 (with editor tools)"
+program = "doom3/dhewm3.exe"
+
+[[firewall]]
+name = "dhewm3 dedicated server"
+program = "doom3/dhewm3ded.exe"
+
+# dhewm3-1.5.5_win32.zip already carries both base.dll and d3xp.dll (matching
+# the Linux package's -DBASE=ON -DD3XP=ON); dhewm3-mods-1.5.5_win32.zip is
+# third-party community mod DLLs not packaged on Linux.
+[[source]]
+name = "dhewm3-1.5.5_win32.zip"
+url = "https://github.com/dhewm/dhewm3/releases/download/1.5.5/dhewm3-1.5.5_win32.zip"
+sha256 = "7fb23ced41b902c2ca14fa0da37f30f7656a7087310bc70b367f3257ddb0a7f7"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+unzip -q -o "$SRC/dhewm3-1.5.5_win32.zip" -d "$STAGE"
+mv "$STAGE/dhewm3" "$STAGE/doom3"
+'''

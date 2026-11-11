@@ -1,0 +1,42 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "nanosaur2"
+version = "2.1.0"
+release = 1
+arch = "x86_64"
+description = """
+Nanosaur 2: Hatchling, Pangea Software's flying shooter sequel to Nanosaur
+updated for modern systems by Iliyas Jorio (upstream's self-contained Windows
+x64 build, including game data, SDL2 and the MSVC runtime). Preferences go to
+%APPDATA%\\Nanosaur2 for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT) and bundled SDL2.dll
+# (Zlib).
+license = "CC-BY-NC-SA-4.0 AND MIT AND Zlib"
+url = "https://github.com/jorio/Nanosaur2"
+release_notes = ["Initial GooGet package (upstream 2.1.0 Windows x64 build)"]
+
+[files]
+"nanosaur2" = "<ProgramFiles>/Games/nanosaur2"
+
+[[shortcut]]
+name = "Nanosaur 2"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\Nanosaur2), and the game data ships
+# inside this package, so neither path arguments nor requires are needed.
+target = "nanosaur2/Nanosaur2.exe"
+args = ""
+description = "Nanosaur II: Hatchling"
+
+# Upstream publishes no release digest; SHA-256 computed from the v2.1.0 asset.
+[[source]]
+name = "Nanosaur2-2.1.0-windows-x64.zip"
+url = "https://github.com/jorio/Nanosaur2/releases/download/v2.1.0/Nanosaur2-2.1.0-windows-x64.zip"
+sha256 = "3446e939557178fea458f76465cbc71311449aada19b08ebe58924b9f5447e85"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols, matching the stripped Linux binary package.
+script = '''
+unzip -q -o "$SRC/Nanosaur2-2.1.0-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/Nanosaur2-2.1.0" "$STAGE/nanosaur2"
+rm -f "$STAGE/nanosaur2/Nanosaur2.pdb"
+'''

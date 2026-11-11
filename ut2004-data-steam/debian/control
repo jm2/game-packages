@@ -12,7 +12,7 @@ Architecture: all
 Depends: ${misc:Depends}
 Recommends: ut2004-bin
 Provides: ut2004-data
-Conflicts: ut2004-data, ut2004-gog
+Conflicts: ut2004-data
 Description: Unreal Tournament 2004 ECE data from Steam
  Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
  Steam with steamcmd and installed to /opt/ut2004. Play it with the native

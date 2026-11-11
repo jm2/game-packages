@@ -1,5 +1,6 @@
-doom3-data-steam (0-2) unstable; urgency=medium
+doom3-data-steam (0-3) unstable; urgency=medium
 
   * Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)
+  * Conflict with the virtual doom3-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

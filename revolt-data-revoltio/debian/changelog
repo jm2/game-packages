@@ -1,5 +1,6 @@
-revolt-data-revoltio (22.0909-1) unstable; urgency=medium
+revolt-data-revoltio (22.0909-2) unstable; urgency=medium
 
   * Initial package: Re-Volt I/O game_files 22.0909
+  * Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

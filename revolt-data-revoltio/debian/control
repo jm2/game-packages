@@ -12,7 +12,7 @@ Architecture: all
 Depends: ${misc:Depends}
 Recommends: rvgl-bin
 Provides: revolt-data
-Conflicts: revolt-data, revolt-data-steam
+Conflicts: revolt-data
 Description: Re-Volt game data for RVGL from Re-Volt I/O
  The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
  downloaded at build time from Re-Volt I/O, the community site that hosts them

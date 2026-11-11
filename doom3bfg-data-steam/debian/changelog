@@ -1,5 +1,6 @@
-doom3bfg-data-steam (0-2) unstable; urgency=medium
+doom3bfg-data-steam (0-3) unstable; urgency=medium
 
   * Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
+  * Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

@@ -63,6 +63,18 @@ packages contain proprietary game data or prebuilt third-party binaries.
   IPV6_V6ONLY for games that bind `[::]` and `0.0.0.0` on the same port, which
   Linux otherwise refuses (Wreckfest hosting). x86_64 only; packages depend on
   it on x86 and gamelaunch skips it where it is missing.
+- Game data available from more than one source (`<app>-data-steam`,
+  `-gog`, `-archiveorg`, ...): every source package declares the same
+  relations. `provides` lists the virtual `<app>-data` name (plus any other
+  virtuals, all sources alike, e.g. `quake3-ta-data`); `conflicts` lists
+  those same virtual names, not the sibling packages, so a new source needs
+  no changes to the others (pacman, dnf and apt ignore a package's conflict
+  with its own provides); retired package names go in `conflicts` (and
+  `replaces` on the one natural successor only: two packages replacing the
+  same name make pacman offer both). Engines depend on (or, if they can find
+  a store install themselves, suggest) `<app>-data`, never a source package. The
+  Windows manifests expand the virtual conflicts into sibling names
+  (see docs/GOOGET.md).
 
 ## Versions of Steam packages
 

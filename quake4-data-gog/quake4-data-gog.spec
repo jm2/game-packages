@@ -13,7 +13,7 @@
 
 Name:           quake4-data-gog
 Version:        1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Quake 4 data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/quake_4
@@ -26,7 +26,7 @@ BuildArch:      noarch
 BuildRequires:  desktop-file-utils
 BuildRequires:  innoextract
 Provides:       quake4-data
-Conflicts:      quake4-data-steam
+Conflicts:      quake4-data
 
 %description
 Quake 4 data via GOG
@@ -43,5 +43,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-5
 - Generated from package.toml
+- Conflict with the virtual quake4-data instead of naming the other source packages, like every Quake 4 data package (Windows lists the providers by name)

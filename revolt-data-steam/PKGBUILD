@@ -3,7 +3,7 @@
 
 pkgname=revolt-data-steam
 pkgver=0
-true && pkgrel=1
+true && pkgrel=2
 pkgdesc='Re-Volt game data for RVGL from Steam'
 arch=('any')
 url='https://store.steampowered.com/app/287310/ReVolt/'
@@ -11,7 +11,7 @@ license=('LicenseRef-Proprietary')
 makedepends=('steamcmd' 'python')
 optdepends=('rvgl-bin: the RVGL engine to play the game')
 provides=('revolt-data')
-conflicts=('revolt-data' 'revolt-data-revoltio')
+conflicts=('revolt-data')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"
         "README.md")

@@ -14,7 +14,7 @@
 Name:           ut2004-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Unreal Tournament 2004 ECE data from Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/
@@ -27,7 +27,6 @@ BuildRequires:  python3
 Recommends:     ut2004-bin
 Provides:       ut2004-data
 Conflicts:      ut2004-data
-Conflicts:      ut2004-gog
 
 %description
 Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
@@ -52,3 +51,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 - Generated package (tools/gen.py); builds for Arch, Fedora and Debian
 - Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt
 - Drop the files ut2004-bin ships in any letter case, and the old Windows ini files
+- Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut

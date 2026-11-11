@@ -1,0 +1,63 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "etlegacy-bin"
+version = "2.86.2"
+release = 1
+arch = "x86_64"
+description = """
+ET: Legacy, the open-source Wolfenstein: Enemy Territory 2.60b compatible
+client and dedicated server with the Legacy mod, Omni-Bot and WolfAdmin
+(upstream's Windows x64 build), installed next to the Enemy Territory data.
+Settings, downloaded mods, logs and screenshots go to Documents\\ETLegacy for
+each user (the engine's own default on Windows).
+
+Install the game data too: enemy-territory-data-etlegacy.
+
+The 64-bit engine can only join servers whose mod has a 64-bit build (Legacy,
+ETJump, ETrun, N!tmod, ...)."""
+license = "GPL-3.0-or-later AND LicenseRef-Omni-bot"
+url = "https://www.etlegacy.com/"
+release_notes = ["Initial GooGet package (upstream 2.86.2 Windows x64 archive)"]
+
+# Same directory as enemy-territory-data-etlegacy, which installs only
+# etmain/pak0.pk3, pak1.pk3 and pak2.pk3; the archive's etmain/ holds just the
+# server .cfg files, so nothing overlaps.
+[files]
+"enemy-territory" = "<ProgramFiles>/Games/enemy-territory"
+
+[[shortcut]]
+name = "Wolfenstein Enemy Territory (ET Legacy)"
+target = "enemy-territory/etl.exe"
+# fs_basepath defaults to the working directory (the shortcut's: the install
+# dir) and fs_homepath to Documents\ETLegacy (sys_win32.c
+# Sys_DefaultHomePath), so no arguments are needed.
+args = ""
+description = "Wolfenstein: Enemy Territory"
+# The data package creates this when it's installed after etlegacy-bin.
+requires = "enemy-territory/etmain/pak0.pk3"
+
+[[firewall]]
+name = "ET: Legacy"
+program = "enemy-territory/etl.exe"
+
+[[firewall]]
+name = "ET: Legacy dedicated server"
+program = "enemy-territory/etlded.exe"
+
+# etlegacy.com is the only host of the release archives (the GitHub tags have
+# no assets); file/793 is etlegacy-v2.86.2-x64.zip, with the SHA-256 listed on
+# https://www.etlegacy.com/download (file/785 is still the Linux x86_64
+# tarball the PKGBUILD uses).
+[[source]]
+name = "etlegacy-v2.86.2-x64.zip"
+url = "https://www.etlegacy.com/download/file/793"
+sha256 = "b516a01af3da376a7ec355b7c9a72675ad7cf1e06f08d3b5b2453e0250d7cf79"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+script = '''
+unzip -q -o "$SRC/etlegacy-v2.86.2-x64.zip" -d "$STAGE"
+mv "$STAGE/etlegacy-v2.86.2-x64" "$STAGE/enemy-territory"
+# Omni-Bot ships every platform's library; drop the Linux and macOS ones (the
+# Linux package likewise keeps only its own).
+rm -f "$STAGE"/enemy-territory/legacy/omni-bot/omnibot_et*.so
+'''

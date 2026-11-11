@@ -11,6 +11,6 @@ Package: quake4-data-gog
 Architecture: all
 Depends: ${misc:Depends}
 Provides: quake4-data
-Conflicts: quake4-data-steam
+Conflicts: quake4-data
 Description: Quake 4 data via GOG
  Quake 4 data via GOG

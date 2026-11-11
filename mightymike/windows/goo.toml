@@ -1,0 +1,46 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "mightymike"
+version = "3.0.2"
+release = 1
+arch = "x86_64"
+description = """
+Mighty Mike (originally Power Pete), Pangea Software's top-down action rescue
+game in a toy store gone mad, updated for modern systems by Iliyas Jorio
+(upstream's self-contained Windows x64 3.0.2-hotfix build, including game data,
+SDL2 and the MSVC runtime). Preferences, saved games and high scores go to
+%APPDATA%\\MightyMike for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT) and bundled SDL2.dll
+# (Zlib).
+license = "CC-BY-NC-SA-4.0 AND MIT AND Zlib"
+url = "https://github.com/jorio/mightymike"
+release_notes = ["Initial GooGet package (upstream 3.0.2-hotfix Windows x64 build)"]
+
+[files]
+"mightymike" = "<ProgramFiles>/Games/mightymike"
+
+[[shortcut]]
+name = "Mighty Mike"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\MightyMike), and the game data ships
+# inside this package, so neither path arguments nor requires are needed.
+target = "mightymike/MightyMike.exe"
+args = ""
+description = "High-powered action rescue in a toy store gone mad"
+
+# Upstream replaced MightyMike-3.0.2-windows-x64.zip on the v3.0.2 release with
+# the -hotfix archive (fixing a black screen on Windows CPUs with 32+ threads,
+# issue #13); no release digest is published, so SHA-256 was computed from the
+# download.
+[[source]]
+name = "MightyMike-3.0.2-windows-x64-hotfix.zip"
+url = "https://github.com/jorio/MightyMike/releases/download/v3.0.2/MightyMike-3.0.2-windows-x64-hotfix.zip"
+sha256 = "20b6072fd02c3d9afc7a023ed4f4f896e7598d47b038228286b77f86460b04e2"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols, matching the stripped Linux binary package.
+script = '''
+unzip -q -o "$SRC/MightyMike-3.0.2-windows-x64-hotfix.zip" -d "$STAGE"
+mv "$STAGE/MightyMike-3.0.2" "$STAGE/mightymike"
+rm -f "$STAGE/mightymike/MightyMike.pdb"
+'''

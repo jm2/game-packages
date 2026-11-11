@@ -1,5 +1,6 @@
 name = "revolt-data-steam"
 family = "data-steam"
+release = 2
 summary = "Re-Volt game data for RVGL from Steam"
 description = """
 The game files of Re-Volt (1999) from your Steam copy (app 287310), downloaded
@@ -8,8 +9,8 @@ game_files pack in /opt/rvgl/packs/game_files. Play it with rvgl-bin."""
 url = "https://store.steampowered.com/app/287310/ReVolt/"
 target = "/opt/rvgl/packs/game_files"
 provides = ["revolt-data"]
-conflicts = ["revolt-data", "revolt-data-revoltio"]
-changelog = ["Initial package: Steam Re-Volt (app 287310) as RVGL's game_files pack"]
+conflicts = ["revolt-data"]
+changelog = ["Initial package: Steam Re-Volt (app 287310) as RVGL's game_files pack", "Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)"]
 notes = """
 Only the folders RVGL reads are kept: cars, edit, gallery, gfx, levels,
 models and wavs (the same folders as Re-Volt I/O's game_files pack), plus the
@@ -72,3 +73,16 @@ done
 # Plain data: nothing in the pack is executable.
 find . -type f -exec chmod 644 {} +
 '''
+
+[goo]
+description = """
+The game files of Re-Volt (1999) from your Steam copy (app 287310), converted
+to lower-case names and installed as RVGL's game_files pack in
+C:\\Program Files\\Games\\rvgl\\packs\\game_files. Play it with rvgl-bin."""
+
+[[goo.shortcut]]
+name = "Re-Volt (RVGL)"
+target = "rvgl/rvgl.exe"
+args = "-prefpath \"%APPDATA%\\RVGL\""
+description = "Re-Volt, the radio-controlled car racer, on the RVGL engine"
+requires = "rvgl/rvgl.exe"

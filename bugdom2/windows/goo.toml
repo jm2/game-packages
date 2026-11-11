@@ -1,0 +1,42 @@
+# GooGet (Windows) package; built by tools/goo-build.
+name = "bugdom2"
+version = "4.0.0"
+release = 1
+arch = "x86_64"
+description = """
+Bugdom 2, Pangea Software's sequel to Bugdom starring Skip the grasshopper,
+updated for modern systems by Iliyas Jorio (upstream's self-contained Windows
+x64 build, including game data, SDL2 and the MSVC runtime). Preferences and
+saved games go to %APPDATA%\\Bugdom2 for each user."""
+# Game code and assets (CC-BY-NC-SA-4.0), Pomme (MIT) and bundled SDL2.dll
+# (Zlib).
+license = "CC-BY-NC-SA-4.0 AND MIT AND Zlib"
+url = "https://github.com/jorio/Bugdom2"
+release_notes = ["Initial GooGet package (upstream 4.0.0 Windows x64 build)"]
+
+[files]
+"bugdom2" = "<ProgramFiles>/Games/bugdom2"
+
+[[shortcut]]
+name = "Bugdom 2"
+# FindGameData() checks <exe dir>/Data first and Pomme's GetPreferencesFolder()
+# uses FOLDERID_RoamingAppData (%APPDATA%\Bugdom2), and the game data ships
+# inside this package, so neither path arguments nor requires are needed.
+target = "bugdom2/Bugdom2.exe"
+args = ""
+description = "Track down the Bully Bee and get your knapsack back!"
+
+# Upstream publishes no release digest; SHA-256 computed from the v4.0.0 asset.
+[[source]]
+name = "Bugdom2-4.0.0-windows-x64.zip"
+url = "https://github.com/jorio/Bugdom2/releases/download/v4.0.0/Bugdom2-4.0.0-windows-x64.zip"
+sha256 = "055a318c6268139c01204164e9250670adf3f796bb8b27e020d96c3433d9d2ec"
+
+[stage]
+# $SRC: downloaded sources; $STAGE: the tree [files] maps from.
+# Drop the .pdb debug symbols, matching the stripped Linux binary package.
+script = '''
+unzip -q -o "$SRC/Bugdom2-4.0.0-windows-x64.zip" -d "$STAGE"
+mv "$STAGE/Bugdom2-4.0.0" "$STAGE/bugdom2"
+rm -f "$STAGE/bugdom2/Bugdom2.pdb"
+'''
