@@ -1,7 +1,7 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "openetqw-bin"
 version = "0.1.0"
-release = 1
+release = 2
 arch = "x86_64"
 description = """
 openETQW, the open-source Enemy Territory: QUAKE Wars 1.5 engine with Vulkan
@@ -14,7 +14,7 @@ default).
 Install the game data too: etqw-data-steam."""
 license = "GPL-3.0-or-later AND LicenseRef-ETQW-SDK-EULA AND LicenseRef-ETQW-EULA AND LicenseRef-ETQW-Retail AND Zlib AND MIT AND BSD-3-Clause AND BSD-2-Clause AND Apache-2.0"
 url = "https://github.com/jm2/openETQW"
-release_notes = ["Initial GooGet package (upstream 0.1.0 Windows x64 build + ET:QW 1.5 patch paks)"]
+release_notes = ["Initial GooGet package (upstream 0.1.0 Windows x64 build + ET:QW 1.5 patch paks)", "Windows on ARM: native arm64 build alongside x86_64 (googet prefers it there)"]
 
 # Same directory as etqw-data-steam, which installs base/pak000-pak004.pk4,
 # base/zpak*000.pk4, base/megatextures/ and base/video/; this package adds the

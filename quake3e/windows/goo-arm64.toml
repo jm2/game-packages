@@ -1,0 +1,36 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = "Improved Quake III Arena engine with OpenGL and Vulkan renderers (upstream's\nWindows ARM64 build), installed next to the Quake III Arena data packages. Settings,\ndemos and screenshots go to %APPDATA%\\Quake3 for each user.\n\nInstall the game data too: quake3-data-steam or quake3-data-gog, plus\nquake3-pointrelease-data."
+
+[[shortcut]]
+name = "Quake III Arena (Quake3e)"
+target = "quake3/quake3e.arm64.exe"
+args = "+set fs_homepath \"%APPDATA%\\Quake3\""
+description = "Quake III Arena"
+requires = "quake3/baseq3/pak0.pk3"
+
+[[shortcut]]
+name = "Quake III Team Arena (Quake3e)"
+target = "quake3/quake3e.arm64.exe"
+args = "+set fs_homepath \"%APPDATA%\\Quake3\" +set fs_game missionpack"
+description = "Quake III: Team Arena"
+requires = "quake3/missionpack/pak0.pk3"
+
+[[firewall]]
+name = "Quake3e"
+program = "quake3/quake3e.arm64.exe"
+
+[[firewall]]
+name = "Quake3e dedicated server"
+program = "quake3/quake3e.ded.arm64.exe"
+
+[[source]]
+name = "quake3e-windows-arm64-2026-10-14.zip"
+url = "https://github.com/ec-/Quake3e/releases/download/2026-10-14/quake3e-windows-arm64.zip"
+sha256 = "b24a6628bc7744f95e73f0595e1e98bf7338ce6de0ab6001d30418a288e82c63"
+
+[stage]
+script = '''
+mkdir -p "$STAGE/quake3"
+unzip -q -o "$SRC/quake3e-windows-arm64-2026-10-14.zip" -d "$STAGE/quake3"
+'''

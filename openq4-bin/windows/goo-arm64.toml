@@ -1,0 +1,57 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = """
+openQ4, the open-source Quake 4 engine and game-code replacement with OpenGL
+and experimental Vulkan renderers (upstream's Windows ARM64 build, plus the
+Quake 4 1.4.2 patch paks pak013-pak022 from id Software's point release),
+installed next to the Quake 4 data packages in C:\\Program Files\\Games\\quake4.
+Configs, saves, caches and logs go to %LOCALAPPDATA%\\openQ4 for each user (the
+engine's own default).
+
+Install the game data too: quake4-data-steam or quake4-data-gog.
+
+The engine and OpenAL32.dll dynamically link the ARM64 Microsoft Visual C++
+2015-2022 Redistributable."""
+
+[[shortcut]]
+name = "Quake 4 (openQ4)"
+target = "quake4/openQ4-client_arm64.exe"
+args = ""
+description = "Quake 4"
+requires = "quake4/q4base/pak001.pk4"
+
+[[firewall]]
+name = "openQ4"
+program = "quake4/openQ4-client_arm64.exe"
+
+[[firewall]]
+name = "openQ4 dedicated server"
+program = "quake4/openQ4-ded_arm64.exe"
+
+[[source]]
+name = "openq4-0.13.2-windows-arm64.zip"
+url = "https://github.com/themuffinator/openQ4/releases/download/v0.13.2/openq4-0.13.2-windows-arm64.zip"
+sha256 = "a7d9ec779ce10368b812a6287be5d870895be700825029676a99a397129f535d"
+
+[[source]]
+name = "quake4-linux-1.4.2.x86.run"
+url = "https://aur.slashbunny.com/quake4/quake4-linux-1.4.2.x86.run"
+sha256 = "9203b387b1a4075a1b9ad1eb7be32b49a88141a448d9330d9cbe1f40a145bd6a"
+
+[stage]
+# Same as goo.toml with the _arm64 binaries; .pdb debug symbols stripped.
+script = '''
+mkdir -p "$WORK"
+unzip -q -o "$SRC/openq4-0.13.2-windows-arm64.zip" -d "$WORK"
+sh "$SRC/quake4-linux-1.4.2.x86.run" --noexec --nox11 --target "$WORK/quake4-1.4.2" >/dev/null
+z=$WORK/openq4-0.13.2-windows-arm64 q4=$WORK/quake4-1.4.2 d=$STAGE/quake4
+mkdir -p "$d/baseoq4" "$d/q4base"
+cp "$z"/openQ4-client_arm64.exe "$z"/openQ4-ded_arm64.exe \
+    "$z"/renderer-*_arm64.dll "$z"/OpenAL32.dll \
+    "$z"/VERSION.txt "$z"/LICENSE "$z"/README.html "$d/"
+cp -R "$z/docs" "$d/"
+cp "$z"/baseoq4/*.dll "$z"/baseoq4/*.pk4 "$z"/baseoq4/mod.json "$d/baseoq4/"
+cp "$q4"/q4base/pak0??.pk4 "$q4"/q4base/q4cmp_pak001.pk4 \
+    "$q4"/q4base/zpak_english_0?.pk4 "$q4"/us/q4base/*.pk4 "$d/q4base/"
+cp "$q4/License.txt" "$d/Quake4-License.txt"
+'''

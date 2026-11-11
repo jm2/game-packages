@@ -76,10 +76,19 @@ creates, and uninstall scripts run before the files are removed.
   and the quake3 data packages do this for Quake III and Team Arena.
   Install scripts reconcile (create or delete), because a googet upgrade
   runs only the new version's install script, never the old uninstall.
+- `<pkg>/windows/goo-<arch>.toml` (hand-written): another architecture of
+  the same package, holding only the keys that differ from goo.toml (`arch`,
+  `[[source]]`, `[stage]`, `description`, and `[[shortcut]]`/`[[firewall]]`
+  when the executables are named differently). Each replaces goo.toml's
+  top-level key of that name. googet on Windows on ARM installs `arm64`
+  before `x86_64`, `x86_32` and `noarch`, so a native build replaces the
+  emulated one there; elsewhere it's ignored. Game and data packages stay
+  `noarch`. The goo repo in crossdock.yaml must list `arm64`.
 - `tools/goo-build <pkgdir> [out]`: downloads `[[source]]` files, runs the
   `[stage]` script (generated packages: `build.sh prepare` + `install` in a
   Fedora container with gbe-fork-bin / xlln-bin from `$OUT`, links followed)
-  and packs the result with `tools/goopack.py`. Store data comes from the
+  and packs the result with `tools/goopack.py`, then does the same for each
+  goo-<arch>.toml merged over goo.toml. Store data comes from the
   same `PT_CACHE` as the Linux builds (`tools/fetch-steam`, `tools/fetch-gog`).
 - `tools/promote` moves `.goo` files into crossdock's incoming directory
   like the other formats.
@@ -94,7 +103,8 @@ Versions become googet's `X.Y.Z@release` (`tools/goopack.py goo_version`):
 gzip member, as pigz does; Go's gzip.Reader in googet and crossdock reads
 multi-member streams), at level 1 by default: game data barely compresses.
 `GOO_GZIP_LEVEL` and `GOO_GZIP_JOBS` override. About 150 MB/s on antec
-against 31 MB/s single-threaded at level 6; the output is reproducible.
+against 31 MB/s single-threaded at level 6. Files are reproducible, but
+directory timestamps are the build's, so a rebuild needs a new release.
 
 googet downloads a package to its cache and extracts it before copying the
 files, so a client needs about two and a half times a package's size free
@@ -156,24 +166,31 @@ port now has a hand-written `windows/goo.toml`.
 
 | Package | Windows build | Notes |
 |---|---|---|
-| quake3e | ec-/Quake3e 2026-10-14 windows-x86_64.zip | done |
+| quake3e | ec-/Quake3e 2026-10-14 windows-x86_64 and -arm64 zips | done (`x86_64` + `arm64`) |
 | yamagi-quake2 (+ctf, rogue, xatrix) | deponie.yamagi.org quake2-8.70a.zip | done (`x86_32`; ctf 1.13, rogue 2.16, xatrix 2.17 split out to match Linux) |
 | yamagi-quake2-ref_vk | yquake2/ref_vk v1.0.12 i686 zip | done (`x86_32`) |
 | dhewm3 | dhewm/dhewm3 1.5.5_win32.zip | done (`x86_32`; includes base + `d3xp` DLLs; `dhewm3_notools.exe` shortcuts for Doom 3 and Resurrection of Evil) |
 | rbdoom-3-bfg | RobertBeckebans/RBDOOM-3-BFG v1.6.0 full-win64 .7z (1.65 GB) | done (`x86_64`; shares cached `.7z` with `rbdoom-3-bfg-gi-data`, excludes GI/blood `.pk4`s, tools, and shader PDBs; runs bundled `VC_redist.x64.exe`) |
 | etlegacy-bin | etlegacy.com file/793 (v2.86.2 x64 zip) | done (`x86_64`; numeric download URL; Linux/macOS Omni-Bot `.so` trimmed) |
-| openetqw-bin, kisakcod-bin | jm2 v0.1.0 windows-x64 zips (+ ET:QW 1.5 `.run` patch paks for openETQW) | done (`x86_64`; `v0.1.0` releases are still drafts so URLs 404 until published or cached via `gh release download`; current kisakcod draft uses `-client.zip` without `-beta`) |
-| openq4-bin | themuffinator/openQ4 v0.13.2 windows-x64.zip + Quake 4 1.4.2 `.run` patch paks | done (`x86_64`; strips `.pdb` debug symbols, adds required `pak013`–`pak022.pk4` from 1.4.2 point release) |
+| openetqw-bin, kisakcod-bin | jm2 v0.1.0 windows-x64 and -arm64 zips (+ ET:QW 1.5 `.run` patch paks for openETQW) | done (`x86_64` + `arm64`; `v0.1.0` releases are still drafts so URLs 404 until published or cached via `gh release download`; current kisakcod draft uses `-client.zip` without `-beta`) |
+| openq4-bin | themuffinator/openQ4 v0.13.2 windows-x64 and -arm64 zips + Quake 4 1.4.2 `.run` patch paks | done (`x86_64` + `arm64`; strips `.pdb` debug symbols, adds required `pak013`–`pak022.pk4` from 1.4.2 point release) |
 | lilium-voyager-git | MinGW-w64 x86_64 build of pinned commit `51fccb9b` | done (`x86_64`; `0.20261031`, settings in `%APPDATA%\Lilium Voyager`) |
 | prey2006-git | MinGW-w64 x86_64 build of pinned commit `1d9d18d7` | done (`x86_64`; `0.20261101`, settings/saves in `Documents\My Games\prey06`) |
 | quake2rtx | NVIDIA/Q2RTX v1.8.1 windows.exe (NSIS, unpacked with 7z) | done (`x86_64`; separate `Games\quake2rtx` with shareware pak, `+set homedir "%APPDATA%\Quake2RTX"`) |
 | unreal-tournament-bin | OldUnreal 469e Windows-x86.zip | done (`x86_32`; `-SETHOMEDIR="%APPDATA%\UnrealTournament\System"`, retail `editorres` + `EdSplash.bmp` trimmed to avoid data overlap) |
 | ut2004-bin | OldUnreal 3374-rc3 Windows-d906d39a.zip | done (`x86_64`; defaults to `D3D11Drv` since `D3D9Drv` needs `d3dx9_43.dll`, needs VC++ 2015-2022 x64 runtime, `[writable]` install subdirs until `UT2004Patches#490`) |
 | rvgl-bin | rvgl 23.1030a1 win64 .7z | done (`x86_64`; split into `packs/rvgl_assets` + `packs/default.txt`, `-prefpath "%APPDATA%\RVGL"`, writable `packs/local`) |
-| cro-mag-rally-net | jm2/CroMagRally v3.2.0 windows-x64 zip | done (arm64 zip available upstream too) |
+| cro-mag-rally-net | jm2/CroMagRally v3.2.0 windows-x64 and -ARM64 zips | done (`x86_64` + `arm64`) |
 | Jorio ports | each project's windows-x64 zip | done (`billy-frontier`, `bugdom`, `bugdom2`, `mightymike` `-hotfix`, `nanosaur`, `nanosaur2`, `ottomatic`) |
 | agelanserver(-companion), gbe-fork-bin, xlln-bin | same archives the Linux packages use | already Windows files |
 | steamcmd | steamcmd.zip (unversioned) | self-updating |
 | tributary(-bin) | jm2/tributary v0.7.2 windows-x86_64.zip | arm64 zip too |
 | geysermc-bin | same jar | needs Java on Windows |
 | owntone-server, netatalk-appletalk | none | Unix-only |
+
+Windows on ARM (checked 2026-11-11): upstream arm64 builds exist for
+cro-mag-rally-net, kisakcod-bin, openetqw-bin, openq4-bin, quake3e, tributary,
+balun and carryout. None for the Jorio ports, dhewm3, Yamagi Quake II,
+RBDOOM-3-BFG, Q2RTX, ET: Legacy (Linux aarch64 only), or OldUnreal's UT
+(through v469f-rc6) and UT2004 patches; switchworks and crossdock ship
+Windows x64 only. Their x64/x86 packages run under Windows' emulation.

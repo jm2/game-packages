@@ -1,0 +1,50 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = """
+openETQW, the open-source Enemy Territory: QUAKE Wars 1.5 engine with Vulkan
+and OpenGL renderers (upstream's Windows ARM64 build, plus the ET:QW 1.5 patch
+paks pak005-pak008 from id Software's client patch), installed next to the
+ET:QW data package in C:\\Program Files\\Games\\etqw. Configs, logs and the
+shader cache go to %LOCALAPPDATA%\\openETQW for each user (the engine's own
+default).
+
+Install the game data too: etqw-data-steam."""
+
+[[shortcut]]
+name = "Enemy Territory QUAKE Wars (openETQW)"
+target = "etqw/openETQW-client_arm64.exe"
+args = ""
+description = "Enemy Territory: QUAKE Wars"
+requires = "etqw/base/pak000.pk4"
+
+[[firewall]]
+name = "openETQW"
+program = "etqw/openETQW-client_arm64.exe"
+
+[[firewall]]
+name = "openETQW dedicated server"
+program = "etqw/openETQW-ded_arm64.exe"
+
+[[source]]
+name = "openetqw-0.1.0-windows-arm64.zip"
+url = "https://github.com/jm2/openETQW/releases/download/v0.1.0/openetqw-0.1.0-windows-arm64.zip"
+sha256 = "7f4439b00183db5ae9bd7bd1123ec2fcf0024079e183b67fb9e1da30e1f25d68"
+
+[[source]]
+name = "ETQW-client-1.5-full.x86.run"
+url = "https://cdn.splashdamage.com/downloads/games/etqw/ETQW-client-1.5-full.x86.run"
+sha256 = "827395c5ad7bff36a8456f7f210ab43b8cc2b0d18e9f366d15ff4f11eacfc4c5"
+
+[stage]
+container = "fedora"
+deps = ["bsdtar", "unzip"]
+script = '''
+unzip -q -o "$SRC/openetqw-0.1.0-windows-arm64.zip" -d "$STAGE"
+mv "$STAGE/openetqw-0.1.0-windows-arm64" "$STAGE/etqw"
+mkdir -p "$WORK/etqw-1.5"
+bsdtar -xf "$SRC/ETQW-client-1.5-full.x86.run" -C "$WORK/etqw-1.5" \
+    'data/base/pak00[5-8].pk4' 'data/base/zpak_english00[1-3].pk4' data/EULA.txt
+cp "$WORK"/etqw-1.5/data/base/pak00[5-8].pk4 \
+    "$WORK"/etqw-1.5/data/base/zpak_english00[1-3].pk4 "$STAGE/etqw/base/"
+cp "$WORK/etqw-1.5/data/EULA.txt" "$STAGE/etqw/licenses/ETQW-EULA.txt"
+'''

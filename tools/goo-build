@@ -7,6 +7,8 @@
 # ${PT_CACHE:-${TMPDIR:-/var/tmp}/linux-packages-cache}/<[stage] source_dir or name-goo>/ (checking
 # their SHA-256), runs its [stage] script with $SRC and $STAGE set, and packs
 # the result with tools/goopack.py. Output: ${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/<name>/goo/.
+# Each windows/goo-<arch>.toml (only the keys that differ, see goopack.py) adds
+# a .goo for that architecture, built the same way from the merged manifest.
 set -euo pipefail
 tools=$(dirname "$(realpath "$0")")
 pkgdir=$(realpath "${1:?usage: goo-build <pkgdir> [out dir]}")
@@ -20,42 +22,54 @@ work=$(mktemp -d -p "${TMPDIR:-/var/tmp}" "goo-$name.XXXXXX")
 trap 'rm -rf "$work"' EXIT
 mkdir -p "$src" "$work/stage"
 
-python3 - "$manifest" <<'PY' | while IFS=$'\t' read -r f url sum; do
+build_one() { # <manifest>
+    local manifest=$1
+    rm -rf "$work/stage" "$work/w"; mkdir -p "$work/stage"
+    python3 - "$manifest" <<'PY' | while IFS=$'\t' read -r f url sum; do
 import sys, tomllib
 for s in tomllib.load(open(sys.argv[1], "rb")).get("source", []):
     print(s["name"], s["url"], s["sha256"], sep="\t")
 PY
-    if ! echo "$sum  $src/$f" | sha256sum -c --status 2>/dev/null; then
-        echo "==> downloading $f"
-        curl -fsSL --retry 3 -A 'Mozilla/5.0' -o "$src/.$f.part" "$url"
-        mv "$src/.$f.part" "$src/$f"
-        echo "$sum  $src/$f" | sha256sum -c --quiet || { rm -f "$src/$f"; exit 1; }
-    fi
-done
+        if ! echo "$sum  $src/$f" | sha256sum -c --status 2>/dev/null; then
+            echo "==> downloading $f"
+            curl -fsSL --retry 3 -A 'Mozilla/5.0' -o "$src/.$f.part" "$url"
+            mv "$src/.$f.part" "$src/$f"
+            echo "$sum  $src/$f" | sha256sum -c --quiet || { rm -f "$src/$f"; exit 1; }
+        fi
+    done
 
-get() { python3 -c 'import sys,tomllib; v=tomllib.load(open(sys.argv[1],"rb")).get("stage",{}).get(sys.argv[2],""); print(" ".join(v) if isinstance(v,list) else v)' "$manifest" "$1"; }
-script=$(get script) container=$(get container)
-if [ -z "$container" ]; then
-    ( cd "$work/stage" && SRC=$src STAGE=$work/stage PKGDIR=$pkgdir WORK=$work/w bash -euo pipefail -c "$script" )
-else
-    # Generated packages run their build.sh in a clean Fedora container, with
-    # locally built runtime packages (gbe-fork-bin, xlln-bin) from $OUT
-    # installed so their links can be followed.
-    [ "$container" = fedora ] || { echo "goo-build: unknown container '$container'" >&2; exit 1; }
-    root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
-    cache=${PT_CACHE:-${TMPDIR:-/var/tmp}/linux-packages-cache}
-    mkdir -p "$work/w"
-    podman run --rm -v "$pkgdir:/pkg:ro,Z" -v "$cache:/cache:ro,z" -v "$work:/work:Z" -v "$root:/local:ro,z" \
-        -e DEPS="$(get deps)" -e LOCAL="$(get local)" -e SCRIPT="$script" \
-        "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" bash -euo pipefail -c '
-            # Our own packages come from $OUT (newest build), the rest from Fedora.
-            repo=$(for d in $DEPS; do [[ " $LOCAL " == *" $d "* ]] || printf "%s " "$d"; done)
-            [ -n "$repo" ] && dnf -y -q install $repo >/dev/null
-            for l in $LOCAL; do
-                rpm=$(ls -v /local/$l/fedora/$l-[0-9]*.rpm | grep -v -- "-debug" | tail -n 1)
-                rpm -i --nodeps --nosignature "$rpm"
-            done
-            cd /work/stage && SRC=/cache/'"${srcdir:-$name-goo}"' STAGE=/work/stage PKGDIR=/pkg WORK=/work/w PT_CACHE=/cache \
-                bash -euo pipefail -c "$SCRIPT"'
-fi
-python3 "$tools/goopack.py" "$manifest" "$work/stage" "$out"
+    get() { python3 -c 'import sys,tomllib; v=tomllib.load(open(sys.argv[1],"rb")).get("stage",{}).get(sys.argv[2],""); print(" ".join(v) if isinstance(v,list) else v)' "$manifest" "$1"; }
+    script=$(get script) container=$(get container)
+    if [ -z "$container" ]; then
+        ( cd "$work/stage" && SRC=$src STAGE=$work/stage PKGDIR=$pkgdir WORK=$work/w bash -euo pipefail -c "$script" )
+    else
+        # Generated packages run their build.sh in a clean Fedora container, with
+        # locally built runtime packages (gbe-fork-bin, xlln-bin) from $OUT
+        # installed so their links can be followed.
+        [ "$container" = fedora ] || { echo "goo-build: unknown container '$container'" >&2; exit 1; }
+        root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
+        cache=${PT_CACHE:-${TMPDIR:-/var/tmp}/linux-packages-cache}
+        rm -rf "$work/w"; mkdir -p "$work/w"
+        podman run --rm -v "$pkgdir:/pkg:ro,Z" -v "$cache:/cache:ro,z" -v "$work:/work:Z" -v "$root:/local:ro,z" \
+            -e DEPS="$(get deps)" -e LOCAL="$(get local)" -e SCRIPT="$script" \
+            "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" bash -euo pipefail -c '
+                # Our own packages come from $OUT (newest build), the rest from Fedora.
+                repo=$(for d in $DEPS; do [[ " $LOCAL " == *" $d "* ]] || printf "%s " "$d"; done)
+                [ -n "$repo" ] && dnf -y -q install $repo >/dev/null
+                for l in $LOCAL; do
+                    rpm=$(ls -v /local/$l/fedora/$l-[0-9]*.rpm | grep -v -- "-debug" | tail -n 1)
+                    rpm -i --nodeps --nosignature "$rpm"
+                done
+                cd /work/stage && SRC=/cache/'"${srcdir:-$name-goo}"' STAGE=/work/stage PKGDIR=/pkg WORK=/work/w PT_CACHE=/cache \
+                    bash -euo pipefail -c "$SCRIPT"'
+    fi
+    python3 "$tools/goopack.py" "$manifest" "$work/stage" "$out"
+}
+
+build_one "$manifest"
+for overlay in "$pkgdir"/windows/goo-*.toml; do
+    [ -e "$overlay" ] || continue
+    echo "==> $(basename "$overlay")"
+    python3 "$tools/goopack.py" --merge "$manifest" "$overlay" "$work/$(basename "$overlay")"
+    build_one "$work/$(basename "$overlay")"
+done

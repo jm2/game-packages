@@ -1,0 +1,26 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+# Same executable names and layout as the x64 zip, so [[shortcut]] and
+# [[firewall]] carry over.
+arch = "arm64"
+description = """
+KisakCOD, the native 64-bit Call of Duty 4: Modern Warfare (1.8) multiplayer
+client and dedicated server (upstream's Windows ARM64 build), installed next to
+the Call of Duty 4 data package in C:\\Program Files\\Games\\cod4. Client
+profiles, settings, downloads and logs go to %APPDATA%\\KisakCOD for each user
+(the client's own default).
+
+Install the game data too: cod4-data-steam.
+
+When running KisakCOD-dedi.exe from a command prompt against the read-only
+install directory, pass +set fs_homepath \"%APPDATA%\\KisakCOD\"."""
+
+[[source]]
+name = "kisakcod-0.1.0-windows-arm64-client.zip"
+url = "https://github.com/jm2/kisakcod/releases/download/v0.1.0/kisakcod-0.1.0-windows-arm64-client.zip"
+sha256 = "067f99f8f04a86c6bb362a083c4bfe2eaf0f24226c150c3ca66443f409ab4be3"
+
+[stage]
+script = '''
+unzip -q -o "$SRC/kisakcod-0.1.0-windows-arm64-client.zip" -d "$STAGE"
+mv "$STAGE/kisakcod-0.1.0-windows-arm64-client" "$STAGE/cod4"
+'''

@@ -1,0 +1,21 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = """
+Cro-Mag Rally, Pangea Software's prehistoric kart racer updated for modern
+systems by Iliyas Jorio, with experimental LAN multiplayer (upstream's
+self-contained Windows ARM64 build, including game data, SDL3 and the MSVC
+runtime). Preferences, player profiles and best race times go to
+%APPDATA%\\CroMagRally for each user."""
+
+[[source]]
+name = "CroMagRally-3.2.0-windows-ARM64.zip"
+url = "https://github.com/jm2/CroMagRally/releases/download/v3.2.0/CroMagRally-3.2.0-windows-ARM64.zip"
+sha256 = "84248bd67de5f892a786f0bbe3444510d6099ae6fac7510877608ddcc2b3b8f1"
+
+[stage]
+# Same layout as the x64 zip; no .pdb in it.
+script = '''
+unzip -q -o "$SRC/CroMagRally-3.2.0-windows-ARM64.zip" -d "$STAGE"
+mv "$STAGE/CroMagRally-3.2.0" "$STAGE/cro-mag-rally"
+rm -f "$STAGE/cro-mag-rally/CroMagRally.pdb"
+'''

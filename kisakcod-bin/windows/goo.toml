@@ -1,7 +1,7 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "kisakcod-bin"
 version = "0.1.0"
-release = 1
+release = 2
 arch = "x86_64"
 description = """
 KisakCOD, the native 64-bit Call of Duty 4: Modern Warfare (1.8) multiplayer
@@ -16,7 +16,7 @@ When running KisakCOD-dedi.exe from a command prompt against the read-only
 install directory, pass +set fs_homepath \"%APPDATA%\\KisakCOD\"."""
 license = "GPL-3.0-only AND BSD-3-Clause AND Zlib AND LGPL-2.1-or-later AND LGPL-2.0-or-later"
 url = "https://github.com/jm2/kisakcod"
-release_notes = ["Initial GooGet package (upstream 0.1.0 Windows x64 build)"]
+release_notes = ["Initial GooGet package (upstream 0.1.0 Windows x64 build)", "Windows on ARM: native arm64 build alongside x86_64 (googet prefers it there)"]
 
 # Same directory as cod4-data-steam (Steam app 7940, 2007 DirectX 9 release
 # using mss32.dll/binkw32.dll). Upstream names its executables and docs

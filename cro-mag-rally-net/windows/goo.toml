@@ -1,7 +1,7 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "cro-mag-rally-net"
 version = "3.2.0"
-release = 1
+release = 2
 arch = "x86_64"
 description = """
 Cro-Mag Rally, Pangea Software's prehistoric kart racer updated for modern
@@ -20,7 +20,7 @@ provides = ["cro-mag-rally"]
 # cro-mag-rally Windows package exists here; if one is added, conflict by its
 # real package name.
 conflicts = []
-release_notes = ["Initial GooGet package (upstream 3.2.0 Windows x64 build)"]
+release_notes = ["Initial GooGet package (upstream 3.2.0 Windows x64 build)", "Windows on ARM: native arm64 build alongside x86_64 (googet prefers it there)"]
 
 [files]
 "cro-mag-rally" = "<ProgramFiles>/Games/cro-mag-rally"

@@ -2,6 +2,7 @@
 """Build a GooGet package (.goo) from a staged tree and a goo.toml manifest.
 
     tools/goopack.py <goo.toml> <stage dir> <out dir>
+    tools/goopack.py --merge <goo.toml> <goo-ARCH.toml> <merged.toml>
 
 A .goo is a gzip tarball holding <name>.pkgspec (JSON, googet's PkgSpec),
 the payload and optional install/uninstall scripts. googet extracts it,
@@ -61,6 +62,13 @@ really writes to.
 
 A <stage dir>/.version file (written by the stage script, e.g. a Steam
 build's version) overrides `version`.
+
+Other architectures: windows/goo-<arch>.toml (e.g. goo-arm64.toml) holds only
+what differs from goo.toml (arch, [[source]], [stage], and [[shortcut]] or
+[[firewall]] when the executables have other names). --merge writes goo.toml
+with each of its top-level keys replaced; tools/goo-build builds one .goo per
+manifest. googet on Windows on ARM prefers arm64, then x86_64 and x86_32, so
+the arm64 build replaces the emulated one there.
 """
 import gzip, io, json, os, re, sys, tarfile, tomllib
 from concurrent.futures import ThreadPoolExecutor
@@ -254,7 +262,45 @@ def scripts(m: dict) -> tuple[str, str] | None:
     return "\r\n".join(ins) + "\r\n", "\r\n".join(un) + "\r\n"
 
 
+def toml_dump(m: dict) -> str:
+    """TOML for a goo.toml-shaped dict: scalars and string lists at the top,
+    then flat tables and arrays of flat tables. JSON strings are valid TOML
+    basic strings."""
+    def val(v):
+        return json.dumps(v, ensure_ascii=False)
+    def body(t):
+        return [f"{val(k)} = {val(v)}" for k, v in t.items()]
+    plain = {k: v for k, v in m.items()
+             if not isinstance(v, dict) and not (isinstance(v, list) and v and isinstance(v[0], dict))}
+    out = body(plain)
+    for k, v in m.items():
+        if isinstance(v, dict):
+            out += ["", f"[{k}]", *body(v)]
+        elif isinstance(v, list) and v and isinstance(v[0], dict):
+            for t in v:
+                out += ["", f"[[{k}]]", *body(t)]
+    return "\n".join(out) + "\n"
+
+
+def merge(base: Path, overlay: Path, dest: Path) -> int:
+    m = tomllib.loads(base.read_text())
+    o = tomllib.loads(overlay.read_text())
+    want = overlay.stem.removeprefix("goo-")
+    if o.get("arch") != want:
+        sys.exit(f"goopack: {overlay.name} must set arch = \"{want}\"")
+    if want == m["arch"]:
+        sys.exit(f"goopack: {overlay.name} has goo.toml's arch")
+    m.update(o)
+    text = toml_dump(m)
+    if tomllib.loads(text) != m:
+        sys.exit("goopack: the merged manifest doesn't round-trip")
+    dest.write_text(text)
+    return 0
+
+
 def main() -> int:
+    if len(sys.argv) == 5 and sys.argv[1] == "--merge":
+        return merge(Path(sys.argv[2]), Path(sys.argv[3]), Path(sys.argv[4]))
     if len(sys.argv) != 4:
         print(__doc__.strip()); return 2
     manifest, stage, out = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])

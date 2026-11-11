@@ -1,7 +1,7 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "openq4-bin"
 version = "0.13.2"
-release = 1
+release = 2
 arch = "x86_64"
 description = """
 openQ4, the open-source Quake 4 engine and game-code replacement with OpenGL
@@ -20,7 +20,7 @@ Redistributable."""
 # (LGPL-2.1-or-later).
 license = "GPL-3.0-or-later AND LicenseRef-Quake4-SDK AND LicenseRef-Quake4-EULA AND LGPL-2.1-or-later"
 url = "https://github.com/themuffinator/openQ4"
-release_notes = ["Initial GooGet package (upstream 0.13.2 Windows x64 build + Quake 4 1.4.2 patch paks)"]
+release_notes = ["Initial GooGet package (upstream 0.13.2 Windows x64 build + Quake 4 1.4.2 patch paks)", "Windows on ARM: native arm64 build alongside x86_64 (googet prefers it there)"]
 
 # Same directory as quake4-data-gog and quake4-data-steam, which install only
 # q4base/pak001-pak012.pk4 and q4base/zpak*h.pk4; this package adds baseoq4/
