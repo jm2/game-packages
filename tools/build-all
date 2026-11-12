@@ -364,7 +364,8 @@ def main() -> int:
         results[name] = build(name, group, manual, gog, fmts, args, cache, out, state)
         print(f"<== {name}: {results[name]}", flush=True)
         # Without these every other build would fail, after downloading.
-        if name in LOCAL and (results[name] != "ok" or
+        # (x86_64 only: other x86 builds preinstall them; aarch64 builds don't.)
+        if name in LOCAL and (results[name] != "ok" or TARGET == "x86_64" and
                               any(has_format(name, f) and not built(f, out / name / f) for f in fmts)):
             print(f"build-all: stopping: everything needs {name}", file=sys.stderr)
             results[name] = results[name] if results[name] != "ok" else "failed: no build output in $OUT"
