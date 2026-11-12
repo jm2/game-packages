@@ -7,7 +7,6 @@ x86_64 and aarch64:
 
 - Arch: upstream's `crossdock-x86_64.pkg.tar.zst`; on aarch64, where there
   is none, the arm64 `.deb` (plus `LICENSE` from the tagged source)
-- Fedora: upstream's `crossdock-x86_64.rpm` / `crossdock-aarch64.rpm`
 - Debian: upstream's `crossdock-amd64.deb` / `crossdock-arm64.deb`
 
 All of them hold the same files (upstream's `build-aux/linux/install-tree.sh`):
@@ -26,13 +25,11 @@ The README is installed as `/usr/share/doc/crossdock-bin/README.md`.
 - Arch: pacman removes `crossdock` first and saves an edited config as
   `crossdock.yaml.pacsave`; `crossdock-bin`'s install script moves it back
   and leaves the new default as `crossdock.yaml.pacnew`.
-- Fedora: the edited config stays and the default becomes
-  `crossdock.yaml.rpmnew`. The old package's `%preun` and this package's
-  first-install preset would disable the units; the spec notes which
-  were enabled or running in `%pre` and restores them after the old
-  package is gone.
 - Debian: dpkg hands the conffile over to `crossdock-bin`. The old
   package's prerm stops the units; `crossdock-bin` starts the enabled
   ones again. Don't purge the leftover `crossdock` entry (`rc` in
   `dpkg -l`): its postrm (`deb-systemd-helper purge`) would disable the
   units. If you did, enable them again with `systemctl enable`.
+
+There is no Fedora package here: on Fedora, use upstream's COPR,
+`dnf copr enable jmsqrd/crossdock` (package `crossdock`), which takes precedence.

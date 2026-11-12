@@ -5,6 +5,11 @@ Every package directory builds three ways: `PKGBUILD` (Arch), `<name>.spec`
 locally with dpkg-buildpackage). Nothing here can go to Copr/OBS/PPA: most
 packages contain proprietary game data or prebuilt third-party binaries.
 
+Exception: software that has its own Fedora COPR (the jm2 projects balun,
+tributary, switchworks, crossdock and carryout, in `jmsqrd/<name>`) gets no
+spec here, so the COPR package is the only one on Fedora; their package README
+points to it.
+
 ## Two kinds of package
 
 1. **Generated** (`package.toml` present): game and game-data packages. Edit

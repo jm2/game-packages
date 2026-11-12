@@ -1,5 +1,5 @@
 #!/bin/sh
-# Shared install step for the PKGBUILD, the RPM spec and debian/rules.
+# Shared install step for the PKGBUILD and debian/rules.
 #   install.sh <unpacked upstream package> <destdir> <doc dir name>
 # The unpacked tree is the payload of one of upstream's release packages (the
 # .pkg.tar.zst, .rpm or .deb; all hold the same files under usr/).

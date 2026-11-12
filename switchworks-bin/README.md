@@ -6,7 +6,6 @@ release builds for x86_64 and aarch64:
 
 - Arch: upstream's `switchworks-x86_64.pkg.tar.zst`; on aarch64, where there
   is none, the arm64 `.deb` (plus `LICENSE` from the tagged source)
-- Fedora: upstream's `switchworks-x86_64.rpm` / `switchworks-aarch64.rpm`
 - Debian: upstream's `switchworks-amd64.deb` / `switchworks-arm64.deb`
 
 All of them hold the same files (upstream's `build-aux/linux/install-tree.sh`):
@@ -24,12 +23,11 @@ web UI embeds are with the license files (Debian: the doc directory).
 `switchworks-bin` provides, conflicts with and replaces `switchworks`. The
 `switchworks` account and `/var/lib/switchworks` are kept.
 
-- Fedora: the old package's `%preun` and this package's first-install
-  preset would disable the system coordinator; the spec notes in `%pre`
-  whether it was enabled or running and restores that after the old
-  package is gone.
 - Debian: the old package's prerm stops a running system coordinator and
   `switchworks-bin` (like upstream's .deb) starts nothing at install, so
   start it again with `systemctl start swk-coordinator`. Don't purge the
   leftover `switchworks` entry (`rc` in `dpkg -l`): its postrm would
   disable the unit.
+
+There is no Fedora package here: on Fedora, use upstream's COPR,
+`dnf copr enable jmsqrd/switchworks` (package `switchworks`), which takes precedence.

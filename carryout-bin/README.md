@@ -8,3 +8,6 @@ x86_64 and aarch64. It provides, conflicts with and replaces the
 source-built `carryout` package.
 
 The README is installed as `/usr/share/doc/carryout-bin/README.md`.
+
+There is no Fedora package here: on Fedora, use upstream's COPR,
+`dnf copr enable jmsqrd/carryout` (package `carryout`), which takes precedence.

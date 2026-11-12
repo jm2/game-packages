@@ -1,5 +1,5 @@
 #!/bin/sh
-# Shared install step for the PKGBUILD, the RPM spec and debian/rules.
+# Shared install step for the PKGBUILD and debian/rules.
 #   install.sh <unpacked release package> <destdir> <docdir> [<licensedir>]
 # The release package is upstream's own .pkg.tar.zst, .rpm or .deb, unpacked.
 # All three hold the files of upstream's build-aux/linux/install-tree.sh: swk,

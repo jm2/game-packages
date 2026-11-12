@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# Mirrors the PKGBUILD and tributary-bin.spec: keep the three in step.
+# Mirrors the PKGBUILD: keep the two in step.
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 VER := 0.7.2
 D := $(CURDIR)/debian/tributary-bin
