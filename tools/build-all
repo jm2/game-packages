@@ -10,6 +10,9 @@
     --skip LIST       comma-separated packages to leave out
     --repack          rebuild a game that became noarch from its x86_64 RPM in
                       --rpm-dest (tools/rpm-repack) instead of downloading it
+    --target-arch A   x86_64 (default) or aarch64: build the architecture-
+                      specific packages whose recipes list aarch64, into the
+                      aarch64 repos given as --arch-dest/--rpm-dest
 
 Packages build one at a time: shared runtime packages first, then imported
 AUR dependencies, packages with anonymous downloads, GOG, and Steam. A package that fails is logged and
@@ -22,6 +25,13 @@ your own files are kept.
 Windows (goo) packages come from <package>/windows/goo.toml (tools/goo-build)
 and reuse the package's download. Their builds install gbe-fork-bin and
 xlln-bin from $OUT/<name>/fedora/, so build Fedora at least once first.
+
+With --target-arch aarch64 only Arch and Fedora packages of native software
+build (noarch/any packages already serve both); results and progress are kept
+apart from the x86_64 ones (<format>-aarch64 in $OUT and in its stamps), and
+nothing is preinstalled from $OUT. Run it on an arm64 host if possible: under
+qemu-user-static it works but compiles slowly. Arch needs the
+localhost/archlinuxarm image (tools/archlinuxarm-image).
 
 TMPDIR, PT_CACHE and OUT must be set, and should be on a disk with room for
 the largest game several times over, since the defaults are on the system disk.
@@ -80,11 +90,31 @@ def run(cmd, env=None) -> bool:
     print("  $", " ".join(map(str, cmd)), flush=True)
     return subprocess.run(list(map(str, cmd)), env=env).returncode == 0
 
+TARGET = "x86_64"  # set from --target-arch
+
+def lists_aarch64(name: str, fmt: str) -> bool:
+    """Whether the format's recipe builds an aarch64 package of its own (not
+    noarch/any, and aarch64 among its architectures)."""
+    d = REPO / name
+    if fmt == "arch":
+        m = re.search(r"^arch=\(([^)]*)\)", (d / "PKGBUILD").read_text(), re.M)
+        return bool(m) and "aarch64" in m.group(1).replace('"', "'").split("'")
+    spec = next(d.glob("*.spec")).read_text()
+    if re.search(r"^BuildArch:\s*noarch", spec, re.M):
+        return False
+    m = re.search(r"^ExclusiveArch:\s*(.*)$", spec, re.M)
+    return m is None or "aarch64" in m.group(1).split()
+
 def has_format(name: str, fmt: str) -> bool:
     d = REPO / name
     if fmt == "goo":
-        return (d / "windows" / "goo.toml").exists()
-    return (d / "PKGBUILD").exists() if fmt == "arch" else any(d.glob("*.spec"))
+        return TARGET == "x86_64" and (d / "windows" / "goo.toml").exists()
+    found = (d / "PKGBUILD").exists() if fmt == "arch" else any(d.glob("*.spec"))
+    return found and (TARGET == "x86_64" or lists_aarch64(name, fmt))
+
+def fmt_dir(fmt: str) -> str:
+    """$OUT/<package>/ subdirectory and stamp suffix of a format's builds."""
+    return fmt if TARGET == "x86_64" else f"{fmt}-{TARGET}"
 
 GIT = ["git", "-C", str(REPO)]
 
@@ -207,8 +237,8 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         return f"skipped: needs {', '.join(missing)} in {cache / name}"
     sids = {f: source_id(name, f) for f in fmts}
     def done(fmt):
-        stamp, sid = state / f"{name}.{fmt}", sids[fmt]
-        if name in KEEP and fmt != "goo" and not built(fmt, out / name / fmt):
+        stamp, sid = state / f"{name}.{fmt_dir(fmt)}", sids[fmt]
+        if name in KEEP and fmt != "goo" and TARGET == "x86_64" and not built(fmt, out / name / fmt):
             return False  # other builds preinstall it, so it must be in $OUT
         if args.force or not sid or not stamp.exists():
             return False
@@ -223,7 +253,7 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
     if not todo:
         return "ok"
     repack = {}
-    if args.repack and "fedora" in todo:
+    if args.repack and "fedora" in todo and TARGET == "x86_64":
         if old := repack_source(name, state / f"{name}.fedora", args.rpm_dest):
             repack["fedora"] = old
     # The marker is only written once a download has finished: a directory
@@ -233,8 +263,10 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
             return "failed: download"
         (cache / name).mkdir(parents=True, exist_ok=True)
         (cache / name / FETCHED).touch()
-    env = dict(os.environ)
-    if name in AUR:
+    env = dict(os.environ, TARGET_ARCH=TARGET)
+    if TARGET != "x86_64":
+        env["LOCAL"] = ""  # native builds need none of them
+    elif name in AUR:
         env["LOCAL"] = " ".join(AUR_LOCAL.get(name, []))
     elif name not in RUNTIME:
         env["LOCAL"] = " ".join(LOCAL)
@@ -242,7 +274,7 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         fmt_env = dict(env)
         if fmt == "arch":
             fmt_env["NODEPS"] = "1"  # some makedepends are AUR-only
-        fmt_out = out / name / fmt
+        fmt_out = out / name / fmt_dir(fmt)
         # Anything left here is an older build, which must not be promoted.
         for old in built(fmt, fmt_out):
             old.unlink()
@@ -268,11 +300,11 @@ def build(name, group, manual, gog, fmts, args, cache: Path, out: Path, state: P
         dest = {"arch": args.arch_dest, "fedora": args.rpm_dest, "goo": args.goo_dest}[fmt]
         if not run([TOOLS / "promote", dest, *pkgs]):
             return f"failed: promoting {fmt}"
-        if name not in KEEP:  # other builds preinstall these from $OUT
+        if name not in KEEP or TARGET != "x86_64":  # x86 builds preinstall these from $OUT
             for p in pkgs:
                 p.unlink()
         if sids[fmt]:
-            (state / f"{name}.{fmt}").write_text(sids[fmt])
+            (state / f"{name}.{fmt_dir(fmt)}").write_text(sids[fmt])
     if not args.keep_cache and all(not has_format(name, f) or done(f) for f in fmts):
         clear_download(cache / name, gog)
     return "ok"
@@ -288,17 +320,22 @@ def main() -> int:
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--skip", default="")
     ap.add_argument("--repack", action="store_true")
+    ap.add_argument("--target-arch", default="x86_64", choices=["x86_64", "aarch64"])
     ap.add_argument("packages", nargs="*")
     args = ap.parse_args()
     fmts = args.formats.split(",")
     if set(fmts) - {"arch", "fedora", "goo"}:
         ap.error("--formats takes arch, fedora and goo")
+    global TARGET
+    TARGET = args.target_arch
+    if TARGET != "x86_64" and "goo" in fmts:
+        ap.error("goo packages are built with --target-arch x86_64 (their arm64 builds come from windows/goo-arm64.toml)")
     # Every build preinstalls the LOCAL packages, so they always come along.
     only = set(args.packages)
     wanted = only | set(LOCAL) if only else only
     wanted |= {d for n in only for d in AUR_LOCAL.get(n, [])}
     skip = set(filter(None, args.skip.split(",")))
-    todo = [t for t in packages(wanted) if t[2] not in skip]
+    todo = [t for t in packages(wanted) if t[2] not in skip and any(has_format(t[2], f) for f in fmts)]
     if (only | skip) - {t[2] for t in packages(wanted | skip)}:
         ap.error("unknown package: " + ", ".join((only | skip) - {t[2] for t in packages(wanted | skip)}))
     if args.plan:

@@ -155,6 +155,18 @@ nothing else has changed since; anything else builds from the download.
 Fedora builds target one release (`FEDORA_RELEASE`, default 45), and a single
 repo serves them all: only native packages depend on the release at all.
 
+`--target-arch aarch64` builds the native packages whose recipes list aarch64
+(noarch/any packages already serve both), with `TARGET_ARCH=aarch64` passed to
+`tools/container-build`: arm64 Fedora images, and for Arch the
+`localhost/archlinuxarm` image that `tools/archlinuxarm-image` makes from Arch
+Linux ARM's signed rootfs tarball (there is no official image). Results and
+stamps are kept apart (`$OUT/<pkg>/<format>-aarch64/`), nothing is
+preinstalled, and `--arch-dest`/`--rpm-dest` name the aarch64 repos' incoming
+directories. The builds run on an arm64 host (macmini-m1); on x86_64 they work
+through qemu-user-static but compile slowly. macmini-m1 runs Asahi with 16K
+pages, so a build there that runs its tests also checks that the result copes
+with them.
+
 Set `TMPDIR`, `PT_CACHE` and `OUT` first, on a disk with room for the largest
 game several times over. podman needs `/etc/subuid` and `/etc/subgid` entries
 for the user.

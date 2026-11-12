@@ -50,7 +50,7 @@ PY
         root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
         cache=${PT_CACHE:-${TMPDIR:-/var/tmp}/linux-packages-cache}
         rm -rf "$work/w"; mkdir -p "$work/w"
-        podman run --rm -v "$pkgdir:/pkg:ro,Z" -v "$cache:/cache:ro,z" -v "$work:/work:Z" -v "$root:/local:ro,z" \
+        podman run --rm --arch amd64 -v "$pkgdir:/pkg:ro,Z" -v "$cache:/cache:ro,z" -v "$work:/work:Z" -v "$root:/local:ro,z" \
             -e DEPS="$(get deps)" -e LOCAL="$(get local)" -e SCRIPT="$script" \
             "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" bash -euo pipefail -c '
                 # Our own packages come from $OUT (newest build), the rest from Fedora.

@@ -86,7 +86,7 @@ cp "$new" /out/
 EOF
 
 echo "==> $pkg: repacking ${old##*/}"
-podman run --rm -v "$pkgdir:/src:ro,Z" -v "$old:/old.rpm:ro,z" -v "$work/bin:/bin-repack:ro,Z" \
+podman run --rm --arch amd64 -v "$pkgdir:/src:ro,Z" -v "$old:/old.rpm:ro,z" -v "$work/bin:/bin-repack:ro,Z" \
     -v "$work/out:/out:Z" -v "$work/build:/build:Z" -e SPEC="$spec" -e PKG="$pkg" \
     "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" bash /bin-repack/repack.sh
 cp "$work/out/"*.rpm "$outdir/"
