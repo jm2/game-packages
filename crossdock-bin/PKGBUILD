@@ -2,7 +2,7 @@
 
 pkgname=crossdock-bin
 _pkgname=crossdock
-pkgver=0.2.1
+pkgver=0.2.3
 pkgrel=1
 pkgdesc="Publish packages as signed apt, pacman, RPM and GooGet repositories (with server and systemd units; binary release)"
 arch=('x86_64' 'aarch64')
@@ -26,9 +26,9 @@ source_x86_64=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst::${url}/release
 source_aarch64=("${_pkgname}-${pkgver}-release-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb"
                 "${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE")
 noextract=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-release-arm64.deb")
-sha256sums=('33c41f5ca812d5b3b141e31ebf2b588d283ae6b854565a18519fa1da4c2d6b2e')
-sha256sums_x86_64=('21e026f06a186d662964afa5b59bdbc6c25db91fa43a59c50bfd9c6a09183790')
-sha256sums_aarch64=('2a0def708d7b628828cd05dda2bf44918ef990b39658450da27cb7178e6f5201'
+sha256sums=('3ae81fe27435e2e6487b4eeafc4d712917026d01abfca4d89e0817c8391be383')
+sha256sums_x86_64=('fbbd5bcc4c4c8a56923616ca15711676ee35f268a5c1798969c3d9d016f70ac7')
+sha256sums_aarch64=('c32e5a327ee723aef65aee1af56bffae33256e04f7b567da50eb8a8bc003272e'
                     '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986')
 
 prepare() {

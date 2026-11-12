@@ -3,7 +3,7 @@
 pkgname=carryout-bin
 _pkgname=carryout
 pkgver=0.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Download helper for Google Takeout exports: fetches, resumes and verifies every archive part (binary release)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/carryout"
@@ -17,7 +17,7 @@ options=('!strip' '!debug')
 source=("install.sh")
 source_x86_64=("${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_linux_amd64.tar.gz")
 source_aarch64=("${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_linux_arm64.tar.gz")
-sha256sums=('71f05659cace1fd303d0e799943e27c9c2728e3375e609bd0911d938c739ec49')
+sha256sums=('938f22a8a2dda4290e7e83d8b1ea6ba23c3a9ed280e3d40066b8b0297b1b93fb')
 sha256sums_x86_64=('5d4752e2e37a4445d38853f80e0721d3b9db18a09ff5b863924e9482bf923753')
 sha256sums_aarch64=('c10908e8a8fbe30290c1eb754329fc0df26bf2aa074cb0bd1b214d8eb905f96b')
 

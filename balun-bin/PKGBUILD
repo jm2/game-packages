@@ -3,7 +3,7 @@
 pkgname=balun-bin
 _pkgname=balun
 pkgver=0.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A lightweight cross-platform HDHomeRun live TV viewer (prebuilt binary)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/balun"
@@ -26,8 +26,8 @@ source_x86_64=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst::${url}/releases/downlo
 source_aarch64=("${_pkgname}-${pkgver}-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb")
 noextract=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-arm64.deb")
 sha256sums=('3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986'
-            '6dea79ff49b5ff833e60776fb6c1ba59e9c3272e6219bfcd45266931d5f3c880'
-            'db1aaf4a2f9df4a28af3a9a14e3a237e804efcf31b8ba82993645565149c1b9e')
+            'd69f532b3ca4ba0b5986612c6ffe8e91aae91d31dd37c82f8b62451c37e1aea4'
+            '389028271131ee870abc47ae811ce29c5be5ee7fd37079dc5cbdc7d9815631a9')
 sha256sums_x86_64=('00facdd70955ee2f68f999d2e3156c71fcb82abc6326946acbfb7910e828a6c8')
 sha256sums_aarch64=('6f09888d75e89089cfac2cb180fcaa9459e19163b35752e9e1f2d92ffc0c708a')
 

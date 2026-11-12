@@ -3,7 +3,7 @@
 pkgname=switchworks-bin
 _pkgname=switchworks
 pkgver=0.1.7
-pkgrel=1
+pkgrel=2
 pkgdesc="Control plane for coding agents across your machines (swk, tray icon, systemd units; binary release)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/switchworks"
@@ -23,7 +23,7 @@ source_x86_64=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst::${url}/release
 source_aarch64=("${_pkgname}-${pkgver}-release-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb"
                 "${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE")
 noextract=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-release-arm64.deb")
-sha256sums=('79d18853787726da74e38134c5a7fe3c7b4b08350202f0e0b5c99a12bb432370')
+sha256sums=('9e08a084d8bc6598c4d8d286d55031ed07e025da496830747fb16c93f467b730')
 sha256sums_x86_64=('a0fc978e3d00ea2c281cb584417b1021027a6c8c5aa4641ff9f89410ac827e86')
 sha256sums_aarch64=('562106a4f8788724b6896caf4d80942df0aa39b32591283634c268095d4e0c40'
                     '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986')

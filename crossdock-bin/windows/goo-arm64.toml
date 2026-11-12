@@ -1,0 +1,18 @@
+# Windows on ARM build: merged over goo.toml by tools/goo-build (see goopack.py).
+arch = "arm64"
+description = """
+crossdock publishes, and optionally serves, one pile of package artifacts as
+signed static apt, pacman, RPM and GooGet repositories, from a single Go binary
+(upstream's Windows ARM64 build).
+crossdock.exe is added to the system PATH; nothing runs at install."""
+
+[[source]]
+name = "crossdock-v0.2.3-windows-arm64.zip"
+url = "https://github.com/jm2/crossdock/releases/download/v0.2.3/crossdock-v0.2.3-windows-arm64.zip"
+sha256 = "59442d92c0bc94d9218e718fdb0724889f2e69ecbae9d3db9cdda229934156c8"
+
+[stage]
+script = '''
+unzip -q -o "$SRC/crossdock-v0.2.3-windows-arm64.zip" -d "$STAGE"
+mv "$STAGE/crossdock-v0.2.3-windows-arm64" "$STAGE/crossdock"
+'''

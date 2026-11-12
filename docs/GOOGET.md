@@ -191,13 +191,13 @@ port now has a hand-written `windows/goo.toml`.
 | steamcmd | steamcmd.zip (unversioned) | self-updating |
 | tributary-bin (goo `tributary`) | jm2/tributary v0.7.2 windows-x86_64.zip | arm64 zip too |
 | geysermc-bin | same jar | needs Java on Windows |
-| switchworks-bin, crossdock-bin | jm2/switchworks v0.1.7, jm2/crossdock v0.2.1 windows-amd64 zips | done (`x86_64`; goo names stay `switchworks`, `crossdock`) |
+| switchworks-bin, crossdock-bin | jm2/switchworks v0.1.7 windows-amd64 zip; jm2/crossdock v0.2.3 windows-amd64 and -arm64 zips | done (switchworks `x86_64`, crossdock `x86_64` + `arm64`; goo names stay `switchworks`, `crossdock`) |
 | carryout-bin | jm2/carryout v0.2.0 windows_amd64 and _arm64 zips | done (`x86_64` + `arm64`; goo name stays `carryout`) |
 | owntone-server, netatalk-appletalk | none | Unix-only |
 
-Windows on ARM (checked 2026-11-11): upstream arm64 builds exist for
+Windows on ARM (checked 2026-11-12): upstream arm64 builds exist for
 cro-mag-rally-net, kisakcod-bin, openetqw-bin, openq4-bin, quake3e, tributary,
-balun and carryout. None for the Jorio ports, dhewm3, Yamagi Quake II,
+balun, carryout and crossdock (from 0.2.3). None for the Jorio ports, dhewm3, Yamagi Quake II,
 RBDOOM-3-BFG, Q2RTX, ET: Legacy (Linux aarch64 only), or OldUnreal's UT
-(through v469f-rc6) and UT2004 patches; switchworks and crossdock ship
-Windows x64 only. Their x64/x86 packages run under Windows' emulation.
+(through v469f-rc6) and UT2004 patches; switchworks ships Windows x64 only
+until its next release (its release workflow builds arm64 since PR #77). Their x64/x86 packages run under Windows' emulation.
