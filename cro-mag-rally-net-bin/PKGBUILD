@@ -1,55 +1,55 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 # Contributor: George Rawlinson <george@rawlinson.net.nz>
 
+pkgname=cro-mag-rally-net-bin
 _pkgname=cro-mag-rally
-pkgname="${_pkgname}-net"
+_upname=CroMagRally
 pkgver=3.2.0
 pkgrel=1
-pkgdesc='The wildest racing game since man invented the wheel! Experimental LAN build.'
+pkgdesc='The wildest racing game since man invented the wheel! LAN multiplayer build (prebuilt binary).'
 arch=('x86_64' 'aarch64')
 url='https://github.com/jm2/CroMagRally'
-license=('CC-BY-NC-SA-4.0' 'MIT')
-depends=('gcc-libs' 'glibc' 'hicolor-icon-theme' 'libglvnd' 'sdl3')
-makedepends=('cmake' 'git')
-# No LTO, as upstream: with -ffp-contract=off it keeps floating-point results
-# identical across LAN peers (lockstep netcode).
-options=('!lto')
-provides=("${_pkgname}=${pkgver}")
-conflicts=("${_pkgname}")
-_commit='04f65c36f6db0218be3869d40fb26f17d8109de8'
-source=("${_pkgname}::git+${url}.git#commit=${_commit}"
-        'git+https://github.com/jm2/Pomme.git'
-        "${_pkgname}.desktop"
-        "${_pkgname}.sh"
-        'install.sh')
-sha256sums=('SKIP'
-            'SKIP'
-            '3b95a8828a96f722eb8102f6b4d93953e52de2cf3d0dfa8ac3846042d86c8f96'
-            '79fcbc20ec4176edc87fe617d0cdce311271cabb41d566031cf6380262bb628e'
-            'c39901aafe69a006981e229dddaf989c1fb6a8ef9d09f1324ae8b5265746509a')
+# Game (CC-BY-NC-SA-4.0) and the bundled SDL3, Pomme and support code; see
+# THIRD-PARTY-LICENSES.md.
+license=('CC-BY-NC-SA-4.0' 'Zlib' 'MIT' 'LGPL-2.1-or-later' 'BSD-3-Clause' 'BSL-1.0' 'CC0-1.0'
+         'Apache-2.0' 'SunPro')
+depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libglvnd' 'libstdc++' 'sh')
+# The bundled SDL3 dlopen()s its video and audio backends.
+optdepends=('libx11: X11 video (with libxcursor, libxext, libxfixes, libxi, libxrandr)'
+            'libxcursor: X11 video'
+            'libxext: X11 video'
+            'libxfixes: X11 video'
+            'libxi: X11 video'
+            'libxrandr: X11 video'
+            'wayland: native Wayland video'
+            'libxkbcommon: native Wayland keyboard input'
+            'libdecor: Wayland window decorations'
+            'libpulse: PulseAudio/PipeWire audio output'
+            'alsa-lib: ALSA audio output')
+provides=("${pkgname%-bin}=${pkgver}" "${_pkgname}=${pkgver}")
+conflicts=("${pkgname%-bin}" "${_pkgname}")
+replaces=("${pkgname%-bin}")
+options=('!strip' '!debug')
+# Upstream's release packages: its Arch package on x86_64; it publishes none
+# for aarch64, so Arch Linux ARM gets the files from its aarch64 .deb.
+source=('install.sh'
+        'README.md')
+source_x86_64=("${url}/releases/download/v${pkgver}/${_upname}-${pkgver}-linux-x86_64.pkg.tar.zst")
+source_aarch64=("${url}/releases/download/v${pkgver}/${_upname}-${pkgver}-linux-aarch64.deb")
+noextract=("${_upname}-${pkgver}-linux-x86_64.pkg.tar.zst" "${_upname}-${pkgver}-linux-aarch64.deb")
+sha256sums=('93771dac042de77e0903dffb56d4b612ee6616723519ba3a628a4b4bbe3e79cb'
+            '6b12e24691258c71f03aef49566852f75f8f90fd66893dbcc40f63d8b975f377')
+sha256sums_x86_64=('b251d66e1ae78a295d6ebd5d303a32829380ad36633d05b6d82e59a9b15f3f2e')
+sha256sums_aarch64=('bc18aefea7221221174668cc661978c9d52e1bbc185b9edacd55519473f48abc')
 
 prepare() {
-  cd "${_pkgname}"
-
-  # Point the Pomme submodule at makepkg's clone; the superproject pins the
-  # commit. extern/gl4es is only used on Android/iOS and is not fetched.
-  git submodule init extern/Pomme
-  git config submodule.extern/Pomme.url "${srcdir}/Pomme"
-  git -c protocol.file.allow=always submodule update extern/Pomme
-}
-
-build() {
-  cmake -S "${_pkgname}" -B build \
-    -DCMAKE_BUILD_TYPE=None \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DBUILD_SDL_FROM_SOURCE=OFF \
-    -DBUILD_TESTING=OFF \
-    -Wno-dev
-  cmake --build build
+  rm -rf root && mkdir root
+  case "${CARCH}" in
+    x86_64)  bsdtar -xf "${_upname}-${pkgver}-linux-x86_64.pkg.tar.zst" -C root usr ;;
+    aarch64) bsdtar -xOf "${_upname}-${pkgver}-linux-aarch64.deb" 'data.tar.*' | bsdtar -xf - -C root ;;
+  esac
 }
 
 package() {
-  sh "${srcdir}/install.sh" "${srcdir}/${_pkgname}" "${srcdir}/build" "${pkgdir}" "${pkgver}" "${pkgname}"
-  install -Dm644 "${_pkgname}/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.md"
-  install -Dm644 "${_pkgname}/extern/Pomme/LICENSE.md" "${pkgdir}/usr/share/licenses/${pkgname}/Pomme-LICENSE.md"
+  sh install.sh "${srcdir}/root" "${pkgdir}" "/usr/share/doc/${pkgname}" "/usr/share/licenses/${pkgname}"
 }

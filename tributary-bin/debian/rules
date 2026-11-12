@@ -1,23 +1,25 @@
 #!/usr/bin/make -f
-export DH_VERBOSE = 1
-# Crates are fetched from crates.io (local builds only).
-export CARGO_HOME := $(CURDIR)/debian/cargo-home
-SRC := tributary-0.7.2
+# Mirrors the PKGBUILD and tributary-bin.spec: keep the three in step.
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+VER := 0.7.2
+D := $(CURDIR)/debian/tributary-bin
 
 %:
 	dh $@
 
-override_dh_auto_configure:
-	debian/fetch-sources
-	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
-
 override_dh_auto_build:
-	cd $(SRC) && cargo build --release --locked
+	debian/fetch-sources
+	# Upstream's release .deb for the host architecture (amd64 or arm64).
+	rm -rf root && dpkg-deb -x tributary-$(VER)-$(DEB_HOST_ARCH).deb root
 
 override_dh_auto_install:
-	sh install.sh $(SRC) debian/tributary
+	sh install.sh root $(D) tributary-bin
+	desktop-file-validate $(D)/usr/share/applications/io.github.jm2.tributary.desktop
 
 override_dh_auto_test:
 
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
+
 override_dh_auto_clean:
-	rm -rf $(SRC) debian/cargo-home
+	rm -rf root

@@ -1,2 +1,4 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-ef1ae092087341ee838d88904c5db0b000aa2d2668d380ddd7d6c30011ab1962 switchworks-0.1.7.tar.gz https://github.com/jm2/switchworks/archive/refs/tags/v0.1.7.tar.gz
+# Both architectures' release .debs are listed; debian/rules unpacks the host's.
+e7165a9173751d943db5d3fb0a15e22ad3b122f50152b952fb35a29ee9d46cfa switchworks-0.1.7-release-amd64.deb https://github.com/jm2/switchworks/releases/download/v0.1.7/switchworks-amd64.deb
+562106a4f8788724b6896caf4d80942df0aa39b32591283634c268095d4e0c40 switchworks-0.1.7-release-arm64.deb https://github.com/jm2/switchworks/releases/download/v0.1.7/switchworks-arm64.deb

@@ -1,35 +1,33 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
-pkgname=carryout
+pkgname=carryout-bin
+_pkgname=carryout
 pkgver=0.2.0
 pkgrel=1
-pkgdesc="Download helper for Google Takeout exports: fetches, resumes and verifies every archive part"
+pkgdesc="Download helper for Google Takeout exports: fetches, resumes and verifies every archive part (binary release)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/carryout"
 license=('GPL-3.0-or-later')
 depends=()
-makedepends=('go')
-# Built like upstream's release archives: static and stripped (-s -w).
-options=('!lto' '!debug' '!strip')
-source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
-        "install.sh")
-sha256sums=('65372e94bf36ed2de49e9dba3cc75341db8bfec567fd6d97d411bced684039f9'
-            'bea2a921c5648945c595346fd14d5be1162e3a57bd609939141b2d52dcb80588')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}")
+replaces=("${_pkgname}")
+# Upstream's static, stripped Go binary (CGO_ENABLED=0, -s -w).
+options=('!strip' '!debug')
+source=("install.sh")
+source_x86_64=("${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_linux_amd64.tar.gz")
+source_aarch64=("${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_linux_arm64.tar.gz")
+sha256sums=('71f05659cace1fd303d0e799943e27c9c2728e3375e609bd0911d938c739ec49')
+sha256sums_x86_64=('5d4752e2e37a4445d38853f80e0721d3b9db18a09ff5b863924e9482bf923753')
+sha256sums_aarch64=('c10908e8a8fbe30290c1eb754329fc0df26bf2aa074cb0bd1b214d8eb905f96b')
 
-build() {
-  cd "${pkgname}-${pkgver}"
-  # Standard library only: nothing is downloaded.
-  export GOPATH="${srcdir}/gopath" GOCACHE="${srcdir}/gocache" GOFLAGS="-mod=readonly"
-  # Upstream's release workflow sets the version with -X main.version.
-  CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -X main.version=${pkgver}" -o carryout .
-}
-
+# The archives have no top-level directory: makepkg unpacks carryout,
+# README.md and LICENSE straight into $srcdir.
 check() {
-  cd "${pkgname}-${pkgver}"
   [ "$(./carryout version)" = "carryout ${pkgver}" ]
 }
 
 package() {
-  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
-  install -Dm644 "${pkgname}-${pkgver}/LICENSE" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+  sh install.sh "${srcdir}" "${pkgdir}" "usr/share/doc/${pkgname}"
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

@@ -1,18 +1,26 @@
-Source: cro-mag-rally-net
+Source: cro-mag-rally-net-bin
 Section: games
 Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
-Build-Depends: debhelper-compat (= 13), cmake, libsdl3-dev, libgl-dev,
- desktop-file-utils, curl, ca-certificates
+Build-Depends: debhelper-compat (= 13), desktop-file-utils, curl, ca-certificates
 Standards-Version: 4.7.0
 Homepage: https://github.com/jm2/CroMagRally
 Rules-Requires-Root: no
 
-Package: cro-mag-rally-net
+Package: cro-mag-rally-net-bin
 Architecture: amd64 arm64
-Depends: hicolor-icon-theme, ${shlibs:Depends}, ${misc:Depends}
-Provides: cro-mag-rally
-Conflicts: cro-mag-rally
-Description: prehistoric kart racer from Pangea Software (experimental LAN build)
- Cro-Mag Rally is Pangea Software's prehistoric kart racer, updated for modern
- systems by Iliyas Jorio. This build adds experimental LAN multiplayer.
+Depends: libc6, libstdc++6, libgcc-s1, libgl1, libglx0, libopengl0,
+ hicolor-icon-theme, ${misc:Depends}
+Recommends: libx11-6, libxext6, libxcursor1, libxi6, libxrandr2, libxfixes3,
+ libwayland-client0, libxkbcommon0, libdecor-0-0, libasound2t64 | libasound2,
+ libpulse0
+Provides: cro-mag-rally-net, cro-mag-rally
+Conflicts: cro-mag-rally-net, cro-mag-rally
+Replaces: cro-mag-rally-net
+Breaks: cro-mag-rally-net
+Description: prehistoric kart racer from Pangea Software (LAN build, prebuilt binary)
+ Cro-Mag Rally is Pangea Software's prehistoric kart racer, ported to modern
+ systems by Iliyas Jorio. This build of the jm2 fork adds multiplayer over a
+ wired or Wi-Fi local network.
+ .
+ This package repackages upstream's release .deb.

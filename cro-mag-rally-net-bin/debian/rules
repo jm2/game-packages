@@ -1,26 +1,26 @@
 #!/usr/bin/make -f
-export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+# Mirrors the PKGBUILD and cro-mag-rally-net-bin.spec: keep the three in step.
+DEB_HOST_GNU_CPU ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
 VER := 3.2.0
-COMMIT := 04f65c36f6db0218be3869d40fb26f17d8109de8
-POMME := 0251ee2d5654bd1d33a2b3f35a5ebfd47f97e8e7
-D := $(CURDIR)/debian/cro-mag-rally-net
+D := $(CURDIR)/debian/cro-mag-rally-net-bin
+DOC := /usr/share/doc/cro-mag-rally-net-bin
 
 %:
-	dh $@ --buildsystem=cmake --sourcedirectory=src --builddirectory=build
+	dh $@
 
-override_dh_auto_configure:
+override_dh_auto_build:
 	debian/fetch-sources
-	rm -rf src && mkdir src
-	tar -xf CroMagRally-$(COMMIT).tar.gz -C src --strip-components=1
-	rmdir src/extern/Pomme && mkdir src/extern/Pomme
-	tar -xf Pomme-$(POMME).tar.gz -C src/extern/Pomme --strip-components=1
-	dh_auto_configure -- -DBUILD_SDL_FROM_SOURCE=OFF -DBUILD_TESTING=OFF -Wno-dev
+	# Upstream's release .deb for the host architecture (x86_64 or aarch64).
+	rm -rf root && dpkg-deb -x CroMagRally-$(VER)-linux-$(DEB_HOST_GNU_CPU).deb root
 
 override_dh_auto_install:
-	sh install.sh src build $(D) $(VER) cro-mag-rally-net
-	install -m644 src/LICENSE.md $(D)/usr/share/doc/cro-mag-rally-net/
-	install -m644 src/extern/Pomme/LICENSE.md $(D)/usr/share/doc/cro-mag-rally-net/Pomme-LICENSE.md
-	desktop-file-validate $(D)/usr/share/applications/cro-mag-rally.desktop
+	sh install.sh root $(D) $(DOC) $(DOC)
+	desktop-file-validate $(D)/usr/share/applications/io.jor.cromagrally.desktop
+
+override_dh_auto_test:
+
+# Prebuilt binaries: keep them as upstream shipped them.
+override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
 
 override_dh_auto_clean:
-	rm -rf src build
+	rm -rf root

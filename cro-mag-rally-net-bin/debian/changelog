@@ -1,12 +1,6 @@
-cro-mag-rally-net (3.2.0-1) unstable; urgency=medium
+cro-mag-rally-net-bin (3.2.0-1) unstable; urgency=medium
 
-  * Update to 3.2.0 (commit 04f65c3, Pomme 0251ee2).
-  * Build against the system SDL3 and without the test suite.
+  * Repackage upstream's 3.2.0 release .debs as cro-mag-rally-net-bin,
+    replacing the source-built cro-mag-rally-net package.
 
- -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 04 Nov 2026 16:00:00 -0500
-
-cro-mag-rally-net (3.0.2-5) unstable; urgency=medium
-
-  * Initial Debian package, built from commit 1345101 of jm2/CroMagRally.
-
- -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 22:30:00 -0500

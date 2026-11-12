@@ -1,6 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: carryout
 Source: https://github.com/jm2/carryout
+Comment: Repackaged from upstream's release archives.
 
 Files: *
 Copyright: carryout contributors

@@ -1,4 +1,4 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-# The same pinned commit as the PKGBUILD, and the Pomme commit it records.
-6c0186615ad03a65467c4d5f2251137e131ff0307f7eaa890a2c84a5f66b65a0 CroMagRally-04f65c36f6db0218be3869d40fb26f17d8109de8.tar.gz https://github.com/jm2/CroMagRally/archive/04f65c36f6db0218be3869d40fb26f17d8109de8/CroMagRally-04f65c36f6db0218be3869d40fb26f17d8109de8.tar.gz
-c153aa0bf90344b0776f8327771ba467ae4b9fb8d607017b815559273411fd3e Pomme-0251ee2d5654bd1d33a2b3f35a5ebfd47f97e8e7.tar.gz https://github.com/jm2/Pomme/archive/0251ee2d5654bd1d33a2b3f35a5ebfd47f97e8e7/Pomme-0251ee2d5654bd1d33a2b3f35a5ebfd47f97e8e7.tar.gz
+# Both architectures' release .debs are listed; debian/rules unpacks the host's.
+eb20ee578b834aa5e5fbcf0f1fbf87cdc3f058740ef9d710ae6b28ea98142857 CroMagRally-3.2.0-linux-x86_64.deb https://github.com/jm2/CroMagRally/releases/download/v3.2.0/CroMagRally-3.2.0-linux-x86_64.deb
+bc18aefea7221221174668cc661978c9d52e1bbc185b9edacd55519473f48abc CroMagRally-3.2.0-linux-aarch64.deb https://github.com/jm2/CroMagRally/releases/download/v3.2.0/CroMagRally-3.2.0-linux-aarch64.deb

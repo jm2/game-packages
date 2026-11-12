@@ -1,5 +1,5 @@
 # Go binaries are statically linked by design (CGO_ENABLED=0), as upstream ships them.
-switchworks: statically-linked-binary [usr/bin/swk]
-switchworks: statically-linked-binary [usr/bin/swk-tray]
-switchworks: no-manual-page [usr/bin/swk]
-switchworks: no-manual-page [usr/bin/swk-tray]
+switchworks-bin: statically-linked-binary [usr/bin/swk]
+switchworks-bin: statically-linked-binary [usr/bin/swk-tray]
+switchworks-bin: no-manual-page [usr/bin/swk]
+switchworks-bin: no-manual-page [usr/bin/swk-tray]

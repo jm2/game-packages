@@ -1,0 +1,13 @@
+# pacman removes a replaced package before it installs the replacement, so
+# replacing the source-built crossdock package saves a modified
+# /etc/crossdock/crossdock.yaml as .pacsave and installs the default. Put
+# the saved configuration back and keep the default as .pacnew, as an
+# upgrade would have.
+post_install() {
+    cfg=/etc/crossdock/crossdock.yaml
+    if [ -f "$cfg.pacsave" ] && [ ! -e "$cfg.pacnew" ]; then
+        mv "$cfg" "$cfg.pacnew"
+        mv "$cfg.pacsave" "$cfg"
+        echo "crossdock-bin: restored $cfg from $cfg.pacsave; the packaged default is $cfg.pacnew"
+    fi
+}

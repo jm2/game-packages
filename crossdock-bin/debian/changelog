@@ -1,5 +1,6 @@
-crossdock (0.2.1-1) unstable; urgency=medium
+crossdock-bin (0.2.1-1) unstable; urgency=medium
 
-  * Local Debian build of crossdock 0.2.1.
+  * Repackage upstream's crossdock 0.2.1 release .deb (replaces the
+    source-built crossdock package).
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 20:00:00 -0500

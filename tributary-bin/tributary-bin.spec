@@ -1,25 +1,28 @@
-Name:           tributary
+# Prebuilt upstream binaries: nothing to strip or extract debuginfo from.
+%global debug_package %{nil}
+%global __strip /bin/true
+%global _build_id_links none
+
+Name:           tributary-bin
 Version:        0.7.2
-Release:        2%{?dist}
-Summary:        Rhythmbox-style media manager with unified local and remote backends
+Release:        1%{?dist}
+Summary:        Rhythmbox-style media manager with local and remote backends (prebuilt)
 License:        GPL-3.0-or-later
 URL:            https://github.com/jm2/tributary
-Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Source1:        install.sh
+# Upstream's release RPMs; only the build architecture's one is unpacked.
+# They carry no license file, so it comes from the tagged source.
+Source0:        %{url}/releases/download/v%{version}/tributary-x86_64.rpm#/tributary-%{version}-x86_64.rpm
+Source1:        %{url}/releases/download/v%{version}/tributary-aarch64.rpm#/tributary-%{version}-aarch64.rpm
+Source2:        https://raw.githubusercontent.com/jm2/tributary/v%{version}/LICENSE#/tributary-%{version}-LICENSE
+Source3:        install.sh
+Source4:        README.md
 
 ExclusiveArch:  x86_64 aarch64
-BuildRequires:  cargo
-BuildRequires:  rust >= 1.94
-BuildRequires:  gcc
-BuildRequires:  pkgconf-pkg-config
-BuildRequires:  glib2-devel
-BuildRequires:  pkgconfig(gtk4) >= 4.16
-BuildRequires:  pkgconfig(libadwaita-1) >= 1.6
-BuildRequires:  pkgconfig(gstreamer-1.0)
-BuildRequires:  pkgconfig(gstreamer-plugins-base-1.0)
-BuildRequires:  pkgconfig(dbus-1)
+
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
+BuildRequires:  rpm
+BuildRequires:  tar
 
 Requires:       gtk4 >= 4.16
 Requires:       libadwaita >= 1.6
@@ -30,27 +33,34 @@ Requires:       gstreamer1-libav
 Requires:       dbus
 Requires:       hicolor-icon-theme
 
+Provides:       tributary = %{version}-%{release}
+Obsoletes:      tributary < 0.7.2-3
+Conflicts:      tributary
+
 %description
 Tributary is a Rhythmbox-style music manager for GNOME, written in Rust with
 GTK4 and libadwaita. One library view browses and plays local music alongside
 Subsonic/Navidrome, Jellyfin and Plex servers, DAAP shares and internet radio.
 
+This package repackages upstream's release RPM.
+
 %prep
-%autosetup -n %{name}-%{version}
+%setup -q -c -T
+mkdir root
+%ifarch x86_64
+rpm2archive -n %{SOURCE0} | tar -xf - -C root
+%endif
+%ifarch aarch64
+rpm2archive -n %{SOURCE1} | tar -xf - -C root
+%endif
+cp -p %{SOURCE2} LICENSE
+cp -p %{SOURCE3} %{SOURCE4} .
 
 %build
-# Crates are fetched from crates.io (local builds only).
-export CARGO_HOME=%{_builddir}/cargo-home
-# Keep symbols so rpm can split them into -debuginfo and strip the binary.
-export CARGO_PROFILE_RELEASE_STRIP=false CARGO_PROFILE_RELEASE_DEBUG=line-tables-only
-# Fedora's RUSTFLAGS ask for one codegen unit and full debug info, which with
-# the crate's LTO takes over 10 GB in one rustc process. rustc uses the last
-# value given for a -C option, so these override them and keep the rest.
-export RUSTFLAGS="${RUSTFLAGS:-} -Ccodegen-units=16 -Cdebuginfo=line-tables-only"
-cargo build --release --locked
+# Prebuilt binaries; nothing to build.
 
 %install
-sh %{SOURCE1} . %{buildroot}
+sh ./install.sh root %{buildroot} %{name}
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/io.github.jm2.tributary.desktop
@@ -63,11 +73,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.jm2.
 %{_metainfodir}/io.github.jm2.tributary.metainfo.xml
 %{_datadir}/icons/hicolor/*/apps/io.github.jm2.tributary.png
 %{_datadir}/icons/hicolor/scalable/actions/io.github.jm2.tributary-equalizer-symbolic.svg
-%{_docdir}/tributary/
+%{_docdir}/%{name}/
 
 %changelog
-* Sat Nov 07 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.7.2-2
-- Build with 16 codegen units and line tables only, to fit in 15 GB of RAM
-
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.7.2-1
-- Local RPM build of tributary 0.7.2
+* Wed Nov 11 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.7.2-1
+- Repackage upstream's 0.7.2 release RPMs as tributary-bin, replacing the
+  source-built tributary package

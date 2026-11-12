@@ -1,24 +1,43 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
-# Arch only: RPM and Debian users can install the tributary-*.rpm / *.deb
-# assets that upstream publishes with each release.
 pkgname=tributary-bin
+_pkgname=tributary
 pkgver=0.7.2
-pkgrel=2
+# Continues the earlier Arch-only tributary-bin (0.7.2-2).
+pkgrel=3
 pkgdesc="A high-performance, Rhythmbox-style media manager (prebuilt binary)"
-arch=('x86_64')
+arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/tributary"
 license=('GPL-3.0-or-later')
 depends=('dbus' 'gdk-pixbuf2' 'glib2' 'glibc' 'gtk4>=4.16' 'hicolor-icon-theme' 'libadwaita>=1.6' 'libgcc'
          'pango' 'gstreamer' 'gst-plugins-good' 'gst-plugins-bad' 'gst-plugins-ugly' 'gst-libav')
-provides=("tributary=${pkgver}")
-conflicts=('tributary')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}")
+replaces=("${_pkgname}")
 options=('!strip' '!debug')
-# Upstream's own Arch package from the release.
-source=("${pkgname}-${pkgver}.pkg.tar.zst::${url}/releases/download/v${pkgver}/tributary-x86_64.pkg.tar.zst")
-sha256sums=('4ec5d3a61415967522d83795295d2d2675d389c8b765abbdbb979b2b88d738c0')
+# Upstream's release packages: its Arch package on x86_64; it publishes none
+# for aarch64, so Arch Linux ARM gets the files from its arm64 .deb.
+source=("${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE"
+        "install.sh"
+        "README.md")
+source_x86_64=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst::${url}/releases/download/v${pkgver}/${_pkgname}-x86_64.pkg.tar.zst")
+source_aarch64=("${_pkgname}-${pkgver}-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb")
+noextract=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-arm64.deb")
+sha256sums=('3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986'
+            '88fca73de0701cd7f3ef0770e7eb247b3c6b15bb130e9f89bc4b5be394f44ef0'
+            '30fcb75d3c61b72cee7c0ae68b3fd12f99084a7b318d4beb7123a81e37550741')
+sha256sums_x86_64=('4ec5d3a61415967522d83795295d2d2675d389c8b765abbdbb979b2b88d738c0')
+sha256sums_aarch64=('d26e5c17f388a8da2c792fa925411857ecb0f206ca458f8b45f3a91f00439af4')
+
+prepare() {
+  rm -rf root && mkdir root
+  case "${CARCH}" in
+    x86_64)  bsdtar -xf "${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" -C root usr ;;
+    aarch64) bsdtar -xOf "${_pkgname}-${pkgver}-arm64.deb" 'data.tar.*' | bsdtar -xf - -C root ;;
+  esac
+}
 
 package() {
-  cp -a --no-preserve=ownership "${srcdir}/usr" "${pkgdir}/"
-  mv "${pkgdir}/usr/share/licenses/tributary" "${pkgdir}/usr/share/licenses/${pkgname}"
+  sh install.sh "${srcdir}/root" "${pkgdir}" "${pkgname}"
+  install -Dm644 "${_pkgname}-${pkgver}-LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

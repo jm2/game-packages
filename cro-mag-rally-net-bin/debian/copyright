@@ -3,15 +3,18 @@ Upstream-Name: Cro-Mag Rally
 Source: https://github.com/jm2/CroMagRally
 
 Files: *
-Copyright: 2000 Pangea Software, Inc.; 2025 Iliyas Jorio
+Copyright: 2000 Pangea Software, Inc.; 2025 Iliyas Jorio; Cro-Mag Rally contributors
 License: CC-BY-NC-SA-4.0
- See /usr/share/doc/cro-mag-rally-net/LICENSE.md.
+ See /usr/share/doc/cro-mag-rally-net-bin/LICENSE.md.
 
-Files: src/extern/Pomme/*
-Copyright: 2020 Iliyas Jorio
-License: MIT
- See /usr/share/doc/cro-mag-rally-net/Pomme-LICENSE.md.
+Files: usr/lib/cromagrally/*
+Copyright: 1997-2026 Sam Lantinga and others; 2020 Iliyas Jorio
+License: Zlib AND MIT AND LGPL-2.1-or-later AND BSD-3-Clause AND BSL-1.0 AND CC0-1.0 AND Apache-2.0 AND SunPro
+ The game binary links Pomme (MIT) and support code, and the bundled SDL3 is
+ under the zlib license; see
+ /usr/share/doc/cro-mag-rally-net-bin/THIRD-PARTY-LICENSES.md for every
+ component's notice and license.
 
-Files: debian/* install.sh cro-mag-rally.sh cro-mag-rally.desktop
+Files: debian/* install.sh README.md
 Copyright: 2026 John-Michael Mulesa
 License: 0BSD

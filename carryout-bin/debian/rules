@@ -1,29 +1,26 @@
 #!/usr/bin/make -f
 export DH_VERBOSE = 1
-# Standard library only: nothing is downloaded.
-export GOPATH := $(CURDIR)/debian/gopath
-export GOCACHE := $(CURDIR)/debian/gocache
-export GOFLAGS := -mod=readonly
-export CGO_ENABLED := 0
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 VERSION := 0.2.0
-SRC := carryout-$(VERSION)
 
 %:
 	dh $@
 
-override_dh_auto_configure:
-	debian/fetch-sources
-	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
-
-# Upstream's release workflow sets the version with -X main.version.
+# Upstream's release archive for the host architecture (no top-level
+# directory), unpacked.
 override_dh_auto_build:
-	cd $(SRC) && go build -trimpath -ldflags "-s -w -X main.version=$(VERSION)" -o carryout .
+	debian/fetch-sources
+	rm -rf release && mkdir release
+	tar -xzf carryout_$(VERSION)_linux_$(DEB_HOST_ARCH).tar.gz -C release
 
 override_dh_auto_install:
-	sh install.sh $(SRC) debian/carryout
+	sh install.sh release debian/carryout-bin usr/share/doc/carryout-bin
 
 override_dh_auto_test:
-	test "$$($(SRC)/carryout version)" = "carryout $(VERSION)"
+	test "$$(release/carryout version)" = "carryout $(VERSION)"
+
+# Upstream's static, stripped Go binary: keep it as shipped.
+override_dh_strip override_dh_dwz override_dh_shlibdeps:
 
 override_dh_auto_clean:
-	rm -rf $(SRC) debian/gopath debian/gocache
+	rm -rf release

@@ -1,29 +1,21 @@
 #!/usr/bin/make -f
 export DH_VERBOSE = 1
-# go.mod asks for Go 1.27.3; GOTOOLCHAIN=auto fetches it from proxy.golang.org
-# (checked against sum.golang.org) if Debian's Go is older (local builds only).
-export GOTOOLCHAIN := auto
-export GOFLAGS := -mod=readonly -modcacherw
-export GOPATH := $(CURDIR)/debian/go
-export GOCACHE := $(CURDIR)/debian/go-cache
-SRC := switchworks-0.1.7
-D := debian/switchworks
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+VERSION := 0.1.7
+D := debian/switchworks-bin
 
 %:
 	dh $@
 
-override_dh_auto_configure:
-	debian/fetch-sources
-	rm -rf $(SRC) && tar -xzf $(SRC).tar.gz
-
+# Upstream's release .deb for the host architecture, unpacked.
 override_dh_auto_build:
-	$(MAKE) -C $(SRC) build tray VERSION=v0.1.7
+	debian/fetch-sources
+	rm -rf release && dpkg-deb -x switchworks-$(VERSION)-release-$(DEB_HOST_ARCH).deb release
 
+# The web UI built into swk embeds the Onest and JetBrains Mono fonts; their
+# OFL texts go to the doc directory (see debian/copyright).
 override_dh_auto_install:
-	sh install.sh $(SRC) $(D)
-	# The web UI built into swk embeds these fonts (see debian/copyright).
-	install -m644 $(SRC)/internal/web/assets/fonts/OFL-Onest.txt \
-		$(SRC)/internal/web/assets/fonts/OFL-JetBrainsMono.txt $(D)/usr/share/doc/switchworks/
+	sh install.sh release $(D) usr/share/doc/switchworks-bin
 
 # Like upstream's .deb: nothing is enabled or started at install; the system
 # coordinator is restarted on upgrade if it runs.
@@ -35,11 +27,10 @@ override_dh_installsystemd:
 override_dh_installsystemduser:
 
 override_dh_auto_test:
-	$(SRC)/swk version | grep -F "v0.1.7 "
+	release/usr/bin/swk version | grep -F "v$(VERSION) "
 
-# Upstream's Makefile already strips the static Go binaries.
-override_dh_strip:
-override_dh_dwz:
+# Upstream's static, stripped Go binaries: keep them as shipped.
+override_dh_strip override_dh_dwz override_dh_shlibdeps:
 
 override_dh_auto_clean:
-	rm -rf $(SRC) debian/go debian/go-cache
+	rm -rf release

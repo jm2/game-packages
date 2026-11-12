@@ -1,5 +1,6 @@
-balun (0.2.1-1) unstable; urgency=medium
+balun-bin (0.2.1-1) unstable; urgency=medium
 
-  * Local Debian build of balun 0.2.1.
+  * Repackage upstream's 0.2.1 release .debs as balun-bin, replacing the
+    source-built balun package.
 
- -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 20:00:00 -0500
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Wed, 11 Nov 2026 22:30:00 -0500

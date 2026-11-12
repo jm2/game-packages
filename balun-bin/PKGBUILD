@@ -1,9 +1,10 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
-pkgname=balun
+pkgname=balun-bin
+_pkgname=balun
 pkgver=0.2.1
 pkgrel=1
-pkgdesc="A lightweight cross-platform HDHomeRun live TV viewer"
+pkgdesc="A lightweight cross-platform HDHomeRun live TV viewer (prebuilt binary)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/balun"
 license=('GPL-3.0-or-later')
@@ -12,27 +13,33 @@ license=('GPL-3.0-or-later')
 depends=('glib2' 'glibc' 'gtk4>=4.16' 'hicolor-icon-theme' 'libadwaita>=1.6' 'libgcc' 'pango'
          'gstreamer>=1.20' 'gst-plugins-base-libs' 'gst-plugins-good' 'gst-plugins-bad-libs'
          'gst-plugin-gtk4' 'gst-libav')
-makedepends=('cargo' 'pkgconf')
-# Upstream's release profile already strips the binary.
-options=('!lto' '!debug')
-source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
-        "install.sh")
-sha256sums=('d97d2a5efa205e1a47387f19ccc970cfa9125bae21ab02309a6d7974ca87fbe4'
-            '0af3f466f09df9e962bf767fee5e8c2c38e4fb6f1661a48b6872dab08a4d4bbf')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}")
+replaces=("${_pkgname}")
+options=('!strip' '!debug')
+# Upstream's release packages: its Arch package on x86_64; it publishes none
+# for aarch64, so Arch Linux ARM gets the files from its arm64 .deb.
+source=("${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE"
+        "install.sh"
+        "README.md")
+source_x86_64=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst::${url}/releases/download/v${pkgver}/${_pkgname}-x86_64.pkg.tar.zst")
+source_aarch64=("${_pkgname}-${pkgver}-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb")
+noextract=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-arm64.deb")
+sha256sums=('3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986'
+            '6dea79ff49b5ff833e60776fb6c1ba59e9c3272e6219bfcd45266931d5f3c880'
+            'db1aaf4a2f9df4a28af3a9a14e3a237e804efcf31b8ba82993645565149c1b9e')
+sha256sums_x86_64=('00facdd70955ee2f68f999d2e3156c71fcb82abc6326946acbfb7910e828a6c8')
+sha256sums_aarch64=('6f09888d75e89089cfac2cb180fcaa9459e19163b35752e9e1f2d92ffc0c708a')
 
 prepare() {
-  cd "${pkgname}-${pkgver}"
-  export CARGO_HOME="${srcdir}/cargo-home"
-  cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
-}
-
-build() {
-  cd "${pkgname}-${pkgver}"
-  export CARGO_HOME="${srcdir}/cargo-home"
-  cargo build --release --frozen --features desktop --bin balun
+  rm -rf root && mkdir root
+  case "${CARCH}" in
+    x86_64)  bsdtar -xf "${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" -C root usr ;;
+    aarch64) bsdtar -xOf "${_pkgname}-${pkgver}-arm64.deb" 'data.tar.*' | bsdtar -xf - -C root ;;
+  esac
 }
 
 package() {
-  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
-  install -Dm644 "${pkgname}-${pkgver}/LICENSE" -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+  sh install.sh "${srcdir}/root" "${pkgdir}" "${pkgname}"
+  install -Dm644 "${_pkgname}-${pkgver}-LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

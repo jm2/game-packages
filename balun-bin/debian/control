@@ -1,22 +1,27 @@
-Source: balun
+Source: balun-bin
 Section: video
 Priority: optional
 Maintainer: John-Michael Mulesa <jmulesa@gmail.com>
-Build-Depends: debhelper-compat (= 13), cargo (>= 1.98), rustc (>= 1.98), pkgconf,
- libgtk-4-dev (>= 4.16), libadwaita-1-dev (>= 1.6), libgstreamer1.0-dev (>= 1.20),
- curl, ca-certificates
+Build-Depends: debhelper-compat (= 13), desktop-file-utils, curl, ca-certificates
 Standards-Version: 4.7.0
 Homepage: https://github.com/jm2/balun
 Rules-Requires-Root: no
 
-Package: balun
+Package: balun-bin
 Architecture: amd64 arm64
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-4-1 (>= 4.16),
- libadwaita-1-0 (>= 1.6), libgstreamer1.0-0 (>= 1.20),
- gstreamer1.0-plugins-base, gstreamer1.0-plugins-good,
- gstreamer1.0-plugins-bad, gstreamer1.0-gtk4, gstreamer1.0-libav
-Description: lightweight cross-platform HDHomeRun live TV viewer
+Depends: libc6 (>= 2.34), libgcc-s1, libglib2.0-0t64 (>= 2.54.0),
+ libgtk-4-1 (>= 4.16), libadwaita-1-0 (>= 1.6), libpango-1.0-0 (>= 1.14.0),
+ libgstreamer1.0-0 (>= 1.20), gstreamer1.0-plugins-base,
+ gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-gtk4,
+ gstreamer1.0-libav, hicolor-icon-theme, ${misc:Depends}
+Provides: balun
+Conflicts: balun
+Replaces: balun
+Breaks: balun
+Description: lightweight cross-platform HDHomeRun live TV viewer (prebuilt binary)
  Balun is a lightweight cross-platform HDHomeRun live TV viewer built with
  GTK 4, libadwaita and GStreamer. It discovers tuners on the local network or
  on an approved private subnet, lists their channel lineups and plays
  unprotected live channels.
+ .
+ This package repackages upstream's release .deb.

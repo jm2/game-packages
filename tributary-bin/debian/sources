@@ -1,2 +1,4 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-458abad839df47e3da6f2ed9ec151d662252473c36d5ae4d39c7d358ecbc1c0b tributary-0.7.2.tar.gz https://github.com/jm2/tributary/archive/refs/tags/v0.7.2.tar.gz
+# Both architectures' release .debs are listed; debian/rules unpacks the host's.
+fcb156b63a5d91492ed353bad416185dd153a2b3b63640ee4f55f2567aa08370 tributary-0.7.2-amd64.deb https://github.com/jm2/tributary/releases/download/v0.7.2/tributary-amd64.deb
+d26e5c17f388a8da2c792fa925411857ecb0f206ca458f8b45f3a91f00439af4 tributary-0.7.2-arm64.deb https://github.com/jm2/tributary/releases/download/v0.7.2/tributary-arm64.deb

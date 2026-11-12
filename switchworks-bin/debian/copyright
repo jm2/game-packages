@@ -1,6 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: switchworks
 Source: https://github.com/jm2/switchworks
+Comment: Repackaged from upstream's release .deb.
 
 Files: *
 Copyright: 2026 Switchworks Contributors
@@ -12,7 +13,7 @@ Copyright: 2021 The Onest Project Authors
            2020 The JetBrains Mono Project Authors
 License: OFL-1.1
  The web UI built into /usr/bin/swk embeds the Onest and JetBrains Mono
- fonts. The full license texts are in /usr/share/doc/switchworks/OFL-*.txt.
+ fonts. The full license texts are in /usr/share/doc/switchworks-bin/OFL-*.txt.
 
 Files: debian/* install.sh
 Copyright: 2026 John-Michael Mulesa

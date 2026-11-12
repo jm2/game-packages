@@ -1,43 +1,48 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
-pkgname=switchworks
+pkgname=switchworks-bin
+_pkgname=switchworks
 pkgver=0.1.7
 pkgrel=1
-pkgdesc="Control plane for coding agents across your machines (swk, tray icon, systemd units)"
+pkgdesc="Control plane for coding agents across your machines (swk, tray icon, systemd units; binary release)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/switchworks"
 license=('GPL-3.0-or-later' 'OFL-1.1')
-# Static Go binaries (CGO_ENABLED=0), already stripped by upstream's Makefile.
+# Upstream's static, stripped Go binaries (CGO_ENABLED=0, -s -w).
 depends=('hicolor-icon-theme')
 optdepends=('gnome-shell-extension-appindicator: tray icon on GNOME')
-makedepends=('go' 'make')
-options=('!lto' '!debug' '!strip')
-source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
-        "install.sh")
-sha256sums=('ef1ae092087341ee838d88904c5db0b000aa2d2668d380ddd7d6c30011ab1962'
-            'fe3521fc9bcfa593aec7c9fb24bd8c80309294d0635f6327b2eba59d2981c10c')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}")
+replaces=("${_pkgname}")
+options=('!strip' '!debug')
+# Upstream's own Arch package on x86_64. It has none for aarch64, so there
+# the arm64 .deb is unpacked instead (which lacks LICENSE: that comes from
+# the tagged source).
+source=("install.sh")
+source_x86_64=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst::${url}/releases/download/v${pkgver}/${_pkgname}-x86_64.pkg.tar.zst")
+source_aarch64=("${_pkgname}-${pkgver}-release-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb"
+                "${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE")
+noextract=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-release-arm64.deb")
+sha256sums=('79d18853787726da74e38134c5a7fe3c7b4b08350202f0e0b5c99a12bb432370')
+sha256sums_x86_64=('a0fc978e3d00ea2c281cb584417b1021027a6c8c5aa4641ff9f89410ac827e86')
+sha256sums_aarch64=('562106a4f8788724b6896caf4d80942df0aa39b32591283634c268095d4e0c40'
+                    '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986')
 
-_goenv() {
-  # go.mod asks for Go 1.27.3; GOTOOLCHAIN=auto fetches it from
-  # proxy.golang.org (checked against sum.golang.org) if the system Go is older.
-  export GOTOOLCHAIN=auto GOFLAGS="-mod=readonly -modcacherw"
-  export GOPATH="${srcdir}/go" GOCACHE="${srcdir}/go-cache"
-}
-
-build() {
-  cd "${pkgname}-${pkgver}"
-  _goenv
-  make build tray VERSION="v${pkgver}"
+prepare() {
+  rm -rf release && mkdir release
+  case "${CARCH}" in
+    x86_64)  bsdtar -xf "${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" -C release ;;
+    aarch64) bsdtar -xOf "${_pkgname}-${pkgver}-release-arm64.deb" 'data.tar.*' | bsdtar -xf - -C release ;;
+  esac
 }
 
 check() {
-  cd "${pkgname}-${pkgver}"
-  ./swk version | grep -F "v${pkgver} "
+  release/usr/bin/swk version | grep -F "v${pkgver} "
 }
 
 package() {
-  sh install.sh "${srcdir}/${pkgname}-${pkgver}" "${pkgdir}"
-  cd "${pkgname}-${pkgver}"
-  install -Dm644 LICENSE internal/web/assets/fonts/OFL-Onest.txt internal/web/assets/fonts/OFL-JetBrainsMono.txt \
-    -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+  sh install.sh release "${pkgdir}" "usr/share/doc/${pkgname}" "usr/share/licenses/${pkgname}"
+  if [ "${CARCH}" = aarch64 ]; then
+    install -Dm644 "${_pkgname}-${pkgver}-LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  fi
 }

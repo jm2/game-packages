@@ -185,12 +185,14 @@ port now has a hand-written `windows/goo.toml`.
 | unreal-tournament-bin | OldUnreal 469e Windows-x86.zip | done (`x86_32`; `-SETHOMEDIR="%APPDATA%\UnrealTournament\System"`, retail `editorres` + `EdSplash.bmp` trimmed to avoid data overlap) |
 | ut2004-bin | OldUnreal 3374-rc3 Windows-d906d39a.zip | done (`x86_64`; defaults to `D3D11Drv` since `D3D9Drv` needs `d3dx9_43.dll`, needs VC++ 2015-2022 x64 runtime, `[writable]` install subdirs until `UT2004Patches#490`) |
 | rvgl-bin | rvgl 23.1030a1 win64 .7z | done (`x86_64`; split into `packs/rvgl_assets` + `packs/default.txt`, `-prefpath "%APPDATA%\RVGL"`, writable `packs/local`) |
-| cro-mag-rally-net | jm2/CroMagRally v3.2.0 windows-x64 and -ARM64 zips | done (`x86_64` + `arm64`) |
+| cro-mag-rally-net-bin (goo `cro-mag-rally-net`) | jm2/CroMagRally v3.2.0 windows-x64 and -ARM64 zips | done (`x86_64` + `arm64`) |
 | Jorio ports | each project's windows-x64 zip | done (`billy-frontier`, `bugdom`, `bugdom2`, `mightymike` `-hotfix`, `nanosaur`, `nanosaur2`, `ottomatic`) |
 | agelanserver(-companion), gbe-fork-bin, xlln-bin | same archives the Linux packages use | already Windows files |
 | steamcmd | steamcmd.zip (unversioned) | self-updating |
-| tributary(-bin) | jm2/tributary v0.7.2 windows-x86_64.zip | arm64 zip too |
+| tributary-bin (goo `tributary`) | jm2/tributary v0.7.2 windows-x86_64.zip | arm64 zip too |
 | geysermc-bin | same jar | needs Java on Windows |
+| switchworks-bin, crossdock-bin | jm2/switchworks v0.1.7, jm2/crossdock v0.2.1 windows-amd64 zips | done (`x86_64`; goo names stay `switchworks`, `crossdock`) |
+| carryout-bin | jm2/carryout v0.2.0 windows_amd64 and _arm64 zips | done (`x86_64` + `arm64`; goo name stays `carryout`) |
 | owntone-server, netatalk-appletalk | none | Unix-only |
 
 Windows on ARM (checked 2026-11-11): upstream arm64 builds exist for

@@ -1,5 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: crossdock
+Comment: Repackaged from upstream's release .deb.
 Source: https://github.com/jm2/crossdock
 
 Files: *
