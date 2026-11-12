@@ -1,4 +1,4 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-# Both architectures' archives are listed; debian/rules unpacks the host's.
-5d4752e2e37a4445d38853f80e0721d3b9db18a09ff5b863924e9482bf923753 carryout_0.2.0_linux_amd64.tar.gz https://github.com/jm2/carryout/releases/download/v0.2.0/carryout_0.2.0_linux_amd64.tar.gz
-c10908e8a8fbe30290c1eb754329fc0df26bf2aa074cb0bd1b214d8eb905f96b carryout_0.2.0_linux_arm64.tar.gz https://github.com/jm2/carryout/releases/download/v0.2.0/carryout_0.2.0_linux_arm64.tar.gz
+# Both architectures' release .debs are listed; debian/rules unpacks the host's.
+7b5f0f79919e479fdff609dd5b598825bedf4a27ed73b670f60ec258b44d8dc6 carryout-0.2.1-release-amd64.deb https://github.com/jm2/carryout/releases/download/v0.2.1/carryout-amd64.deb
+7d6c6bcd8cacb9f5a9aaf82ca488d9c7c99ed9f71d51a7155c51704c1bae8d1f carryout-0.2.1-release-arm64.deb https://github.com/jm2/carryout/releases/download/v0.2.1/carryout-arm64.deb

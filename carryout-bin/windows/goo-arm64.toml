@@ -6,12 +6,12 @@ and reassembles the archives of a Takeout export (upstream's Windows ARM64
 build). carryout.exe is added to the system PATH; run it from a terminal."""
 
 [[source]]
-name = "carryout_0.2.0_windows_arm64.zip"
-url = "https://github.com/jm2/carryout/releases/download/v0.2.0/carryout_0.2.0_windows_arm64.zip"
-sha256 = "4bd75c0d54b905cb73b659df2a3513b83dcc11673b73dd3eaf924ab04c6f9769"
+name = "carryout_0.2.1_windows_arm64.zip"
+url = "https://github.com/jm2/carryout/releases/download/v0.2.1/carryout_0.2.1_windows_arm64.zip"
+sha256 = "924f4b7fbd98e67b3f251f215f9ff40f6d1597fda39931c6b3c94a7b900a23c3"
 
 [stage]
 script = '''
 mkdir -p "$STAGE/carryout"
-unzip -q -o "$SRC/carryout_0.2.0_windows_arm64.zip" -d "$STAGE/carryout"
+unzip -q -o "$SRC/carryout_0.2.1_windows_arm64.zip" -d "$STAGE/carryout"
 '''

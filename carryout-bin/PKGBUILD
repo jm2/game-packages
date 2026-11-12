@@ -2,8 +2,8 @@
 
 pkgname=carryout-bin
 _pkgname=carryout
-pkgver=0.2.0
-pkgrel=2
+pkgver=0.2.1
+pkgrel=1
 pkgdesc="Download helper for Google Takeout exports: fetches, resumes and verifies every archive part (binary release)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/carryout"
@@ -14,20 +14,35 @@ conflicts=("${_pkgname}")
 replaces=("${_pkgname}")
 # Upstream's static, stripped Go binary (CGO_ENABLED=0, -s -w).
 options=('!strip' '!debug')
+# Upstream's own Arch package on x86_64. It has none for aarch64, so there
+# the arm64 .deb is unpacked instead (which lacks LICENSE: that comes from
+# the tagged source).
 source=("install.sh")
-source_x86_64=("${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_linux_amd64.tar.gz")
-source_aarch64=("${url}/releases/download/v${pkgver}/${_pkgname}_${pkgver}_linux_arm64.tar.gz")
-sha256sums=('938f22a8a2dda4290e7e83d8b1ea6ba23c3a9ed280e3d40066b8b0297b1b93fb')
-sha256sums_x86_64=('5d4752e2e37a4445d38853f80e0721d3b9db18a09ff5b863924e9482bf923753')
-sha256sums_aarch64=('c10908e8a8fbe30290c1eb754329fc0df26bf2aa074cb0bd1b214d8eb905f96b')
+source_x86_64=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst::${url}/releases/download/v${pkgver}/${_pkgname}-x86_64.pkg.tar.zst")
+source_aarch64=("${_pkgname}-${pkgver}-release-arm64.deb::${url}/releases/download/v${pkgver}/${_pkgname}-arm64.deb"
+                "${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE")
+noextract=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-release-arm64.deb")
+sha256sums=('07ff750c81f24cc29b9bb9ecee1b5599bd5746aad7f302956f2637e9ea9eca3f')
+sha256sums_x86_64=('102792ff063d3f9041783f014a76052b27a815bcf947c4ad393df4c25e03ecf7')
+sha256sums_aarch64=('7d6c6bcd8cacb9f5a9aaf82ca488d9c7c99ed9f71d51a7155c51704c1bae8d1f'
+                    '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986')
 
-# The archives have no top-level directory: makepkg unpacks carryout,
-# README.md and LICENSE straight into $srcdir.
+prepare() {
+  rm -rf release && mkdir release
+  case "${CARCH}" in
+    x86_64)  bsdtar -xf "${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" -C release ;;
+    aarch64) bsdtar -xOf "${_pkgname}-${pkgver}-release-arm64.deb" 'data.tar.*' | bsdtar -xf - -C release ;;
+  esac
+}
+
 check() {
-  [ "$(./carryout version)" = "carryout ${pkgver}" ]
+  [ "$(release/usr/bin/carryout version)" = "carryout ${pkgver}" ]
 }
 
 package() {
-  sh install.sh "${srcdir}" "${pkgdir}" "usr/share/doc/${pkgname}"
-  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}/"
+  sh install.sh release "${pkgdir}" "usr/share/doc/${pkgname}"
+  case "${CARCH}" in
+    x86_64)  install -Dm644 release/usr/share/licenses/carryout/LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" ;;
+    aarch64) install -Dm644 "${_pkgname}-${pkgver}-LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE" ;;
+  esac
 }

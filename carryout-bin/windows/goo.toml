@@ -1,6 +1,6 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "carryout"
-version = "0.2.0"
+version = "0.2.1"
 release = 1
 arch = "x86_64"
 description = """
@@ -9,19 +9,19 @@ and reassembles the archives of a Takeout export (upstream's Windows x86_64
 build). carryout.exe is added to the system PATH; run it from a terminal."""
 license = "GPL-3.0-or-later"
 url = "https://github.com/jm2/carryout"
-release_notes = ["Initial GooGet package (upstream 0.2.0 Windows x86_64 and ARM64 builds)"]
+release_notes = ["Upstream 0.2.1 (a packaging release; carryout is unchanged)"]
 path = ["carryout"]
 
 [files]
 "carryout" = "<ProgramFiles>/Carryout"
 
 [[source]]
-name = "carryout_0.2.0_windows_amd64.zip"
-url = "https://github.com/jm2/carryout/releases/download/v0.2.0/carryout_0.2.0_windows_amd64.zip"
-sha256 = "0e460b9b0a6dc6320bb5896f37fe6742b79e3b62b2ffa3e9e80c2df981818c67"
+name = "carryout_0.2.1_windows_amd64.zip"
+url = "https://github.com/jm2/carryout/releases/download/v0.2.1/carryout_0.2.1_windows_amd64.zip"
+sha256 = "dc252b8dcc845248a591d5c7749398ec9ec35cf7a48391ba51dca65c74aad544"
 
 [stage]
 script = '''
 mkdir -p "$STAGE/carryout"
-unzip -q -o "$SRC/carryout_0.2.0_windows_amd64.zip" -d "$STAGE/carryout"
+unzip -q -o "$SRC/carryout_0.2.1_windows_amd64.zip" -d "$STAGE/carryout"
 '''

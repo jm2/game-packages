@@ -1,23 +1,22 @@
 #!/usr/bin/make -f
 export DH_VERBOSE = 1
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-VERSION := 0.2.0
+VERSION := 0.2.1
 
 %:
 	dh $@
 
-# Upstream's release archive for the host architecture (no top-level
-# directory), unpacked.
+# Upstream's release .deb for the host architecture, unpacked.
 override_dh_auto_build:
 	debian/fetch-sources
-	rm -rf release && mkdir release
-	tar -xzf carryout_$(VERSION)_linux_$(DEB_HOST_ARCH).tar.gz -C release
+	rm -rf release
+	dpkg-deb -x carryout-$(VERSION)-release-$(DEB_HOST_ARCH).deb release
 
 override_dh_auto_install:
 	sh install.sh release debian/carryout-bin usr/share/doc/carryout-bin
 
 override_dh_auto_test:
-	test "$$(release/carryout version)" = "carryout $(VERSION)"
+	test "$$(release/usr/bin/carryout version)" = "carryout $(VERSION)"
 
 # Upstream's static, stripped Go binary: keep it as shipped.
 override_dh_strip override_dh_dwz override_dh_shlibdeps:

@@ -1,3 +1,10 @@
+carryout-bin (0.2.1-1) unstable; urgency=medium
+
+  * Update to upstream 0.2.1 (packaging release; carryout unchanged) and
+    repackage its release .deb instead of the archive.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 12 Nov 2026 12:30:00 -0500
+
 carryout-bin (0.2.0-1) unstable; urgency=medium
 
   * Repackage upstream's carryout 0.2.0 release archive (replaces the
