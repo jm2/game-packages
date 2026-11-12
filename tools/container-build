@@ -14,20 +14,24 @@
 # packages that need Steam/GOG data must be given a pre-filled cache via
 # PT_CACHE (see tools/fetch-steam, tools/fetch-gog).
 #
-# TARGET_ARCH=aarch64 builds for arm64 (natively on an arm64 host, through
-# qemu-user-static elsewhere), with the arm64 Fedora and Debian images and
-# localhost/archlinuxarm (tools/archlinuxarm-image) for Arch. Its results go
-# to <distro>-aarch64/, and LOCAL packages come from there too.
+# TARGET_ARCH=aarch64 builds Fedora and Debian for arm64 (natively on an
+# arm64 host, through qemu-user-static elsewhere) with their arm64 images.
+# Its results go to <distro>-aarch64/, and LOCAL packages come from there
+# too. There are no Arch aarch64 builds: the Arch repo is x86_64 only.
 set -euo pipefail
-target=${TARGET_ARCH:-x86_64}
-case $target in
-    x86_64) platform=amd64 sfx= arch_img=docker.io/library/archlinux:latest multilib=1 ;;
-    aarch64) platform=arm64 sfx=-aarch64 arch_img=localhost/archlinuxarm:latest multilib= ;;
-    *) echo "container-build: TARGET_ARCH must be x86_64 or aarch64" >&2; exit 1 ;;
-esac
 
 pkgdir=$(realpath "${1:?usage: container-build <pkgdir> [arch|fedora|debian|all] [deps...]}")
 which=${2:-all}; shift $(( $# >= 2 ? 2 : 1 ))
+target=${TARGET_ARCH:-x86_64}
+case $target in
+    x86_64) platform=amd64 sfx= ;;
+    aarch64) platform=arm64 sfx=-aarch64
+        if [[ $which == arch ]]; then
+            echo "container-build: no Arch aarch64 builds (the Arch repo is x86_64 only)" >&2; exit 1
+        fi
+        [[ $which == all ]] && which=fedora+debian ;;
+    *) echo "container-build: TARGET_ARCH must be x86_64 or aarch64" >&2; exit 1 ;;
+esac
 extra=("$@")
 pkg=$(basename "$pkgdir")
 out=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}/$pkg
@@ -58,7 +62,7 @@ for s in "$work/$pkg"/*.spec; do
 done
 mkdir -p "$out"
 local_root=${OUT:-${TMPDIR:-/var/tmp}/linux-packages-out}
-cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NODEPS:-}" -e SFX="$sfx" -e MULTILIB="$multilib")
+cache_mount=(-v "$local_root:/local:ro,z" -e LOCAL="${LOCAL:-}" -e NODEPS="${NODEPS:-}" -e SFX="$sfx")
 [ -n "${PT_CACHE:-}" ] && cache_mount+=(-v "$PT_CACHE:/cache:ro,z" -e PT_CACHE=/cache)
 
 # Inside the containers: the newest build of each package among the given
@@ -85,14 +89,11 @@ run() { # distro image script
 
 rc=0
 if [[ $which == arch || $which == all ]] && [ -f "$pkgdir/PKGBUILD" ]; then
-run arch "$arch_img" '
+run arch docker.io/library/archlinux:latest '
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp  # rpmlint and namcap unpack packages here
-if [ -n "$MULTILIB" ]; then printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
-else pacman-key --init >/dev/null 2>&1; pacman-key --populate archlinuxarm >/dev/null 2>&1
-     # qemu-user has no Landlock, which pacman'"'"'s download sandbox needs.
-     sed -i "/^\[options\]/a DisableSandbox" /etc/pacman.conf; fi
+printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
 pacman -Syu --noconfirm --needed base-devel git namcap $EXTRA >/dev/null
-for l in $LOCAL; do pacman -U --noconfirm $(newest /local/$l/arch$SFX/*.pkg.tar.zst) >/dev/null; done
+for l in $LOCAL; do pacman -U --noconfirm $(newest /local/$l/arch/*.pkg.tar.zst) >/dev/null; done
 useradd -m b; cp -a /src /build/p; chown -R b /build; chmod 755 /build
 cd /build/p
 su b -c "makepkg --printsrcinfo" > /tmp/srcinfo
@@ -110,7 +111,7 @@ namcap PKGBUILD /build/pkgs/*.pkg.tar.zst || true
 cp /build/pkgs/*.pkg.tar.zst /out/' || rc=1
 fi
 
-if [[ $which == fedora || $which == all ]] && compgen -G "$pkgdir/*.spec" >/dev/null; then
+if [[ $which == fedora || $which == all || $which == fedora+debian ]] && compgen -G "$pkgdir/*.spec" >/dev/null; then
 run fedora "registry.fedoraproject.org/fedora:${FEDORA_RELEASE:-45}" '
 mkdir -m 1777 /build/tmp; export TMPDIR=/build/tmp
 dnf -yq install rpm-build rpmdevtools rpmlint dnf-plugins-core $EXTRA >/dev/null
@@ -132,7 +133,7 @@ rpmlint "$spec" "${small[@]}" || true
 cp /build/RPMS/*/*.rpm /out/' || rc=1
 fi
 
-if [[ $which == debian || $which == all ]] && [ -d "$pkgdir/debian" ]; then
+if [[ $which == debian || $which == all || $which == fedora+debian ]] && [ -d "$pkgdir/debian" ]; then
 run debian "docker.io/library/debian:${DEBIAN_RELEASE:-sid}" '
 export DEBIAN_FRONTEND=noninteractive
 apt-get -qq update; apt-get -qq install -y --no-install-recommends build-essential devscripts equivs fakeroot $EXTRA >/dev/null

@@ -11,8 +11,8 @@
     --repack          rebuild a game that became noarch from its x86_64 RPM in
                       --rpm-dest (tools/rpm-repack) instead of downloading it
     --target-arch A   x86_64 (default) or aarch64: build the architecture-
-                      specific packages whose recipes list aarch64, into the
-                      aarch64 repos given as --arch-dest/--rpm-dest
+                      specific Fedora packages whose specs list aarch64,
+                      into the repo given as --rpm-dest
 
 Packages build one at a time: shared runtime packages first, then imported
 AUR dependencies, packages with anonymous downloads, GOG, and Steam. A package that fails is logged and
@@ -26,12 +26,11 @@ Windows (goo) packages come from <package>/windows/goo.toml (tools/goo-build)
 and reuse the package's download. Their builds install gbe-fork-bin and
 xlln-bin from $OUT/<name>/fedora/, so build Fedora at least once first.
 
-With --target-arch aarch64 only Arch and Fedora packages of native software
-build (noarch/any packages already serve both); results and progress are kept
-apart from the x86_64 ones (<format>-aarch64 in $OUT and in its stamps), and
-nothing is preinstalled from $OUT. Run it on an arm64 host if possible: under
-qemu-user-static it works but compiles slowly. Arch needs the
-localhost/archlinuxarm image (tools/archlinuxarm-image).
+With --target-arch aarch64 only Fedora packages of native software build
+(noarch packages already serve both; the Arch repo is x86_64 only); results
+and progress are kept apart from the x86_64 ones (fedora-aarch64 in $OUT and
+in its stamps), and nothing is preinstalled from $OUT. Run it on an arm64 host
+if possible: under qemu-user-static it works but compiles slowly.
 
 TMPDIR, PT_CACHE and OUT must be set, and should be on a disk with room for
 the largest game several times over, since the defaults are on the system disk.
@@ -328,8 +327,9 @@ def main() -> int:
         ap.error("--formats takes arch, fedora and goo")
     global TARGET
     TARGET = args.target_arch
-    if TARGET != "x86_64" and "goo" in fmts:
-        ap.error("goo packages are built with --target-arch x86_64 (their arm64 builds come from windows/goo-arm64.toml)")
+    if TARGET != "x86_64" and set(fmts) != {"fedora"}:
+        ap.error("--target-arch aarch64 builds Fedora only (--formats fedora): the Arch repo is x86_64 only, "
+                 "and goo arm64 packages come from windows/goo-arm64.toml in x86_64 runs")
     # Every build preinstalls the LOCAL packages, so they always come along.
     only = set(args.packages)
     wanted = only | set(LOCAL) if only else only

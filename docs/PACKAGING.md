@@ -102,8 +102,11 @@ make exact.
 
 ## aarch64
 
-- Native arm64 upstream binaries or source builds: list `aarch64` in all three
-  formats (Arch here means Arch Linux ARM users running makepkg).
+- aarch64 means Fedora RPMs (and Windows arm64 goo packages). There are no
+  Arch Linux ARM packages: the Arch repo is x86_64 only. A PKGBUILD may still
+  list `aarch64` for anyone running makepkg there, but nothing builds it.
+- Native arm64 upstream binaries or source builds: list `aarch64` in the spec
+  (`ExclusiveArch`) and in `debian/control`.
 - Generated game packages contain x86 code. On Fedora aarch64 it runs through
   FEX (`fex-emu`, with `fex-emu-rootfs-fedora`, `fex-emu-thunks` and `muvm`
   recommended); on Debian arm64 through `fex-emu | box64`. gamelaunch checks
@@ -160,14 +163,12 @@ nothing else has changed since; anything else builds from the download.
 Fedora builds target one release (`FEDORA_RELEASE`, default 45), and a single
 repo serves them all: only native packages depend on the release at all.
 
-`--target-arch aarch64` builds the native packages whose recipes list aarch64
-(noarch/any packages already serve both), with `TARGET_ARCH=aarch64` passed to
-`tools/container-build`: arm64 Fedora images, and for Arch the
-`localhost/archlinuxarm` image that `tools/archlinuxarm-image` makes from Arch
-Linux ARM's signed rootfs tarball (there is no official image). Results and
-stamps are kept apart (`$OUT/<pkg>/<format>-aarch64/`), nothing is
-preinstalled, and `--arch-dest`/`--rpm-dest` name the aarch64 repos' incoming
-directories. The builds run on an arm64 host (macmini-m1); on x86_64 they work
+`--target-arch aarch64 --formats fedora` builds the native Fedora packages
+whose specs list aarch64 (noarch packages already serve both), with
+`TARGET_ARCH=aarch64` passed to `tools/container-build` (arm64 Fedora image).
+Results and stamps are kept apart (`$OUT/<pkg>/fedora-aarch64/`), nothing is
+preinstalled, and `--rpm-dest` is the same rpm incoming directory as for
+x86_64: crossdock sorts RPMs by architecture. The builds run on an arm64 host (macmini-m1); on x86_64 they work
 through qemu-user-static but compile slowly. macmini-m1 runs Asahi with 16K
 pages, so a build there that runs its tests also checks that the result copes
 with them.
