@@ -178,7 +178,7 @@ port now has a hand-written `windows/goo.toml`.
 | rbdoom-3-bfg | RobertBeckebans/RBDOOM-3-BFG v1.6.0 full-win64 .7z (1.65 GB) | done (`x86_64`; shares cached `.7z` with `rbdoom-3-bfg-gi-data`, excludes GI/blood `.pk4`s, tools, and shader PDBs; runs bundled `VC_redist.x64.exe`) |
 | etlegacy-bin | etlegacy.com file/793 (v2.86.2 x64 zip) | done (`x86_64`; numeric download URL; Linux/macOS Omni-Bot `.so` trimmed) |
 | openetqw-bin, kisakcod-bin | jm2 v0.1.0 windows-x64 and -arm64 zips (+ ET:QW 1.5 `.run` patch paks for openETQW) | done (`x86_64` + `arm64`; `v0.1.0` releases are still drafts so URLs 404 until published or cached via `gh release download`; current kisakcod draft uses `-client.zip` without `-beta`) |
-| openq4-bin | themuffinator/openQ4 v0.13.2 windows-x64 and -arm64 zips + Quake 4 1.4.2 `.run` patch paks | done (`x86_64` + `arm64`; strips `.pdb` debug symbols, adds required `pak013`–`pak022.pk4` from 1.4.2 point release) |
+| openq4-bin | themuffinator/openQ4 v0.14.1 windows-x64 and -arm64 zips + Quake 4 1.4.2 `.run` patch paks | done (`x86_64` + `arm64`; adds required `pak013`–`pak022.pk4` from 1.4.2 point release) |
 | lilium-voyager-git | MinGW-w64 x86_64 build of pinned commit `51fccb9b` | done (`x86_64`; `0.20261031`, settings in `%APPDATA%\Lilium Voyager`) |
 | prey2006-git | MinGW-w64 x86_64 build of pinned commit `1d9d18d7` | done (`x86_64`; `0.20261101`, settings/saves in `Documents\My Games\prey06`) |
 | quake2rtx | NVIDIA/Q2RTX v1.8.1 windows.exe (NSIS, unpacked with 7z) | done (`x86_64`; separate `Games\quake2rtx` with shareware pak, `+set homedir "%APPDATA%\Quake2RTX"`) |

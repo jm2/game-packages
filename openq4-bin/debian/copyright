@@ -10,7 +10,7 @@ License: GPL-3.0+
 Files: opt/openq4/baseoq4/*.so
 Copyright: id Software, Raven Software, openQ4 contributors
 License: LicenseRef-Quake4-SDK
- Quake 4 SDK EULA; see /usr/share/doc/openq4-bin/LICENSE.
+ Quake 4 SDK EULA; see /usr/share/doc/openq4-bin/licenses/QUAKE-4-SDK-EULA.rtf.
 
 Files: opt/openq4/q4base/*
 Copyright: id Software, Inc.

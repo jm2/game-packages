@@ -21,8 +21,8 @@
 %endif
 
 Name:           openq4-bin
-Version:        0.13.2
-Release:        2%{?dist}
+Version:        0.14.1
+Release:        1%{?dist}
 Summary:        Open-source Quake 4 engine and game code replacement (binary release)
 License:        GPL-3.0-or-later AND LicenseRef-Quake4-SDK AND LicenseRef-Quake4-EULA
 URL:            https://github.com/themuffinator/openQ4
@@ -81,6 +81,7 @@ mv openq4-%{version}-linux-%{oq4arch}* openq4
 sh %{SOURCE2} --noexec --nox11 --target quake4-%{q4ver}
 
 cp -p openq4/LICENSE LICENSE
+cp -pr openq4/licenses licenses
 install -m 644 quake4-%{q4ver}/License.txt Quake4-License.txt
 
 
@@ -97,6 +98,8 @@ install -D -m 755 -t %{buildroot}/opt/openq4/ \
 install -D -m 644 -t %{buildroot}/opt/openq4/ VERSION.txt
 install -D -m 755 -t %{buildroot}/opt/openq4/baseoq4/ baseoq4/*.so
 install -D -m 644 -t %{buildroot}/opt/openq4/baseoq4/ baseoq4/*.pk4 baseoq4/mod.json
+# Startup splash, loaded relative to the working directory
+install -D -m 644 -t %{buildroot}/opt/openq4/assets/splash/ assets/splash/*.bmp
 
 # Quake 4 1.4.2 patch paks, mounted from the q4base overlay
 install -D -m 644 -t %{buildroot}/opt/openq4/q4base/ \
@@ -127,7 +130,7 @@ done
 
 # Documentation
 install -d %{buildroot}%{_docdir}/%{name}
-install -m 644 README.html %{SOURCE4} %{buildroot}%{_docdir}/%{name}/
+install -m 644 README.html CONTRIBUTORS.md LICENSING.md %{SOURCE4} %{buildroot}%{_docdir}/%{name}/
 cp -r --no-preserve=ownership docs %{buildroot}%{_docdir}/%{name}/
 
 
@@ -137,7 +140,7 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/openq4-steamdeck.desk
 
 
 %files
-%license LICENSE Quake4-License.txt
+%license LICENSE licenses/ Quake4-License.txt
 %{_docdir}/%{name}/
 /opt/openq4/
 %{_bindir}/openq4
@@ -150,6 +153,10 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/openq4-steamdeck.desk
 
 
 %changelog
+* Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.14.1-1
+- Update to openQ4 0.14.1 (new pak0-pak2 content packs)
+- Install the startup splash and the bundled license files
+
 * Wed Nov 04 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.13.2-2
 - Ship README.md; make Quake4-License.txt world-readable
 

@@ -1,3 +1,10 @@
+openq4-bin (0.14.1-1) unstable; urgency=medium
+
+  * New upstream release 0.14.1 (new pak0-pak2 content packs).
+  * Install the startup splash and the bundled license files.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 12 Nov 2026 15:30:00 -0500
+
 openq4-bin (0.13.2-2) unstable; urgency=medium
 
   * Ship README.md with the notes formerly printed by the Arch .install.

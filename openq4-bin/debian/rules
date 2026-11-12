@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # Mirrors the PKGBUILD and openq4-bin.spec: keep the three in step.
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-VER := 0.13.2
+VER := 0.14.1
 Q4VER := 1.4.2
 # Upstream names its binaries and modules by architecture tag.
 OQ4ARCH := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x64)
@@ -27,6 +27,8 @@ override_dh_auto_install:
 	cd openq4 && install -D -m 644 -t $(D)/opt/openq4/ VERSION.txt
 	cd openq4 && install -D -m 755 -t $(D)/opt/openq4/baseoq4/ baseoq4/*.so
 	cd openq4 && install -D -m 644 -t $(D)/opt/openq4/baseoq4/ baseoq4/*.pk4 baseoq4/mod.json
+	# Startup splash, loaded relative to the working directory
+	cd openq4 && install -D -m 644 -t $(D)/opt/openq4/assets/splash/ assets/splash/*.bmp
 	# Quake 4 1.4.2 patch paks, mounted from the q4base overlay
 	install -D -m 644 -t $(D)/opt/openq4/q4base/ \
 	    $(Q4)/q4base/pak0??.pk4 \
@@ -53,12 +55,16 @@ override_dh_auto_install:
 	done
 	# Documentation and licenses (openQ4 GPL + SDK EULA, id's license for the patch paks)
 	install -d $(D)/usr/share/doc/openq4-bin
-	install -m 644 openq4/README.html openq4/LICENSE README.md $(D)/usr/share/doc/openq4-bin/
-	cp -r --no-preserve=ownership openq4/docs $(D)/usr/share/doc/openq4-bin/
+	install -m 644 openq4/README.html openq4/LICENSE openq4/LICENSING.md openq4/CONTRIBUTORS.md README.md $(D)/usr/share/doc/openq4-bin/
+	cp -r --no-preserve=ownership openq4/docs openq4/licenses $(D)/usr/share/doc/openq4-bin/
 	install -m 644 $(Q4)/License.txt $(D)/usr/share/doc/openq4-bin/Quake4-License.txt
 
 # Prebuilt binaries: keep them as upstream shipped them.
 override_dh_strip override_dh_dwz override_dh_shlibdeps override_dh_makeshlibs override_dh_strip_nondeterminism:
+
+# Keep the SDK EULA readable where debian/copyright points.
+override_dh_compress:
+	dh_compress -X.rtf
 
 # Mostly already-compressed pk4 (zip) data.
 override_dh_builddeb:
