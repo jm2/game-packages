@@ -57,8 +57,16 @@ find "$work" -type d -perm /6000 -exec chmod u-s,g-s {} +
 # here in the scratch build.sh rather than in pkgtool.sh, which every
 # generated build.sh embeds (changing it would make build-all rebuild every
 # package).
+# build.sh is a PKGBUILD source, so its pinned sha256 in the scratch PKGBUILD
+# is swapped for the edited file's (rpmbuild and dpkg don't check it).
 if [ -f "$work/$pkg/build.sh" ]; then
+    sum_old=$(sha256sum "$work/$pkg/build.sh" | cut -d' ' -f1)
     sed -i 's/find "\$root" -type d -exec chmod 755 {} +/find "$root" -type d -exec chmod 00755 {} +/' "$work/$pkg/build.sh"
+    sum_new=$(sha256sum "$work/$pkg/build.sh" | cut -d' ' -f1)
+    if [ "$sum_old" != "$sum_new" ] && [ -f "$work/$pkg/PKGBUILD" ]; then
+        sed -i "s/$sum_old/$sum_new/" "$work/$pkg/PKGBUILD"
+        [ -f "$work/$pkg/.SRCINFO" ] && sed -i "s/$sum_old/$sum_new/" "$work/$pkg/.SRCINFO"
+    fi
 fi
 # Store downloads (GOG/Humble installers) cached by tools/fetch-* go next to
 # the build files in the scratch copy, where makepkg/rpmbuild/dpkg expect them.
