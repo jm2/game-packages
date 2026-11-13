@@ -3,7 +3,7 @@
 
 pkgname=ut2004-data-gog
 pkgver=3369
-pkgrel=4
+pkgrel=5
 pkgdesc='Unreal Tournament 2004 ECE data from GOG'
 arch=('any')
 url='https://www.gog.com/game/unreal_tournament_2004_ece'

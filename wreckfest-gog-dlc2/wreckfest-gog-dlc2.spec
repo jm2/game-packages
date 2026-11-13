@@ -13,7 +13,7 @@
 
 Name:           wreckfest-gog-dlc2
 Version:        1.0o
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Wreckfest (GOG) - Season Pass 2
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/en/game/wreckfest
@@ -41,7 +41,8 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-3
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.0o-4
 - Install into /opt/wreckfest-gog so the game finds the DLC
 - Use GOG's file name and DLC path for the installer and pin its sha256
 - Ship GOG's DLC marker files instead of webcache.zip (which conflicted)
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

@@ -1,12 +1,12 @@
 name = "prey-data-steam"
 family = "data-steam"
-release = 3
+release = 4
 summary = "Prey (2006) data via Steam"
 url = "https://steamdb.info/app/3970/"
 target = "/opt/prey"
 provides = ["prey-data"]
 conflicts = []
-changelog = ["Copy every base/*.pk4, not just pak000-pak004"]
+changelog = ["Copy every base/*.pk4, not just pak000-pak004", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 
 [source.steam]
 appid = 3970

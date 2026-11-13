@@ -3,7 +3,7 @@
 
 pkgname=eliteforce-data-gog
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='Star Trek Voyager: Elite Force data via GOG'
 arch=('any')
 url='https://www.gog.com/game/star_trek_voyager_elite_force'

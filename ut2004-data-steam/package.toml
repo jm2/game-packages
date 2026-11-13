@@ -1,6 +1,6 @@
 name = "ut2004-data-steam"
 family = "data-steam"
-release = 4
+release = 5
 summary = "Unreal Tournament 2004 ECE data from Steam"
 description = """
 Game data for Unreal Tournament 2004: Editor's Choice Edition, downloaded from
@@ -15,6 +15,7 @@ changelog = [
   "Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt",
   "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
   "Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut",
+  "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package",
 ]
 
 [source.steam]

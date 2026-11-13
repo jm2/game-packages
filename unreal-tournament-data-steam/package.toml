@@ -1,6 +1,6 @@
 name = "unreal-tournament-data-steam"
 family = "data-steam"
-release = 4
+release = 5
 summary = "Unreal Tournament 99 (GOTY) data from Steam"
 description = """
 Game data for Unreal Tournament: Game of the Year Edition, downloaded from
@@ -14,6 +14,7 @@ changelog = [
   "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
   "Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt",
   "Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files",
+  "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package",
 ]
 
 [source.steam]

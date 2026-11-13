@@ -13,7 +13,7 @@
 
 Name:           rvgl-soundtrack
 Version:        20.1008
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Original Re-Volt soundtrack for RVGL
 License:        LicenseRef-Proprietary
 URL:            https://rvgl.org
@@ -43,5 +43,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 20.1008-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 20.1008-2
 - Initial package: soundtrack 20.1008
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

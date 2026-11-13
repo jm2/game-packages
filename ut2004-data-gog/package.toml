@@ -1,7 +1,7 @@
 name = "ut2004-data-gog"
 family = "data-gog"
 version = "3369"
-release = 4
+release = 5
 summary = "Unreal Tournament 2004 ECE data from GOG"
 description = """
 Game data for Unreal Tournament 2004: Editor's Choice Edition, extracted from
@@ -15,6 +15,7 @@ changelog = [
   "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
   "Drop the files ut2004-bin ships in any letter case, and the old Windows ini files",
   "Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut",
+  "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package",
 ]
 notes = """
 GOG no longer sells Unreal Tournament 2004; use the installer from your GOG

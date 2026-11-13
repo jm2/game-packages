@@ -4,7 +4,7 @@
 
 pkgname=rvgl-bin
 pkgver=23.1030a1
-pkgrel=1
+pkgrel=2
 pkgdesc="RVGL, the cross-platform rewrite of the Re-Volt R/C car racing game (engine and assets)"
 arch=('x86_64' 'aarch64')
 url="https://rvgl.org"

@@ -18,7 +18,7 @@
 
 Name:           rbdoom-3-bfg
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Doom 3 BFG Edition with modern engine features (Vulkan, PBR, baked GI)
 # Engine GPL-3.0-or-later; nvrhi, ShaderMake, imgui, rapidjson, ispc_texcomp
 # MIT; Intel's masked occlusion culling Apache-2.0; libbinkdec
@@ -122,6 +122,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/rbdoom-3-bfg.desktop
 
 
 %changelog
+* Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.6.0-3
+- Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
 * Sat Nov 07 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.6.0-2
 - Suggest rbdoom-3-bfg-gi-data, the release's baked GI and blood packs
 

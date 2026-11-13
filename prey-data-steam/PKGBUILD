@@ -3,7 +3,7 @@
 
 pkgname=prey-data-steam
 pkgver=0
-true && pkgrel=3
+true && pkgrel=4
 pkgdesc='Prey (2006) data via Steam'
 arch=('any')
 url='https://steamdb.info/app/3970/'

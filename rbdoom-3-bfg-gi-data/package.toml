@@ -1,6 +1,7 @@
 name = "rbdoom-3-bfg-gi-data"
 family = "data-url"
 version = "1.6.0"
+release = 2
 summary = "Baked global illumination and blood data for RBDOOM-3-BFG"
 description = """
 The two data packs from RBDOOM-3-BFG's release archive that are not built
@@ -11,7 +12,7 @@ to the retail data in /usr/share/games/doom3bfg/base; extracted at build
 time from the upstream Windows release archive (1.6 GB download)."""
 url = "https://github.com/RobertBeckebans/RBDOOM-3-BFG"
 target = "/usr/share/games/doom3bfg"
-changelog = ["Initial package: the data packs of the RBDOOM-3-BFG 1.6.0 release"]
+changelog = ["Initial package: the data packs of the RBDOOM-3-BFG 1.6.0 release", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 notes = """
 Without this package the engine still runs: maps without baked light grids
 fall back to plain ambient lighting and generic environment probes.

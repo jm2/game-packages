@@ -3,7 +3,7 @@
 
 pkgname=doom3bfg-data-gog
 pkgver=1
-pkgrel=5
+pkgrel=6
 pkgdesc='Doom 3 BFG Edition data via GOG'
 arch=('any')
 url='https://www.gog.com/game/doom_3_bfg_edition'

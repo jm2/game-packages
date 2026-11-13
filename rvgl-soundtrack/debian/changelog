@@ -1,5 +1,6 @@
-rvgl-soundtrack (20.1008-1) unstable; urgency=medium
+rvgl-soundtrack (20.1008-2) unstable; urgency=medium
 
   * Initial package: soundtrack 20.1008
+  * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

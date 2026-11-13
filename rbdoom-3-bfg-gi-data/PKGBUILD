@@ -3,7 +3,7 @@
 
 pkgname=rbdoom-3-bfg-gi-data
 pkgver=1.6.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Baked global illumination and blood data for RBDOOM-3-BFG'
 arch=('any')
 url='https://github.com/RobertBeckebans/RBDOOM-3-BFG'

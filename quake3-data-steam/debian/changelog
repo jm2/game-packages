@@ -1,8 +1,9 @@
-quake3-data-steam (0-4) unstable; urgency=medium
+quake3-data-steam (0-5) unstable; urgency=medium
 
   * Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
   * Depend on quake3-pointrelease-data for the 1.32 point release paks
   * Include Team Arena (missionpack/pak0.pk3, Steam app 2350): Steam sells Quake III Arena with Team Arena now; replaces quake3-ta-data-steam
   * Conflict with the virtual quake3-data/quake3-ta-data instead of naming the other source packages, like every Quake III data package (Windows lists the providers by name)
+  * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

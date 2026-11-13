@@ -3,7 +3,7 @@
 
 pkgname=doom3xp-data-steam
 pkgver=0
-true && pkgrel=4
+true && pkgrel=5
 pkgdesc='Doom 3: Resurrection of Evil data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/9070/DOOM_3_Resurrection_of_Evil/'

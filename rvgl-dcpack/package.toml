@@ -1,6 +1,7 @@
 name = "rvgl-dcpack"
 family = "data-url"
 version = "23.0501a1"
+release = 2
 summary = "Dreamcast content pack for RVGL (Rooftops and 14 cars)"
 description = """
 The content of the Dreamcast version of Re-Volt for RVGL: the Rooftops track
@@ -9,7 +10,7 @@ car selection layout. Installed as RVGL's rvgl_dcpack pack in
 /opt/rvgl/packs/rvgl_dcpack, downloaded at build time from Re-Volt I/O."""
 url = "https://rvgl.org"
 target = "/opt/rvgl/packs/rvgl_dcpack"
-changelog = ["Initial package: rvgl_dcpack 23.0501a1"]
+changelog = ["Initial package: rvgl_dcpack 23.0501a1", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 notes = """
 The pack is loaded after the game data, so its car selection layout
 (levels/frontend/frontend.fob, with BigVolt and BossVolt) replaces the

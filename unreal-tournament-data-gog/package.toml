@@ -1,7 +1,7 @@
 name = "unreal-tournament-data-gog"
 family = "data-gog"
 version = "436"
-release = 4
+release = 5
 summary = "Unreal Tournament 99 (GOTY) data from GOG"
 description = """
 Game data for Unreal Tournament: Game of the Year Edition, extracted from the
@@ -15,6 +15,7 @@ changelog = [
   "Generated package (tools/gen.py); builds for Arch, Fedora and Debian",
   "Real sha256 for the GOG installer, under GOG's own file name setup_ut_goty_2.0.0.5.exe",
   "Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files",
+  "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package",
 ]
 notes = """
 GOG no longer sells Unreal Tournament; use the installer from your GOG

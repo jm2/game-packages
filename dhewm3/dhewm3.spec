@@ -5,7 +5,7 @@
 
 Name:           dhewm3
 Version:        1.5.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Doom 3 source port with SDL3, OpenAL and 64-bit support
 # Engine: GPL-3.0-or-later with id Software's additional terms. Bundled:
 # Dear ImGui and miniz (MIT), stb_image (MIT OR Unlicense), minizip (Zlib).
@@ -86,5 +86,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/org.dhewm3.Dhe
 
 
 %changelog
+* Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.5.5-2
+- Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
 * Fri Nov 06 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.5.5-1
 - Initial RPM package

@@ -3,7 +3,7 @@
 
 pkgname=wreckfest-gog-dlc2
 pkgver=1.0o
-pkgrel=3
+pkgrel=4
 pkgdesc='Wreckfest (GOG) - Season Pass 2'
 arch=('any')
 url='https://www.gog.com/en/game/wreckfest'

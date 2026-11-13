@@ -14,7 +14,7 @@
 Name:           prey-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Prey (2006) data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://steamdb.info/app/3970/
@@ -45,3 +45,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Copy every base/*.pk4, not just pak000-pak004
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

@@ -3,7 +3,7 @@
 
 pkgname=unreal-tournament-data-gog
 pkgver=436
-pkgrel=4
+pkgrel=5
 pkgdesc='Unreal Tournament 99 (GOTY) data from GOG'
 arch=('any')
 url='https://www.gog.com/game/unreal_tournament_goty'

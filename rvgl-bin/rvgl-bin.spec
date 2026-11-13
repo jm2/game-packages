@@ -8,7 +8,7 @@
 
 Name:           rvgl-bin
 Version:        23.1030a1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        RVGL, the cross-platform rewrite of the Re-Volt R/C car racing game
 License:        CC-BY-NC-SA-4.0 AND (LGPL-3.0-or-later OR GPL-2.0-or-later)
 URL:            https://rvgl.org
@@ -74,5 +74,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/rvgl.desktop
 /opt/rvgl/
 
 %changelog
+* Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 23.1030a1-2
+- Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
 * Thu Nov 05 2026 John-Michael Mulesa <jmulesa@gmail.com> - 23.1030a1-1
 - Initial package: RVGL 23.1030a1 with RVGL Launcher's pack layout

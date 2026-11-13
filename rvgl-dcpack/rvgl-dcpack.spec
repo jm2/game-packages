@@ -13,7 +13,7 @@
 
 Name:           rvgl-dcpack
 Version:        23.0501a1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Dreamcast content pack for RVGL (Rooftops and 14 cars)
 License:        LicenseRef-Proprietary
 URL:            https://rvgl.org
@@ -44,5 +44,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 23.0501a1-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 23.0501a1-2
 - Initial package: rvgl_dcpack 23.0501a1
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

@@ -13,7 +13,7 @@
 
 Name:           quake3-pointrelease-data
 Version:        1.32b
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Quake III Arena 1.32 point release paks (pak1-8, Team Arena pak1-3)
 License:        LicenseRef-Quake3-PointRelease-EULA
 URL:            https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/
@@ -46,5 +46,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.32b-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.32b-2
 - Initial package: 1.32 point release paks from id's Linux installer
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

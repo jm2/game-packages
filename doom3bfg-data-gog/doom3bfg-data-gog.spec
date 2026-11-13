@@ -13,7 +13,7 @@
 
 Name:           doom3bfg-data-gog
 Version:        1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Doom 3 BFG Edition data via GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/doom_3_bfg_edition
@@ -44,7 +44,8 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-5
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1-6
 - Generated from package.toml
 - Update to GOG's 1.14 20230201 installer (build 62122)
 - Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

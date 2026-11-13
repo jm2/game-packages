@@ -3,7 +3,7 @@
 
 pkgname=rvgl-soundtrack
 pkgver=20.1008
-pkgrel=1
+pkgrel=2
 pkgdesc='Original Re-Volt soundtrack for RVGL'
 arch=('any')
 url='https://rvgl.org'

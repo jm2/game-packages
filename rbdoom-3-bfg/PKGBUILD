@@ -14,7 +14,7 @@
 
 pkgname=rbdoom-3-bfg
 pkgver=1.6.0
-pkgrel=2
+pkgrel=3
 _nvrhi=fc4cfe69b9f65c7a0ba6509a52303efaba0a0e8c
 _shadermake=13867771f6142f35690a5e2103c1e1efdd90cb0e
 # Upstream's icon, added after the tag on the flatpak branch.

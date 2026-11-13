@@ -1,7 +1,7 @@
 name = "wreckfest-gog-dlc1"
 family = "data-gog"
 version = "1.0o"
-release = 3
+release = 4
 summary = "Wreckfest (GOG) - Season Pass 1"
 url = "https://www.gog.com/en/game/wreckfest"
 target = "/opt/wreckfest-gog"
@@ -9,6 +9,7 @@ changelog = [
   "Install into /opt/wreckfest-gog so the game finds the DLC",
   "Use GOG's file name and DLC path for the installer and pin its sha256",
   "Ship GOG's DLC marker files instead of webcache.zip (which conflicted)",
+  "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package",
 ]
 
 [deps]

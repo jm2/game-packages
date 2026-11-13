@@ -1,7 +1,7 @@
 name = "revolt-data-revoltio"
 family = "data-url"
 version = "22.0909"
-release = 2
+release = 3
 summary = "Re-Volt game data for RVGL from Re-Volt I/O"
 description = """
 The original Re-Volt (1999) game files (tracks, cars, graphics and sounds),
@@ -12,7 +12,7 @@ url = "https://re-volt.io/downloads/game"
 target = "/opt/rvgl/packs/game_files"
 provides = ["revolt-data"]
 conflicts = ["revolt-data"]
-changelog = ["Initial package: Re-Volt I/O game_files 22.0909", "Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)"]
+changelog = ["Initial package: Re-Volt I/O game_files 22.0909", "Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 notes = """
 Re-Volt I/O hosts these files "for the sake of game preservation": the game
 is abandonware, its rights belong to WeGo Interactive, and there is no

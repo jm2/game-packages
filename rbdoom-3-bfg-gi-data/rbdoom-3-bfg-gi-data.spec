@@ -13,7 +13,7 @@
 
 Name:           rbdoom-3-bfg-gi-data
 Version:        1.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Baked global illumination and blood data for RBDOOM-3-BFG
 License:        LicenseRef-Proprietary
 URL:            https://github.com/RobertBeckebans/RBDOOM-3-BFG
@@ -46,5 +46,6 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.6.0-1
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.6.0-2
 - Initial package: the data packs of the RBDOOM-3-BFG 1.6.0 release
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

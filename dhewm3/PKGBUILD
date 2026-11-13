@@ -8,7 +8,7 @@
 
 pkgname=dhewm3
 pkgver=1.5.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Doom 3 source port with SDL3, OpenAL and 64-bit support"
 arch=('x86_64' 'aarch64')
 url="https://dhewm3.org/"

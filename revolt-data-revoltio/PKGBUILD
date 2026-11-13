@@ -3,7 +3,7 @@
 
 pkgname=revolt-data-revoltio
 pkgver=22.0909
-pkgrel=2
+pkgrel=3
 pkgdesc='Re-Volt game data for RVGL from Re-Volt I/O'
 arch=('any')
 url='https://re-volt.io/downloads/game'

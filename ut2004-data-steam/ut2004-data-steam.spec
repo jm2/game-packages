@@ -14,7 +14,7 @@
 Name:           ut2004-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Unreal Tournament 2004 ECE data from Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/
@@ -52,3 +52,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 - Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt
 - Drop the files ut2004-bin ships in any letter case, and the old Windows ini files
 - Drop the retired ut2004-gog conflict and add the Windows OldUnreal shortcut
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

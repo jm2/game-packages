@@ -3,7 +3,7 @@
 
 pkgname=quake3-data-steam
 pkgver=0
-true && pkgrel=4
+true && pkgrel=5
 pkgdesc='Quake III Arena and Team Arena data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/2200/Quake_III_Arena/'

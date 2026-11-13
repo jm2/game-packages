@@ -1,3 +1,9 @@
+rbdoom-3-bfg (1.6.0-3) unstable; urgency=medium
+
+  * Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 12 Nov 2026 20:30:00 -0500
+
 rbdoom-3-bfg (1.6.0-2) unstable; urgency=medium
 
   * Suggest rbdoom-3-bfg-gi-data, the release's baked GI and blood packs.

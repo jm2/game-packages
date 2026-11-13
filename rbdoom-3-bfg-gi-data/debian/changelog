@@ -1,5 +1,6 @@
-rbdoom-3-bfg-gi-data (1.6.0-1) unstable; urgency=medium
+rbdoom-3-bfg-gi-data (1.6.0-2) unstable; urgency=medium
 
   * Initial package: the data packs of the RBDOOM-3-BFG 1.6.0 release
+  * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

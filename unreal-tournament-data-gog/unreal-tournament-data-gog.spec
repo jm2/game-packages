@@ -13,7 +13,7 @@
 
 Name:           unreal-tournament-data-gog
 Version:        436
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Unreal Tournament 99 (GOTY) data from GOG
 License:        LicenseRef-Proprietary
 URL:            https://www.gog.com/game/unreal_tournament_goty
@@ -45,7 +45,8 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 %files -f work/files.list
 
 %changelog
-* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 436-4
+* Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 436-5
 - Generated package (tools/gen.py); builds for Arch, Fedora and Debian
 - Real sha256 for the GOG installer, under GOG's own file name setup_ut_goty_2.0.0.5.exe
 - Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package

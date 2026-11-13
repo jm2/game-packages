@@ -1,3 +1,9 @@
+rvgl-bin (23.1030a1-2) unstable; urgency=medium
+
+  * Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 12 Nov 2026 20:30:00 -0500
+
 rvgl-bin (23.1030a1-1) unstable; urgency=medium
 
   * Initial Debian package: RVGL 23.1030a1 with RVGL Launcher's pack layout.

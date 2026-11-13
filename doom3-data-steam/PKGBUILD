@@ -3,7 +3,7 @@
 
 pkgname=doom3-data-steam
 pkgver=0
-true && pkgrel=3
+true && pkgrel=4
 pkgdesc='Doom 3 data via Steam'
 arch=('any')
 url='https://store.steampowered.com/app/9050/DOOM_3/'

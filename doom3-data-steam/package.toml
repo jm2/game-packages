@@ -1,12 +1,12 @@
 name = "doom3-data-steam"
 family = "data-steam"
-release = 3
+release = 4
 summary = "Doom 3 data via Steam"
 url = "https://store.steampowered.com/app/9050/DOOM_3/"
 target = "/opt/doom3"
 provides = ["doom3-data"]
 conflicts = ["doom3-data"]
-changelog = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)", "Conflict with the virtual doom3-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)"]
+changelog = ["Link /usr/share/games/doom3 to /opt/doom3 for distribution dhewm3 builds (Debian)", "Conflict with the virtual doom3-data instead of naming the other source packages, like every Doom 3 data package (Windows lists the providers by name)", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 notes = """
 base/*.pk4 for dhewm3 and other Doom 3 engines. Resurrection of Evil is
 doom3xp-data-steam."""

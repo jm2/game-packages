@@ -1,7 +1,8 @@
-unreal-tournament-data-steam (0-4) unstable; urgency=medium
+unreal-tournament-data-steam (0-5) unstable; urgency=medium
 
   * Generated package (tools/gen.py); builds for Arch, Fedora and Debian
   * Steam data from the tools/fetch-steam cache or STEAM_USER instead of an interactive prompt
   * Drop the files unreal-tournament-bin ships in any letter case, the old Windows ini and localisation files
+  * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

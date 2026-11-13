@@ -3,7 +3,7 @@
 
 pkgname=lilium-voyager-git
 pkgver=20261031.g51fccb9b
-pkgrel=1
+pkgrel=2
 pkgdesc="An ioquake3-based Voyager: Elite Force source port"
 url="https://clover.moe/lilium-voyager/"
 license=('GPL-2.0-or-later')

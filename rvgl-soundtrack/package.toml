@@ -1,6 +1,7 @@
 name = "rvgl-soundtrack"
 family = "data-url"
 version = "20.1008"
+release = 2
 summary = "Original Re-Volt soundtrack for RVGL"
 description = """
 The original Re-Volt soundtrack (based on the Dreamcast version) as Ogg
@@ -8,7 +9,7 @@ Vorbis files, installed as RVGL's soundtrack pack in
 /opt/rvgl/packs/soundtrack and downloaded at build time from Re-Volt I/O."""
 url = "https://rvgl.org"
 target = "/opt/rvgl/packs/soundtrack"
-changelog = ["Initial package: soundtrack 20.1008"]
+changelog = ["Initial package: soundtrack 20.1008", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 notes = """
 The music is part of Acclaim's Re-Volt and is hosted by Re-Volt I/O without
 a license to redistribute it. The download URL is not versioned: when a new

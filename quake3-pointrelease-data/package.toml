@@ -1,6 +1,7 @@
 name = "quake3-pointrelease-data"
 family = "data-url"
 version = "1.32b"
+release = 2
 summary = "Quake III Arena 1.32 point release paks (pak1-8, Team Arena pak1-3)"
 description = """
 The data files of id Software's Quake III Arena 1.32 point release:
@@ -11,7 +12,7 @@ installer (linuxq3apoint-1.32b-3.x86.run) without running it."""
 url = "https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/"
 license = "LicenseRef-Quake3-PointRelease-EULA"
 target = "/opt/quake3"
-changelog = ["Initial package: 1.32 point release paks from id's Linux installer"]
+changelog = ["Initial package: 1.32 point release paks from id's Linux installer", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 notes = """
 The paks come from id Software's last Linux point release installer,
 linuxq3apoint-1.32b-3.x86.run (2003), as mirrored from ftp.idsoftware.com

@@ -1,5 +1,6 @@
-prey-data-steam (0-3) unstable; urgency=medium
+prey-data-steam (0-4) unstable; urgency=medium
 
   * Copy every base/*.pk4, not just pak000-pak004
+  * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

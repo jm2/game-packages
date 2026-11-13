@@ -1,3 +1,9 @@
+lilium-voyager-git (0~git20261031.51fccb9b-2) unstable; urgency=medium
+
+  * Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 12 Nov 2026 20:30:00 -0500
+
 lilium-voyager-git (0~git20261031.51fccb9b-1) unstable; urgency=medium
 
   * Initial Debian package, built from commit 51fccb9 of

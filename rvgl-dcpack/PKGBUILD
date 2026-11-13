@@ -3,7 +3,7 @@
 
 pkgname=rvgl-dcpack
 pkgver=23.0501a1
-pkgrel=1
+pkgrel=2
 pkgdesc='Dreamcast content pack for RVGL (Rooftops and 14 cars)'
 arch=('any')
 url='https://rvgl.org'

@@ -6,7 +6,7 @@
 
 Name:           lilium-voyager-git
 Version:        0^%{snapdate}git%{shortcommit}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An ioquake3-based Voyager: Elite Force source port
 License:        GPL-2.0-or-later
 URL:            https://clover.moe/lilium-voyager/
@@ -96,5 +96,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/lilium-voyager.deskto
 
 
 %changelog
+* Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0^20261031git51fccb9b-2
+- Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0^20261031git51fccb9b-1
 - Initial RPM package, built from commit 51fccb9 of zturtleman/lilium-voyager

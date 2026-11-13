@@ -1,13 +1,13 @@
 name = "eliteforce-data-gog"
 family = "data-gog"
 version = "1"
-release = 3
+release = 4
 summary = "Star Trek Voyager: Elite Force data via GOG"
 url = "https://www.gog.com/game/star_trek_voyager_elite_force"
 target = "/opt/lilium-voyager"
 provides = ["eliteforce-data"]
 conflicts = []
-changelog = ["Generated from package.toml"]
+changelog = ["Generated from package.toml", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 
 [hooks]
 post_prepare = """

@@ -3,7 +3,7 @@
 
 pkgname=ut2004-data-steam
 pkgver=0
-true && pkgrel=4
+true && pkgrel=5
 pkgdesc='Unreal Tournament 2004 ECE data from Steam'
 arch=('any')
 url='https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/'

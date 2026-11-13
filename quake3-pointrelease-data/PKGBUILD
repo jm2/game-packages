@@ -3,7 +3,7 @@
 
 pkgname=quake3-pointrelease-data
 pkgver=1.32b
-pkgrel=1
+pkgrel=2
 pkgdesc='Quake III Arena 1.32 point release paks (pak1-8, Team Arena pak1-3)'
 arch=('any')
 url='https://ftp.gwdg.de/pub/misc/ftp.idsoftware.com/idstuff/quake3/linux/'

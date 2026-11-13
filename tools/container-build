@@ -44,6 +44,13 @@ wipe() {
 }
 trap 'wipe "$work"' EXIT
 cp -a "$pkgdir" "$work/$pkg"
+# New directories inherit a set-group-ID bit from their parent, and cp -a keeps
+# the checkout's, so a setgid $TMPDIR or checkout (a shared group directory)
+# would put drwxr-sr-x directories into every package. RPM then refuses to
+# install two packages that own the same directory with different modes
+# (e.g. /opt/quake3 from quake3e and quake3-data-gog). Clear it here, before
+# anything is built under $work.
+find "$work" -type d -perm /6000 -exec chmod u-s,g-s {} +
 # Store downloads (GOG/Humble installers) cached by tools/fetch-* go next to
 # the build files in the scratch copy, where makepkg/rpmbuild/dpkg expect them.
 if [ -n "${PT_CACHE:-}" ] && [ -d "$PT_CACHE/$pkg" ]; then

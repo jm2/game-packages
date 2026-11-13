@@ -1,13 +1,13 @@
 name = "doom3bfg-data-gog"
 family = "data-gog"
 version = "1"
-release = 5
+release = 6
 summary = "Doom 3 BFG Edition data via GOG"
 url = "https://www.gog.com/game/doom_3_bfg_edition"
 target = "/usr/share/games/doom3bfg"
 provides = ["doom3bfg-data"]
 conflicts = ["doom3bfg-data"]
-changelog = ["Generated from package.toml", "Update to GOG's 1.14 20230201 installer (build 62122)", "Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)"]
+changelog = ["Generated from package.toml", "Update to GOG's 1.14 20230201 installer (build 62122)", "Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
 
 [[source.files]]
 name = "setup_doom3_bfg_edition_1.14_20230201_(62122).exe"

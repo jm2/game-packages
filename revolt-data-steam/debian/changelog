@@ -1,6 +1,7 @@
-revolt-data-steam (0-2) unstable; urgency=medium
+revolt-data-steam (0-3) unstable; urgency=medium
 
   * Initial package: Steam Re-Volt (app 287310) as RVGL's game_files pack
   * Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)
+  * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

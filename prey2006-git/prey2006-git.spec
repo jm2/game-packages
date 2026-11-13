@@ -7,7 +7,7 @@
 
 Name:           prey2006-git
 Version:        0^%{snapdate}git%{shortcommit}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Prey (2006) source port based on dhewm3 and the Prey SDK
 # Engine: Doom 3 GPL (GPL-3.0-or-later with id's additional terms). Game code
 # and base/ assets: Prey SDK, no licence text in the repository (README.md).
@@ -84,5 +84,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.fris
 
 
 %changelog
+* Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0^20261101git1d9d18d7-2
+- Rebuild without set-group-ID bits on its directories (RPM refused to install it beside the data packages)
+
 * Fri Nov 06 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0^20261101git1d9d18d7-1
 - Initial RPM package, built from commit 1d9d18d of glKarin/Prey2006

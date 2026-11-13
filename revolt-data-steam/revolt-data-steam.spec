@@ -14,7 +14,7 @@
 Name:           revolt-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Re-Volt game data for RVGL from Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/287310/ReVolt/
@@ -50,3 +50,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Initial package: Steam Re-Volt (app 287310) as RVGL's game_files pack
 - Conflict with the virtual revolt-data instead of naming the other source packages, like every Re-Volt data package (Windows lists the providers by name)
+- Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
