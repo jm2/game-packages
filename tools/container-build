@@ -51,6 +51,15 @@ cp -a "$pkgdir" "$work/$pkg"
 # (e.g. /opt/quake3 from quake3e and quake3-data-gog). Clear it here, before
 # anything is built under $work.
 find "$work" -type d -perm /6000 -exec chmod u-s,g-s {} +
+# Data copied with cp -a from a setgid PT_CACHE (Steam downloads) keeps the bit
+# too, and pkgtool's `chmod 755` leaves it (GNU chmod keeps a directory's
+# setuid/setgid bits under a numeric mode unless it has a leading 00). Fixed
+# here in the scratch build.sh rather than in pkgtool.sh, which every
+# generated build.sh embeds (changing it would make build-all rebuild every
+# package).
+if [ -f "$work/$pkg/build.sh" ]; then
+    sed -i 's/find "\$root" -type d -exec chmod 755 {} +/find "$root" -type d -exec chmod 00755 {} +/' "$work/$pkg/build.sh"
+fi
 # Store downloads (GOG/Humble installers) cached by tools/fetch-* go next to
 # the build files in the scratch copy, where makepkg/rpmbuild/dpkg expect them.
 if [ -n "${PT_CACHE:-}" ] && [ -d "$PT_CACHE/$pkg" ]; then
