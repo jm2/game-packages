@@ -1,3 +1,10 @@
+gamelaunch (1.4.0-1) unstable; urgency=medium
+
+  * GBE_STEAMCLIENT=1: gbe steamclient.so in ~/.steam for native games that
+    link the Steam API statically.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Sat, 14 Nov 2026 12:00:00 -0500
+
 gamelaunch (1.3.0-1) unstable; urgency=medium
 
   * Goldberg player name follows the host name (lower case) for games with

@@ -3,12 +3,12 @@
 
 pkgname=serioussamfusion-steam
 pkgver=0
-true && pkgrel=2
+true && pkgrel=3
 pkgdesc='Serious Sam Fusion 2017 (native Linux) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme')
+depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'libpulse')
 makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 options=('!strip' '!debug' 'emptydirs')
 source=("build.sh"

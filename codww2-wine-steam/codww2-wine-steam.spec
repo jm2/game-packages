@@ -17,7 +17,7 @@
 Name:           codww2-wine-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Call of Duty: WWII using Wine with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/476600/Call_of_Duty_WWII/
@@ -64,3 +64,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/codww2.desktop
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Link Goldberg from /opt/gbe-fork so the game starts under umu/Proton
+- Start multiplayer: the campaign executable (s2_sp64_ship.exe) is not in the depots

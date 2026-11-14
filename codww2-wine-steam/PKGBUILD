@@ -3,7 +3,7 @@
 
 pkgname=codww2-wine-steam
 pkgver=0
-true && pkgrel=3
+true && pkgrel=4
 pkgdesc='Call of Duty: WWII using Wine with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/476600/Call_of_Duty_WWII/'
@@ -16,10 +16,10 @@ source=("build.sh"
         "codww2.conf"
         "codww2.desktop"
         "README.md")
-sha256sums=('dd3aa709ccfc4581541284f7ce2af9589112c9dec55cffa8a063e9b03589f6f0'
-            '98d7b1a5786df0813465bb7a6733d48032c4d758b06160745c7679775eb16d5a'
+sha256sums=('4ef46f744f98d87b87c91f98c850e40aab9203cb789853de55bcf3f316d1cd46'
+            'daf52a9311814feff2c3fb58bfe58fdfdfda0efe7e7e9e3b31067f1376976e7a'
             'c4f1587cccd05540232be600885d3b1145c5971970ebc708a8b2502a1aa038de'
-            'e4198e26c93f4b915d77c7620872c4892a3eb4b81aecd3dbf126fe40809e483f')
+            '12aaec5734cb3c2e85b5079accb975b57052f37930892a2ad26edd1fed7ecd78')
 
 # The version comes from the Steam download: <game version>.b<Steam build ID>.
 pkgver() {

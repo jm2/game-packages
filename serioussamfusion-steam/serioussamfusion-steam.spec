@@ -17,7 +17,7 @@
 Name:           serioussamfusion-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Serious Sam Fusion 2017 (native Linux) with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/564310/Serious_Sam_Fusion_2017_beta/
@@ -35,6 +35,7 @@ Requires:       gamelaunch
 Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
 Requires:       (fex-emu if glibc(aarch-64))
+Requires:       (pulseaudio-libs if glibc(x86-64))
 # On aarch64: x86 userland, GL/Vulkan thunks, and the microVM for 16K-page systems
 Recommends:     (fex-emu-rootfs-fedora if glibc(aarch-64))
 Recommends:     (fex-emu-thunks if glibc(aarch-64))
@@ -62,3 +63,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/serioussamfusion.desk
 %changelog
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch and gbe-fork-bin
+- Depend on libpulse: the game links libpulse.so.0

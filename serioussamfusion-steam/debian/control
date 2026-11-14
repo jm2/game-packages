@@ -9,7 +9,7 @@ Rules-Requires-Root: no
 
 Package: serioussamfusion-steam
 Architecture: all
-Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, libc6 | libc6:arm64, libc6:amd64 | fex-emu | box64, serioussamfusion-steam-data1 (= ${binary:Version}), serioussamfusion-steam-data2 (= ${binary:Version}), serioussamfusion-steam-data3 (= ${binary:Version}), ${misc:Depends}
+Depends: gamelaunch, gbe-fork-bin, hicolor-icon-theme, libc6 | libc6:arm64, libpulse0 | libc6:arm64, libc6:amd64 | fex-emu | box64, serioussamfusion-steam-data1 (= ${binary:Version}), serioussamfusion-steam-data2 (= ${binary:Version}), serioussamfusion-steam-data3 (= ${binary:Version}), ${misc:Depends}
 Description: Serious Sam Fusion 2017 (native Linux) with data via Steam
  Serious Sam Fusion 2017 (native Linux) with data via Steam
 

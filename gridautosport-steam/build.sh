@@ -30,6 +30,13 @@ pt_icon() {
 
 pt_post_install() {
     sed -i '/steam-check.sh/d' GridAutosport.sh
+    # Feral's script re-launches through Steam unless SteamAppId is set, and sets
+    # LD_LIBRARY_PATH/LD_PRELOAD without exporting them (libCoreFoundation.so.476
+    # is then not found).
+    sed -i -e 's/^if \[ -z "\${SteamAppId}" \]; then$/if false; then/' \
+           -e 's/^LD_LIBRARY_PATH=/export LD_LIBRARY_PATH=/' \
+           -e 's/^    LD_PRELOAD="\${GAMEROOT}/    export LD_PRELOAD="${GAMEROOT}/' GridAutosport.sh
+    grep -q '^if false; then$' GridAutosport.sh && grep -q '^export LD_LIBRARY_PATH=' GridAutosport.sh
 }
 
 # pkgtool.sh - shared build logic for generated game/data packages.

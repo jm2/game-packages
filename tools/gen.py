@@ -195,6 +195,8 @@ class Pkg:
             v = "1.1.2"                           # 1.1.2: XLLN links into /opt/xlln
         if self.launcher.get("preload") and tuple(map(int, (v or "0").split("."))) < (1, 2, 0):
             v = "1.2.0"                           # 1.2.0: WINE_PRELOAD
+        if self.launcher.get("gbe_steamclient") and tuple(map(int, (v or "0").split("."))) < (1, 4, 0):
+            v = "1.4.0"                           # 1.4.0: GBE_STEAMCLIENT
         if not v:
             return "gamelaunch"
         return {"arch": f"gamelaunch>={v}", "fedora": f"gamelaunch >= {v}",
@@ -424,8 +426,11 @@ def gen_conf(p: Pkg) -> str:
                 out.append(f"BOOTSTRAP_ARGS={sh_array(l['bootstrap_args'])}")
         legacy = l.get("legacy_dirs", [f"~/.{p.id}/wine"])
         out.append(f"LEGACY_DIRS={sh_array(legacy)}")
-    elif l.get("env"):
-        out.append(f"NATIVE_ENV={sh_array(l['env'])}")
+    else:
+        if l.get("env"):
+            out.append(f"NATIVE_ENV={sh_array(l['env'])}")
+        if l.get("gbe_steamclient"):
+            out.append("GBE_STEAMCLIENT=1")
     if p.native32:
         out.append("NEEDS_X86_32=1")
     return "\n".join(out) + "\n"

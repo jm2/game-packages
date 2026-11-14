@@ -1,5 +1,6 @@
-serioussamfusion-steam (0-2) unstable; urgency=medium
+serioussamfusion-steam (0-3) unstable; urgency=medium
 
   * Switch to gamelaunch and gbe-fork-bin
+  * Depend on libpulse: the game links libpulse.so.0
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500

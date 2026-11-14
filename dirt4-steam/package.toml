@@ -2,7 +2,7 @@ name = "dirt4-steam"
 family = "native-steam"
 id = "dirt4"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
-release = 3
+release = 4
 summary = "DiRT 4 (native Linux, Feral) with data via Steam"
 url = "https://store.steampowered.com/app/421020/DiRT_4/"
 conflicts = ["dirt4-wine-steam"]
@@ -10,6 +10,7 @@ remove_files = ["dirt4.sh"]
 changelog = [
   "Switch to gamelaunch and gbe-fork-bin",
   "Declare the system libraries the game, its CEF browser and Feral helpers link (from readelf)",
+  "Goldberg via gamelaunch GBE_STEAMCLIENT: the game links the Steam API statically",
 ]
 notes = """
 Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
@@ -32,6 +33,8 @@ remove = ["config/steam-check.sh"]
 
 [launcher]
 exe = "Dirt4.sh"
+# Dirt4 links the Steam API statically and ignores lib/libsteam_api.so.
+gbe_steamclient = true
 
 [desktop]
 name = "DiRT 4"

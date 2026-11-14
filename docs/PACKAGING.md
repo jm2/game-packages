@@ -60,7 +60,10 @@ points to it.
   `[gbe] libs = [...]`; the original library's interfaces are recorded at build
   time and the library is replaced by a symlink into `/opt/gbe-fork` (Windows
   builds; umu's pressure-vessel container hides `/usr`) or `/usr/lib/gbe-fork`
-  (Linux builds).
+  (Linux builds). A native game that links the Steam API statically (no
+  `libsteam_api.so` to replace, e.g. DiRT 4) sets `[launcher] gbe_steamclient
+  = true` instead: gamelaunch (≥ 1.4.0) puts gbe's `steamclient.so` in
+  `~/.steam/sdk{32,64}` for the run and restores the user's files afterwards.
 - `xlln-bin`: GFWL games set `[xlln] enabled = true`; gamelaunch links
   XLiveLessNess into the per-user game directory.
 - `wine-ipv6only`: `[launcher] preload = ["/opt/wine-ipv6only/lib64/ipv6only.so"]`

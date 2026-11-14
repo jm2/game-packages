@@ -3,7 +3,7 @@
 
 pkgname=gridautosport-steam
 pkgver=0
-true && pkgrel=4
+true && pkgrel=5
 pkgdesc='GRID Autosport (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://steamdb.info/app/255220/'
@@ -15,8 +15,8 @@ source=("build.sh"
         "gridautosport.conf"
         "gridautosport.desktop"
         "README.md")
-sha256sums=('82e2b7ce340bea2ac02e7e416089c3e451a4af9f830e63fef3f145a07e7e5f6c'
-            '86016ee48c67728dbb580b7354d76bfff0d597d24dca0f546856eda62958c65d'
+sha256sums=('87901a2055981676c9eb761d39ef7c483c1abcbe334f1e268fc6107df9e6cb4a'
+            '9809a4cf644700f38f29f160708e56a30075bd8acc21ed3eae35bff807121cba'
             '68f4ec0329b321461856b4572bcf20641417d922f048c5bf1e8064404d29348c'
             '688bbc37d44f51fbd76ed131c9b4d1b08717f8833045eda0d34ed253c47c1c32')
 

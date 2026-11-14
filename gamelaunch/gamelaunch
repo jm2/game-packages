@@ -66,6 +66,7 @@ gl_load() {
     WRITABLE=0 WRITABLE_COPY=()
     DXVK=1 UMU_ID='' WINE_ARCH=win64 WINE_DLL_OVERRIDES='' WINE_ENV=() PREREQS=()
     XLLN=0 XLLN_DIR='' LEGACY_DIRS=() NATIVE_ENV=() NEEDS_X86_32=0 WINE_USER=''
+    GBE_STEAMCLIENT=0
     BOOTSTRAP_URL='' BOOTSTRAP_FILE='' BOOTSTRAP_ARGS=()
     WINE_PRELOAD=() WINE_PRELOAD_VARIANTS=()
     # shellcheck source=/dev/null
@@ -284,6 +285,58 @@ gl_gbe_ini_set() {
         { print }
         END { if (!done) { if (!sec) print "[user::general]"; print "account_name=" n } }' > "$tmp" &&
         mv -f "$tmp" "$ini" || { rm -f "$tmp"; return 1; }
+}
+
+# Native games that link the Steam API statically (DiRT 4) never load the
+# packaged libsteam_api.so; they load ~/.steam/sdk{32,64}/steamclient.so once
+# ~/.steam/steam.pid names a live process. With GBE_STEAMCLIENT=1, gamelaunch
+# does what gbe's steamclient_loader.sh does: it puts gbe's steamclient.so
+# there for the run, writes its own PID to steam.pid and puts the user's files
+# back afterwards (or on the next start, after a crash). When a real Steam
+# client is running it is left alone and the game uses it.
+GL_SC_BASE=$HOME/.steam
+GL_SC_FILES=(steam.pid sdk32/steamclient.so sdk64/steamclient.so)
+gl_sc_restore() {
+    local f
+    for f in "${GL_SC_FILES[@]}"; do
+        if [ -e "$GL_SC_BASE/$f.gamelaunch-orig" ] || [ -L "$GL_SC_BASE/$f.gamelaunch-orig" ]; then
+            mv -f "$GL_SC_BASE/$f.gamelaunch-orig" "$GL_SC_BASE/$f"
+        elif [ -e "$GL_SC_BASE/$f.gamelaunch" ]; then   # we created it: remove it
+            rm -f "$GL_SC_BASE/$f"
+        fi
+        rm -f "$GL_SC_BASE/$f.gamelaunch"
+    done
+}
+# Prints nothing and returns 0 when gbe's steamclient is in place.
+gl_sc_setup() {
+    local gbe=/usr/lib/gbe-fork/linux f pid
+    [ -f "$gbe/x64/steamclient.so" ] || { warn "gbe-fork-bin's steamclient.so is missing; starting without it"; return 1; }
+    gl_sc_restore                                     # leftovers from a crash
+    pid=$(cat "$GL_SC_BASE/steam.pid" 2>/dev/null)
+    if [[ $pid =~ ^[0-9]+$ ]] && [ "$(cat "/proc/$pid/comm" 2>/dev/null)" = steam ]; then
+        note "Steam is running, so $GAME_NAME uses it instead of Goldberg"
+        return 1
+    fi
+    mkdir -p "$GL_SC_BASE/sdk32" "$GL_SC_BASE/sdk64" || return 1
+    for f in "${GL_SC_FILES[@]}"; do
+        if [ -e "$GL_SC_BASE/$f" ] || [ -L "$GL_SC_BASE/$f" ]; then
+            mv -f "$GL_SC_BASE/$f" "$GL_SC_BASE/$f.gamelaunch-orig" || return 1
+        else
+            : > "$GL_SC_BASE/$f.gamelaunch"           # marks a file we created
+        fi
+    done
+    ln -s "$gbe/x86/steamclient.so" "$GL_SC_BASE/sdk32/steamclient.so"
+    ln -s "$gbe/x64/steamclient.so" "$GL_SC_BASE/sdk64/steamclient.so"
+    echo $$ > "$GL_SC_BASE/steam.pid"
+}
+# Run the game as a child so the files can be put back when it exits.
+gl_sc_run() {
+    gl_sc_setup || gl_exec "$@"
+    trap gl_sc_restore EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+    gl_run "$@"
+    exit $?
 }
 
 gl_pick_runner() {
@@ -584,6 +637,7 @@ gl_run_game() {
         gl_gbe_account "$root" "${XDG_DATA_HOME:-$HOME/.local/share}"
         gl_emu_setup
         GL_ENV_NAMES=$(for e in "${NATIVE_ENV[@]}"; do printf '%s ' "${e%%=*}"; done)
+        [ "$GBE_STEAMCLIENT" = 1 ] && gl_sc_run "$root/$GL_EXE" "${GAME_ARGS[@]}" "${GL_EXTRA[@]}" "$@"
         gl_exec "$root/$GL_EXE" "${GAME_ARGS[@]}" "${GL_EXTRA[@]}" "$@"
     fi
 

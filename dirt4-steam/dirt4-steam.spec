@@ -14,7 +14,7 @@
 Name:           dirt4-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        DiRT 4 (native Linux, Feral) with data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/421020/DiRT_4/
@@ -27,7 +27,7 @@ ExclusiveArch:  x86_64
 BuildRequires:  desktop-file-utils
 BuildRequires:  gbe-fork-bin
 BuildRequires:  python3
-Requires:       gamelaunch
+Requires:       gamelaunch >= 1.4.0
 Requires:       gbe-fork-bin
 Requires:       hicolor-icon-theme
 Requires:       alsa-lib
@@ -72,3 +72,4 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/dirt4.desktop
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com>
 - Switch to gamelaunch and gbe-fork-bin
 - Declare the system libraries the game, its CEF browser and Feral helpers link (from readelf)
+- Goldberg via gamelaunch GBE_STEAMCLIENT: the game links the Steam API statically

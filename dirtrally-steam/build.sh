@@ -30,6 +30,12 @@ pt_icon() {
 
 pt_post_install() {
     sed -i '/steam-check.sh/d' DirtRally.sh
+    # The binary's RPATH is $ORIGIN/../lib but the libraries are in lib/x86_64,
+    # which glibc found only through the legacy hwcap subdirectory search that
+    # 2.37 removed.
+    for f in lib/x86_64/*.so*; do
+        [ -e "lib/${f##*/}" ] || ln -s "x86_64/${f##*/}" "lib/${f##*/}"
+    done
 }
 
 # pkgtool.sh - shared build logic for generated game/data packages.

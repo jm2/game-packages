@@ -2,13 +2,14 @@ name = "gridautosport-steam"
 family = "native-steam"
 id = "gridautosport"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
-release = 4
+release = 5
 summary = "GRID Autosport (native Linux, Feral) with data via Steam"
 url = "https://steamdb.info/app/255220/"
 remove_files = ["gridautosport.sh"]
 changelog = [
   "Switch to gamelaunch and gbe-fork-bin",
   "Declare the system libraries the game, its CEF browser and Feral helpers link (from readelf)",
+  "GridAutosport.sh: start without Steam's SteamAppId and export LD_LIBRARY_PATH/LD_PRELOAD",
 ]
 notes = """
 Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
@@ -28,12 +29,20 @@ libs = ["lib/x86_64/libsteam_api.so"]
 png = "share/icons/GameIcon_512x512x32.png"
 
 [hooks]
-post_install = """
+post_install = '''
 sed -i '/steam-check.sh/d' GridAutosport.sh
-"""
+# Feral's script re-launches through Steam unless SteamAppId is set, and sets
+# LD_LIBRARY_PATH/LD_PRELOAD without exporting them (libCoreFoundation.so.476
+# is then not found).
+sed -i -e 's/^if \[ -z "\${SteamAppId}" \]; then$/if false; then/' \
+       -e 's/^LD_LIBRARY_PATH=/export LD_LIBRARY_PATH=/' \
+       -e 's/^    LD_PRELOAD="\${GAMEROOT}/    export LD_PRELOAD="${GAMEROOT}/' GridAutosport.sh
+grep -q '^if false; then$' GridAutosport.sh && grep -q '^export LD_LIBRARY_PATH=' GridAutosport.sh
+'''
 
 [launcher]
 exe = "GridAutosport.sh"
+env = ["SteamAppId=255220"]
 
 [desktop]
 name = "GRID Autosport"

@@ -9,11 +9,6 @@ it is installed, otherwise system wine with your distribution's DXVK. Use
 `GAMELAUNCH_RUNNER=wine codww2` to force system wine. Prefixes and saves
 live in `~/.local/share/gamelaunch/codww2/`; the first start takes a while.
 
-`codww2 -h` lists the available modes:
-
-- `-s`: campaign (default)
-- `-m`: multiplayer / nazi zombies (LAN via Goldberg)
-
 ## Building
 
 Game data comes from Steam via steamcmd, using an account that owns the

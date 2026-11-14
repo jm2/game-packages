@@ -3,12 +3,12 @@
 
 pkgname=dirt4-steam
 pkgver=0
-true && pkgrel=3
+true && pkgrel=4
 pkgdesc='DiRT 4 (native Linux, Feral) with data via Steam'
 arch=('x86_64')
 url='https://store.steampowered.com/app/421020/DiRT_4/'
 license=('LicenseRef-Proprietary')
-depends=('gamelaunch' 'gbe-fork-bin' 'hicolor-icon-theme' 'alsa-lib' 'dbus' 'expat' 'fontconfig' 'freetype2' 'glib2' 'libgcc' 'libgomp' 'libstdc++' 'libvorbis' 'nspr' 'nss' 'sdl2-compat' 'sdl2_image' 'sdl2_ttf' 'zlib')
+depends=('gamelaunch>=1.4.0' 'gbe-fork-bin' 'hicolor-icon-theme' 'alsa-lib' 'dbus' 'expat' 'fontconfig' 'freetype2' 'glib2' 'libgcc' 'libgomp' 'libstdc++' 'libvorbis' 'nspr' 'nss' 'sdl2-compat' 'sdl2_image' 'sdl2_ttf' 'zlib')
 makedepends=('gbe-fork-bin' 'steamcmd' 'python')
 conflicts=('dirt4-wine-steam')
 options=('!strip' '!debug' 'emptydirs')
@@ -17,7 +17,7 @@ source=("build.sh"
         "dirt4.desktop"
         "README.md")
 sha256sums=('809a5d430f5a561855a61adab11ca56edb2e7b4054ccde24e6fe278c490057a5'
-            '0eeba08b3063f2d33575e01c14edd7980d5308b6745166a8f96b4e4b6b098878'
+            '1ad89c1612a029421e7c1e9f60164558086a9cd4a673e5a8150e4b8bd15270b5'
             'dcb518afdf72d2feaf3ec1262bd611227d7094d6407911a6de4d295b5ef70e34'
             'b4df189a12c1de8f00ce1286e93d198effac9aba3d053bf5a679188dab2bcc5c')
 

@@ -1,5 +1,5 @@
 Name:           gamelaunch
-Version:        1.3.0
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        Shared launcher for wine/Proton and native game packages
 License:        0BSD
@@ -43,6 +43,10 @@ install -dm755 %{buildroot}%{_datadir}/gamelaunch/games %{buildroot}%{_sysconfdi
 %dir %{_sysconfdir}/gamelaunch/games
 
 %changelog
+* Sat Nov 14 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.4.0-1
+- GBE_STEAMCLIENT=1: gbe steamclient.so in ~/.steam for native games that
+  link the Steam API statically
+
 * Wed Nov 11 2026 John-Michael Mulesa <jmulesa@gmail.com> - 1.3.0-1
 - Goldberg player name follows the host name (lower case) for games with
   steam_settings, unless the user set their own; GAMELAUNCH_NO_GBE_NAME=1 turns it off

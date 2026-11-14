@@ -2,13 +2,14 @@ name = "dirtrally-steam"
 family = "native-steam"
 id = "dirtrally"
 aarch64 = false   # Feral port: needs AUR-only x86 legacy libraries
-release = 4
+release = 5
 summary = "DiRT Rally (native Linux, Feral) with data via Steam"
 url = "https://steamdb.info/app/310560/"
 remove_files = ["dirtrally.sh"]
 changelog = [
   "Switch to gamelaunch and gbe-fork-bin",
   "Declare the system libraries the game, its CEF browser and Feral helpers link (from readelf)",
+  "Link the bundled libraries into lib/: glibc 2.37+ no longer searches lib/x86_64 from the RPATH",
 ]
 notes = """
 Feral's port needs legacy libraries (openssl 1.0, libidn11, librtmp0, gconf)
@@ -30,6 +31,12 @@ png = "share/GameIcons/icon_512x512.png"
 [hooks]
 post_install = """
 sed -i '/steam-check.sh/d' DirtRally.sh
+# The binary's RPATH is $ORIGIN/../lib but the libraries are in lib/x86_64,
+# which glibc found only through the legacy hwcap subdirectory search that
+# 2.37 removed.
+for f in lib/x86_64/*.so*; do
+    [ -e "lib/${f##*/}" ] || ln -s "x86_64/${f##*/}" "lib/${f##*/}"
+done
 """
 
 [launcher]

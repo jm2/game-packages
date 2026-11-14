@@ -1,6 +1,7 @@
-dirt4-steam (0-3) unstable; urgency=medium
+dirt4-steam (0-4) unstable; urgency=medium
 
   * Switch to gamelaunch and gbe-fork-bin
   * Declare the system libraries the game, its CEF browser and Feral helpers link (from readelf)
+  * Goldberg via gamelaunch GBE_STEAMCLIENT: the game links the Steam API statically
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500
