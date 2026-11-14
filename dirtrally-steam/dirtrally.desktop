@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=DiRT Rally
-Comment=DiRT Rally (native Linux, Feral) with data via Steam
-Exec=dirtrally
-Icon=dirtrally
-Terminal=false
-Categories=Game;SportsGame;
-Keywords=racing;codemasters;

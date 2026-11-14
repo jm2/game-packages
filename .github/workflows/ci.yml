@@ -19,7 +19,7 @@ jobs:
           sudo apt-get -qq update && sudo apt-get -qq install -y shellcheck desktop-file-utils
           shellcheck -S warning gamelaunch/gamelaunch tools/container-build tools/debian-fetch-sources
           # pkgtool.sh is a library; check it through one generated build.sh per family.
-          for f in dirt2-wine-steam cod4-wine-steam gridautosport-steam trine2-gog etqw-data-steam quake2-data-gog; do
+          for f in dirt2-wine-steam cod4-wine-steam dirt4-steam trine2-gog etqw-data-steam quake2-data-gog; do
             shellcheck -S error "$f/build.sh"
           done
       - name: Desktop files
