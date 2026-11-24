@@ -1,12 +1,16 @@
 name = "doom3bfg-data-steam"
 family = "data-steam"
-release = 4
+release = 5
 summary = "Doom 3 BFG Edition data via Steam"
 url = "https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/"
 target = "/usr/share/games/doom3bfg"
 provides = ["doom3bfg-data"]
 conflicts = ["doom3bfg-data"]
-changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam", "Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package"]
+changelog = ["Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam", "Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)", "Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package", "Leave base/default.cfg to the engine: a data package ships no config, and rbdoom-3-bfg's own default.cfg made RPM refuse to install the two together"]
+
+[install]
+# The engine package (rbdoom-3-bfg) owns base/default.cfg.
+remove = ["base/default.cfg"]
 
 [source.steam]
 appid = 208200

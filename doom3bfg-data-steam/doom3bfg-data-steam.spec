@@ -14,7 +14,7 @@
 Name:           doom3bfg-data-steam
 # Version of the cached Steam download (tools/fetch-steam): <game version>.b<Steam build ID>.
 Version:        %(PT_SRCDIR=%{_sourcedir} PT_WORK=/nonexistent bash %{_sourcedir}/build.sh version 2>/dev/null || echo 0)
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Doom 3 BFG Edition data via Steam
 License:        LicenseRef-Proprietary
 URL:            https://store.steampowered.com/app/208200/Doom_3_BFG_Edition/
@@ -48,3 +48,4 @@ PT_SRCDIR=%{_sourcedir} PT_WORK=$PWD/work bash %{SOURCE0} install %{buildroot}
 - Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
 - Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)
 - Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
+- Leave base/default.cfg to the engine: a data package ships no config, and rbdoom-3-bfg's own default.cfg made RPM refuse to install the two together

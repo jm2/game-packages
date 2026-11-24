@@ -1,7 +1,8 @@
-doom3bfg-data-steam (0-4) unstable; urgency=medium
+doom3bfg-data-steam (0-5) unstable; urgency=medium
 
   * Generated from package.toml; non-interactive Steam download via STEAM_USER or tools/fetch-steam
   * Conflict with the virtual doom3bfg-data instead of naming the other source packages, like every Doom 3 BFG data package (Windows lists the providers by name)
   * Rebuilt without set-group-ID bits on its directories, which made RPM refuse to install it beside its engine package
+  * Leave base/default.cfg to the engine: a data package ships no config, and rbdoom-3-bfg's own default.cfg made RPM refuse to install the two together
 
  -- John-Michael Mulesa <jmulesa@gmail.com>  Mon, 02 Nov 2026 20:00:00 -0500
