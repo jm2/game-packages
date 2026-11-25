@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # Mirrors the PKGBUILD: keep the two in step.
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-VER := 0.2.1
+VER := 0.2.3
 D := $(CURDIR)/debian/balun-bin
 
 %:

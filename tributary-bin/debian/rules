@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # Mirrors the PKGBUILD: keep the two in step.
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-VER := 0.7.2
+VER := 0.7.4
 D := $(CURDIR)/debian/tributary-bin
 
 %:

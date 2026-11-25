@@ -6,12 +6,12 @@ backends, written in Rust with GTK4 and libadwaita (upstream's self-contained
 Windows ARM64 build, including GTK, GStreamer and FFmpeg)."""
 
 [[source]]
-name = "tributary-0.7.2-windows-aarch64.zip"
-url = "https://github.com/jm2/tributary/releases/download/v0.7.2/tributary-windows-aarch64.zip"
-sha256 = "c02b0ece970ae899f7b26554580bc5b99a85477a3d767a4af5410ef27ef351d6"
+name = "tributary-0.7.4-windows-aarch64.zip"
+url = "https://github.com/jm2/tributary/releases/download/v0.7.4/tributary-windows-aarch64.zip"
+sha256 = "d1ccaee0cdd058eabaa2b9f2491b64977c71726830031dd0aae6ce0a5e257027"
 
 [stage]
 script = '''
-unzip -q -o "$SRC/tributary-0.7.2-windows-aarch64.zip" -d "$STAGE"
+unzip -q -o "$SRC/tributary-0.7.4-windows-aarch64.zip" -d "$STAGE"
 mv "$STAGE/tributary-windows" "$STAGE/tributary"
 '''

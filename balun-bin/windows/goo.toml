@@ -1,6 +1,6 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "balun"
-version = "0.2.1"
+version = "0.2.3"
 release = 1
 arch = "x86_64"
 description = """
@@ -9,7 +9,7 @@ GStreamer (upstream's self-contained Windows x86_64 build). It finds tuners on
 the local network and plays their unprotected channels."""
 license = "GPL-3.0-or-later"
 url = "https://github.com/jm2/balun"
-release_notes = ["Initial GooGet package (upstream 0.2.1 Windows x86_64 and ARM64 builds)"]
+release_notes = ["Upstream 0.2.3", "Initial GooGet package (upstream 0.2.1 Windows x86_64 and ARM64 builds)"]
 menu = ""
 
 [files]
@@ -22,13 +22,13 @@ args = ""
 description = "HDHomeRun live TV viewer"
 
 [[source]]
-name = "balun-0.2.1-windows-x86_64.zip"
-url = "https://github.com/jm2/balun/releases/download/v0.2.1/balun-windows-x86_64.zip"
-sha256 = "8c2b86391132299d099cc28a2304a39936b568dd6b2c14d65a6b0c111a05d7eb"
+name = "balun-0.2.3-windows-x86_64.zip"
+url = "https://github.com/jm2/balun/releases/download/v0.2.3/balun-windows-x86_64.zip"
+sha256 = "8ba6963a66623064c0e73c0bd6d4f477c231db1b72b99956b481a5593c475ac8"
 
 [stage]
 # $SRC: downloaded sources; $STAGE: the tree [files] maps from.
 script = '''
-unzip -q -o "$SRC/balun-0.2.1-windows-x86_64.zip" -d "$STAGE"
+unzip -q -o "$SRC/balun-0.2.3-windows-x86_64.zip" -d "$STAGE"
 mv "$STAGE/balun-windows" "$STAGE/balun"
 '''
