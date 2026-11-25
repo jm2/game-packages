@@ -1,0 +1,34 @@
+# Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
+
+pkgname=transom-bin
+_pkgname=transom
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="A HiDPI-correct RDP client for GTK 4 and libadwaita (prebuilt binary)"
+arch=('x86_64')
+url="https://github.com/jm2/transom"
+license=('GPL-3.0-or-later' 'Apache-2.0')
+depends=('ffmpeg' 'freerdp' 'gtk4' 'hicolor-icon-theme' 'libadwaita' 'libsecret')
+optdepends=('libva-mesa-driver: hardware H.264 decoding on AMD'
+            'intel-media-driver: hardware H.264 decoding on Intel'
+            'vulkan-icd-loader: GTK Vulkan renderer, needed to show hardware-decoded video')
+provides=("${_pkgname}=${pkgver}")
+conflicts=("${_pkgname}")
+options=('!strip' '!debug')
+# Upstream's release package for Arch x86_64.
+source=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst::${url}/releases/download/v${pkgver}/${_pkgname}-x86_64.pkg.tar.zst"
+        "install.sh"
+        "README.md")
+noextract=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst")
+sha256sums=('89f4f0b3b36fb7e94e5c6ed08064d880ef738e59cf8cac106dcf3c3234aa3176'
+            '31f661ee376e6e1af6478e010024e02cdfd9c255286a06c321c012453365269b'
+            'ee87c2b4ad528c2944506b6981216f8b206654091b22442aba25a508ca9cdc28')
+
+prepare() {
+  rm -rf root && mkdir root
+  bsdtar -xf "${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" -C root usr
+}
+
+package() {
+  sh install.sh "${srcdir}/root" "${pkgdir}" "${pkgname}"
+}

@@ -2,8 +2,8 @@
 
 pkgname=balun-bin
 _pkgname=balun
-pkgver=0.2.1
-pkgrel=2
+pkgver=0.2.3
+pkgrel=1
 pkgdesc="A lightweight cross-platform HDHomeRun live TV viewer (prebuilt binary)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/balun"
@@ -28,8 +28,8 @@ noextract=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-arm
 sha256sums=('3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986'
             'd69f532b3ca4ba0b5986612c6ffe8e91aae91d31dd37c82f8b62451c37e1aea4'
             '389028271131ee870abc47ae811ce29c5be5ee7fd37079dc5cbdc7d9815631a9')
-sha256sums_x86_64=('00facdd70955ee2f68f999d2e3156c71fcb82abc6326946acbfb7910e828a6c8')
-sha256sums_aarch64=('6f09888d75e89089cfac2cb180fcaa9459e19163b35752e9e1f2d92ffc0c708a')
+sha256sums_x86_64=('0d167e255419f61a7f30ab5418c853a8a7a0c69768785d4c8ded9f89570831b3')
+sha256sums_aarch64=('8e60dfc33046defc147bf7421df2229830bc3af0999df1f1cbbfb8f9887a858d')
 
 prepare() {
   rm -rf root && mkdir root

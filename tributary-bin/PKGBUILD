@@ -2,9 +2,8 @@
 
 pkgname=tributary-bin
 _pkgname=tributary
-pkgver=0.7.2
-# Continues the earlier Arch-only tributary-bin (0.7.2-2).
-pkgrel=4
+pkgver=0.7.4
+pkgrel=1
 pkgdesc="A high-performance, Rhythmbox-style media manager (prebuilt binary)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/tributary"
@@ -26,8 +25,8 @@ noextract=("${_pkgname}-${pkgver}-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-arm
 sha256sums=('3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986'
             '5bcf51261674983186f57ce213e1ca1f3ecf73802cbbabd025770d61d74d7582'
             '8a664453db072af3dda7d8678b1b57b88ee126043f7aa6d029092a96c63bbecb')
-sha256sums_x86_64=('4ec5d3a61415967522d83795295d2d2675d389c8b765abbdbb979b2b88d738c0')
-sha256sums_aarch64=('d26e5c17f388a8da2c792fa925411857ecb0f206ca458f8b45f3a91f00439af4')
+sha256sums_x86_64=('5f0275201d2cac85f210e6655f0c5bd9efd52d189190cd741f51984c3c0bbcc3')
+sha256sums_aarch64=('504261908b11a051b2fcce1ae77b0a041b363dad2b0e5139763add9a9a6fcf43')
 
 prepare() {
   rm -rf root && mkdir root

@@ -1,4 +1,4 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
 # Both architectures' release .debs are listed; debian/rules unpacks the host's.
-52c8fde9d9ca5548cd4bdcf1e09775f0a422689b503f033f4918a8655058f4ff balun-0.2.1-amd64.deb https://github.com/jm2/balun/releases/download/v0.2.1/balun-amd64.deb
-6f09888d75e89089cfac2cb180fcaa9459e19163b35752e9e1f2d92ffc0c708a balun-0.2.1-arm64.deb https://github.com/jm2/balun/releases/download/v0.2.1/balun-arm64.deb
+b5857198831be5016779a83abd3ef435580eec0a385f8af7163913a6744c025a balun-0.2.3-amd64.deb https://github.com/jm2/balun/releases/download/v0.2.3/balun-amd64.deb
+8e60dfc33046defc147bf7421df2229830bc3af0999df1f1cbbfb8f9887a858d balun-0.2.3-arm64.deb https://github.com/jm2/balun/releases/download/v0.2.3/balun-arm64.deb
