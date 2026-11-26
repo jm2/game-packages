@@ -119,6 +119,10 @@ render() { # <template name> <output>
         -e "s|@GAME_PATH@|$gameov|g" \
         -e "s|@SERVER@|$srv/server|g" \
         -e "s|@LIB@|$LIB|g" "$t" > "$2"
+    # A placeholder left over means an override from an older template
+    # (1.x's @BATTLESERVER@ and @BSM_CONFIG@ are gone): don't pass it on.
+    p=$(grep -oE '@[A-Z][A-Z_]*@' "$2" | sort -u | tr '\n' ' ')
+    [ -z "$p" ] || die "$t uses placeholders agelan no longer fills (${p% }); copy $SHARE/templates/$1 again and redo your changes"
 }
 render launcher.toml "$run/launcher.toml"
 render launcher.game.toml "$run/launcher.game.toml"

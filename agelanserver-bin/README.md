@@ -50,6 +50,12 @@ longer need it. The system service now keeps its files in subdirectories of
 `/var/lib/agelanserver/<game>/` and makes new certificates there; players get
 the new CA from the launcher when they join.
 
+1.x's Battle Server manager setup is gone, and with it the `@BATTLESERVER@`
+and `@BSM_CONFIG@` placeholders. If a launcher template you copied to
+`~/.config/agelanserver/` still uses one, `agelan` names the file and stops;
+copy the template from `/usr/share/agelanserver/templates/` again and redo
+your changes. A `battle-server-manager.toml` there is no longer used.
+
 ## Configuration
 
 `agelan` renders the launcher configs for every run from
