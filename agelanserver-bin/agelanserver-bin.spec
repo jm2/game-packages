@@ -26,6 +26,7 @@ Source7:        README.md
 ExclusiveArch:  x86_64 aarch64
 BuildRequires:  systemd-rpm-macros
 Requires:       gamelaunch
+Requires:       util-linux-core
 Recommends:     agelanserver-companion-bin
 Provides:       agelanserver = %{version}-%{release}
 %{?systemd_requires}

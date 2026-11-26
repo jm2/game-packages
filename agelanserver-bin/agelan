@@ -100,7 +100,13 @@ sync_server() {
         fi
     done
 }
+# One agelan at a time: the 1.x migration (the marker check, mv and mkdir)
+# must not interleave with another run's.
+mkdir -p "$srv"
+exec 9>"$srv/.lock"
+flock 9 || die "could not lock $srv"
 sync_server
+exec 9>&-
 
 run=$(mktemp -d "${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/agelan.XXXXXX")
 trap 'rm -rf "$run"' EXIT INT TERM

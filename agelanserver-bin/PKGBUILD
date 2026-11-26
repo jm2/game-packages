@@ -7,7 +7,7 @@ pkgdesc="Age Server (formerly ageLANServer): LAN server and launcher for Age of 
 arch=('x86_64' 'aarch64')
 url="https://github.com/luskaner/ageServer"
 license=('AGPL-3.0-only')
-depends=('gamelaunch')
+depends=('gamelaunch' 'util-linux')
 optdepends=('agelanserver-companion-bin: game-side DLLs (pulled in by the game packages)')
 provides=("agelanserver=${pkgver}")
 conflicts=('agelanserver')
@@ -17,7 +17,7 @@ source=("agelan" "client" "agelanserver@.service" "install.sh" "README.md")
 source_x86_64=("ageServer_full_${pkgver}_linux_x86-64.tar.gz::${url}/releases/download/v${pkgver}/ageServer_full_${pkgver}_linux_x86-64.tar.gz")
 source_aarch64=("ageServer_full_${pkgver}_linux_arm64.tar.gz::${url}/releases/download/v${pkgver}/ageServer_full_${pkgver}_linux_arm64.tar.gz")
 noextract=("ageServer_full_${pkgver}_linux_x86-64.tar.gz" "ageServer_full_${pkgver}_linux_arm64.tar.gz")
-sha256sums=('1bd18ce9d1f3757951f9f3c1f0ef263e7585b0ff5e7533c0ba1c84fa68b25a62'
+sha256sums=('724999b25e56b4e38974441d04a2a97847912c521b245b682485c6a788c19f3c'
             '53e8a259ba36643677214efe51d40968f473f0d6611c680a175d606674a006d4'
             'fb8340537f8c2364d9d426321f8caf3837eda7f3aeb7713b150cb8e068feedf4'
             'd0274a9e051e5ad9d11852e5f91d2c7922ea5a7c4c32b6d21ad735fcadc3bbae'
