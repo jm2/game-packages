@@ -1,7 +1,7 @@
 # unreal-tournament-bin
 
 Native Linux binaries for Unreal Tournament (GOTY) from OldUnreal's community
-patch (469f-rc6), installed to `/opt/unreal-tournament`. The game data is not
+patch (469f-rc7), installed to `/opt/unreal-tournament`. The game data is not
 included: install one of
 
 - `unreal-tournament-data-gog` (GOG installer you download yourself),

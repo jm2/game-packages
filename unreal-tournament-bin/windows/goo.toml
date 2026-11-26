@@ -1,6 +1,6 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "unreal-tournament-bin"
-# Match PKGBUILD's pkgver (469f, not 469f~rc6), as ut2004-bin does.
+# Match PKGBUILD's pkgver (469f, not 469f~rc7), as ut2004-bin does.
 version = "469f"
 release = 1
 arch = "x86_64"
@@ -14,7 +14,7 @@ Install a game data package too: unreal-tournament-data-gog,
 unreal-tournament-data-steam or unreal-tournament-data-archiveorg."""
 license = "LicenseRef-OldUnreal"
 url = "https://github.com/OldUnreal/UnrealTournamentPatches"
-release_notes = ["Initial GooGet package (upstream OldUnreal 469e Windows x86 build)", "OldUnreal 469f-rc6, now upstream's 64-bit Windows build (x86_64 replaces x86_32): with the x86_32 package installed, run googet remove unreal-tournament-bin, then googet install unreal-tournament-bin"]
+release_notes = ["Initial GooGet package (upstream OldUnreal 469e Windows x86 build)", "OldUnreal 469f-rc7, now upstream's 64-bit Windows build (x86_64 replaces x86_32): with the x86_32 package installed, run googet remove unreal-tournament-bin, then googet install unreal-tournament-bin"]
 provides = ["unreal-tournament"]
 
 [files]
@@ -41,17 +41,17 @@ program = "unreal-tournament/System/UnrealTournament.exe"
 name = "Unreal Tournament dedicated server (OldUnreal)"
 program = "unreal-tournament/System/UCC.exe"
 
-# sha256 matches GitHub's published v469f-rc6 release asset digest and the download.
+# sha256 matches GitHub's published v469f-rc7 release asset digest and the download.
 [[source]]
-name = "OldUnreal-UTPatch469f-rc6-Windows-amd64.zip"
-url = "https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc6/OldUnreal-UTPatch469f-Windows-amd64.zip"
-sha256 = "b8de78a4dca46ec8d56fbcd4f1f4bdc41796a1c480f184308b1b1646e7129fdc"
+name = "OldUnreal-UTPatch469f-rc7-Windows-amd64.zip"
+url = "https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc7/OldUnreal-UTPatch469f-Windows-amd64.zip"
+sha256 = "b32335f3d37091c3e3b994aa3249372403af8fe6a42b952c30a5ac84a3428114"
 
 [stage]
 # $SRC: downloaded sources; $STAGE: the tree [files] maps from.
 script = '''
 mkdir -p "$STAGE/unreal-tournament"
-unzip -q -o "$SRC/OldUnreal-UTPatch469f-rc6-Windows-amd64.zip" -d "$STAGE/unreal-tournament"
+unzip -q -o "$SRC/OldUnreal-UTPatch469f-rc7-Windows-amd64.zip" -d "$STAGE/unreal-tournament"
 # Drop the 1x UnrealEd splash and the 33 retail GOTY 436 toolbar bitmaps that
 # the unreal-tournament-data-* packages keep (they weren't in the Linux patch
 # tarballs); keep 469's new UnrealEd 2.2 toolbar icons and EdSplash-x2/x4.bmp.

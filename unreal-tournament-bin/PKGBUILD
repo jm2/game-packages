@@ -3,7 +3,7 @@
 pkgname=unreal-tournament-bin
 pkgver=469f
 # Release candidate; the final 469f will be a pkgrel bump.
-_preview=rc6
+_preview=rc7
 pkgrel=1
 pkgdesc="Unreal Tournament 99 (GOTY) native binaries (OldUnreal)"
 arch=('x86_64' 'aarch64')
@@ -26,9 +26,9 @@ sha256sums=('2b8a99d46fc92f28841372b292e5d4a3eb78212355aa68f0ed7c3f06d8d2fa6e'
             'a7902c95625712dde5525b548e9a4924edc2341784dc4368fcfe6bca41c62589'
             'ff7d19dd28cd8b956311a945aee2835174929d8bcd1c1ab88732a2908faccfcd'
             '69c9c5eb9ff8f6ee5cbfd9df5d16f68461d682fbb15c75a34627eaff2474190e'
-            'fb56e04a60191b7c3a0e7bbab289ff0eb3f7a1aa23cc7436b4e5660ad2e5f96e')
-sha256sums_x86_64=('60ae644515b7506bd3a04c46aaa205c73ac9023802e91f039f99af975f59323b')
-sha256sums_aarch64=('56c09d3f7f1889f01acf21638c71952c5e2dfbd737b075ffaea3b94bfe52ef46')
+            'e0ea89d4f3cdb5d6fe1a1ca819fa6161ac49bc76debd3fa3c8223c886721b06f')
+sha256sums_x86_64=('bcd45160ab25752b33b88f155bf102a6fe6f9c7cff3e60a5c8b71a39848c4499')
+sha256sums_aarch64=('7f999bde52208c1cc807ffd64023ccecd39d5800e09b07b98397ba610a68f7a9')
 
 package() {
     sh install.sh "${srcdir}" "${srcdir}" "${pkgdir}" "${CARCH}"

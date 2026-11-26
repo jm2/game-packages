@@ -10,7 +10,7 @@
 %global __requires_exclude_from ^/opt/unreal-tournament/.*$
 
 %global upver   469f
-%global preview rc6
+%global preview rc7
 
 Name:           unreal-tournament-bin
 Version:        %{upver}~%{preview}
@@ -82,8 +82,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/unreal-tournament.des
 %dir /opt/unreal-tournament
 
 %changelog
-* Thu Nov 26 2026 John-Michael Mulesa <jmulesa@gmail.com> - 469f~rc6-1
-- Update to OldUnreal 469f-rc6
+* Thu Nov 26 2026 John-Michael Mulesa <jmulesa@gmail.com> - 469f~rc7-1
+- Update to OldUnreal 469f-rc7
 
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 469e-1
 - Initial RPM package: OldUnreal 469e

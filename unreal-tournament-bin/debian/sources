@@ -1,3 +1,3 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-60ae644515b7506bd3a04c46aaa205c73ac9023802e91f039f99af975f59323b OldUnreal-UTPatch469f-Linux-amd64.tar.bz2 https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc6/OldUnreal-UTPatch469f-Linux-amd64.tar.bz2
-56c09d3f7f1889f01acf21638c71952c5e2dfbd737b075ffaea3b94bfe52ef46 OldUnreal-UTPatch469f-Linux-arm64.tar.bz2 https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc6/OldUnreal-UTPatch469f-Linux-arm64.tar.bz2
+bcd45160ab25752b33b88f155bf102a6fe6f9c7cff3e60a5c8b71a39848c4499 OldUnreal-UTPatch469f-Linux-amd64.tar.bz2 https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc7/OldUnreal-UTPatch469f-Linux-amd64.tar.bz2
+7f999bde52208c1cc807ffd64023ccecd39d5800e09b07b98397ba610a68f7a9 OldUnreal-UTPatch469f-Linux-arm64.tar.bz2 https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc7/OldUnreal-UTPatch469f-Linux-arm64.tar.bz2
