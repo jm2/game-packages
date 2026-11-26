@@ -1,5 +1,5 @@
 #!/bin/sh
-# Client.Executable for ageLANServer's launcher (set by agelan's templates):
+# Client.Executable for Age Server's launcher (set by agelan's templates):
 # start the game through gamelaunch (umu/Proton or system wine, the game's own
 # prefix and per-user directory).
 #
@@ -12,9 +12,6 @@
 set -eu
 id=${1:?usage: client <gamelaunch id> [game arguments]}
 shift
-shim=/usr/lib/agelanserver/libexec/shim
-PATH=$(printf '%s' "$PATH" | tr ':' '\n' | grep -vxF "$shim" | paste -sd: -)
-export PATH
 for a; do
     case $a in
         --*=/*) a="${a%%=*}=Z:$(printf '%s' "${a#*=}" | tr / '\\')" ;;

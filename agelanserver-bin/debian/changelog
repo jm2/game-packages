@@ -1,3 +1,14 @@
+agelanserver-bin (2.0.0-1) unstable; urgency=medium
+
+  * Update to Age Server 2.0.0 (renamed from ageLANServer).
+  * Host with the server's embedded Battle Server; drop the Battle Server
+    manager template and the wine shim.
+  * Writable user data and replay directories for the service and the
+    per-user server; agelan keeps 1.x user data aside.
+  * Ship [Internet] Enabled = false and the launcher's CanUseInternet = false.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 26 Nov 2026 12:00:00 -0500
+
 agelanserver-bin (1.15.6-1) unstable; urgency=medium
 
   * Initial package: ageLANServer shared by the AoE/AoM DE packages.
