@@ -1,7 +1,7 @@
 # crossdock-bin
 
 crossdock (<https://github.com/jm2/crossdock>) publishes directories of
-built packages as signed apt, pacman, RPM and GooGet repositories, and can
+built packages as signed apt, pacman, RPM, GooGet and Munki repositories, and can
 serve them itself. This package repackages upstream's release builds for
 x86_64 and aarch64:
 

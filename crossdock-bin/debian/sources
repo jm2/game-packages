@@ -1,4 +1,4 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
 # Both architectures' release .debs are listed; debian/rules unpacks the host's.
-e952313f05dc6c55bdaaaac916e319bb2e67d5e9407e4e0e3cfa2ef8274dae08 crossdock-0.2.3-release-amd64.deb https://github.com/jm2/crossdock/releases/download/v0.2.3/crossdock-amd64.deb
-c32e5a327ee723aef65aee1af56bffae33256e04f7b567da50eb8a8bc003272e crossdock-0.2.3-release-arm64.deb https://github.com/jm2/crossdock/releases/download/v0.2.3/crossdock-arm64.deb
+719c6dc84835062bbe6474d79e3b5784e4c01953a648b3dd48dde5a1f4472ba1 crossdock-0.3.0-release-amd64.deb https://github.com/jm2/crossdock/releases/download/v0.3.0/crossdock-amd64.deb
+c6ffb68870ff0643ce95093f0192faafe1003af62841288b0430fd0f367c658e crossdock-0.3.0-release-arm64.deb https://github.com/jm2/crossdock/releases/download/v0.3.0/crossdock-arm64.deb

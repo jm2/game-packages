@@ -2,9 +2,9 @@
 
 pkgname=crossdock-bin
 _pkgname=crossdock
-pkgver=0.2.3
+pkgver=0.3.0
 pkgrel=1
-pkgdesc="Publish packages as signed apt, pacman, RPM and GooGet repositories (with server and systemd units; binary release)"
+pkgdesc="Publish packages as signed apt, pacman, RPM, GooGet and Munki repositories (with server and systemd units; binary release)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/jm2/crossdock"
 license=('GPL-3.0-or-later')
@@ -27,8 +27,8 @@ source_aarch64=("${_pkgname}-${pkgver}-release-arm64.deb::${url}/releases/downlo
                 "${_pkgname}-${pkgver}-LICENSE::https://raw.githubusercontent.com/jm2/${_pkgname}/v${pkgver}/LICENSE")
 noextract=("${_pkgname}-${pkgver}-release-x86_64.pkg.tar.zst" "${_pkgname}-${pkgver}-release-arm64.deb")
 sha256sums=('3ae81fe27435e2e6487b4eeafc4d712917026d01abfca4d89e0817c8391be383')
-sha256sums_x86_64=('fbbd5bcc4c4c8a56923616ca15711676ee35f268a5c1798969c3d9d016f70ac7')
-sha256sums_aarch64=('c32e5a327ee723aef65aee1af56bffae33256e04f7b567da50eb8a8bc003272e'
+sha256sums_x86_64=('807773afd805aa1656a1dd170d45d403d740f9a008796fb1dc28cb7d792b4bb7')
+sha256sums_aarch64=('c6ffb68870ff0643ce95093f0192faafe1003af62841288b0430fd0f367c658e'
                     '3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986')
 
 prepare() {

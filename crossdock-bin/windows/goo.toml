@@ -1,28 +1,28 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "crossdock"
-version = "0.2.3"
+version = "0.3.0"
 release = 1
 arch = "x86_64"
 description = """
 crossdock publishes, and optionally serves, one pile of package artifacts as
-signed static apt, pacman, RPM and GooGet repositories, from a single Go binary
+signed static apt, pacman, RPM, GooGet and Munki repositories, from a single Go binary
 (upstream's Windows x86_64 build).
 crossdock.exe is added to the system PATH; nothing runs at install."""
 license = "GPL-3.0-or-later"
 url = "https://github.com/jm2/crossdock"
-release_notes = ["Upstream 0.2.3: publish retries when a source vanishes mid-read; Go 1.27.4"]
+release_notes = ["Upstream 0.3.0: Munki repositories, browseable index pages, signed SHA256SUMS per repo"]
 path = ["crossdock"]
 
 [files]
 "crossdock" = "<ProgramFiles>/crossdock"
 
 [[source]]
-name = "crossdock-v0.2.3-windows-amd64.zip"
-url = "https://github.com/jm2/crossdock/releases/download/v0.2.3/crossdock-v0.2.3-windows-amd64.zip"
-sha256 = "ef6ec440fe4a6bb0f4f078fcfb44eef73f4ba2be5b05a73e2cd10aeea8827a23"
+name = "crossdock-v0.3.0-windows-amd64.zip"
+url = "https://github.com/jm2/crossdock/releases/download/v0.3.0/crossdock-v0.3.0-windows-amd64.zip"
+sha256 = "a98da4e4a77653f4e4b87fd1c27868256e57016f127025197603cca946adb110"
 
 [stage]
 script = '''
-unzip -q -o "$SRC/crossdock-v0.2.3-windows-amd64.zip" -d "$STAGE"
-mv "$STAGE/crossdock-v0.2.3-windows-amd64" "$STAGE/crossdock"
+unzip -q -o "$SRC/crossdock-v0.3.0-windows-amd64.zip" -d "$STAGE"
+mv "$STAGE/crossdock-v0.3.0-windows-amd64" "$STAGE/crossdock"
 '''
