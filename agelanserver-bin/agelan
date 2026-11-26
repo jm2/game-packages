@@ -1,12 +1,13 @@
 #!/bin/sh
-# agelan - run luskaner's ageLANServer launcher for a game package.
+# agelan - run luskaner's Age Server (formerly ageLANServer) launcher for a
+# game package.
 #
 #   agelan <gamelaunch id> [launcher options]     e.g. agelan aoe2-de
 #   agelan --list                                 games with LAN support
 #
 # Game packages describe themselves in /usr/share/agelanserver/games/<id>.conf.
-# The launcher, the Battle Server manager and the companion DLLs run from the
-# read-only install in /usr/lib; their configs are generated for every run
+# The launcher and the companion DLLs run from the
+# read-only install in /usr/lib; its configs are generated for every run
 # (from /usr/share/agelanserver/templates) into a private runtime directory,
 # so they never go stale after a package update. Copy a template to
 # ~/.config/agelanserver/ to override it (same @PLACEHOLDERS@ apply).
@@ -17,9 +18,10 @@
 #
 # Hosting: if no server is found on the LAN, the launcher offers to start one.
 # That server runs from a per-user copy in ~/.local/share/agelanserver/server
-# (it keeps its certificates next to its own binary) and needs permission to
-# listen on port 443; for a machine that hosts regularly, use the system
-# service instead: systemctl enable --now agelanserver@<game>.service
+# (it keeps certificates, user data and replays next to its own binary), runs
+# its own embedded Battle Server, and needs permission to listen on port 443;
+# for a machine that hosts regularly, use the system service instead:
+# systemctl enable --now agelanserver@<game>.service
 set -eu
 
 LIB=${AGELAN_LIB:-/usr/lib/agelanserver}
@@ -40,37 +42,57 @@ fi
 id=$1; shift
 gconf=$SHARE/games/$id.conf
 [ -f "$gconf" ] || die "no LAN configuration for '$id' (is its game package installed?)"
-# Provides: AGELAN_GAME (age2/age3/athens), GAME_DIR, CACERT (relative),
-# BATTLESERVER (relative), BATTLESERVER_GAMELAUNCH_ID (whose prefix/dir runs it)
+# Provides: AGELAN_GAME (age2/age3/athens), GAME_DIR, CACERT (relative).
+# BATTLESERVER and BATTLESERVER_GAMELAUNCH_ID, from before the server had an
+# embedded Battle Server, are no longer used.
 . "$gconf"
-: "${AGELAN_GAME:?}" "${GAME_DIR:?}" "${CACERT:?}" "${BATTLESERVER:?}"
-bs_id=${BATTLESERVER_GAMELAUNCH_ID:-$id}
+: "${AGELAN_GAME:?}" "${GAME_DIR:?}" "${CACERT:?}"
 
 gameov=$data/gamelaunch/$id/game
-bsov=$data/gamelaunch/$bs_id/game
 
 # The launcher writes the server's CA into the game's cacert.pem: the game's
 # per-user directory must hold a real copy of it (gamelaunch WRITABLE_COPY).
 if [ ! -f "$gameov/$CACERT" ] || [ -L "$gameov/$CACERT" ]; then
     gamelaunch --reset-overlay "$id" >/dev/null || die "could not prepare $gameov"
 fi
-if [ "$bs_id" != "$id" ] && [ ! -d "$bsov" ]; then
-    [ -d "/usr/share/gamelaunch/games" ] && [ -f "/usr/share/gamelaunch/games/$bs_id.conf" ] ||
-        echo "agelan: hosting $id needs the Battle Server from the $bs_id package" >&2
-    gamelaunch --reset-overlay "$bs_id" >/dev/null 2>&1 || true
-fi
 
 # Per-user server copy, only used when this user hosts. The server finds its
-# resources and keeps its certificates relative to its real executable, so the
-# binaries are real copies (refreshed when the package changes them); the
-# read-only resources are links.
+# resources relative to its real executable and writes certificates, user data
+# and replays (responses/cloud/<game>/replays) there, so the binaries are real
+# copies (refreshed when the package changes them), those directories are real,
+# and everything else is a link to the read-only install.
 srv=$data/agelanserver/server
+link() { # <target> <link>: (re)place <link> with a symlink to <target>
+    [ -L "$2" ] && [ "$(readlink "$2")" = "$1" ] && return
+    rm -rf "$2"; ln -s "$1" "$2"
+}
 sync_server() {
-    mkdir -p "$srv/resources/certificates" "$srv/bin"
+    # agelanserver-bin 1.x (ageLANServer) user data: Age Server 2.0 asks for a
+    # fresh userData, so keep the old one aside instead of reusing it.
+    if [ -d "$srv/resources/userData" ] && [ ! -e "$srv/.age-server-2" ]; then
+        mv "$srv/resources/userData" "$srv/resources/userData.ageLANServer-1.x"
+    fi
+    # 1.x linked all of responses/; it is a real directory now.
+    [ -L "$srv/resources/responses" ] && rm -f "$srv/resources/responses"
+    mkdir -p "$srv/resources/certificates" "$srv/resources/userData" "$srv/bin"
+    touch "$srv/.age-server-2"
     for d in "$LIB"/server/resources/*; do
         n=${d##*/}
-        [ "$n" = certificates ] && continue
-        [ -L "$srv/resources/$n" ] || { rm -rf "$srv/resources/$n"; ln -s "$d" "$srv/resources/$n"; }
+        case $n in certificates|userData|responses) continue ;; esac
+        link "$d" "$srv/resources/$n"
+    done
+    r=$LIB/server/resources/responses
+    mkdir -p "$srv/resources/responses/cloud"
+    for d in "$r"/*; do
+        n=${d##*/}
+        [ "$n" = cloud ] || link "$d" "$srv/resources/responses/$n"
+    done
+    for g in "$r"/cloud/*/; do
+        g=${g%/}; n=${g##*/}
+        mkdir -p "$srv/resources/responses/cloud/$n/replays"
+        for d in "$g"/*; do
+            [ "${d##*/}" = replays ] || link "$d" "$srv/resources/responses/cloud/$n/${d##*/}"
+        done
     done
     for b in server bin/genCert; do
         if ! cmp -s "$LIB/server/$b" "$srv/$b"; then
@@ -89,20 +111,11 @@ render() { # <template name> <output>
     sed -e "s|@GAME@|$AGELAN_GAME|g" \
         -e "s|@GAMELAUNCH_ID@|$id|g" \
         -e "s|@GAME_PATH@|$gameov|g" \
-        -e "s|@BATTLESERVER@|$bsov/$BATTLESERVER|g" \
         -e "s|@SERVER@|$srv/server|g" \
-        -e "s|@BSM_CONFIG@|$run/battle-server-manager.toml|g" \
         -e "s|@LIB@|$LIB|g" "$t" > "$2"
 }
 render launcher.toml "$run/launcher.toml"
 render launcher.game.toml "$run/launcher.game.toml"
-render battle-server-manager.toml "$run/battle-server-manager.toml"
 
-# battle-server-manager starts BattleServer.exe with a bare 'wine': the shim
-# runs it through gamelaunch in the right game's prefix instead.
-AGELAN_GAMELAUNCH_ID=$bs_id
-export AGELAN_GAMELAUNCH_ID
-PATH=$LIB/libexec/shim:$PATH
-export PATH
 "$LIB/launcher/launcher" -e "$AGELAN_GAME" \
     --config "$run/launcher.toml" --gameConfig "$run/launcher.game.toml" "$@"

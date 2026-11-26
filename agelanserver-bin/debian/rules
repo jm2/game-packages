@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-V := 1.15.6
+V := 2.0.0
 UA := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x86-64)
 %:
 	dh $@
@@ -7,7 +7,7 @@ UA := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x86-64)
 override_dh_auto_build:
 	debian/fetch-sources
 	rm -rf upstream && mkdir upstream
-	tar -xf ageLANServer_full_$(V)_linux_$(UA).tar.gz -C upstream
+	tar -xf ageServer_full_$(V)_linux_$(UA).tar.gz -C upstream
 
 override_dh_auto_install:
 	sh install.sh upstream debian/agelanserver-bin
