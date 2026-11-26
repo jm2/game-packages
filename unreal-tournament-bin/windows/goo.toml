@@ -14,7 +14,7 @@ Install a game data package too: unreal-tournament-data-gog,
 unreal-tournament-data-steam or unreal-tournament-data-archiveorg."""
 license = "LicenseRef-OldUnreal"
 url = "https://github.com/OldUnreal/UnrealTournamentPatches"
-release_notes = ["Initial GooGet package (upstream OldUnreal 469e Windows x86 build)", "OldUnreal 469f-rc6, now upstream's 64-bit Windows build (x86_64 replaces x86_32)"]
+release_notes = ["Initial GooGet package (upstream OldUnreal 469e Windows x86 build)", "OldUnreal 469f-rc6, now upstream's 64-bit Windows build (x86_64 replaces x86_32): with the x86_32 package installed, run googet remove unreal-tournament-bin, then googet install unreal-tournament-bin"]
 provides = ["unreal-tournament"]
 
 [files]
