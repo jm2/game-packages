@@ -14,7 +14,7 @@ Suggests: gpg, gpg-agent
 Provides: crossdock
 Conflicts: crossdock
 Replaces: crossdock
-Description: publish packages as signed apt, pacman, RPM and GooGet repos (binary)
+Description: publish packages as signed apt, pacman, RPM, GooGet and Munki repos (binary)
  crossdock takes one directory of built packages per format and publishes
  them as signed, static package repositories. Each publish swaps in
  atomically. It includes a read-only HTTP server, so no web server is
