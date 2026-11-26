@@ -1,3 +1,3 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-fcd8cd26f3e4a1180ee3828b6c63ed3b90e78c99c7ccc2cbba3b12f303d705b9 Geyser-Standalone-2.12.1-b1288.jar https://download.geysermc.org/v2/projects/geyser/versions/2.12.1/builds/1288/downloads/standalone
-7421fa1da9de486b73147a11a0facdc7994c03b3d502720a2e269d944055595a LICENSE.upstream https://raw.githubusercontent.com/GeyserMC/Geyser/50360e396b08c10dac4dfb78213dcb0126b75f90/LICENSE
+b9270ec4379d1e2b59d44411e6474b2a94fc4b9eec1bdc5a83c1f498924b4e4d Geyser-Standalone-2.12.1-b1310.jar https://download.geysermc.org/v2/projects/geyser/versions/2.12.1/builds/1310/downloads/standalone
+7421fa1da9de486b73147a11a0facdc7994c03b3d502720a2e269d944055595a LICENSE.upstream https://raw.githubusercontent.com/GeyserMC/Geyser/c8ce5d422bb48223b55ec5d13c0c7672f39eb868/LICENSE

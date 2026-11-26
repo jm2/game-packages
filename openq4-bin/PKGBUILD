@@ -3,7 +3,7 @@
 
 pkgname=openq4-bin
 _pkgname=openq4
-pkgver=0.14.1
+pkgver=0.15.0
 _q4ver=1.4.2
 pkgrel=1
 pkgdesc="Open-source Quake 4 engine and game code replacement (binary release). You need the retail Quake 4 data to play."
@@ -28,8 +28,8 @@ noextract=("quake4-linux-${_q4ver}.x86.run")
 sha256sums=('15423ab60c6a738fa92926d994e63c12ea71a59a7b0fd50a62283d964b882f4b'
             'b3bd819fef8f057f34d908296a852527c44cec1711ab603dba95daae342c31ff'
             '9203b387b1a4075a1b9ad1eb7be32b49a88141a448d9330d9cbe1f40a145bd6a')
-sha256sums_x86_64=('8ff29f91fe3bbf1e8ae7ff45dfcdf7b7530d3f69a9b11f37ecb33fb9bd39aef8')
-sha256sums_aarch64=('563a437e45edf8108eeda9f90fd3497a3eb3520fe9c2c11ce36b885e507d3c80')
+sha256sums_x86_64=('17737cb9cb59251d7202c79df4729e7e3c46a523bf8048195a37535f6d136ce7')
+sha256sums_aarch64=('8bdb1471b05048c578c1f3cea6d34713094b9431c0a63b443d3d0dde024c3a77')
 
 # Upstream names its binaries and modules by architecture tag.
 case "${CARCH}" in

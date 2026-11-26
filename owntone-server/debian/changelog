@@ -1,3 +1,9 @@
+owntone-server (29.4-1) unstable; urgency=medium
+
+  * New upstream release 29.4.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 26 Nov 2026 12:00:00 -0500
+
 owntone-server (29.3-1) unstable; urgency=medium
 
   * Local Debian build of OwnTone 29.3, running as a sysusers.d owntone user.

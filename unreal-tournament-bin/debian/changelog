@@ -1,3 +1,9 @@
+unreal-tournament-bin (469f~rc7-1) unstable; urgency=medium
+
+  * Update to OldUnreal 469f-rc7.
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 26 Nov 2026 12:00:00 -0500
+
 unreal-tournament-bin (469e-1) unstable; urgency=medium
 
   * Initial Debian package: OldUnreal 469e.

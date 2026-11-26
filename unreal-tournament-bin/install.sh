@@ -11,12 +11,13 @@ set -eu
 src=$1 files=$2 dest=$3 arch=$4
 root=$dest/opt/unreal-tournament
 
+# 469f's per-architecture tarballs keep the native binaries in System; 469e
+# kept them in System64/SystemARM64 next to the shared .u files in System.
 case $arch in
     x86_64)  sys=System64 ;;
     aarch64) sys=SystemARM64 ;;
     *) echo "install.sh: unsupported architecture $arch" >&2; exit 1 ;;
 esac
-[ -d "$src/$sys" ] || { echo "install.sh: $src/$sys not found (wrong patch tarball for $arch?)" >&2; exit 1; }
 
 install -d "$root"
 for d in "$src"/*/; do
@@ -24,9 +25,12 @@ for d in "$src"/*/; do
     case ${d##*/} in System64|SystemARM64) continue ;; esac
     cp -R --no-preserve=ownership "$d" "$root/"
 done
-# 469e keeps the 64-bit binaries in System64/SystemARM64 next to the shared
-# .u files in System. Merge them into System, as OldUnreal's own installer does.
-cp -R --no-preserve=ownership "$src/$sys/." "$root/System/"
+# A 469e-style tarball: merge System64/SystemARM64 into System, as
+# OldUnreal's own installer does.
+if [ -d "$src/$sys" ]; then
+    cp -R --no-preserve=ownership "$src/$sys/." "$root/System/"
+fi
+[ -f "$root/System/ut-bin" ] || { echo "install.sh: System/ut-bin not found in $src (wrong patch tarball for $arch?)" >&2; exit 1; }
 
 find "$root" -name '.git*' -prune -exec rm -rf {} +
 find "$root" -type d -exec chmod 755 {} +

@@ -21,7 +21,7 @@
 %endif
 
 Name:           openq4-bin
-Version:        0.14.1
+Version:        0.15.0
 Release:        1%{?dist}
 Summary:        Open-source Quake 4 engine and game code replacement (binary release)
 License:        GPL-3.0-or-later AND LicenseRef-Quake4-SDK AND LicenseRef-Quake4-EULA
@@ -153,6 +153,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/openq4-steamdeck.desk
 
 
 %changelog
+* Thu Nov 26 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.15.0-1
+- Update to openQ4 0.15.0 (new pak0 and pak2 content packs)
+
 * Thu Nov 12 2026 John-Michael Mulesa <jmulesa@gmail.com> - 0.14.1-1
 - Update to openQ4 0.14.1 (new pak0-pak2 content packs)
 - Install the startup splash and the bundled license files

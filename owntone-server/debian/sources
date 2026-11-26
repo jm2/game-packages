@@ -1,2 +1,2 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
-aa0cbfc5651aa65776a8bd2112c9e0a904b2185c837900d3f6494b9ec6e8c547 owntone-29.3.tar.xz https://github.com/owntone/owntone-server/releases/download/29.3/owntone-29.3.tar.xz
+124f22ede1ab6c5ee256feb4b3a75443e1c15e447829632befe309db2a3bed8c owntone-29.4.tar.xz https://github.com/owntone/owntone-server/releases/download/29.4/owntone-29.4.tar.xz

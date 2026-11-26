@@ -1,5 +1,5 @@
 # Upstream files fetched by debian/fetch-sources: <sha256> <filename> <url>
 # Both architectures' archives are listed; debian/rules unpacks the host's.
-8ff29f91fe3bbf1e8ae7ff45dfcdf7b7530d3f69a9b11f37ecb33fb9bd39aef8 openq4-0.14.1-linux-x64.tar.xz https://github.com/themuffinator/openQ4/releases/download/v0.14.1/openq4-0.14.1-linux-x64.tar.xz
-563a437e45edf8108eeda9f90fd3497a3eb3520fe9c2c11ce36b885e507d3c80 openq4-0.14.1-linux-arm64-preview.tar.xz https://github.com/themuffinator/openQ4/releases/download/v0.14.1/openq4-0.14.1-linux-arm64-preview.tar.xz
+17737cb9cb59251d7202c79df4729e7e3c46a523bf8048195a37535f6d136ce7 openq4-0.15.0-linux-x64.tar.xz https://github.com/themuffinator/openQ4/releases/download/v0.15.0/openq4-0.15.0-linux-x64.tar.xz
+8bdb1471b05048c578c1f3cea6d34713094b9431c0a63b443d3d0dde024c3a77 openq4-0.15.0-linux-arm64-preview.tar.xz https://github.com/themuffinator/openQ4/releases/download/v0.15.0/openq4-0.15.0-linux-arm64-preview.tar.xz
 9203b387b1a4075a1b9ad1eb7be32b49a88141a448d9330d9cbe1f40a145bd6a quake4-linux-1.4.2.x86.run https://aur.slashbunny.com/quake4/quake4-linux-1.4.2.x86.run

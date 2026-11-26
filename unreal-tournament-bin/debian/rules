@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 CPU := $(if $(filter arm64,$(DEB_HOST_ARCH)),aarch64,x86_64)
-TARBALL := OldUnreal-UTPatch469e-Linux-$(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,amd64).tar.bz2
+TARBALL := OldUnreal-UTPatch469f-Linux-$(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,amd64).tar.bz2
 D := debian/unreal-tournament-bin
 
 %:

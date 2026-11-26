@@ -1,8 +1,8 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=owntone-server
-pkgver=29.3
-pkgrel=2
+pkgver=29.4
+pkgrel=1
 pkgdesc="DAAP (iTunes), MPD and RSP media server with AirPlay and Chromecast support (formerly forked-daapd)"
 arch=('x86_64' 'aarch64' 'armv7h')
 url="https://github.com/owntone/owntone-server"
@@ -18,7 +18,7 @@ source=("${url}/releases/download/${pkgver}/owntone-${pkgver}.tar.xz"
         "owntone.sysusers"
         "owntone.tmpfiles"
         "README.md")
-sha256sums=('aa0cbfc5651aa65776a8bd2112c9e0a904b2185c837900d3f6494b9ec6e8c547'
+sha256sums=('124f22ede1ab6c5ee256feb4b3a75443e1c15e447829632befe309db2a3bed8c'
             '9f65f26b441aa58821a89ef7bd66b496632485e3d58cd7c3364c5473c34782fa'
             '102a179eb7e0c022bf3f8c27656f66ffff0e0b0ae07d65b12d790b9c924f42b0'
             'f3680d2d9fe1616d6c93c848474236b86099e374697f683d7a7fa8f5fde5d0da'

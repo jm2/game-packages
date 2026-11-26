@@ -9,14 +9,17 @@
 %global __provides_exclude_from ^/opt/unreal-tournament/.*$
 %global __requires_exclude_from ^/opt/unreal-tournament/.*$
 
+%global upver   469f
+%global preview rc7
+
 Name:           unreal-tournament-bin
-Version:        469e
+Version:        %{upver}~%{preview}
 Release:        1%{?dist}
 Summary:        Unreal Tournament 99 (GOTY) native binaries (OldUnreal)
 License:        LicenseRef-OldUnreal
 URL:            https://github.com/OldUnreal/UnrealTournamentPatches
-Source0:        %{url}/releases/download/v%{version}/OldUnreal-UTPatch%{version}-Linux-amd64.tar.bz2
-Source1:        %{url}/releases/download/v%{version}/OldUnreal-UTPatch%{version}-Linux-arm64.tar.bz2
+Source0:        %{url}/releases/download/v%{upver}-%{preview}/OldUnreal-UTPatch%{upver}-Linux-amd64.tar.bz2
+Source1:        %{url}/releases/download/v%{upver}-%{preview}/OldUnreal-UTPatch%{upver}-Linux-arm64.tar.bz2
 Source2:        install.sh
 Source3:        unreal-tournament.sh
 Source4:        unreal-tournament.desktop
@@ -79,5 +82,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/unreal-tournament.des
 %dir /opt/unreal-tournament
 
 %changelog
+* Thu Nov 26 2026 John-Michael Mulesa <jmulesa@gmail.com> - 469f~rc7-1
+- Update to OldUnreal 469f-rc7
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 469e-1
 - Initial RPM package: OldUnreal 469e
