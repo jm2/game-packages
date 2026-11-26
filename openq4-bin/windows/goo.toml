@@ -1,6 +1,6 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "openq4-bin"
-version = "0.14.1"
+version = "0.15.0"
 release = 1
 arch = "x86_64"
 description = """
@@ -20,7 +20,7 @@ Redistributable."""
 # (LGPL-2.1-or-later).
 license = "GPL-3.0-or-later AND LicenseRef-Quake4-SDK AND LicenseRef-Quake4-EULA AND LGPL-2.1-or-later"
 url = "https://github.com/themuffinator/openQ4"
-release_notes = ["Initial GooGet package (upstream 0.13.2 Windows x64 build + Quake 4 1.4.2 patch paks)", "Windows on ARM: native arm64 build alongside x86_64 (googet prefers it there)", "openQ4 0.14.1: new pak0-pak2 content packs replace the 0.13.2 baseoq4 data"]
+release_notes = ["Initial GooGet package (upstream 0.13.2 Windows x64 build + Quake 4 1.4.2 patch paks)", "Windows on ARM: native arm64 build alongside x86_64 (googet prefers it there)", "openQ4 0.15.0: new pak0-pak2 content packs replace the 0.13.2 baseoq4 data", "openQ4 0.15.0: new pak0 and pak2 content packs"]
 
 # Same directory as quake4-data-gog and quake4-data-steam, which install only
 # q4base/pak001-pak012.pk4 and q4base/zpak*h.pk4; this package adds baseoq4/
@@ -49,9 +49,9 @@ name = "openQ4 dedicated server"
 program = "quake4/openQ4-ded_x64.exe"
 
 [[source]]
-name = "openq4-0.14.1-windows-x64.zip"
-url = "https://github.com/themuffinator/openQ4/releases/download/v0.14.1/openq4-0.14.1-windows-x64.zip"
-sha256 = "7a4caf1c04dde1804fef99d9c1b1a939d657d707dba560d193ea31051e321dc9"
+name = "openq4-0.15.0-windows-x64.zip"
+url = "https://github.com/themuffinator/openQ4/releases/download/v0.15.0/openq4-0.15.0-windows-x64.zip"
+sha256 = "4359c85cf1500fbbd830ff0a75af655ccdff111ce010c5e48665e7e27cfc2219"
 
 # openQ4 validates pak013.pk4-pak022.pk4 at startup, which quake4-data-* leave
 # out; pull them from the same Linux 1.4.2 point release as the PKGBUILD.
@@ -65,9 +65,9 @@ sha256 = "9203b387b1a4075a1b9ad1eb7be32b49a88141a448d9330d9cbe1f40a145bd6a"
 # The zip carries no .pdb debug symbols (upstream ships them separately).
 script = '''
 mkdir -p "$WORK"
-unzip -q -o "$SRC/openq4-0.14.1-windows-x64.zip" -d "$WORK"
+unzip -q -o "$SRC/openq4-0.15.0-windows-x64.zip" -d "$WORK"
 sh "$SRC/quake4-linux-1.4.2.x86.run" --noexec --nox11 --target "$WORK/quake4-1.4.2" >/dev/null
-z=$WORK/openq4-0.14.1-windows-x64 q4=$WORK/quake4-1.4.2 d=$STAGE/quake4
+z=$WORK/openq4-0.15.0-windows-x64 q4=$WORK/quake4-1.4.2 d=$STAGE/quake4
 mkdir -p "$d/baseoq4" "$d/q4base"
 cp "$z"/openQ4-client_x64.exe "$z"/openQ4-ded_x64.exe \
     "$z"/renderer-*_x64.dll "$z"/OpenAL32.dll \

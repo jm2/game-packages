@@ -1,5 +1,5 @@
 Name:           owntone-server
-Version:        29.3
+Version:        29.4
 Release:        1%{?dist}
 Summary:        DAAP (iTunes), MPD and RSP media server with AirPlay and Chromecast support
 License:        GPL-2.0-or-later
@@ -93,5 +93,8 @@ install -d %{buildroot}%{_localstatedir}/cache/owntone
 %{_docdir}/%{name}/
 
 %changelog
+* Thu Nov 26 2026 John-Michael Mulesa <jmulesa@gmail.com> - 29.4-1
+- Update to OwnTone 29.4
+
 * Mon Nov 02 2026 John-Michael Mulesa <jmulesa@gmail.com> - 29.3-1
 - Local RPM build of OwnTone 29.3, running as a sysusers.d owntone user

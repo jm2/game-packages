@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 # Mirrors the PKGBUILD and openq4-bin.spec: keep the three in step.
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-VER := 0.14.1
+VER := 0.15.0
 Q4VER := 1.4.2
 # Upstream names its binaries and modules by architecture tag.
 OQ4ARCH := $(if $(filter arm64,$(DEB_HOST_ARCH)),arm64,x64)

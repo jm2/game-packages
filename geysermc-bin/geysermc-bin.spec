@@ -1,8 +1,8 @@
 # A prebuilt Java jar: nothing to compile, strip or debuginfo.
 %global debug_package %{nil}
 %global ver    2.12.1
-%global bnum   1288
-%global commit 50360e396b08c10dac4dfb78213dcb0126b75f90
+%global bnum   1310
+%global commit c8ce5d422bb48223b55ec5d13c0c7672f39eb868
 
 Name:           geysermc-bin
 Version:        %{ver}^b%{bnum}
@@ -62,6 +62,9 @@ sh %{SOURCE2} . Geyser-Standalone-%{ver}-b%{bnum}.jar %{buildroot} %{name}
 %{_docdir}/%{name}/
 
 %changelog
+* Thu Nov 26 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2.12.1^b1310-1
+- Update to Geyser 2.12.1 build 1310
+
 * Wed Nov 04 2026 John-Michael Mulesa <jmulesa@gmail.com> - 2.12.1^b1288-1
 - Update to Geyser 2.12.1 build 1288
 

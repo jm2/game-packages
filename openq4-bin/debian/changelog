@@ -1,3 +1,9 @@
+openq4-bin (0.15.0-1) unstable; urgency=medium
+
+  * New upstream release 0.15.0 (new pak0 and pak2 content packs).
+
+ -- John-Michael Mulesa <jmulesa@gmail.com>  Thu, 26 Nov 2026 12:00:00 -0500
+
 openq4-bin (0.14.1-1) unstable; urgency=medium
 
   * New upstream release 0.14.1 (new pak0-pak2 content packs).

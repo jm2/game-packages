@@ -2,8 +2,8 @@
 
 pkgname=geysermc-bin
 _ver=2.12.1
-_build=1288
-_commit=50360e396b08c10dac4dfb78213dcb0126b75f90
+_build=1310
+_commit=c8ce5d422bb48223b55ec5d13c0c7672f39eb868
 pkgver=${_ver}.b${_build}
 pkgrel=1
 pkgdesc="Bridge that lets Minecraft: Bedrock Edition clients join Minecraft: Java Edition servers (standalone jar)"
@@ -23,14 +23,14 @@ source=("Geyser-Standalone-${_ver}-b${_build}.jar::https://download.geysermc.org
         "geysermc.tmpfiles"
         "README.md")
 noextract=("Geyser-Standalone-${_ver}-b${_build}.jar")
-sha256sums=('fcd8cd26f3e4a1180ee3828b6c63ed3b90e78c99c7ccc2cbba3b12f303d705b9'
+sha256sums=('b9270ec4379d1e2b59d44411e6474b2a94fc4b9eec1bdc5a83c1f498924b4e4d'
             '7421fa1da9de486b73147a11a0facdc7994c03b3d502720a2e269d944055595a'
             '0d19a1e970ebe1ac30312b0b207e9cde4108042ee3f938e2b5fe57a6bf50c232'
             'dc09cd9677195159413b679a12ba003dfb8613a75c685cadbd433c29389a2a7f'
             'be0d0a4f4c33d68f5ba6d5434722b8d101f0c727f0bd7e3df7bdec848701c235'
             'baaa43f0501c3d193d8fe9f9372eb97180e9393859f288413aac6cb477361727'
             '5a779dc12a2606e24b8848fb4b9b2f303475d8a256ac685ac93c45792595e217'
-            '6a994156b4af334a01e73bf1352826a8ec9637abb6867bc8b3ddfc9bc327a3f6')
+            '47276e4c9c4c3def5a38cbf0a8507f1497dd95f859d741f663e9547c3f260ec0')
 
 package() {
   sh install.sh "${srcdir}" "Geyser-Standalone-${_ver}-b${_build}.jar" "${pkgdir}" "${pkgname}"

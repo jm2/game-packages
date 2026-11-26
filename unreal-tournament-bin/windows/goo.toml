@@ -1,11 +1,12 @@
 # GooGet (Windows) package; built by tools/goo-build.
 name = "unreal-tournament-bin"
-version = "469e"
+# Match PKGBUILD's pkgver (469f, not 469f~rc6), as ut2004-bin does.
+version = "469f"
 release = 1
-arch = "x86_32"
+arch = "x86_64"
 description = """
 Unreal Tournament (1999) community-maintained engine from OldUnreal
-(upstream's Windows x86 build), installed next to the Unreal Tournament data
+(upstream's 64-bit Windows build), installed next to the Unreal Tournament data
 packages. Settings, saves, logs and screenshots go to
 %APPDATA%\\UnrealTournament for each user.
 
@@ -13,7 +14,7 @@ Install a game data package too: unreal-tournament-data-gog,
 unreal-tournament-data-steam or unreal-tournament-data-archiveorg."""
 license = "LicenseRef-OldUnreal"
 url = "https://github.com/OldUnreal/UnrealTournamentPatches"
-release_notes = ["Initial GooGet package (upstream OldUnreal 469e Windows x86 build)"]
+release_notes = ["Initial GooGet package (upstream OldUnreal 469e Windows x86 build)", "OldUnreal 469f-rc6, now upstream's 64-bit Windows build (x86_64 replaces x86_32)"]
 provides = ["unreal-tournament"]
 
 [files]
@@ -22,7 +23,7 @@ provides = ["unreal-tournament"]
 [[shortcut]]
 name = "Unreal Tournament (OldUnreal)"
 target = "unreal-tournament/System/UnrealTournament.exe"
-# Without -SETHOMEDIR, 469e on Windows writes configs, saves, cache and logs
+# Without -SETHOMEDIR, 469 on Windows writes configs, saves, cache and logs
 # into the install directory under Program Files; -SETHOMEDIR moves System
 # writes to %APPDATA%\UnrealTournament\System and ../Save, ../Cache, etc. to
 # %APPDATA%\UnrealTournament for each user, creating missing directories on
@@ -40,20 +41,20 @@ program = "unreal-tournament/System/UnrealTournament.exe"
 name = "Unreal Tournament dedicated server (OldUnreal)"
 program = "unreal-tournament/System/UCC.exe"
 
-# sha256 matches GitHub's published v469e release asset digest and the download.
+# sha256 matches GitHub's published v469f-rc6 release asset digest and the download.
 [[source]]
-name = "OldUnreal-UTPatch469e-Windows-x86.zip"
-url = "https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469e/OldUnreal-UTPatch469e-Windows-x86.zip"
-sha256 = "8c94eb7e990f5480b1fb7bcb1bd15c2512da134dbf01bfa16e7f99f0a8a0ee86"
+name = "OldUnreal-UTPatch469f-rc6-Windows-amd64.zip"
+url = "https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v469f-rc6/OldUnreal-UTPatch469f-Windows-amd64.zip"
+sha256 = "b8de78a4dca46ec8d56fbcd4f1f4bdc41796a1c480f184308b1b1646e7129fdc"
 
 [stage]
 # $SRC: downloaded sources; $STAGE: the tree [files] maps from.
 script = '''
 mkdir -p "$STAGE/unreal-tournament"
-unzip -q -o "$SRC/OldUnreal-UTPatch469e-Windows-x86.zip" -d "$STAGE/unreal-tournament"
+unzip -q -o "$SRC/OldUnreal-UTPatch469f-rc6-Windows-amd64.zip" -d "$STAGE/unreal-tournament"
 # Drop the 1x UnrealEd splash and the 33 retail GOTY 436 toolbar bitmaps that
 # the unreal-tournament-data-* packages keep (they weren't in the Linux patch
-# tarballs); keep 469e's 18 new UnrealEd 2.2 toolbar icons and EdSplash-x2/x4.bmp.
+# tarballs); keep 469's new UnrealEd 2.2 toolbar icons and EdSplash-x2/x4.bmp.
 rm -f "$STAGE/unreal-tournament/System/EdSplash.bmp"
 (
     cd "$STAGE/unreal-tournament/System/editorres"

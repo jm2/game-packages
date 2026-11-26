@@ -1,8 +1,10 @@
 # Maintainer: John-Michael Mulesa <jmulesa at gmail dot com>
 
 pkgname=unreal-tournament-bin
-pkgver=469e
-pkgrel=3
+pkgver=469f
+# Release candidate; the final 469f will be a pkgrel bump.
+_preview=rc6
+pkgrel=1
 pkgdesc="Unreal Tournament 99 (GOTY) native binaries (OldUnreal)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/OldUnreal/UnrealTournamentPatches"
@@ -12,7 +14,7 @@ provides=('unreal-tournament')
 conflicts=('unreal-tournament' 'unreal-tournament-goty-steam')
 replaces=('unreal-tournament-goty-steam')
 options=('!strip' '!debug')
-_patch=https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v${pkgver}/OldUnreal-UTPatch${pkgver}-Linux
+_patch=https://github.com/OldUnreal/UnrealTournamentPatches/releases/download/v${pkgver}-${_preview}/OldUnreal-UTPatch${pkgver}-Linux
 source=("install.sh"
         "unreal-tournament.sh"
         "unreal-tournament.desktop"
@@ -20,13 +22,13 @@ source=("install.sh"
         "README.md")
 source_x86_64=("${_patch}-amd64.tar.bz2")
 source_aarch64=("${_patch}-arm64.tar.bz2")
-sha256sums=('116f9cbb9f9faf46e8dc7eda6568ed0bb9ebc6e290e291535d19bd6869530360'
-            '17a7ffca74c051579ca2ca068bccdd770648e58051f83c3842a4579cb8fc5dfe'
+sha256sums=('2b8a99d46fc92f28841372b292e5d4a3eb78212355aa68f0ed7c3f06d8d2fa6e'
+            'a7902c95625712dde5525b548e9a4924edc2341784dc4368fcfe6bca41c62589'
             'ff7d19dd28cd8b956311a945aee2835174929d8bcd1c1ab88732a2908faccfcd'
             '69c9c5eb9ff8f6ee5cbfd9df5d16f68461d682fbb15c75a34627eaff2474190e'
-            'b634de51c302e995ec961af8ccdade3c290bcdfdc36014005cf6178fc795ee47')
-sha256sums_x86_64=('08c806aa3721b1970045aa158ad90051329d982e8a9a3661153900e9ccbf6b0c')
-sha256sums_aarch64=('4c3978073b12b049c3ffdeb4d275cfc7a2313650f3eb5b94db06fbfee77c3e3b')
+            'fb56e04a60191b7c3a0e7bbab289ff0eb3f7a1aa23cc7436b4e5660ad2e5f96e')
+sha256sums_x86_64=('60ae644515b7506bd3a04c46aaa205c73ac9023802e91f039f99af975f59323b')
+sha256sums_aarch64=('56c09d3f7f1889f01acf21638c71952c5e2dfbd737b075ffaea3b94bfe52ef46')
 
 package() {
     sh install.sh "${srcdir}" "${srcdir}" "${pkgdir}" "${CARCH}"
