@@ -75,8 +75,10 @@ def classify(d: Path):
 
 def packages(only):
     out = []
-    # Windows-only packages (windows/goo.toml, no PKGBUILD) count too.
-    dirs = {p.parent for p in REPO.glob("*/PKGBUILD")} | {p.parent.parent for p in REPO.glob("*/windows/goo.toml")}
+    # Packages without a PKGBUILD count too: Windows-only ones (windows/goo.toml)
+    # and RPM-only ones (an Arch repo has the package, as with umu-launcher).
+    dirs = ({p.parent for p in REPO.glob("*/PKGBUILD")} | {p.parent for p in REPO.glob("*/*.spec")}
+            | {p.parent.parent for p in REPO.glob("*/windows/goo.toml")})
     for d in sorted(dirs):
         if only and d.name not in only:
             continue
